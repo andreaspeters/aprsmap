@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="aprsmap.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="22"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umain.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FMain"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <TopLine Value="61"/>
+        <CursorPos X="29" Y="123"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uresize.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="16"/>
+        <CursorPos X="25" Y="52"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ureadpipe.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="6"/>
+        <CursorPos X="24" Y="58"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="utypes.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="37" Y="27"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/fpc/src/rtl/unix/bunxovlh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="14"/>
+        <CursorPos X="11" Y="52"/>
+        <UsageCount Value="10"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="12" Column="32"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="54" Column="23" TopLine="22"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="50" Column="50" TopLine="11"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="65" Column="30" TopLine="20"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="10" Column="22"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="75" Column="21" TopLine="43"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="37" Column="41"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="15" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="utypes.pas"/>
+        <Caret Line="27" Column="37"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="61" Column="14" TopLine="20"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="62" Column="17" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="58" Column="38" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="42" Column="30" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="58" Column="21" TopLine="7"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="42" Column="34" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="57" Column="21" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="54" Column="32" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="42" Column="19" TopLine="9"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="59" Column="26" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="62" Column="39" TopLine="29"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="64" Column="12"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="63" Column="31" TopLine="3"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="14" Column="11"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="73" Column="52" TopLine="45"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="75" Column="52" TopLine="47"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="77" Column="35" TopLine="51"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="57" Column="15" TopLine="6"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="86" Column="41" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="122" Column="21" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="56" Column="15" TopLine="24"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>

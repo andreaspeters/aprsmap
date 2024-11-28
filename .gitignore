@@ -1,0 +1,6 @@
+**/*/aprsmap
+**/*/backup/**/*
+backup/**/*
+**/*/lib/**/*
+**/*/.~*
+**/src/cache/*

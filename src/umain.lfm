@@ -1,0 +1,81 @@
+object FMain: TFMain
+  Left = 441
+  Height = 770
+  Top = 546
+  Width = 1265
+  Caption = 'APRSMap'
+  ClientHeight = 770
+  ClientWidth = 1265
+  DefaultMonitor = dmDesktop
+  OnCreate = FMainInit
+  OnResize = FormResize
+  Position = poDesktopCenter
+  LCLVersion = '3.6.0.0'
+  object MVMap: TMapView
+    Left = 8
+    Height = 680
+    Top = 8
+    Width = 952
+    Active = True
+    DownloadEngine = MVDEFPC1
+    DrawingEngine = MvBGRADrawingEngine1
+    Font.Color = clBlack
+    MapProvider = 'OpenStreetMap Mapnik'
+    UseThreads = True
+    Zoom = 7
+  end
+  object GroupBox1: TGroupBox
+    Left = 968
+    Height = 688
+    Top = 0
+    Width = 289
+    Caption = 'Data'
+    ClientHeight = 662
+    ClientWidth = 287
+    Color = clForm
+    ParentBackground = False
+    ParentColor = False
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 16
+      Height = 25
+      Top = 8
+      Width = 46
+      Caption = 'Zoom'
+    end
+    object TBZoomMap: TTrackBar
+      Left = 16
+      Height = 57
+      Top = 40
+      Width = 252
+      OnChange = TBZoomMapChange
+      Position = 0
+      ScalePos = trRight
+      TickMarks = tmBoth
+      TickStyle = tsManual
+      TabOrder = 0
+    end
+  end
+  object MAPRSMonitor: TMemo
+    Left = 8
+    Height = 64
+    Top = 696
+    Width = 1254
+    ScrollBars = ssAutoVertical
+    TabOrder = 2
+  end
+  object MvBGRADrawingEngine1: TMvBGRADrawingEngine
+    Left = 1184
+    Top = 664
+  end
+  object MVDEFPC1: TMVDEFPC
+    ProxyPort = 0
+    Left = 1224
+    Top = 664
+  end
+  object TMainLoop: TTimer
+    OnTimer = TMainLoopTimer
+    Left = 1144
+    Top = 664
+  end
+end
