@@ -16,6 +16,7 @@ var
 
 implementation
 
+
 procedure SetPoi(Message: PAPRSMessage; List: TGPSObjectList);
 var poi: TGpsPoint;
 begin

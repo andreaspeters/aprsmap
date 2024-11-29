@@ -9,7 +9,27 @@ msgstr ""
 msgid "Data"
 msgstr ""
 
+#: tfmain.groupbox2.caption
+msgid "PoI Details"
+msgstr ""
+
 #: tfmain.label1.caption
 msgid "Zoom"
+msgstr ""
+
+#: tfmain.label2.caption
+msgid "Callsign"
+msgstr ""
+
+#: tfmain.label3.caption
+msgid "APRS Message"
+msgstr ""
+
+#: tfmain.label4.caption
+msgid "Latitude"
+msgstr ""
+
+#: tfmain.label5.caption
+msgid "Longitude"
 msgstr ""
 

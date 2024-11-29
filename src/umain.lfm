@@ -1,13 +1,14 @@
 object FMain: TFMain
-  Left = 66
+  Left = 35
   Height = 768
-  Top = 684
+  Top = 402
   Width = 1265
   Caption = 'APRSMap'
   ClientHeight = 768
   ClientWidth = 1265
   DefaultMonitor = dmDesktop
   OnCreate = FMainInit
+  OnDestroy = FormDestroy
   OnResize = FormResize
   Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
@@ -24,6 +25,7 @@ object FMain: TFMain
     POIImagesWidth = 50
     UseThreads = True
     Zoom = 7
+    OnCenterMove = MoveMap
     OnMouseMove = ShowMapMousPosition
   end
   object GroupBox1: TGroupBox
@@ -39,23 +41,96 @@ object FMain: TFMain
     ParentColor = False
     TabOrder = 1
     object Label1: TLabel
-      Left = 16
+      Left = 8
       Height = 25
       Top = 8
       Width = 46
       Caption = 'Zoom'
     end
     object TBZoomMap: TTrackBar
-      Left = 16
+      Left = 8
       Height = 57
-      Top = 40
-      Width = 252
+      Top = 32
+      Width = 271
       OnChange = TBZoomMapChange
       Position = 0
       ScalePos = trRight
       TickMarks = tmBoth
       TickStyle = tsManual
       TabOrder = 0
+    end
+    object GroupBox2: TGroupBox
+      Left = 8
+      Height = 376
+      Top = 88
+      Width = 271
+      Caption = 'PoI Details'
+      ClientHeight = 350
+      ClientWidth = 269
+      ParentBackground = False
+      TabOrder = 1
+      object CBPOIList: TComboBox
+        Left = 8
+        Height = 42
+        Top = 40
+        Width = 256
+        ItemHeight = 0
+        TabOrder = 0
+        OnSelect = SelectPOI
+      end
+      object Label2: TLabel
+        Left = 8
+        Height = 25
+        Top = 8
+        Width = 63
+        Caption = 'Callsign'
+      end
+      object Label3: TLabel
+        Left = 8
+        Height = 25
+        Top = 96
+        Width = 120
+        Caption = 'APRS Message'
+      end
+      object MAPRSMessage: TMemo
+        Left = 8
+        Height = 72
+        Top = 128
+        Width = 256
+        Font.Height = -15
+        Font.Name = 'Courier New'
+        Lines.Strings = (
+          ''
+        )
+        ParentFont = False
+        ReadOnly = True
+        ScrollBars = ssAutoVertical
+        TabOrder = 1
+      end
+      object Label4: TLabel
+        Left = 8
+        Height = 25
+        Top = 208
+        Width = 67
+        Caption = 'Latitude'
+      end
+      object Label5: TLabel
+        Left = 136
+        Height = 25
+        Top = 208
+        Width = 83
+        Caption = 'Longitude'
+      end
+      object STLatitude: TStaticText
+        Left = 8
+        Height = 32
+        Top = 238
+        Width = 112
+        Font.Height = -15
+        Font.Name = 'Sans'
+        ParentFont = False
+        TabOrder = 2
+      end
     end
   end
   object SBMain: TStatusBar
@@ -84,6 +159,36 @@ object FMain: TFMain
     ParentFont = False
     TabOrder = 3
     ZoomFactor = 1
+  end
+  object STLongitude: TStaticText
+    Left = 1112
+    Height = 32
+    Top = 376
+    Width = 129
+    Font.Height = -15
+    Font.Name = 'Sans'
+    ParentFont = False
+    TabOrder = 4
+  end
+  object STLatitudeDMS: TStaticText
+    Left = 986
+    Height = 32
+    Top = 400
+    Width = 112
+    Font.Height = -15
+    Font.Name = 'Sans'
+    ParentFont = False
+    TabOrder = 5
+  end
+  object STLongitudeDMS: TStaticText
+    Left = 1112
+    Height = 32
+    Top = 400
+    Width = 129
+    Font.Height = -15
+    Font.Name = 'Sans'
+    ParentFont = False
+    TabOrder = 6
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184

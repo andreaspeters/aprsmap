@@ -20,6 +20,10 @@ type
     ID: Integer;
   end;
 
+  TAPRSConfig = record
+    MAPCache: String;
+  end;
+
   PAPRSMessage = ^TAPRSMessage;
 
 implementation

@@ -6,25 +6,40 @@ interface
 
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
-  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, uresize, utypes,
-  ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine, RichMemo, Contnrs;
+  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, FileCtrl, ComboEx,
+  uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
+  RichMemo, Contnrs, uini;
 
 type
 
   { TFMain }
 
   TFMain = class(TForm)
+    CBPOIList: TComboBox;
     GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    MAPRSMessage: TMemo;
     MVMap: TMapView;
     MvBGRADrawingEngine1: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
     MAPRSMonitor: TRichMemo;
     SBMain: TStatusBar;
+    STLatitude: TStaticText;
+    STLatitudeDMS: TStaticText;
+    STLongitude: TStaticText;
+    STLongitudeDMS: TStaticText;
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
     procedure FMainInit(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure MoveMap(Sender: TObject);
+    procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure TBZoomMapChange(Sender: TObject);
@@ -40,7 +55,8 @@ var
   FMain: TFMain;
   OrigWidth, OrigHeight: Integer;
   APRSMessageObject: PAPRSMessage;
-  ReadPipe : TReadPipeThread;
+  ReadPipe: TReadPipeThread;
+  APRSConfig: TAPRSConfig;
 
 implementation
 
@@ -53,12 +69,20 @@ begin
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
 
+  LoadConfigFromFile(@APRSConfig);
+
   TBZoomMap.Position := MVMap.Zoom;
+  MVMap.CachePath := APRSConfig.MAPCache;
   StoreOriginalSizes(Self);
 
   APRSMessageList := TFPHashList.Create;
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
+end;
+
+procedure TFMain.FormDestroy(Sender: TObject);
+begin
+  SaveConfigToFile(@APRSConfig);
 end;
 
 procedure TFMain.FormResize(Sender: TObject);
@@ -73,6 +97,53 @@ begin
   for i := 0 to ControlCount - 1 do
     ResizeControl(Controls[i], scaleFactorWidth, scaleFactorHeight, scaleFactor);
 
+end;
+
+procedure TFMain.MoveMap(Sender: TObject);
+var Area: TRealArea;
+    List: TGPSObjList;
+    poi: TGpsObj;
+    i: Integer;
+    curSel: String;
+begin
+  MVMap.GPSItems.GetArea(Area);
+  List := MVMap.GPSItems.GetObjectsInArea(Area);
+
+  if List.Count <= 0 then
+    Exit;
+
+  curSel := '';
+  if CBPOIList.ItemIndex >= 0 then
+    curSel := CBPOIList.Items[CBPOIList.ItemIndex];
+
+  CBPOIList.Clear;
+  for i:=0 to List.Count-1 do
+  begin
+    poi := List[i];
+    if poi is TGpsPoint then
+      CBPOIList.Items.Add(poi.Name);
+  end;
+
+  for i:=0 to CBPOIList.Items.Count - 1 do
+  begin
+    if CBPOIList.Items[i] = curSel then
+      CBPOIList.ItemIndex := i;
+  end;
+end;
+
+procedure TFMain.SelectPOI(Sender: TObject);
+var msg: PAPRSMessage;
+begin
+  MAPRSMessage.Lines.Clear;
+  msg := APRSMessageList.Find(CBPOIList.Items[CBPOIList.ItemIndex]);
+  if msg <> nil then
+  begin
+    MAPRSMessage.Lines.Add(msg^.Message);
+    STLatitude.Caption := LatToStr(msg^.Latitude, False);
+    STLongitude.Caption := LonToStr(msg^.Longitude, False);
+    STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
+    STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
+  end;
 end;
 
 procedure TFMain.ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
@@ -151,6 +222,7 @@ begin
     MAPRSMonitor.Refresh;
   end;
   DecodeAPRSMessage(ReadPipe.PipeData);
+  MoveMap(Sender);
 end;
 
 end.
