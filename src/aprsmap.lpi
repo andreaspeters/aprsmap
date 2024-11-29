@@ -28,6 +28,12 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="richmemo_design"/>
+      </Item>
+      <Item>
+        <PackageName Value="richmemopackage"/>
+      </Item>
+      <Item>
         <PackageName Value="lazmapviewer_rgbgraphics"/>
       </Item>
       <Item>
@@ -62,6 +68,10 @@
       </Unit>
       <Unit>
         <Filename Value="utypes.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

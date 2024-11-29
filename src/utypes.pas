@@ -16,7 +16,8 @@ type
     Longitude: Double;
     Latitude: Double;
     Message: String;
-    Time: String
+    Time: String;
+    ID: Integer;
   end;
 
   PAPRSMessage = ^TAPRSMessage;

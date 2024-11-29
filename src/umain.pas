@@ -6,8 +6,8 @@ interface
 
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
-  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, uresize,
-  utypes, ureadpipe, RegExpr;
+  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, uresize, utypes,
+  ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine, RichMemo, Contnrs;
 
 type
 
@@ -16,14 +16,17 @@ type
   TFMain = class(TForm)
     GroupBox1: TGroupBox;
     Label1: TLabel;
-    MAPRSMonitor: TMemo;
     MVMap: TMapView;
     MvBGRADrawingEngine1: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
+    MAPRSMonitor: TRichMemo;
+    SBMain: TStatusBar;
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
     procedure FMainInit(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     procedure TBZoomMapChange(Sender: TObject);
     procedure DecodeAPRSMessage(const Data: String);
     procedure TMainLoopTimer(Sender: TObject);
@@ -53,6 +56,8 @@ begin
   TBZoomMap.Position := MVMap.Zoom;
   StoreOriginalSizes(Self);
 
+  APRSMessageList := TFPHashList.Create;
+
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
 end;
 
@@ -70,6 +75,16 @@ begin
 
 end;
 
+procedure TFMain.ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+var
+  p: TRealPoint;
+begin
+  p := MVMap.ScreenToLonLat(Point(X, Y));
+  SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(P.Lon, False);
+  SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(P.Lat, False);
+end;
+
 procedure TFMain.TBZoomMapChange(Sender: TObject);
 begin
   MVMap.Zoom := TBZoomMap.Position;
@@ -77,6 +92,7 @@ end;
 
 procedure TFMain.DecodeAPRSMessage(const Data: String);
 var Regex: TRegExpr;
+    Lat, Lon: Double;
 begin
   Regex := TRegExpr.Create;
    try
@@ -103,14 +119,21 @@ begin
        APRSMessageObject^.Path := Regex.Match[3];
 
 
-       Regex.Expression := '^!(\d{4})\.(\d{2})(\w)\/(\d{5})\.(\d{2})(\w)(\w)(.+)$';
+       Regex.Expression := '^!(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
        if Regex.Exec(Regex.Match[5]) then
        begin
-         WriteLn('Latitude: ', Regex.Match[1]);
-         WriteLn('Longitude: ', Regex.Match[4]);
-         WriteLn('Type/Icon: ', Regex.Match[7]);
-         WriteLn('Message: ', Regex.Match[8]);
+         ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon);
+         APRSMessageObject^.Latitude := Lat;
+         APRSMessageObject^.Longitude := Lon;
+         APRSMessageObject^.Message := Regex.Match[4];
 
+           // Normalisierung der Ergebnisse
+         WriteLn('Latitude: ',  LatToStr(Lat, False));
+         WriteLn('Longitude: ', LonToStr(Lon, False));
+         WriteLn('Type/Icon: ', Regex.Match[3]);
+         WriteLn('Message: ', Regex.Match[4]);
+
+         SetPoi(APRSMessageObject, MVMap.GPSItems);
        end;
      end;
    finally
@@ -120,6 +143,13 @@ end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 begin
+  MAPRSMonitor.Lines.Add(ReadPipe.PipeData);
+  if MAPRSMonitor.Lines.Count > 3 then
+  begin
+    MAPRSMonitor.SelStart := MAPRSMonitor.GetTextLen;
+    MAPRSMonitor.ScrollBy(0, MAPRSMonitor.Lines.Count);
+    MAPRSMonitor.Refresh;
+  end;
   DecodeAPRSMessage(ReadPipe.PipeData);
 end;
 

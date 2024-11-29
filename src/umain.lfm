@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 441
-  Height = 770
-  Top = 546
+  Left = 66
+  Height = 768
+  Top = 684
   Width = 1265
   Caption = 'APRSMap'
-  ClientHeight = 770
+  ClientHeight = 768
   ClientWidth = 1265
   DefaultMonitor = dmDesktop
   OnCreate = FMainInit
@@ -13,7 +13,7 @@ object FMain: TFMain
   LCLVersion = '3.6.0.0'
   object MVMap: TMapView
     Left = 8
-    Height = 680
+    Height = 656
     Top = 8
     Width = 952
     Active = True
@@ -21,16 +21,18 @@ object FMain: TFMain
     DrawingEngine = MvBGRADrawingEngine1
     Font.Color = clBlack
     MapProvider = 'OpenStreetMap Mapnik'
+    POIImagesWidth = 50
     UseThreads = True
     Zoom = 7
+    OnMouseMove = ShowMapMousPosition
   end
   object GroupBox1: TGroupBox
     Left = 968
-    Height = 688
+    Height = 664
     Top = 0
     Width = 289
     Caption = 'Data'
-    ClientHeight = 662
+    ClientHeight = 638
     ClientWidth = 287
     Color = clForm
     ParentBackground = False
@@ -56,13 +58,32 @@ object FMain: TFMain
       TabOrder = 0
     end
   end
-  object MAPRSMonitor: TMemo
+  object SBMain: TStatusBar
+    Left = 0
+    Height = 27
+    Top = 741
+    Width = 1265
+    Panels = <    
+      item
+        Width = 200
+      end    
+      item
+        Width = 200
+      end>
+    SimplePanel = False
+  end
+  object MAPRSMonitor: TRichMemo
     Left = 8
-    Height = 64
-    Top = 696
-    Width = 1254
-    ScrollBars = ssAutoVertical
-    TabOrder = 2
+    Height = 66
+    Top = 672
+    Width = 1249
+    Font.Color = clGreen
+    Font.Height = -12
+    Font.Name = 'Courier New'
+    HideSelection = False
+    ParentFont = False
+    TabOrder = 3
+    ZoomFactor = 1
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184
