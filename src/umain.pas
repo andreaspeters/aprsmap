@@ -169,14 +169,15 @@ var Regex: TRegExpr;
 begin
   Regex := TRegExpr.Create;
    try
-     Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
+     //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
+     Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
+     Regex.ModifierI := False;
      if Regex.Exec(Data) then
      begin
        WriteLn('Source: ', Regex.Match[1]);
        WriteLn('Destination: ', Regex.Match[2]);
        WriteLn('Path: ', Regex.Match[3]);
-       WriteLn('Time: ', Regex.Match[4]);
-       WriteLn('Payload: ', Regex.Match[5]);
+       WriteLn('Payload: ', Regex.Match[4]);
 
        // FromCall: String;
        // ToCall: String;
@@ -193,7 +194,7 @@ begin
 
 
        Regex.Expression := '^!(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
-       if Regex.Exec(Regex.Match[5]) then
+       if Regex.Exec(Regex.Match[4]) then
        begin
          ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon);
          APRSMessageObject^.Latitude := Lat;

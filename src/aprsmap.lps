@@ -11,7 +11,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="187"/>
+        <UsageCount Value="199"/>
       </Unit>
       <Unit>
         <Filename Value="umain.pas"/>
@@ -20,9 +20,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="166"/>
-        <CursorPos X="17" Y="211"/>
-        <UsageCount Value="187"/>
+        <TopLine Value="160"/>
+        <CursorPos X="48" Y="189"/>
+        <UsageCount Value="199"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -32,7 +32,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="29"/>
         <CursorPos X="26" Y="51"/>
-        <UsageCount Value="187"/>
+        <UsageCount Value="199"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -41,7 +41,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="6"/>
         <CursorPos X="24" Y="11"/>
-        <UsageCount Value="186"/>
+        <UsageCount Value="198"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -49,7 +49,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos X="4" Y="23"/>
-        <UsageCount Value="186"/>
+        <UsageCount Value="198"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -58,7 +58,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="3"/>
         <CursorPos X="39" Y="20"/>
-        <UsageCount Value="185"/>
+        <UsageCount Value="197"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -66,7 +66,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="67" Y="48"/>
-        <UsageCount Value="162"/>
+        <UsageCount Value="174"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
