@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
   Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, FileCtrl, ComboEx,
-  PairSplitter, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes,
-  mvEngine, RichMemo, Contnrs, uini;
+  PairSplitter, Menus, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr,
+  mvTypes, mvEngine, RichMemo, Contnrs, uini;
 
 type
 
@@ -23,7 +23,11 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    MainMenu1: TMainMenu;
     MAPRSMessage: TMemo;
+    MenuItem1: TMenuItem;
+    Settings: TMenuItem;
+    MIFileExit: TMenuItem;
     MVMap: TMapView;
     MvBGRADrawingEngine1: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
@@ -40,6 +44,7 @@ type
     procedure FMainInit(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure MIFileExitClick(Sender: TObject);
     procedure MoveMap(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
@@ -102,6 +107,11 @@ begin
   for i := 0 to ControlCount - 1 do
     ResizeControl(Controls[i], scaleFactorWidth, scaleFactorHeight, scaleFactor);
 
+end;
+
+procedure TFMain.MIFileExitClick(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TFMain.MoveMap(Sender: TObject);

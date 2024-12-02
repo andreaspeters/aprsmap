@@ -33,3 +33,15 @@ msgstr ""
 msgid "Longitude"
 msgstr ""
 
+#: tfmain.menuitem1.caption
+msgid "&File"
+msgstr ""
+
+#: tfmain.mifileexit.caption
+msgid "E&xit"
+msgstr ""
+
+#: tfmain.settings.caption
+msgid "&Settings"
+msgstr ""
+
