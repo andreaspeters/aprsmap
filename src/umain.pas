@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
   Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, FileCtrl, ComboEx,
-  uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
-  RichMemo, Contnrs, uini;
+  PairSplitter, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes,
+  mvEngine, RichMemo, Contnrs, uini;
 
 type
 
@@ -28,6 +28,8 @@ type
     MvBGRADrawingEngine1: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
     MAPRSMonitor: TRichMemo;
+    PairSplitter1: TPairSplitter;
+    PairSplitterSide2: TPairSplitterSide;
     SBMain: TStatusBar;
     STLatitude: TStaticText;
     STLatitudeDMS: TStaticText;
@@ -117,7 +119,7 @@ begin
     curSel := CBPOIList.Items[CBPOIList.ItemIndex];
 
   CBPOIList.Clear;
-  for i:=0 to List.Count-1 do
+  for i:=0 to List.Count - 1 do
   begin
     poi := List[i];
     if poi is TGpsPoint then
@@ -167,15 +169,14 @@ var Regex: TRegExpr;
 begin
   Regex := TRegExpr.Create;
    try
-     //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
-     Regex.Expression := '^fm\s(\S+)\sto\s(\S+)\s(?:via\s(\S+))?.*?(!.*)$';
-     Regex.ModifierI := False;
+     Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
      if Regex.Exec(Data) then
      begin
        WriteLn('Source: ', Regex.Match[1]);
        WriteLn('Destination: ', Regex.Match[2]);
        WriteLn('Path: ', Regex.Match[3]);
-       WriteLn('Payload: ', Regex.Match[4]);
+       WriteLn('Time: ', Regex.Match[4]);
+       WriteLn('Payload: ', Regex.Match[5]);
 
        // FromCall: String;
        // ToCall: String;
@@ -192,7 +193,7 @@ begin
 
 
        Regex.Expression := '^!(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
-       if Regex.Exec(Regex.Match[4]) then
+       if Regex.Exec(Regex.Match[5]) then
        begin
          ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon);
          APRSMessageObject^.Latitude := Lat;
@@ -215,15 +216,18 @@ end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 begin
-  MAPRSMonitor.Lines.Add(ReadPipe.PipeData);
-  if MAPRSMonitor.Lines.Count > 3 then
-  begin
-    MAPRSMonitor.SelStart := MAPRSMonitor.GetTextLen;
-    MAPRSMonitor.ScrollBy(0, MAPRSMonitor.Lines.Count);
-    MAPRSMonitor.Refresh;
+  try
+    MAPRSMonitor.Lines.Add(ReadPipe.PipeData);
+    if MAPRSMonitor.Lines.Count > 3 then
+    begin
+      MAPRSMonitor.SelStart := MAPRSMonitor.GetTextLen;
+      MAPRSMonitor.ScrollBy(0, MAPRSMonitor.Lines.Count);
+      MAPRSMonitor.Refresh;
+    end;
+    DecodeAPRSMessage(ReadPipe.PipeData);
+    MoveMap(Sender);
+  except
   end;
-  DecodeAPRSMessage(ReadPipe.PipeData);
-  MoveMap(Sender);
 end;
 
 end.

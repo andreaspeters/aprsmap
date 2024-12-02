@@ -1,7 +1,7 @@
 object FMain: TFMain
-  Left = 35
+  Left = 67
   Height = 768
-  Top = 402
+  Top = 226
   Width = 1265
   Caption = 'APRSMap'
   ClientHeight = 768
@@ -130,6 +130,26 @@ object FMain: TFMain
         Font.Name = 'Sans'
         ParentFont = False
         TabOrder = 2
+      end
+    end
+    object PairSplitter1: TPairSplitter
+      Left = 93
+      Height = 90
+      Top = 543
+      Width = 90
+      Position = 1
+      object PairSplitterSide2: TPairSplitterSide
+        Cursor = crArrow
+        Left = 6
+        Height = 90
+        Top = 0
+        Width = 84
+      end
+      object TPairSplitterSide
+        Left = 0
+        Height = 90
+        Top = 0
+        Width = 1
       end
     end
   end
