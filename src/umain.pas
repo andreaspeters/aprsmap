@@ -59,6 +59,7 @@ var
   APRSMessageObject: PAPRSMessage;
   ReadPipe: TReadPipeThread;
   APRSConfig: TAPRSConfig;
+  Copyright: Boolean;
 
 implementation
 
@@ -78,6 +79,8 @@ begin
   StoreOriginalSizes(Self);
 
   APRSMessageList := TFPHashList.Create;
+
+  Copyright := False;
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
 end;
@@ -108,6 +111,15 @@ var Area: TRealArea;
     i: Integer;
     curSel: String;
 begin
+  with MVMap.Canvas do
+  begin
+    Font.Name := 'Arial';
+    Font.Size := 6;
+    Font.Color := clBlack;
+    TextOut(0, 0, 'Copyright OpenStreetmap');
+  end;
+  Copyright := True;
+
   MVMap.GPSItems.GetArea(Area);
   List := MVMap.GPSItems.GetObjectsInArea(Area);
 
@@ -193,7 +205,7 @@ begin
        APRSMessageObject^.Path := Regex.Match[3];
 
 
-       Regex.Expression := '^!(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
+       Regex.Expression := '^(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
        if Regex.Exec(Regex.Match[4]) then
        begin
          ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon);

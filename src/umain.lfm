@@ -1,7 +1,7 @@
 object FMain: TFMain
-  Left = 513
+  Left = -151
   Height = 768
-  Top = 900
+  Top = 707
   Width = 1265
   Caption = 'APRSMap'
   ClientHeight = 768
