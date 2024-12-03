@@ -22,6 +22,10 @@ type
 
   TAPRSConfig = record
     MAPCache: String;
+    IGateServer: String;
+    IGatePort: Integer;
+    IGatePassword: String;
+    Callsign: String;
   end;
 
   PAPRSMessage = ^TAPRSMessage;

@@ -1,7 +1,7 @@
 object FMain: TFMain
-  Left = 59
+  Left = 80
   Height = 775
-  Top = 291
+  Top = 305
   Width = 1265
   Caption = 'APRSMap'
   ClientHeight = 775
@@ -123,14 +123,52 @@ object FMain: TFMain
         Caption = 'Longitude'
       end
       object STLatitude: TStaticText
+        AnchorSideTop.Control = Label4
+        AnchorSideTop.Side = asrBottom
         Left = 8
         Height = 32
-        Top = 238
+        Top = 233
         Width = 112
         Font.Height = -15
         Font.Name = 'Sans'
         ParentFont = False
         TabOrder = 2
+      end
+      object STLongitude: TStaticText
+        AnchorSideTop.Control = Label5
+        AnchorSideTop.Side = asrBottom
+        Left = 135
+        Height = 32
+        Top = 233
+        Width = 129
+        Font.Height = -15
+        Font.Name = 'Sans'
+        ParentFont = False
+        TabOrder = 3
+      end
+      object STLongitudeDMS: TStaticText
+        AnchorSideTop.Control = STLongitude
+        AnchorSideTop.Side = asrBottom
+        Left = 135
+        Height = 32
+        Top = 265
+        Width = 129
+        Font.Height = -15
+        Font.Name = 'Sans'
+        ParentFont = False
+        TabOrder = 4
+      end
+      object STLatitudeDMS: TStaticText
+        AnchorSideTop.Control = STLatitude
+        AnchorSideTop.Side = asrBottom
+        Left = 8
+        Height = 32
+        Top = 265
+        Width = 112
+        Font.Height = -15
+        Font.Name = 'Sans'
+        ParentFont = False
+        TabOrder = 5
       end
     end
     object PairSplitter1: TPairSplitter
@@ -169,10 +207,13 @@ object FMain: TFMain
     SimplePanel = False
   end
   object MAPRSMonitor: TRichMemo
+    AnchorSideTop.Control = MVMap
+    AnchorSideTop.Side = asrBottom
     Left = 8
     Height = 66
-    Top = 672
+    Top = 670
     Width = 1249
+    BorderSpacing.Top = 6
     Font.Color = clGreen
     Font.Height = -12
     Font.Name = 'Courier New'
@@ -180,36 +221,6 @@ object FMain: TFMain
     ParentFont = False
     TabOrder = 3
     ZoomFactor = 1
-  end
-  object STLongitude: TStaticText
-    Left = 1112
-    Height = 32
-    Top = 376
-    Width = 129
-    Font.Height = -15
-    Font.Name = 'Sans'
-    ParentFont = False
-    TabOrder = 4
-  end
-  object STLatitudeDMS: TStaticText
-    Left = 986
-    Height = 32
-    Top = 400
-    Width = 112
-    Font.Height = -15
-    Font.Name = 'Sans'
-    ParentFont = False
-    TabOrder = 5
-  end
-  object STLongitudeDMS: TStaticText
-    Left = 1112
-    Height = 32
-    Top = 400
-    Width = 129
-    Font.Height = -15
-    Font.Name = 'Sans'
-    ParentFont = False
-    TabOrder = 6
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184
@@ -238,6 +249,18 @@ object FMain: TFMain
     end
     object Settings: TMenuItem
       Caption = '&Settings'
+    end
+    object MenuItem2: TMenuItem
+      Caption = '&Help'
+      object MenuItem4: TMenuItem
+        Caption = 'Get Flexpacket'
+      end
+      object Separator1: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem3: TMenuItem
+        Caption = 'Info'
+      end
     end
   end
 end

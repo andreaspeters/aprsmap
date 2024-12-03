@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
   Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, FileCtrl, ComboEx,
   PairSplitter, Menus, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr,
-  mvTypes, mvEngine, RichMemo, Contnrs, uini;
+  mvTypes, mvEngine, RichMemo, Contnrs, uini, uigate;
 
 type
 
@@ -26,6 +26,10 @@ type
     MainMenu1: TMainMenu;
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
+    Separator1: TMenuItem;
     Settings: TMenuItem;
     MIFileExit: TMenuItem;
     MVMap: TMapView;
@@ -88,6 +92,7 @@ begin
   Copyright := False;
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
+  TIGateThread.Create(@APRSConfig, MVMap);
 end;
 
 procedure TFMain.FormDestroy(Sender: TObject);
@@ -121,14 +126,14 @@ var Area: TRealArea;
     i: Integer;
     curSel: String;
 begin
-  with MVMap.Canvas do
-  begin
-    Font.Name := 'Arial';
-    Font.Size := 6;
-    Font.Color := clBlack;
-    TextOut(0, 0, 'Copyright OpenStreetmap');
-  end;
-  Copyright := True;
+  //with MVMap.Canvas do
+  //begin
+  //  Font.Name := 'Arial';
+  //  Font.Size := 6;
+  //  Font.Color := clBlack;
+  //  TextOut(0, 0, 'Copyright OpenStreetmap');
+  //end;
+  //Copyright := True;
 
   MVMap.GPSItems.GetArea(Area);
   List := MVMap.GPSItems.GetObjectsInArea(Area);
@@ -190,51 +195,47 @@ var Regex: TRegExpr;
     Lat, Lon: Double;
 begin
   Regex := TRegExpr.Create;
-   try
-     //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
-     Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
-     Regex.ModifierI := False;
-     if Regex.Exec(Data) then
-     begin
-       WriteLn('Source: ', Regex.Match[1]);
-       WriteLn('Destination: ', Regex.Match[2]);
-       WriteLn('Path: ', Regex.Match[3]);
-       WriteLn('Payload: ', Regex.Match[4]);
+  try
+    //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
+    Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
+    Regex.ModifierI := False;
+    if Regex.Exec(Data) then
+    begin
+      WriteLn('Source: ', Regex.Match[1]);
+      WriteLn('Destination: ', Regex.Match[2]);
+      WriteLn('Path: ', Regex.Match[3]);
+      WriteLn('Payload: ', Regex.Match[4]);
+      // FromCall: String;
+      // ToCall: String;
+      // Path: String;
+      // Longitude: Double;
+      // Latitude: Double;
+      // Message: String;
+      // Time: String
+      New(APRSMessageObject);
+      APRSMessageObject^.FromCall := Regex.Match[1];
+      APRSMessageObject^.ToCall := Regex.Match[2];
+      APRSMessageObject^.Path := Regex.Match[3];
 
-       // FromCall: String;
-       // ToCall: String;
-       // Path: String;
-       // Longitude: Double;
-       // Latitude: Double;
-       // Message: String;
-       // Time: String
+      Regex.Expression := '^(\d{4}\.\d{2}\w)\w(\d{5}\.\d{2}\w)(\w)(.+)$';
+      if Regex.Exec(Regex.Match[4]) then
+      begin
+        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon, 10);
+        APRSMessageObject^.Latitude := Lat;
+        APRSMessageObject^.Longitude := Lon;
+        APRSMessageObject^.Message := Regex.Match[4];
 
-       New(APRSMessageObject);
-       APRSMessageObject^.FromCall := Regex.Match[1];
-       APRSMessageObject^.ToCall := Regex.Match[2];
-       APRSMessageObject^.Path := Regex.Match[3];
-
-
-       Regex.Expression := '^(\d{4}\.\d{2}\w)\/(\d{5}\.\d{2}\w)(\w)(.+)$';
-       if Regex.Exec(Regex.Match[4]) then
-       begin
-         ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon);
-         APRSMessageObject^.Latitude := Lat;
-         APRSMessageObject^.Longitude := Lon;
-         APRSMessageObject^.Message := Regex.Match[4];
-
-           // Normalisierung der Ergebnisse
-         WriteLn('Latitude: ',  LatToStr(Lat, False));
-         WriteLn('Longitude: ', LonToStr(Lon, False));
-         WriteLn('Type/Icon: ', Regex.Match[3]);
-         WriteLn('Message: ', Regex.Match[4]);
-
-         SetPoi(APRSMessageObject, MVMap.GPSItems);
-       end;
-     end;
-   finally
-     Regex.Free;
-   end;
+        // Normalisierung der Ergebnisse
+        WriteLn('Latitude: ',  LatToStr(Lat, False));
+        WriteLn('Longitude: ', LonToStr(Lon, False));
+        WriteLn('Type/Icon: ', Regex.Match[3]);
+        WriteLn('Message: ', Regex.Match[4]);
+        SetPoi(APRSMessageObject, MVMap.GPSItems);
+      end;
+    end;
+  finally
+    Regex.Free;
+  end;
 end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);

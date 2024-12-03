@@ -37,6 +37,18 @@ msgstr ""
 msgid "&File"
 msgstr ""
 
+#: tfmain.menuitem2.caption
+msgid "&Help"
+msgstr ""
+
+#: tfmain.menuitem3.caption
+msgid "Info"
+msgstr ""
+
+#: tfmain.menuitem4.caption
+msgid "Get Flexpacket"
+msgstr ""
+
 #: tfmain.mifileexit.caption
 msgid "E&xit"
 msgstr ""

@@ -9,7 +9,7 @@ uses
   mvGPSObj, Contnrs;
 
 procedure SetPoi(Message: PAPRSMessage; List: TGPSObjectList);
-procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double);
+procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 
 var
   APRSMessageList: TFPHashList;
@@ -34,7 +34,7 @@ begin
 end;
 
 
-procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double);
+procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 var
   Degrees, Minutes: Double;
   Direction: Char;
@@ -59,7 +59,7 @@ begin
   Minutes := StrToFloat(Copy(NMEALon, 4, Length(NMEALon) - 5));
   Direction := NMEALon[Length(NMEALon)];
 
-  Longitude := (Degrees + (Minutes / 60.0)) / 10;
+  Longitude := (Degrees + (Minutes / 60.0)) / divider;
   if Direction = 'W' then
     Longitude := -Longitude;
 end;

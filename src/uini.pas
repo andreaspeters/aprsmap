@@ -33,6 +33,10 @@ begin
   ini := TIniFile.Create(HomeDir+'/aprsmap.ini');
 
   ini.WriteString('APRS', 'mapcache', Config^.MAPCache);
+  ini.WriteString('APRS', 'callsign', Config^.Callsign);
+  ini.WriteString('IGATE', 'server', Config^.IGateServer);
+  ini.WriteInteger('IGATE', 'port', Config^.IGatePort);
+  ini.WriteString('IGATE', 'password', Config^.IGatePassword);
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -59,6 +63,12 @@ begin
 
   ini := TIniFile.Create(HomeDir+'/aprsmap.ini');
   Config^.MAPCache := ini.ReadString('APRS', 'mapcache', CacheDir);
+  Config^.Callsign := ini.ReadString('APRS', 'callsign', 'NOCALL');
+  Config^.IGateServer := ini.ReadString('IGATE', 'server', 'rotate.aprs.net');
+  Config^.IGatePort := ini.ReadInteger('IGATE', 'port', 14580);
+  Config^.IGatePassword := ini.ReadString('IGATE', 'password', '');
+
+
 end;
 
 

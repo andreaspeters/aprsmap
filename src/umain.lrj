@@ -9,5 +9,8 @@
 {"hash":81848517,"name":"tfmain.label5.caption","sourcebytes":[76,111,110,103,105,116,117,100,101],"value":"Longitude"},
 {"hash":2805797,"name":"tfmain.menuitem1.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":4710148,"name":"tfmain.mifileexit.caption","sourcebytes":[69,38,120,105,116],"value":"E&xit"},
-{"hash":213577587,"name":"tfmain.settings.caption","sourcebytes":[38,83,101,116,116,105,110,103,115],"value":"&Settings"}
+{"hash":213577587,"name":"tfmain.settings.caption","sourcebytes":[38,83,101,116,116,105,110,103,115],"value":"&Settings"},
+{"hash":2812976,"name":"tfmain.menuitem2.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
+{"hash":50550740,"name":"tfmain.menuitem4.caption","sourcebytes":[71,101,116,32,70,108,101,120,112,97,99,107,101,116],"value":"Get Flexpacket"},
+{"hash":328911,"name":"tfmain.menuitem3.caption","sourcebytes":[73,110,102,111],"value":"Info"}
 ]}
