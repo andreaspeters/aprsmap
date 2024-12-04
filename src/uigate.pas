@@ -97,8 +97,8 @@ begin
       Exit;
     end;
 
-    LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/49.0/8.4/100'#10,
-      [FConfig^.Callsign, FConfig^.IGatePassword]);
+    LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/%.2f/%.2f/100'#10,
+      [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.Latitude, FConfig^.Longitude]);
 
     fpSend(FSocket, PChar(LoginString), Length(LoginString), 0);
 

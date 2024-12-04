@@ -20,11 +20,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="197"/>
-        <CursorPos X="41" Y="252"/>
+        <TopLine Value="122"/>
+        <CursorPos X="22" Y="169"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uresize.pas"/>
@@ -74,9 +73,9 @@
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="139"/>
-        <CursorPos X="31" Y="187"/>
-        <UsageCount Value="86"/>
+        <TopLine Value="47"/>
+        <CursorPos X="32" Y="120"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -92,7 +91,7 @@
         <UnitName Value="mvGeoMath"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="8"/>
       </Unit>
       <Unit>
         <Filename Value="../../../not_me/LazMapViewer/source/mvmapviewer.pas"/>
@@ -111,14 +110,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="utypes.pas"/>
-        <Caret Line="135" TopLine="80"/>
-      </Position>
-      <Position>
-        <Filename Value="utypes.pas"/>
-        <Caret Line="43" Column="38" TopLine="6"/>
-      </Position>
       <Position>
         <Filename Value="uaprs.pas"/>
         <Caret Line="54" Column="6" TopLine="12"/>
@@ -230,6 +221,14 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="111" Column="112" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="uigate.pas"/>
+        <Caret Line="100" Column="145" TopLine="70"/>
+      </Position>
+      <Position>
+        <Filename Value="uigate.pas"/>
+        <Caret Line="111" Column="74" TopLine="67"/>
       </Position>
     </JumpHistory>
     <RunParams>

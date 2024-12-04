@@ -166,6 +166,7 @@ begin
     STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
     STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
 
+    MVMap.Zoom := 28;
     MVMap.CenterOnObj(FindGPSItem(call));
   end;
 end;
