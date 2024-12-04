@@ -6,10 +6,12 @@ interface
 
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
-  mvGPSObj, Contnrs;
+  mvGPSObj, Contnrs, mvMapViewer;
 
-procedure SetPoi(Message: PAPRSMessage; List: TGPSObjectList);
+procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
+procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
+function GetImageIndex(const Symbol: String):Byte;
 
 var
   APRSMessageList: TFPHashList;
@@ -17,18 +19,38 @@ var
 implementation
 
 
-procedure SetPoi(Message: PAPRSMessage; List: TGPSObjectList);
-var poi: TGpsPoint;
+procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
+var poi: TPointOfInterest;
 begin
-  poi := TGpsPoint.Create(Message^.Longitude, Message^.Latitude, NO_ELE, Now());
-  poi.Name := Message^.FromCall;
-  poi.Visible := False;
-  List.BeginUpdate;
-  try
-    List.Add(poi, 10);
-  except
+  poi := Layer.PointsOfInterest.Add as TPointOfInterest;
+  poi.Longitude := Message^.Longitude;
+  poi.Latitude := Message^.Latitude;
+  poi.Caption := Message^.FromCall;
+  poi.ImageIndex := GetImageIndex(Message^.IconPrimary);
+end;
+
+procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
+var poi: TPointOfInterest;
+begin
+  poi := Layer.PointsOfInterest.Add as TPointOfInterest;
+  poi.Longitude := Longitude;
+  poi.Latitude := Latitude;
+  poi.Caption := Text;
+  poi.ImageIndex := ImageIndex;
+end;
+
+function GetImageIndex(const Symbol: String):Byte;
+var i: Byte;
+begin
+  Result := 0;
+  for i := 1 to Length(APRSPrimarySymbolTable) do
+  begin
+    if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
+    begin
+      Result := i;
+      Exit;
+    end;
   end;
-  List.EndUpdate;
 end;
 
 

@@ -7,8 +7,8 @@ interface
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms, Controls,
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, PairSplitter, Menus, ComboEx,
-  uresize, utypes, ureadpipe, uaprs, mvGPSObj, mvGeoMath, RegExpr, mvTypes, mvEngine,
-  Contnrs, uini, uigate;
+  uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
+  Contnrs, uini, uigate, StrUtils;
 
 type
 
@@ -69,7 +69,7 @@ type
     procedure TMainLoopTimer(Sender: TObject);
     procedure AddCombobox(const msg: TAPRSMessage);
   private
-
+    function FindGPSItem(const Call: String):TGPSObj;
   public
 
   end;
@@ -82,6 +82,8 @@ var
   APRSConfig: TAPRSConfig;
   IGate: TIGateThread;
   LastZoom: Byte;
+  MyPosition: TGPSObj;
+  PoILayer: TMapLayer;
 
 implementation
 
@@ -104,6 +106,11 @@ begin
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
   IGate := TIGateThread.Create(@APRSConfig);
+
+  PoILayer := (MVMap.Layers.Add as TMapLayer);
+  SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y'), MVMap.GPSItems);
+  MyPosition := FindGPSItem(APRSConfig.Callsign);
+  MVMap.CenterOnObj(MyPosition);
 end;
 
 procedure TFMain.FormDestroy(Sender: TObject);
@@ -145,10 +152,12 @@ end;
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     i, count: Integer;
+    call: String;
 begin
-  count := MVMap.GPSItems.Count;
   MAPRSMessage.Lines.Clear;
-  msg := APRSMessageList.Find(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption);
+
+  call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+  msg := APRSMessageList.Find(call);
   if msg <> nil then
   begin
     MAPRSMessage.Lines.Add(msg^.Message);
@@ -157,17 +166,21 @@ begin
     STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
     STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
 
-    for i := 0 to count - 1 do
-    begin
-      MVMap.GPSItems[i].Visible := False;
-      if MVMap.GPSItems[i].Name = msg^.FromCall then
-      begin
-        MVMap.GPSItems[i].Visible := True;
-        MVMap.CenterOnObj(MVMap.GPSItems[i]);
-      end;
-    end;
+    MVMap.CenterOnObj(FindGPSItem(call));
+  end;
+end;
 
-    MVMap.Refresh;
+function TFMain.FindGPSItem(const Call: String):TGPSObj;
+var i, count: Integer;
+begin
+  count := PoILayer.PointsOfInterest.Count;
+  for i := 0 to count - 1 do
+  begin
+    if PoILayer.PointsOfInterest[i].Caption = Call then
+    begin
+      Result := PoILayer.PointsOfInterest[i].GPSObj;
+      Exit;
+    end;
   end;
 end;
 
@@ -191,7 +204,7 @@ end;
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
-    NewMSG: PAPRSMessage;
+    newMSG: PAPRSMessage;
 begin
   if APRSConfig.IGateEnabled then
   begin
@@ -204,20 +217,19 @@ begin
       begin
         if APRSMessageList.Find(msg.FromCall) = nil then
         begin
-          New(NewMSG);
-          NewMSG^ := msg;
+          New(newMSG);
+          newMSG^ := msg;
 
-          SetPoi(NewMsg, MVMap.GPSItems);
+          SetPoi(PoILayer, newMsg, MVMap.GPSItems);
           AddCombobox(msg);
-          APRSMessageList.Add(msg.FromCall, NewMSG);
+          APRSMessageList.Add(msg.FromCall, newMSG);
         end;
-
-        WriteLn('Source: ', msg.FromCall);
-        WriteLn('Destination: ', msg.ToCall);
-        WriteLn('Path: ', msg.Path);
-        WriteLn('Latitude: ',  LatToStr(msg.Latitude, False));
-        WriteLn('Longitude: ', LonToStr(msg.Longitude, False));
-        WriteLn('Message: ', msg.Message);
+        //WriteLn('Source: ', msg.FromCall);
+        //WriteLn('Destination: ', msg.ToCall);
+        //WriteLn('Path: ', msg.Path);
+        //WriteLn('Latitude: ',  LatToStr(msg.Latitude, False));
+        //WriteLn('Longitude: ', LonToStr(msg.Longitude, False));
+        //WriteLn('Message: ', msg.Message);
       end;
     except
     end;
@@ -231,8 +243,14 @@ end;
 
 
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
+var poi: TGpsPoint;
+    km: Double;
+    imageIndex: Byte;
 begin
-  CBEPOIList.ItemsEx.AddItem(msg.FromCall, 8, 8, 0, 0, nil);
+  poi := TGpsPoint(FindGPSItem(msg.FromCall));
+  km := poi.DistanceInKmFrom(TGpsPoint(MyPosition),False);
+  imageIndex := GetImageIndex(msg.IconPrimary);
+  CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);
 end;
 
 end.

@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 25
-  Height = 739
-  Top = 210
+  Left = 273
+  Height = 704
+  Top = 224
   Width = 1265
   Caption = 'APRSMap'
-  ClientHeight = 739
+  ClientHeight = 704
   ClientWidth = 1265
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -21,12 +21,15 @@ object FMain: TFMain
     Top = 8
     Width = 952
     Active = True
+    CacheLocation = clCustom
     DownloadEngine = MVDEFPC1
     DrawingEngine = MvBGRADrawingEngine1
     Layers = <>
     Font.Color = clBlack
     MapProvider = 'OpenStreetMap Mapnik'
-    POIImagesWidth = 50
+    POIImages = ImageList1
+    POIImagesWidth = 16
+    POITextBgColor = clWhite
     UseThreads = True
     Zoom = 15
     OnZoomChange = MVMapZoomChange
@@ -202,7 +205,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 712
+    Top = 677
     Width = 1265
     Panels = <    
       item

@@ -156,15 +156,19 @@ end;
 function TIGateThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     Lat, Lon: Double;
+const
+    PositionType = '!=/@zh';
 begin
   Regex := TRegExpr.Create;
   try
-    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP).*(\d{4}\.\d{2}[N|S].*)';
+    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP).*([!|=|\/@|z|h]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
       // FromCall: String;
       // ToCall: String;
+      // IconPrimary: Double;
+      // IconSecondary: Double;
       // Path: String;
       // Longitude: Double;
       // Latitude: Double;
@@ -172,18 +176,18 @@ begin
       // Time: String
       APRSMessageObject.FromCall := Trim(Regex.Match[1]);
       APRSMessageObject.ToCall := Trim(Regex.Match[2]);
-      APRSMessageObject.Path := Regex.Match[3];
+      APRSMessageObject.DataType := Regex.Match[3];
 
-      Regex.Expression := '^(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W]).(.+)$';
-      if Regex.Exec(Regex.Match[3]) then
+      if Pos(APRSMessageObject.DataType, PositionType) > 0 then
       begin
-        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[3], Lat, Lon, 1);
+        ConvertNMEAToLatLong(Regex.Match[4], Regex.Match[6], Lat, Lon, 1);
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
-        APRSMessageObject.Message := Regex.Match[4];
-
-        Result := APRSMessageObject;
+        APRSMessageObject.IconPrimary := Regex.Match[5];
+        APRSMessageObject.IconSecondary := Regex.Match[7];
+        APRSMessageObject.Message := Regex.Match[8];
       end;
+      Result := APRSMessageObject;
     end;
   finally
     Regex.Free;
