@@ -22,6 +22,7 @@ type
 
   TAPRSConfig = record
     MAPCache: String;
+    IGateEnabled: Boolean;
     IGateServer: String;
     IGatePort: Integer;
     IGatePassword: String;

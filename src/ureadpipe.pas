@@ -5,7 +5,7 @@ unit ureadpipe;
 interface
 
 uses
-  Classes, SysUtils, {$IFDEF UNIX}BaseUnix{$ELSE}Windows{$ENDIF};
+  Classes, SysUtils, utypes, RegExpr, uaprs, {$IFDEF UNIX}BaseUnix{$ELSE}Windows{$ENDIF};
 
 type
   TReadPipeThread = class(TThread)
@@ -15,8 +15,12 @@ type
     procedure Execute; override;
   public
     PipeData: String;
+    function DecodeAPRSMessage(const Data: String): TAPRSMessage;
     constructor Create(const PipeName: string);
   end;
+
+var
+  APRSMessageObject: TAPRSMessage;
 
 implementation
 
@@ -104,7 +108,43 @@ begin
 end;
 {$ENDIF}
 
+function TReadPipeThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
+var Regex: TRegExpr;
+    Lat, Lon: Double;
+begin
+  Regex := TRegExpr.Create;
+  try
+    //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
+    Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
+    Regex.ModifierI := False;
+    if Regex.Exec(Data) then
+    begin
+      // FromCall: String;
+      // ToCall: String;
+      // Path: String;
+      // Longitude: Double;
+      // Latitude: Double;
+      // Message: String;
+      // Time: String
+      APRSMessageObject.FromCall := Trim(Regex.Match[1]);
+      APRSMessageObject.ToCall := Trim(Regex.Match[2]);
+      APRSMessageObject.Path := Regex.Match[3];
 
+      Regex.Expression := '^(\d{4}\.\d{2}\w)\w(\d{5}\.\d{2}\w)(\w)(.+)$';
+      if Regex.Exec(Regex.Match[4]) then
+      begin
+        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon, 10);
+        APRSMessageObject.Latitude := Lat;
+        APRSMessageObject.Longitude := Lon;
+        APRSMessageObject.Message := Regex.Match[4];
+
+        Result := APRSMessageObject;
+      end;
+    end;
+  finally
+    Regex.Free;
+  end;
+end;
 
 end.
 

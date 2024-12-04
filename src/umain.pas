@@ -5,10 +5,10 @@ unit umain;
 interface
 
 uses
-  Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, mvDE_RGBGraphics, Forms,
-  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, FileCtrl, ComboEx,
+  Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms,
+  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls,
   PairSplitter, Menus, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr,
-  mvTypes, mvEngine, RichMemo, Contnrs, uini, uigate;
+  mvTypes, mvEngine, Contnrs, uini, uigate;
 
 type
 
@@ -24,38 +24,53 @@ type
     Label4: TLabel;
     Label5: TLabel;
     MainMenu1: TMainMenu;
+    MainMenu2: TMainMenu;
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
+    MenuItem8: TMenuItem;
+    MIFileExit1: TMenuItem;
+    MvBGRADrawingEngine1: TMvBGRADrawingEngine;
+    MvBGRADrawingEngine2: TMvBGRADrawingEngine;
+    MvBGRADrawingEngine3: TMvBGRADrawingEngine;
+    MVDEFPC1: TMVDEFPC;
+    MVDEFPC2: TMVDEFPC;
     Separator1: TMenuItem;
+    Separator2: TMenuItem;
     Settings: TMenuItem;
     MIFileExit: TMenuItem;
     MVMap: TMapView;
-    MvBGRADrawingEngine1: TMvBGRADrawingEngine;
-    MVDEFPC1: TMVDEFPC;
-    MAPRSMonitor: TRichMemo;
     PairSplitter1: TPairSplitter;
     PairSplitterSide2: TPairSplitterSide;
     SBMain: TStatusBar;
+    Settings1: TMenuItem;
     STLatitude: TStaticText;
     STLatitudeDMS: TStaticText;
     STLongitude: TStaticText;
     STLongitudeDMS: TStaticText;
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
+    TMainLoop1: TTimer;
     procedure FMainInit(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
-    procedure MoveMap(Sender: TObject);
+    procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MVMapMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure MVMapZoomChange(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
-    procedure ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
+    procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure TBZoomMapChange(Sender: TObject);
-    procedure DecodeAPRSMessage(const Data: String);
     procedure TMainLoopTimer(Sender: TObject);
+    procedure UpdatePOIVisibility;
   private
 
   public
@@ -68,7 +83,9 @@ var
   APRSMessageObject: PAPRSMessage;
   ReadPipe: TReadPipeThread;
   APRSConfig: TAPRSConfig;
-  Copyright: Boolean;
+  IGate: TIGateThread;
+  PoiVisibility: Boolean;
+  LastZoom: Byte;
 
 implementation
 
@@ -89,10 +106,10 @@ begin
 
   APRSMessageList := TFPHashList.Create;
 
-  Copyright := False;
+  PoiVisibility := True;
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
-  TIGateThread.Create(@APRSConfig, MVMap);
+  IGate := TIGateThread.Create(@APRSConfig);
 end;
 
 procedure TFMain.FormDestroy(Sender: TObject);
@@ -119,46 +136,58 @@ begin
   Close;
 end;
 
-procedure TFMain.MoveMap(Sender: TObject);
-var Area: TRealArea;
-    List: TGPSObjList;
-    poi: TGpsObj;
-    i: Integer;
-    curSel: String;
+procedure TFMain.MVMapMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-  //with MVMap.Canvas do
-  //begin
-  //  Font.Name := 'Arial';
-  //  Font.Size := 6;
-  //  Font.Color := clBlack;
-  //  TextOut(0, 0, 'Copyright OpenStreetmap');
-  //end;
-  //Copyright := True;
+  PoiVisibility := False;
+end;
 
-  MVMap.GPSItems.GetArea(Area);
-  List := MVMap.GPSItems.GetObjectsInArea(Area);
+procedure TFMain.MVMapMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  PoiVisibility := True;
+end;
 
-  if List.Count <= 0 then
+procedure TFMain.MVMapZoomChange(Sender: TObject);
+var i: Byte;
+begin
+  i := MVMap.Zoom;
+  if i > 20 then
+    TBZoomMap.Position := 20;
+
+  TBZoomMap.Position := i;
+  if i <> LastZoom then
+    LastZoom := i;
+end;
+
+procedure TFMain.UpdatePOIVisibility;
+var
+  i: Integer;
+  areaPois: TGPSObjList;
+begin
+  for i := 0 to MVMap.GPSItems.Count - 1 do
+  begin
+    MVMap.GPSItems[i].Visible := False;
+  end;
+
+  if not PoiVisibility then
     Exit;
 
-  curSel := '';
-  if CBPOIList.ItemIndex >= 0 then
-    curSel := CBPOIList.Items[CBPOIList.ItemIndex];
-
-  CBPOIList.Clear;
-  for i:=0 to List.Count - 1 do
+  areaPois := MVMap.GPSItems.GetObjectsInArea(MVMap.GetVisibleArea);
+  for i:= 0 to areaPois.Count - 1 do
   begin
-    poi := List[i];
-    if poi is TGpsPoint then
-      CBPOIList.Items.Add(poi.Name);
+    areaPois.Items[i].Visible := True;
+    SBMain.Panels[2].Text := '';
+    if i = 4 then
+    begin
+      SBMain.Panels[2].Text := 'To many Data, please zoom in...';
+      Break;
+    end;
   end;
 
-  for i:=0 to CBPOIList.Items.Count - 1 do
-  begin
-    if CBPOIList.Items[i] = curSel then
-      CBPOIList.ItemIndex := i;
-  end;
+  MVMap.Refresh;
 end;
+
 
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
@@ -175,7 +204,7 @@ begin
   end;
 end;
 
-procedure TFMain.ShowMapMousPosition(Sender: TObject; Shift: TShiftState; X,
+procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 var
   p: TRealPoint;
@@ -190,66 +219,40 @@ begin
   MVMap.Zoom := TBZoomMap.Position;
 end;
 
-procedure TFMain.DecodeAPRSMessage(const Data: String);
-var Regex: TRegExpr;
-    Lat, Lon: Double;
-begin
-  Regex := TRegExpr.Create;
-  try
-    //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
-    Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
-    Regex.ModifierI := False;
-    if Regex.Exec(Data) then
-    begin
-      WriteLn('Source: ', Regex.Match[1]);
-      WriteLn('Destination: ', Regex.Match[2]);
-      WriteLn('Path: ', Regex.Match[3]);
-      WriteLn('Payload: ', Regex.Match[4]);
-      // FromCall: String;
-      // ToCall: String;
-      // Path: String;
-      // Longitude: Double;
-      // Latitude: Double;
-      // Message: String;
-      // Time: String
-      New(APRSMessageObject);
-      APRSMessageObject^.FromCall := Regex.Match[1];
-      APRSMessageObject^.ToCall := Regex.Match[2];
-      APRSMessageObject^.Path := Regex.Match[3];
 
-      Regex.Expression := '^(\d{4}\.\d{2}\w)\w(\d{5}\.\d{2}\w)(\w)(.+)$';
-      if Regex.Exec(Regex.Match[4]) then
-      begin
-        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon, 10);
-        APRSMessageObject^.Latitude := Lat;
-        APRSMessageObject^.Longitude := Lon;
-        APRSMessageObject^.Message := Regex.Match[4];
-
-        // Normalisierung der Ergebnisse
-        WriteLn('Latitude: ',  LatToStr(Lat, False));
-        WriteLn('Longitude: ', LonToStr(Lon, False));
-        WriteLn('Type/Icon: ', Regex.Match[3]);
-        WriteLn('Message: ', Regex.Match[4]);
-        SetPoi(APRSMessageObject, MVMap.GPSItems);
-      end;
-    end;
-  finally
-    Regex.Free;
-  end;
-end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
+var msg: TAPRSMessage;
+    buffer: String;
 begin
-  try
-    MAPRSMonitor.Lines.Add(ReadPipe.PipeData);
-    if MAPRSMonitor.Lines.Count > 3 then
-    begin
-      MAPRSMonitor.SelStart := MAPRSMonitor.GetTextLen;
-      MAPRSMonitor.ScrollBy(0, MAPRSMonitor.Lines.Count);
-      MAPRSMonitor.Refresh;
+  UpdatePOIVisibility;
+  PoiVisibility := True;
+  if APRSConfig.IGateEnabled then
+  begin
+    try
+      buffer := IGate.APRSBuffer;
+      IGate.APRSBuffer := '';
+      msg := IGate.DecodeAPRSMessage(buffer);
+
+      if Length(msg.FromCall) > 0 then
+      begin
+        SetPoi(@msg, MVMap.GPSItems);
+
+        //WriteLn('Source: ', Regex.Match[1]);
+        //WriteLn('Destination: ', Regex.Match[2]);
+        //WriteLn('Path: ', Regex.Match[3]);
+        //WriteLn('Payload: ', Regex.Match[4]);
+        //WriteLn('Latitude: ',  LatToStr(Lat, False));
+        //WriteLn('Longitude: ', LonToStr(Lon, False));
+        //WriteLn('Type/Icon: ', Regex.Match[3]);
+        //WriteLn('Message: ', Regex.Match[4]);
+      end;
+    except
     end;
-    DecodeAPRSMessage(ReadPipe.PipeData);
-    MoveMap(Sender);
+  end;
+
+  try
+    ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData);
   except
   end;
 end;

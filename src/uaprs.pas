@@ -27,10 +27,15 @@ begin
     Exit;
 
   APRSMessageList.Add(Message^.FromCall, Message);
-
   poi := TGpsPoint.Create(Message^.Longitude, Message^.Latitude, NO_ELE, Now());
   poi.Name := Message^.FromCall;
-  List.Add(poi, List.Count + 1);
+  poi.Visible := False;
+  List.BeginUpdate;
+  try
+    List.Add(poi, 10);
+  except
+  end;
+  List.EndUpdate;
 end;
 
 

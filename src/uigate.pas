@@ -5,8 +5,7 @@ unit uigate;
 interface
 
 uses
-  Classes, SysUtils, Sockets, utypes, netdb, RegExpr, uaprs, mvTypes, mvEngine,
-  mvMapViewer;
+  Classes, SysUtils, Sockets, utypes, netdb, RegExpr, uaprs;
 
 type
   PTAPRSConfig = ^TAPRSConfig;
@@ -16,30 +15,29 @@ type
   private
     FConfig: PTAPRSConfig;
     FSocket: TSocket;
-    procedure DecodeAPRSMessage(const Data: String);
     function IsValidIPAddress(const IP: string): Boolean;
   protected
     procedure Execute; override;
   public
+    APRSBuffer: String;
     procedure Disconnect;
-    constructor Create(Config: PTAPRSConfig; Map: TMapView);
+    function DecodeAPRSMessage(const Data: String): TAPRSMessage;
+    constructor Create(Config: PTAPRSConfig);
     destructor Destroy; override;
   end;
 
 
 var
-  APRSMessageObject: PAPRSMessage;
-  FMap: TMapView;
+  APRSMessageObject: TAPRSMessage;
 
 implementation
 
 { TIGateThread }
 
-constructor TIGateThread.Create(Config: PTAPRSConfig; Map: TMapView);
+constructor TIGateThread.Create(Config: PTAPRSConfig);
 begin
   inherited Create(True);
   FConfig := Config;
-  FMap := Map;
   FreeOnTerminate := True;
   Start;
 end;
@@ -101,6 +99,7 @@ begin
 
     LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/49.0/8.4/100'#10,
       [FConfig^.Callsign, FConfig^.IGatePassword]);
+
     fpSend(FSocket, PChar(LoginString), Length(LoginString), 0);
 
     while not Terminated do
@@ -117,14 +116,13 @@ begin
         Lines.Text := Response;
         for Line in Lines do
         begin
-          if Trim(Line) <> '' then
-          begin
-            DecodeAPRSMessage(line);
-          end;
+          if Length(Trim(Line)) > 0 then
+            APRSBuffer := Line;
         end;
       finally
         Lines.Free;
       end;
+      sleep(10);
     end;
   finally
     Disconnect;
@@ -155,19 +153,16 @@ begin
   Result := True;
 end;
 
-procedure TIGateThread.DecodeAPRSMessage(const Data: String);
+function TIGateThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     Lat, Lon: Double;
 begin
   Regex := TRegExpr.Create;
   try
-    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP).*:!(\d{4}\.\d{2}\w.*)';
+    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP).*(\d{4}\.\d{2}[N|S].*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
-      WriteLn('Source: ', Regex.Match[1]);
-      WriteLn('Destination: ', Regex.Match[2]);
-      WriteLn('Payload: ', Regex.Match[3]);
       // FromCall: String;
       // ToCall: String;
       // Path: String;
@@ -175,30 +170,26 @@ begin
       // Latitude: Double;
       // Message: String;
       // Time: String
-      New(APRSMessageObject);
-      APRSMessageObject^.FromCall := Regex.Match[1];
-      APRSMessageObject^.ToCall := Regex.Match[2];
-      APRSMessageObject^.Path := Regex.Match[3];
+      APRSMessageObject.FromCall := Trim(Regex.Match[1]);
+      APRSMessageObject.ToCall := Trim(Regex.Match[2]);
+      APRSMessageObject.Path := Regex.Match[3];
 
-      Regex.Expression := '^(\d{4}\.\d{2}\w)\S(\d{5}\.\d{2}\w)(\w)(.+)$';
+      Regex.Expression := '^(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W]).(.+)$';
       if Regex.Exec(Regex.Match[3]) then
       begin
-        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon, 1);
-        APRSMessageObject^.Latitude := Lat;
-        APRSMessageObject^.Longitude := Lon;
-        APRSMessageObject^.Message := Regex.Match[4];
+        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[3], Lat, Lon, 1);
+        APRSMessageObject.Latitude := Lat;
+        APRSMessageObject.Longitude := Lon;
+        APRSMessageObject.Message := Regex.Match[4];
 
-        // Normalisierung der Ergebnisse
-        WriteLn('Latitude: ',  LatToStr(Lat, False));
-        WriteLn('Longitude: ', LonToStr(Lon, False));
-        WriteLn('Type/Icon: ', Regex.Match[3]);
-        WriteLn('Message: ', Regex.Match[4]);
-        SetPoi(APRSMessageObject, FMap.GPSItems);
+        Result := APRSMessageObject;
       end;
     end;
   finally
     Regex.Free;
   end;
+
 end;
+
 end.
 

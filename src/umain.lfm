@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 80
-  Height = 775
-  Top = 305
+  Left = 25
+  Height = 702
+  Top = 210
   Width = 1265
   Caption = 'APRSMap'
-  ClientHeight = 775
+  ClientHeight = 702
   ClientWidth = 1265
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -13,7 +13,9 @@ object FMain: TFMain
   OnResize = FormResize
   Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
+  Scaled = False
   object MVMap: TMapView
+    Cursor = crHandPoint
     Left = 8
     Height = 656
     Top = 8
@@ -25,9 +27,11 @@ object FMain: TFMain
     MapProvider = 'OpenStreetMap Mapnik'
     POIImagesWidth = 50
     UseThreads = True
-    Zoom = 7
-    OnCenterMove = MoveMap
-    OnMouseMove = ShowMapMousPosition
+    Zoom = 15
+    OnZoomChange = MVMapZoomChange
+    OnMouseDown = MVMapMouseDown
+    OnMouseMove = ShowMapMousePosition
+    OnMouseUp = MVMapMouseUp
   end
   object GroupBox1: TGroupBox
     Left = 968
@@ -53,6 +57,7 @@ object FMain: TFMain
       Height = 57
       Top = 32
       Width = 271
+      Max = 20
       OnChange = TBZoomMapChange
       Position = 0
       ScalePos = trRight
@@ -179,23 +184,24 @@ object FMain: TFMain
       Position = 1
       object PairSplitterSide2: TPairSplitterSide
         Cursor = crArrow
+        Left = 5
+        Height = 90
+        Top = 0
+        Width = 1
+      end
+      object TPairSplitterSide
+        Cursor = crArrow
         Left = 6
         Height = 90
         Top = 0
         Width = 84
-      end
-      object TPairSplitterSide
-        Left = 0
-        Height = 90
-        Top = 0
-        Width = 1
       end
     end
   end
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 748
+    Top = 675
     Width = 1265
     Panels = <    
       item
@@ -203,24 +209,11 @@ object FMain: TFMain
       end    
       item
         Width = 200
+      end    
+      item
+        Width = 50
       end>
     SimplePanel = False
-  end
-  object MAPRSMonitor: TRichMemo
-    AnchorSideTop.Control = MVMap
-    AnchorSideTop.Side = asrBottom
-    Left = 8
-    Height = 66
-    Top = 670
-    Width = 1249
-    BorderSpacing.Top = 6
-    Font.Color = clGreen
-    Font.Height = -12
-    Font.Name = 'Courier New'
-    HideSelection = False
-    ParentFont = False
-    TabOrder = 3
-    ZoomFactor = 1
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184
@@ -232,6 +225,7 @@ object FMain: TFMain
     Top = 664
   end
   object TMainLoop: TTimer
+    Interval = 2000
     OnTimer = TMainLoopTimer
     Left = 1144
     Top = 664
