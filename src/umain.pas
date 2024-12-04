@@ -5,19 +5,20 @@ unit umain;
 interface
 
 uses
-  Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms,
-  Controls, Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls,
-  PairSplitter, Menus, uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr,
-  mvTypes, mvEngine, Contnrs, uini, uigate;
+  Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms, Controls,
+  Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, PairSplitter, Menus, ComboEx,
+  uresize, utypes, ureadpipe, uaprs, mvGPSObj, mvGeoMath, RegExpr, mvTypes, mvEngine,
+  Contnrs, uini, uigate;
 
 type
 
   { TFMain }
 
   TFMain = class(TForm)
-    CBPOIList: TComboBox;
+    CBEPOIList: TComboBoxEx;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    ImageList1: TImageList;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -60,17 +61,13 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
-    procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure MVMapMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure TBZoomMapChange(Sender: TObject);
     procedure TMainLoopTimer(Sender: TObject);
-    procedure UpdatePOIVisibility;
+    procedure AddCombobox(const msg: TAPRSMessage);
   private
 
   public
@@ -84,7 +81,6 @@ var
   ReadPipe: TReadPipeThread;
   APRSConfig: TAPRSConfig;
   IGate: TIGateThread;
-  PoiVisibility: Boolean;
   LastZoom: Byte;
 
 implementation
@@ -105,8 +101,6 @@ begin
   StoreOriginalSizes(Self);
 
   APRSMessageList := TFPHashList.Create;
-
-  PoiVisibility := True;
 
   ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
   IGate := TIGateThread.Create(@APRSConfig);
@@ -136,18 +130,6 @@ begin
   Close;
 end;
 
-procedure TFMain.MVMapMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  PoiVisibility := False;
-end;
-
-procedure TFMain.MVMapMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
-begin
-  PoiVisibility := True;
-end;
-
 procedure TFMain.MVMapZoomChange(Sender: TObject);
 var i: Byte;
 begin
@@ -160,40 +142,13 @@ begin
     LastZoom := i;
 end;
 
-procedure TFMain.UpdatePOIVisibility;
-var
-  i: Integer;
-  areaPois: TGPSObjList;
-begin
-  for i := 0 to MVMap.GPSItems.Count - 1 do
-  begin
-    MVMap.GPSItems[i].Visible := False;
-  end;
-
-  if not PoiVisibility then
-    Exit;
-
-  areaPois := MVMap.GPSItems.GetObjectsInArea(MVMap.GetVisibleArea);
-  for i:= 0 to areaPois.Count - 1 do
-  begin
-    areaPois.Items[i].Visible := True;
-    SBMain.Panels[2].Text := '';
-    if i = 4 then
-    begin
-      SBMain.Panels[2].Text := 'To many Data, please zoom in...';
-      Break;
-    end;
-  end;
-
-  MVMap.Refresh;
-end;
-
-
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
+    i, count: Integer;
 begin
+  count := MVMap.GPSItems.Count;
   MAPRSMessage.Lines.Clear;
-  msg := APRSMessageList.Find(CBPOIList.Items[CBPOIList.ItemIndex]);
+  msg := APRSMessageList.Find(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption);
   if msg <> nil then
   begin
     MAPRSMessage.Lines.Add(msg^.Message);
@@ -201,6 +156,18 @@ begin
     STLongitude.Caption := LonToStr(msg^.Longitude, False);
     STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
     STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
+
+    for i := 0 to count - 1 do
+    begin
+      MVMap.GPSItems[i].Visible := False;
+      if MVMap.GPSItems[i].Name = msg^.FromCall then
+      begin
+        MVMap.GPSItems[i].Visible := True;
+        MVMap.CenterOnObj(MVMap.GPSItems[i]);
+      end;
+    end;
+
+    MVMap.Refresh;
   end;
 end;
 
@@ -209,7 +176,7 @@ procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
 var
   p: TRealPoint;
 begin
-  p := MVMap.ScreenToLonLat(Point(X, Y));
+  p := MVMap.ScreenToLatLon(Point(X, Y));
   SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(P.Lon, False);
   SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(P.Lat, False);
 end;
@@ -224,9 +191,8 @@ end;
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
+    NewMSG: PAPRSMessage;
 begin
-  UpdatePOIVisibility;
-  PoiVisibility := True;
   if APRSConfig.IGateEnabled then
   begin
     try
@@ -236,16 +202,22 @@ begin
 
       if Length(msg.FromCall) > 0 then
       begin
-        SetPoi(@msg, MVMap.GPSItems);
+        if APRSMessageList.Find(msg.FromCall) = nil then
+        begin
+          New(NewMSG);
+          NewMSG^ := msg;
 
-        //WriteLn('Source: ', Regex.Match[1]);
-        //WriteLn('Destination: ', Regex.Match[2]);
-        //WriteLn('Path: ', Regex.Match[3]);
-        //WriteLn('Payload: ', Regex.Match[4]);
-        //WriteLn('Latitude: ',  LatToStr(Lat, False));
-        //WriteLn('Longitude: ', LonToStr(Lon, False));
-        //WriteLn('Type/Icon: ', Regex.Match[3]);
-        //WriteLn('Message: ', Regex.Match[4]);
+          SetPoi(NewMsg, MVMap.GPSItems);
+          AddCombobox(msg);
+          APRSMessageList.Add(msg.FromCall, NewMSG);
+        end;
+
+        WriteLn('Source: ', msg.FromCall);
+        WriteLn('Destination: ', msg.ToCall);
+        WriteLn('Path: ', msg.Path);
+        WriteLn('Latitude: ',  LatToStr(msg.Latitude, False));
+        WriteLn('Longitude: ', LonToStr(msg.Longitude, False));
+        WriteLn('Message: ', msg.Message);
       end;
     except
     end;
@@ -255,6 +227,12 @@ begin
     ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData);
   except
   end;
+end;
+
+
+procedure TFMain.AddCombobox(const msg: TAPRSMessage);
+begin
+  CBEPOIList.ItemsEx.AddItem(msg.FromCall, 8, 8, 0, 0, nil);
 end;
 
 end.

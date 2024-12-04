@@ -20,13 +20,6 @@ implementation
 procedure SetPoi(Message: PAPRSMessage; List: TGPSObjectList);
 var poi: TGpsPoint;
 begin
-  if APRSMessageList = nil then
-    Exit;
-
-  if APRSMessageList.Find(Message^.FromCall) <> nil then
-    Exit;
-
-  APRSMessageList.Add(Message^.FromCall, Message);
   poi := TGpsPoint.Create(Message^.Longitude, Message^.Latitude, NO_ELE, Now());
   poi.Name := Message^.FromCall;
   poi.Visible := False;

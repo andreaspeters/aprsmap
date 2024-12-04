@@ -43,10 +43,7 @@ end;
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
 var
   ini : TIniFile;
-  EXE: string;
 begin
-  EXE := '';
-
   // Load config file
   {$IFDEF UNIX}
   HomeDir := GetEnvironmentVariable('HOME')+'/.config/aprsmap/';
@@ -69,8 +66,6 @@ begin
   Config^.IGateServer := ini.ReadString('IGATE', 'server', 'rotate.aprs.net');
   Config^.IGatePort := ini.ReadInteger('IGATE', 'port', 14580);
   Config^.IGatePassword := ini.ReadString('IGATE', 'password', '');
-
-
 end;
 
 
