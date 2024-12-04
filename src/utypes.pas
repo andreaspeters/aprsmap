@@ -8,6 +8,15 @@ uses
   Classes, SysUtils;
 
 type
+  { Icon Primary meaning
+    --------------------
+    TABLE    RESULT
+     &       RESERVED for possible AUXILLIARY tables (Aug 09)
+     /       Primary   symbol Table  (Mostly stations)
+     \       Alternate symbol table  (Mostly Objects)
+     0-9     Alternate OVERLAY symbols with 0-9 overlayed
+     A-Z     Alternate OVERLAY symbols with A-Z overlayed
+  }
 
   TAPRSMessage = record
     FromCall: String;
@@ -15,7 +24,7 @@ type
     Path: String;
     DataType: String;
     IconPrimary: String;
-    IconSecondary: String;
+    Icon: String;
     Longitude: Double;
     Latitude: Double;
     Message: String;

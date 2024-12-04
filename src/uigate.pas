@@ -184,7 +184,7 @@ begin
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
         APRSMessageObject.IconPrimary := Regex.Match[5];
-        APRSMessageObject.IconSecondary := Regex.Match[7];
+        APRSMessageObject.Icon := Regex.Match[7];
         APRSMessageObject.Message := Regex.Match[8];
       end;
       Result := APRSMessageObject;

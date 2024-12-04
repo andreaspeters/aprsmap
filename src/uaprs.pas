@@ -11,7 +11,7 @@ uses
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
-function GetImageIndex(const Symbol: String):Byte;
+function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 
 var
   APRSMessageList: TFPHashList;
@@ -26,7 +26,7 @@ begin
   poi.Longitude := Message^.Longitude;
   poi.Latitude := Message^.Latitude;
   poi.Caption := Message^.FromCall;
-  poi.ImageIndex := GetImageIndex(Message^.IconPrimary);
+  poi.ImageIndex := GetImageIndex(Message^.Icon, Message^.IconPrimary);
 end;
 
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
@@ -39,15 +39,27 @@ begin
   poi.ImageIndex := ImageIndex;
 end;
 
-function GetImageIndex(const Symbol: String):Byte;
+function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 var i: Byte;
 begin
   Result := 0;
-  for i := 1 to Length(APRSPrimarySymbolTable) do
+  for i := 0 to Length(APRSPrimarySymbolTable) do
   begin
     if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
     begin
       Result := i;
+      { Icon Primary meaning
+        --------------------
+        TABLE    RESULT
+         &       RESERVED for possible AUXILLIARY tables (Aug 09)
+         /       Primary   symbol Table  (Mostly stations)
+         \       Alternate symbol table  (Mostly Objects)
+         0-9     Alternate OVERLAY symbols with 0-9 overlayed
+         A-Z     Alternate OVERLAY symbols with A-Z overlayed
+      }
+
+      if IconPrimary = '\' then
+        Result := Result+94;
       Exit;
     end;
   end;

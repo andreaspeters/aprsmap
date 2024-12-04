@@ -108,7 +108,7 @@ begin
   IGate := TIGateThread.Create(@APRSConfig);
 
   PoILayer := (MVMap.Layers.Add as TMapLayer);
-  SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y'), MVMap.GPSItems);
+  SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y', '/'), MVMap.GPSItems);
   MyPosition := FindGPSItem(APRSConfig.Callsign);
   MVMap.CenterOnObj(MyPosition);
 end;
@@ -249,7 +249,7 @@ var poi: TGpsPoint;
 begin
   poi := TGpsPoint(FindGPSItem(msg.FromCall));
   km := poi.DistanceInKmFrom(TGpsPoint(MyPosition),False);
-  imageIndex := GetImageIndex(msg.IconPrimary);
+  imageIndex := GetImageIndex(msg.Icon, msg.IconPrimary);
   CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);
 end;
 
