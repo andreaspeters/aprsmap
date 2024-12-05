@@ -24,6 +24,9 @@ type
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
     MainMenu1: TMainMenu;
     MainMenu2: TMainMenu;
     MAPRSMessage: TMemo;
@@ -46,10 +49,11 @@ type
     Settings: TMenuItem;
     MIFileExit: TMenuItem;
     MVMap: TMapView;
-    PairSplitter1: TPairSplitter;
-    PairSplitterSide2: TPairSplitterSide;
     SBMain: TStatusBar;
     Settings1: TMenuItem;
+    STAltitude: TStaticText;
+    STSpeed: TStaticText;
+    STCourse: TStaticText;
     STLatitude: TStaticText;
     STLatitudeDMS: TStaticText;
     STLongitude: TStaticText;
@@ -191,6 +195,9 @@ begin
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
       STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
+      STAltitude.Caption := IntToStr(msg^.Altitude);
+      STCourse.Caption := IntToStr(msg^.Course);
+      STSpeed.Caption := IntToStr(msg^.Speed);
 
       MVMap.Zoom := 28;
       MVMap.CenterOnObj(FindGPSItem(PoILayer, call));

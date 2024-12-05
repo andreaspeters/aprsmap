@@ -1,7 +1,7 @@
 object FMain: TFMain
   Left = 75
   Height = 696
-  Top = 391
+  Top = 171
   Width = 1265
   Caption = 'APRSMap'
   ClientHeight = 696
@@ -38,11 +38,11 @@ object FMain: TFMain
   end
   object GroupBox1: TGroupBox
     Left = 968
-    Height = 664
+    Height = 126
     Top = 0
     Width = 289
-    Caption = 'Data'
-    ClientHeight = 638
+    Caption = 'Map'
+    ClientHeight = 100
     ClientWidth = 287
     Color = clForm
     ParentBackground = False
@@ -56,6 +56,8 @@ object FMain: TFMain
       Caption = 'Zoom'
     end
     object TBZoomMap: TTrackBar
+      AnchorSideRight.Control = GroupBox1
+      AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 57
       Top = 32
@@ -66,141 +68,9 @@ object FMain: TFMain
       ScalePos = trRight
       TickMarks = tmBoth
       TickStyle = tsManual
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 8
       TabOrder = 0
-    end
-    object GroupBox2: TGroupBox
-      Left = 8
-      Height = 376
-      Top = 88
-      Width = 271
-      Caption = 'PoI Details'
-      ClientHeight = 350
-      ClientWidth = 269
-      ParentBackground = False
-      TabOrder = 1
-      object Label2: TLabel
-        Left = 8
-        Height = 25
-        Top = 8
-        Width = 63
-        Caption = 'Callsign'
-      end
-      object Label3: TLabel
-        Left = 8
-        Height = 25
-        Top = 96
-        Width = 120
-        Caption = 'APRS Message'
-      end
-      object MAPRSMessage: TMemo
-        Left = 8
-        Height = 72
-        Top = 128
-        Width = 256
-        Font.Height = -15
-        Font.Name = 'Courier New'
-        Lines.Strings = (
-          ''
-        )
-        ParentFont = False
-        ReadOnly = True
-        ScrollBars = ssAutoVertical
-        TabOrder = 0
-      end
-      object Label4: TLabel
-        Left = 8
-        Height = 25
-        Top = 208
-        Width = 67
-        Caption = 'Latitude'
-      end
-      object Label5: TLabel
-        Left = 136
-        Height = 25
-        Top = 208
-        Width = 83
-        Caption = 'Longitude'
-      end
-      object STLatitude: TStaticText
-        AnchorSideTop.Control = Label4
-        AnchorSideTop.Side = asrBottom
-        Left = 8
-        Height = 32
-        Top = 233
-        Width = 112
-        Font.Height = -15
-        Font.Name = 'Sans'
-        ParentFont = False
-        TabOrder = 1
-      end
-      object STLongitude: TStaticText
-        AnchorSideTop.Control = Label5
-        AnchorSideTop.Side = asrBottom
-        Left = 135
-        Height = 32
-        Top = 233
-        Width = 129
-        Font.Height = -15
-        Font.Name = 'Sans'
-        ParentFont = False
-        TabOrder = 2
-      end
-      object STLongitudeDMS: TStaticText
-        AnchorSideTop.Control = STLongitude
-        AnchorSideTop.Side = asrBottom
-        Left = 135
-        Height = 32
-        Top = 265
-        Width = 129
-        Font.Height = -15
-        Font.Name = 'Sans'
-        ParentFont = False
-        TabOrder = 3
-      end
-      object STLatitudeDMS: TStaticText
-        AnchorSideTop.Control = STLatitude
-        AnchorSideTop.Side = asrBottom
-        Left = 8
-        Height = 32
-        Top = 265
-        Width = 112
-        Font.Height = -15
-        Font.Name = 'Sans'
-        ParentFont = False
-        TabOrder = 4
-      end
-    end
-    object PairSplitter1: TPairSplitter
-      Left = 93
-      Height = 90
-      Top = 543
-      Width = 90
-      Position = 1
-      object PairSplitterSide2: TPairSplitterSide
-        Cursor = crArrow
-        Left = 5
-        Height = 90
-        Top = 0
-        Width = 1
-      end
-      object TPairSplitterSide
-        Cursor = crArrow
-        Left = 6
-        Height = 90
-        Top = 0
-        Width = 84
-      end
-    end
-    object CBEPOIList: TComboBoxEx
-      Left = 16
-      Height = 41
-      Top = 152
-      Width = 256
-      Images = ImageList1
-      ItemHeight = 0
-      ItemsEx = <>
-      OnSelect = SelectPOI
-      TabOrder = 3
     end
   end
   object SBMain: TStatusBar
@@ -220,6 +90,208 @@ object FMain: TFMain
       end>
     SimplePanel = False
   end
+  object GroupBox2: TGroupBox
+    AnchorSideLeft.Control = MVMap
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = GroupBox1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = SBMain
+    Left = 968
+    Height = 537
+    Top = 126
+    Width = 289
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 8
+    BorderSpacing.Right = 8
+    BorderSpacing.Bottom = 6
+    Caption = 'PoI Details'
+    ClientHeight = 511
+    ClientWidth = 287
+    ParentBackground = False
+    TabOrder = 3
+    object Label2: TLabel
+      Left = 8
+      Height = 25
+      Top = 8
+      Width = 63
+      Caption = 'Callsign'
+    end
+    object Label3: TLabel
+      Left = 8
+      Height = 25
+      Top = 96
+      Width = 120
+      Caption = 'APRS Message'
+    end
+    object MAPRSMessage: TMemo
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 72
+      Top = 128
+      Width = 274
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Font.Height = -15
+      Font.Name = 'Courier New'
+      Lines.Strings = (
+        ''
+      )
+      ParentFont = False
+      ReadOnly = True
+      ScrollBars = ssAutoVertical
+      TabOrder = 0
+    end
+    object Label4: TLabel
+      Left = 8
+      Height = 25
+      Top = 208
+      Width = 67
+      Caption = 'Latitude'
+    end
+    object Label5: TLabel
+      Left = 153
+      Height = 25
+      Top = 208
+      Width = 83
+      Caption = 'Longitude'
+    end
+    object STLatitude: TStaticText
+      AnchorSideTop.Control = Label4
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 32
+      Top = 233
+      Width = 112
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 1
+    end
+    object STLongitude: TStaticText
+      AnchorSideTop.Control = Label5
+      AnchorSideTop.Side = asrBottom
+      Left = 153
+      Height = 32
+      Top = 233
+      Width = 129
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 2
+    end
+    object STLongitudeDMS: TStaticText
+      AnchorSideTop.Control = STLongitude
+      AnchorSideTop.Side = asrBottom
+      Left = 153
+      Height = 32
+      Top = 265
+      Width = 129
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 3
+    end
+    object STLatitudeDMS: TStaticText
+      AnchorSideTop.Control = STLatitude
+      AnchorSideTop.Side = asrBottom
+      Left = 8
+      Height = 32
+      Top = 265
+      Width = 112
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 4
+    end
+    object Label6: TLabel
+      Left = 8
+      Height = 25
+      Top = 312
+      Width = 94
+      Caption = 'Altitude (m)'
+    end
+    object STAltitude: TStaticText
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 153
+      Height = 32
+      Top = 312
+      Width = 129
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 5
+    end
+    object CBEPOIList: TComboBoxEx
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 8
+      Height = 41
+      Top = 40
+      Width = 274
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Images = ImageList1
+      ItemHeight = 0
+      ItemsEx = <>
+      OnSelect = SelectPOI
+      TabOrder = 6
+    end
+    object Label7: TLabel
+      Left = 8
+      Height = 25
+      Top = 352
+      Width = 136
+      Caption = 'Course/Direction'
+    end
+    object Label8: TLabel
+      Left = 8
+      Height = 25
+      Top = 392
+      Width = 111
+      Caption = 'Speed (Km/h)'
+    end
+    object STCourse: TStaticText
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 153
+      Height = 32
+      Top = 352
+      Width = 129
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 7
+    end
+    object STSpeed: TStaticText
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 152
+      Height = 32
+      Top = 392
+      Width = 130
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 8
+    end
+  end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184
     Top = 640
@@ -236,7 +308,7 @@ object FMain: TFMain
   end
   object MainMenu1: TMainMenu
     Left = 1104
-    Top = 640
+    Top = 632
     object MenuItem1: TMenuItem
       Caption = '&File'
       OnClick = FormDestroy

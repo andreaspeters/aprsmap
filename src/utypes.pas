@@ -27,6 +27,9 @@ type
     Icon: String;
     Longitude: Double;
     Latitude: Double;
+    Altitude: Integer;
+    Course: Integer;
+    Speed: Integer;
     Message: String;
     ID: Integer;
     Time: TTime;

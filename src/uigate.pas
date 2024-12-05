@@ -186,6 +186,9 @@ begin
         APRSMessageObject.IconPrimary := Regex.Match[5];
         APRSMessageObject.Icon := Regex.Match[7];
         APRSMessageObject.Message := Regex.Match[8];
+        APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
+        APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
+        APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
         APRSMessageObject.Time := now();
         APRSMessageObject.Track := False;
       end;

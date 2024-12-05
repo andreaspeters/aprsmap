@@ -6,7 +6,7 @@ msgid "APRSMap"
 msgstr ""
 
 #: tfmain.groupbox1.caption
-msgid "Data"
+msgid "Map"
 msgstr ""
 
 #: tfmain.groupbox2.caption
@@ -31,6 +31,18 @@ msgstr ""
 
 #: tfmain.label5.caption
 msgid "Longitude"
+msgstr ""
+
+#: tfmain.label6.caption
+msgid "Altitude (m)"
+msgstr ""
+
+#: tfmain.label7.caption
+msgid "Course/Direction"
+msgstr ""
+
+#: tfmain.label8.caption
+msgid "Speed (Km/h)"
 msgstr ""
 
 #: tfmain.menuitem1.caption

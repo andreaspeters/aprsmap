@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
-  mvGPSObj, Contnrs, mvMapViewer, mvTypes;
+  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
@@ -15,6 +15,9 @@ procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Lon
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
+function GetAltitude(const Text: String):Integer;
+function GetCourse(const Text: String):Integer;
+function GetSpeed(const Text: String):Integer;
 
 var
   APRSMessageList: TFPHashList;
@@ -138,6 +141,56 @@ begin
   end;
 end;
 
+function GetAltitude(const Text: String):Integer;
+var Regex: TRegExpr;
+begin
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^.*A=(\d{6}).*$';
+    Regex.ModifierI := True;
+    if Regex.Exec(Text) then
+    begin
+      Result := Round(StrToInt(Regex.Match[1])*0.3048);
+      Exit;
+    end;
+  except
+  end;
+  Result := 0;
+end;
+
+function GetCourse(const Text: String):Integer;
+var Regex: TRegExpr;
+begin
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^(\d{3})\/(\d{3}).*$';
+    Regex.ModifierI := True;
+    if Regex.Exec(Text) then
+    begin
+      Result := StrToInt(Regex.Match[1]);
+      Exit;
+    end;
+  except
+  end;
+  Result := 0;
+end;
+
+function GetSpeed(const Text: String):Integer;
+var Regex: TRegExpr;
+begin
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^(\d{3})\/(\d{3}).*$';
+    Regex.ModifierI := True;
+    if Regex.Exec(Text) then
+    begin
+      Result := Round(StrToInt(Regex.Match[2])*1.85);
+      Exit;
+    end;
+  except
+  end;
+  Result := 0;
+end;
 
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 var
