@@ -28,8 +28,9 @@ type
     Longitude: Double;
     Latitude: Double;
     Message: String;
-    Time: String;
     ID: Integer;
+    Time: TTime;
+    Track: Boolean;
   end;
 
   TAPRSConfig = record

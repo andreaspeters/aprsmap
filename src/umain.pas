@@ -61,6 +61,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
+    procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
@@ -68,8 +70,9 @@ type
     procedure TBZoomMapChange(Sender: TObject);
     procedure TMainLoopTimer(Sender: TObject);
     procedure AddCombobox(const msg: TAPRSMessage);
+    procedure DeleteCombobox(const Call: String);
+    procedure DelPoiByAge;
   private
-    function FindGPSItem(const Call: String):TGPSObj;
   public
 
   end;
@@ -109,7 +112,7 @@ begin
 
   PoILayer := (MVMap.Layers.Add as TMapLayer);
   SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y', '/'), MVMap.GPSItems);
-  MyPosition := FindGPSItem(APRSConfig.Callsign);
+  MyPosition := FindGPSItem(PoILayer, APRSConfig.Callsign);
   MVMap.CenterOnObj(MyPosition);
 end;
 
@@ -137,6 +140,29 @@ begin
   Close;
 end;
 
+procedure TFMain.MVMapMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+var poi: TPointOfInterest;
+    i, count, curZoom: Integer;
+begin
+  poi := FindGPSItem(PoILayer, x, y);
+  if poi <> nil then
+  begin
+    count := CBEPOIList.ItemsEx.Count;
+    for i:= 0 to count - 1 do
+    begin
+      if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = poi.Caption then
+      begin
+        curZoom := MVMap.Zoom;
+        CBEPOIList.ItemIndex := i;
+        SelectPOI(Sender);
+        MVMap.Zoom := curZoom;
+        Break;
+      end;
+   end;
+ end;
+end;
+
 procedure TFMain.MVMapZoomChange(Sender: TObject);
 var i: Byte;
 begin
@@ -151,37 +177,25 @@ end;
 
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
-    i, count: Integer;
     call: String;
 begin
-  MAPRSMessage.Lines.Clear;
+  try
+    MAPRSMessage.Lines.Clear;
 
-  call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
-  msg := APRSMessageList.Find(call);
-  if msg <> nil then
-  begin
-    MAPRSMessage.Lines.Add(msg^.Message);
-    STLatitude.Caption := LatToStr(msg^.Latitude, False);
-    STLongitude.Caption := LonToStr(msg^.Longitude, False);
-    STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
-    STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
-
-    MVMap.Zoom := 28;
-    MVMap.CenterOnObj(FindGPSItem(call));
-  end;
-end;
-
-function TFMain.FindGPSItem(const Call: String):TGPSObj;
-var i, count: Integer;
-begin
-  count := PoILayer.PointsOfInterest.Count;
-  for i := 0 to count - 1 do
-  begin
-    if PoILayer.PointsOfInterest[i].Caption = Call then
+    call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+    msg := APRSMessageList.Find(call);
+    if msg <> nil then
     begin
-      Result := PoILayer.PointsOfInterest[i].GPSObj;
-      Exit;
+      MAPRSMessage.Lines.Add(msg^.Message);
+      STLatitude.Caption := LatToStr(msg^.Latitude, False);
+      STLongitude.Caption := LonToStr(msg^.Longitude, False);
+      STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
+      STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
+
+      MVMap.Zoom := 28;
+      MVMap.CenterOnObj(FindGPSItem(PoILayer, call));
     end;
+  except
   end;
 end;
 
@@ -191,8 +205,8 @@ var
   p: TRealPoint;
 begin
   p := MVMap.ScreenToLatLon(Point(X, Y));
-  SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(P.Lon, False);
-  SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(P.Lat, False);
+  SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(p.Lon, False);
+  SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(p.Lat, False);
 end;
 
 procedure TFMain.TBZoomMapChange(Sender: TObject);
@@ -200,6 +214,28 @@ begin
   MVMap.Zoom := TBZoomMap.Position;
 end;
 
+
+procedure TFMain.DelPoiByAge;
+var i, count: Integer;
+    curTime: TTime;
+    msg: PAPRSMessage;
+begin
+  curTime := now();
+  count := PoiLayer.PointsOfInterest.Count;
+  for i := 1 to count - 1 do
+  begin
+    msg := APRSMessageList.Find(PoILayer.PointsOfInterest.Items[i].Caption);
+    if msg <> nil then
+    begin
+      if Frac(curTime - msg^.Time)*1440 > 5 then
+      begin
+        DeleteCombobox(msg^.FromCall);
+        APRSMessageList.Remove(msg);
+        PoILayer.PointsOfInterest.Delete(i);
+      end;
+    end;
+  end;
+end;
 
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
@@ -210,20 +246,29 @@ begin
   if APRSConfig.IGateEnabled then
   begin
     try
+      DelPoIByAge;
       buffer := IGate.APRSBuffer;
       IGate.APRSBuffer := '';
       msg := IGate.DecodeAPRSMessage(buffer);
 
       if Length(msg.FromCall) > 0 then
       begin
+        New(newMSG);
+        newMSG^ := msg;
+
         if APRSMessageList.Find(msg.FromCall) = nil then
         begin
-          New(newMSG);
-          newMSG^ := msg;
-
+          // create a new poi
           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
           AddCombobox(msg);
-          APRSMessageList.Add(msg.FromCall, newMSG);
+          MVMap.Refresh;
+        end
+        else
+        begin
+          // update poi data
+          DelPoI(PoILayer, msg.FromCall);
+          SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+          MVMap.Refresh;
         end;
         //WriteLn('Source: ', msg.FromCall);
         //WriteLn('Destination: ', msg.ToCall);
@@ -242,13 +287,26 @@ begin
   end;
 end;
 
+procedure TFMain.DeleteCombobox(const Call: String);
+var i, count: Integer;
+begin
+  count := CBEPOIList.ItemsEx.Count;
+  for i:= 0 to count - 1 do
+  begin
+    if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = Call then
+    begin
+      CBEPOIList.ItemsEx.Delete(i);
+      Exit;
+    end;
+  end;
+end;
 
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
 var poi: TGpsPoint;
     km: Double;
     imageIndex: Byte;
 begin
-  poi := TGpsPoint(FindGPSItem(msg.FromCall));
+  poi := TGpsPoint(FindGPSItem(PoILayer, msg.FromCall));
   km := poi.DistanceInKmFrom(TGpsPoint(MyPosition),False);
   imageIndex := GetImageIndex(msg.Icon, msg.IconPrimary);
   CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);

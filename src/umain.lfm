@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 273
-  Height = 704
-  Top = 224
+  Left = 75
+  Height = 696
+  Top = 391
   Width = 1265
   Caption = 'APRSMap'
-  ClientHeight = 704
+  ClientHeight = 696
   ClientWidth = 1265
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -31,8 +31,9 @@ object FMain: TFMain
     POIImagesWidth = 16
     POITextBgColor = clWhite
     UseThreads = True
-    Zoom = 15
+    Zoom = 13
     OnZoomChange = MVMapZoomChange
+    OnMouseDown = MVMapMouseDown
     OnMouseMove = ShowMapMousePosition
   end
   object GroupBox1: TGroupBox
@@ -205,7 +206,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 677
+    Top = 669
     Width = 1265
     Panels = <    
       item
@@ -221,22 +222,21 @@ object FMain: TFMain
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1184
-    Top = 664
+    Top = 640
   end
   object MVDEFPC1: TMVDEFPC
     ProxyPort = 0
     Left = 1224
-    Top = 664
+    Top = 640
   end
   object TMainLoop: TTimer
-    Interval = 2000
     OnTimer = TMainLoopTimer
     Left = 1144
-    Top = 664
+    Top = 640
   end
   object MainMenu1: TMainMenu
     Left = 1104
-    Top = 664
+    Top = 640
     object MenuItem1: TMenuItem
       Caption = '&File'
       OnClick = FormDestroy
@@ -263,7 +263,7 @@ object FMain: TFMain
   end
   object ImageList1: TImageList
     Left = 1064
-    Top = 664
+    Top = 640
     Bitmap = {
       4C7AC000000010000000100000006A2900000000000078DAED9D2B58333DD380
       2B5FF9D957221F89452291486CC52790884F609148642DF29148646D6565C52F

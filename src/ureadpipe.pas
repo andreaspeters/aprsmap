@@ -111,11 +111,13 @@ end;
 function TReadPipeThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     Lat, Lon: Double;
+const
+    PositionType = '!=/@zh';
 begin
   Regex := TRegExpr.Create;
   try
     //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
-    Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*!(\d{4}\.\d{2}\w.*)$';
+    Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!|=|\/@|z|h]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
@@ -128,18 +130,20 @@ begin
       // Time: String
       APRSMessageObject.FromCall := Trim(Regex.Match[1]);
       APRSMessageObject.ToCall := Trim(Regex.Match[2]);
-      APRSMessageObject.Path := Regex.Match[3];
+      APRSMessageObject.DataType := Regex.Match[3];
 
-      Regex.Expression := '^(\d{4}\.\d{2}\w)\w(\d{5}\.\d{2}\w)(\w)(.+)$';
-      if Regex.Exec(Regex.Match[4]) then
+      if Pos(APRSMessageObject.DataType, PositionType) > 0 then
       begin
-        ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[2], Lat, Lon, 10);
+        ConvertNMEAToLatLong(Regex.Match[4], Regex.Match[6], Lat, Lon, 1);
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
-        APRSMessageObject.Message := Regex.Match[4];
-
-        Result := APRSMessageObject;
+        APRSMessageObject.IconPrimary := Regex.Match[5];
+        APRSMessageObject.Icon := Regex.Match[7];
+        APRSMessageObject.Message := Regex.Match[8];
+        APRSMessageObject.Time := now();
+        APRSMessageObject.Track := False;
       end;
+      Result := APRSMessageObject;
     end;
   finally
     Regex.Free;
