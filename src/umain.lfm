@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 211
-  Height = 823
-  Top = 170
+  Left = 570
+  Height = 790
+  Top = 588
   Width = 1290
   Caption = 'APRSMap'
-  ClientHeight = 823
+  ClientHeight = 790
   ClientWidth = 1290
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -80,7 +80,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 796
+    Top = 763
     Width = 1290
     Panels = <    
       item
@@ -103,7 +103,7 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
     Left = 968
-    Height = 664
+    Height = 631
     Top = 126
     Width = 314
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -111,7 +111,7 @@ object FMain: TFMain
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 638
+    ClientHeight = 605
     ClientWidth = 312
     ParentBackground = False
     TabOrder = 3
@@ -156,7 +156,7 @@ object FMain: TFMain
       Caption = 'Latitude'
     end
     object Label5: TLabel
-      Left = 153
+      Left = 155
       Height = 25
       Top = 208
       Width = 83
@@ -178,7 +178,7 @@ object FMain: TFMain
     object STLongitude: TStaticText
       AnchorSideTop.Control = Label5
       AnchorSideTop.Side = asrBottom
-      Left = 153
+      Left = 155
       Height = 32
       Top = 233
       Width = 139
@@ -191,7 +191,7 @@ object FMain: TFMain
     object STLongitudeDMS: TStaticText
       AnchorSideTop.Control = STLongitude
       AnchorSideTop.Side = asrBottom
-      Left = 153
+      Left = 155
       Height = 25
       Top = 265
       Width = 139
@@ -268,10 +268,10 @@ object FMain: TFMain
     object STCourse: TStaticText
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 154
+      Left = 155
       Height = 25
       Top = 344
-      Width = 153
+      Width = 152
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Font.Color = clHighlight
@@ -326,7 +326,7 @@ object FMain: TFMain
       TabOrder = 9
     end
     object Label11: TLabel
-      Left = 156
+      Left = 155
       Height = 25
       Top = 456
       Width = 86
@@ -336,15 +336,15 @@ object FMain: TFMain
       Left = 10
       Height = 25
       Top = 496
-      Width = 38
-      Caption = 'Gain'
+      Width = 75
+      Caption = 'Gain (dB)'
     end
     object Label13: TLabel
       Left = 155
       Height = 25
       Top = 496
-      Width = 80
-      Caption = 'Directivity'
+      Width = 95
+      Caption = 'Direction (°)'
     end
     object STPower: TStaticText
       Left = 99
