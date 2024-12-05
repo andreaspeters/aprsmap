@@ -30,6 +30,10 @@ type
     Altitude: Integer;
     Course: Integer;
     Speed: Integer;
+    PHGPower: Byte;
+    PHGHeight: Integer;
+    PHGGain: Byte;
+    PHGDirectivity: String;
     Message: String;
     ID: Integer;
     Time: TTime;
@@ -52,9 +56,69 @@ type
     Description: String;   // Beschreibung des Symbols
   end;
 
+  TPHGCode = record
+    Code: Byte;
+    Value: String;
+  end;
+
+  ArrayOfPHGCode = array[0..9] of TPHGCode;
   PAPRSMessage = ^TAPRSMessage;
 
 const
+  PHGPowerCodeTable: ArrayOfPHGCode = (
+    (Code: 0; Value: '0'),
+    (Code: 1; Value: '1'),
+    (Code: 2; Value: '4'),
+    (Code: 3; Value: '9'),
+    (Code: 4; Value: '16'),
+    (Code: 5; Value: '25'),
+    (Code: 6; Value: '36'),
+    (Code: 7; Value: '49'),
+    (Code: 8; Value: '64'),
+    (Code: 9; Value: '81')
+  );
+
+  PHGHeightCodeTable: ArrayOfPHGCode = (
+    (Code: 0; Value: '10'),
+    (Code: 1; Value: '20'),
+    (Code: 2; Value: '40'),
+    (Code: 3; Value: '80'),
+    (Code: 4; Value: '160'),
+    (Code: 5; Value: '320'),
+    (Code: 6; Value: '640'),
+    (Code: 7; Value: '1280'),
+    (Code: 8; Value: '2560'),
+    (Code: 9; Value: '5120')
+  );
+
+  PHGGainCodeTable: ArrayOfPHGCode = (
+    (Code: 0; Value: '0'),
+    (Code: 1; Value: '1'),
+    (Code: 2; Value: '2'),
+    (Code: 3; Value: '3'),
+    (Code: 4; Value: '4'),
+    (Code: 5; Value: '5'),
+    (Code: 6; Value: '6'),
+    (Code: 7; Value: '7'),
+    (Code: 8; Value: '8'),
+    (Code: 9; Value: '9')
+  );
+
+  PHGDirectivityCodeTable: ArrayOfPHGCode = (
+    (Code: 0; Value: 'omni'),
+    (Code: 1; Value: '45 NE'),
+    (Code: 2; Value: '90 E'),
+    (Code: 3; Value: '135 SE'),
+    (Code: 4; Value: '180 S'),
+    (Code: 5; Value: '225 SW'),
+    (Code: 6; Value: '270 W'),
+    (Code: 7; Value: '315 NW'),
+    (Code: 8; Value: '360 N'),
+    (Code: 8; Value: '')
+  );
+
+
+
   APRSPrimarySymbolTable: array[1..90] of TAPRSSymbol = (
     (SymbolChar: '!'; Description: 'Police, Sheriff, Law Enforcement'),
     (SymbolChar: '"'; Description: 'Reserved (obsolete)'),

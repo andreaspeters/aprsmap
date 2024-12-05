@@ -189,6 +189,10 @@ begin
         APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
         APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
         APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
+        APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
+        APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
+        APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
+        APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
         APRSMessageObject.Time := now();
         APRSMessageObject.Track := False;
       end;

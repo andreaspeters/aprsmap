@@ -17,6 +17,22 @@ msgstr ""
 msgid "Zoom"
 msgstr ""
 
+#: tfmain.label10.caption
+msgid "PHG"
+msgstr ""
+
+#: tfmain.label11.caption
+msgid "Height (m)"
+msgstr ""
+
+#: tfmain.label12.caption
+msgid "Gain"
+msgstr ""
+
+#: tfmain.label13.caption
+msgid "Directivity"
+msgstr ""
+
 #: tfmain.label2.caption
 msgid "Callsign"
 msgstr ""
@@ -42,7 +58,11 @@ msgid "Course/Direction"
 msgstr ""
 
 #: tfmain.label8.caption
-msgid "Speed (Km/h)"
+msgid "Speed (km/h)"
+msgstr ""
+
+#: tfmain.label9.caption
+msgid "Power (w)"
 msgstr ""
 
 #: tfmain.menuitem1.caption
@@ -63,6 +83,10 @@ msgstr ""
 
 #: tfmain.mifileexit.caption
 msgid "E&xit"
+msgstr ""
+
+#: tfmain.panel1.caption
+msgid "Panel1"
 msgstr ""
 
 #: tfmain.settings.caption

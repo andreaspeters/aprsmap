@@ -141,6 +141,10 @@ begin
         APRSMessageObject.Icon := Regex.Match[7];
         APRSMessageObject.Message := Regex.Match[8];
         APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
+        APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
+        APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
+        APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
+        APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
         APRSMessageObject.Time := now();
         APRSMessageObject.Track := False;
       end;

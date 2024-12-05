@@ -1,11 +1,11 @@
 object FMain: TFMain
-  Left = 75
-  Height = 696
-  Top = 171
-  Width = 1265
+  Left = 211
+  Height = 823
+  Top = 170
+  Width = 1290
   Caption = 'APRSMap'
-  ClientHeight = 696
-  ClientWidth = 1265
+  ClientHeight = 823
+  ClientWidth = 1290
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
   OnCreate = FMainInit
@@ -17,7 +17,7 @@ object FMain: TFMain
   object MVMap: TMapView
     Cursor = crHandPoint
     Left = 8
-    Height = 656
+    Height = 784
     Top = 8
     Width = 952
     Active = True
@@ -37,13 +37,17 @@ object FMain: TFMain
     OnMouseMove = ShowMapMousePosition
   end
   object GroupBox1: TGroupBox
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     Left = 968
     Height = 126
     Top = 0
-    Width = 289
+    Width = 314
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Right = 8
     Caption = 'Map'
     ClientHeight = 100
-    ClientWidth = 287
+    ClientWidth = 312
     Color = clForm
     ParentBackground = False
     ParentColor = False
@@ -61,7 +65,7 @@ object FMain: TFMain
       Left = 8
       Height = 57
       Top = 32
-      Width = 271
+      Width = 296
       Max = 20
       OnChange = TBZoomMapChange
       Position = 0
@@ -76,8 +80,8 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 669
-    Width = 1265
+    Top = 796
+    Width = 1290
     Panels = <    
       item
         Width = 200
@@ -99,16 +103,16 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
     Left = 968
-    Height = 537
+    Height = 664
     Top = 126
-    Width = 289
+    Width = 314
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 8
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 511
-    ClientWidth = 287
+    ClientHeight = 638
+    ClientWidth = 312
     ParentBackground = False
     TabOrder = 3
     object Label2: TLabel
@@ -131,7 +135,7 @@ object FMain: TFMain
       Left = 8
       Height = 72
       Top = 128
-      Width = 274
+      Width = 299
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Font.Height = -15
@@ -164,7 +168,7 @@ object FMain: TFMain
       Left = 8
       Height = 32
       Top = 233
-      Width = 112
+      Width = 131
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -177,7 +181,7 @@ object FMain: TFMain
       Left = 153
       Height = 32
       Top = 233
-      Width = 129
+      Width = 139
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -188,9 +192,9 @@ object FMain: TFMain
       AnchorSideTop.Control = STLongitude
       AnchorSideTop.Side = asrBottom
       Left = 153
-      Height = 32
+      Height = 25
       Top = 265
-      Width = 129
+      Width = 139
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -201,9 +205,9 @@ object FMain: TFMain
       AnchorSideTop.Control = STLatitude
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 32
+      Height = 25
       Top = 265
-      Width = 112
+      Width = 131
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -211,19 +215,19 @@ object FMain: TFMain
       TabOrder = 4
     end
     object Label6: TLabel
-      Left = 8
+      Left = 10
       Height = 25
-      Top = 312
+      Top = 304
       Width = 94
       Caption = 'Altitude (m)'
     end
     object STAltitude: TStaticText
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 153
-      Height = 32
-      Top = 312
-      Width = 129
+      Left = 155
+      Height = 25
+      Top = 304
+      Width = 152
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Font.Color = clHighlight
@@ -238,7 +242,7 @@ object FMain: TFMain
       Left = 8
       Height = 41
       Top = 40
-      Width = 274
+      Width = 299
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Images = ImageList1
@@ -248,26 +252,26 @@ object FMain: TFMain
       TabOrder = 6
     end
     object Label7: TLabel
-      Left = 8
+      Left = 9
       Height = 25
-      Top = 352
+      Top = 344
       Width = 136
       Caption = 'Course/Direction'
     end
     object Label8: TLabel
-      Left = 8
+      Left = 9
       Height = 25
-      Top = 392
-      Width = 111
-      Caption = 'Speed (Km/h)'
+      Top = 384
+      Width = 109
+      Caption = 'Speed (km/h)'
     end
     object STCourse: TStaticText
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 153
-      Height = 32
-      Top = 352
-      Width = 129
+      Left = 154
+      Height = 25
+      Top = 344
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Font.Color = clHighlight
@@ -279,10 +283,10 @@ object FMain: TFMain
     object STSpeed: TStaticText
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 152
-      Height = 32
-      Top = 392
-      Width = 130
+      Left = 154
+      Height = 25
+      Top = 384
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       Font.Color = clHighlight
@@ -291,24 +295,119 @@ object FMain: TFMain
       ParentFont = False
       TabOrder = 8
     end
+    object Label9: TLabel
+      Left = 10
+      Height = 25
+      Top = 456
+      Width = 80
+      Caption = 'Power (w)'
+    end
+    object Label10: TLabel
+      Left = 11
+      Height = 23
+      Top = 424
+      Width = 34
+      Caption = 'PHG'
+      Font.Height = -16
+      Font.Name = 'Sans'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Panel1: TPanel
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 10
+      Height = 1
+      Top = 448
+      Width = 297
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Right = 5
+      Caption = 'Panel1'
+      TabOrder = 9
+    end
+    object Label11: TLabel
+      Left = 156
+      Height = 25
+      Top = 456
+      Width = 86
+      Caption = 'Height (m)'
+    end
+    object Label12: TLabel
+      Left = 10
+      Height = 25
+      Top = 496
+      Width = 38
+      Caption = 'Gain'
+    end
+    object Label13: TLabel
+      Left = 155
+      Height = 25
+      Top = 496
+      Width = 80
+      Caption = 'Directivity'
+    end
+    object STPower: TStaticText
+      Left = 99
+      Height = 25
+      Top = 456
+      Width = 48
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 10
+    end
+    object STHeight: TStaticText
+      Left = 250
+      Height = 25
+      Top = 456
+      Width = 55
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 11
+    end
+    object STGain: TStaticText
+      Left = 99
+      Height = 25
+      Top = 496
+      Width = 45
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 12
+    end
+    object STDirectivity: TStaticText
+      Left = 250
+      Height = 25
+      Top = 496
+      Width = 53
+      Font.Color = clHighlight
+      Font.Height = -15
+      Font.Name = 'Sans'
+      ParentFont = False
+      TabOrder = 13
+    end
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
-    Left = 1184
-    Top = 640
+    Left = 1176
+    Top = 24
   end
   object MVDEFPC1: TMVDEFPC
     ProxyPort = 0
-    Left = 1224
-    Top = 640
+    Left = 1216
+    Top = 24
   end
   object TMainLoop: TTimer
     OnTimer = TMainLoopTimer
-    Left = 1144
-    Top = 640
+    Left = 1136
+    Top = 24
   end
   object MainMenu1: TMainMenu
-    Left = 1104
-    Top = 632
+    Left = 1096
+    Top = 24
     object MenuItem1: TMenuItem
       Caption = '&File'
       OnClick = FormDestroy
@@ -334,8 +433,8 @@ object FMain: TFMain
     end
   end
   object ImageList1: TImageList
-    Left = 1064
-    Top = 640
+    Left = 1056
+    Top = 24
     Bitmap = {
       4C7AC000000010000000100000006A2900000000000078DAED9D2B58333DD380
       2B5FF9D957221F89452291486CC52790884F609148642DF29148646D6565C52F

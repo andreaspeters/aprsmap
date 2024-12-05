@@ -20,6 +20,10 @@ type
     GroupBox2: TGroupBox;
     ImageList1: TImageList;
     Label1: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -27,6 +31,7 @@ type
     Label6: TLabel;
     Label7: TLabel;
     Label8: TLabel;
+    Label9: TLabel;
     MainMenu1: TMainMenu;
     MainMenu2: TMainMenu;
     MAPRSMessage: TMemo;
@@ -44,6 +49,7 @@ type
     MvBGRADrawingEngine3: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
     MVDEFPC2: TMVDEFPC;
+    Panel1: TPanel;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -52,6 +58,10 @@ type
     SBMain: TStatusBar;
     Settings1: TMenuItem;
     STAltitude: TStaticText;
+    STDirectivity: TStaticText;
+    STGain: TStaticText;
+    STHeight: TStaticText;
+    STPower: TStaticText;
     STSpeed: TStaticText;
     STCourse: TStaticText;
     STLatitude: TStaticText;
@@ -198,9 +208,12 @@ begin
       STAltitude.Caption := IntToStr(msg^.Altitude);
       STCourse.Caption := IntToStr(msg^.Course);
       STSpeed.Caption := IntToStr(msg^.Speed);
+      STPower.Caption := IntToStr(msg^.PHGPower);
+      STHeight.Caption := IntToStr(msg^.PHGHeight);
+      STGain.Caption := IntToStr(msg^.PHGGain);
+      STDirectivity.Caption := msg^.PHGDirectivity;
 
       MVMap.Zoom := 28;
-      MVMap.CenterOnObj(FindGPSItem(PoILayer, call));
     end;
   except
   end;
