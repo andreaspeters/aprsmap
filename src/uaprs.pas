@@ -18,11 +18,15 @@ function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
 function GetAltitude(const Text: String):Integer;
 function GetCourse(const Text: String):Integer;
 function GetSpeed(const Text: String):Integer;
+function GetDFSStrength(const Text: String):Integer;
+function GetDFSHeight(const Text: String):Integer;
+function GetDFSGain(const Text: String):Integer;
+function GetDFSDirectivity(const Text: String):String;
 function GetPHGPower(const Text: String):Integer;
 function GetPHGHeight(const Text: String):Integer;
 function GetPHGGain(const Text: String):Integer;
 function GetPHGDirectivity(const Text: String):String;
-function GetPHG(const Text: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
+function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
 
 var
   APRSMessageList: TFPHashList;
@@ -199,11 +203,47 @@ begin
   Result := 0;
 end;
 
+function GetDFSStrength(const Text: String):Integer;
+var res: String;
+begin
+  Result := 0;
+  res := GetAPRSDataExtension(Text, 'DFS', 1, PHGPowerCodeTable);
+  if Length(res) > 0 then
+    Result := StrToInt(res);
+end;
+
+function GetDFSHeight(const Text: String):Integer;
+var res: String;
+begin
+  Result := 0;
+  res := GetAPRSDataExtension(Text, 'DFS', 2, PHGHeightCodeTable);
+  if Length(res) > 0 then
+    Result := Round(StrToInt(res)*0.3048);
+end;
+
+function GetDFSGain(const Text: String):Integer;
+var res: String;
+begin
+  Result := 0;
+  res := GetAPRSDataExtension(Text, 'DFS', 3, PHGGainCodeTable);
+  if Length(res) > 0 then
+    Result := StrToInt(res);
+end;
+
+function GetDFSDirectivity(const Text: String):String;
+var res: String;
+begin
+  Result := '';
+  res := GetAPRSDataExtension(Text, 'DFS', 4, PHGDirectivityCodeTable);
+  if Length(res) > 0 then
+    Result := res;
+end;
+
 function GetPHGPower(const Text: String):Integer;
 var res: String;
 begin
   Result := 0;
-  res := GetPHG(Text, 2, PHGPowerCodeTable);
+  res := GetAPRSDataExtension(Text, 'PHG', 1, PHGPowerCodeTable);
   if Length(res) > 0 then
     Result := StrToInt(res);
 end;
@@ -212,7 +252,7 @@ function GetPHGHeight(const Text: String):Integer;
 var res: String;
 begin
   Result := 0;
-  res := GetPHG(Text, 2, PHGHeightCodeTable);
+  res := GetAPRSDataExtension(Text, 'PHG', 2, PHGHeightCodeTable);
   if Length(res) > 0 then
     Result := Round(StrToInt(res)*0.3048);
 end;
@@ -221,7 +261,7 @@ function GetPHGGain(const Text: String):Integer;
 var res: String;
 begin
   Result := 0;
-  res := GetPHG(Text, 3, PHGGainCodeTable);
+  res := GetAPRSDataExtension(Text, 'PHG', 3, PHGGainCodeTable);
   if Length(res) > 0 then
     Result := StrToInt(res);
 end;
@@ -230,12 +270,12 @@ function GetPHGDirectivity(const Text: String):String;
 var res: String;
 begin
   Result := '';
-  res := GetPHG(Text, 4, PHGDirectivityCodeTable);
+  res := GetAPRSDataExtension(Text, 'PHG', 4, PHGDirectivityCodeTable);
   if Length(res) > 0 then
     Result := res;
 end;
 
-function GetPHG(const Text: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
+function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
 var Regex: TRegExpr;
     count: Integer;
     i: Byte;
@@ -244,7 +284,7 @@ begin
   Result := '';
   Regex := TRegExpr.Create;
   try
-    Regex.Expression := '^PHG(\d)(\d)(\d)(\d).*$';
+    Regex.Expression := '^'+Search+'(\d)(\d)(\d)(\d).*$';
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin

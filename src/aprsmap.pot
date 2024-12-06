@@ -22,15 +22,46 @@ msgid "PHG"
 msgstr ""
 
 #: tfmain.label11.caption
+msgctxt "tfmain.label11.caption"
 msgid "Height (m)"
 msgstr ""
 
 #: tfmain.label12.caption
-msgid "Gain"
+msgctxt "tfmain.label12.caption"
+msgid "Gain (dB)"
 msgstr ""
 
 #: tfmain.label13.caption
-msgid "Directivity"
+msgctxt "tfmain.label13.caption"
+msgid "Direction (°)"
+msgstr ""
+
+#: tfmain.label14.caption
+msgid "DFS"
+msgstr ""
+
+#: tfmain.label15.caption
+msgid "Strength"
+msgstr ""
+
+#: tfmain.label16.caption
+msgctxt "tfmain.label16.caption"
+msgid "Height (m)"
+msgstr ""
+
+#: tfmain.label17.caption
+msgctxt "tfmain.label17.caption"
+msgid "Gain (dB)"
+msgstr ""
+
+#: tfmain.label18.caption
+msgctxt "tfmain.label18.caption"
+msgid "Height (m)"
+msgstr ""
+
+#: tfmain.label19.caption
+msgctxt "tfmain.label19.caption"
+msgid "Direction (°)"
 msgstr ""
 
 #: tfmain.label2.caption
@@ -87,6 +118,10 @@ msgstr ""
 
 #: tfmain.panel1.caption
 msgid "Panel1"
+msgstr ""
+
+#: tfmain.panel2.caption
+msgid "Panel2"
 msgstr ""
 
 #: tfmain.settings.caption

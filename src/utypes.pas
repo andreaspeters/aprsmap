@@ -34,6 +34,10 @@ type
     PHGHeight: Integer;
     PHGGain: Byte;
     PHGDirectivity: String;
+    DFSStrength: Byte;
+    DFSHeight: Integer;
+    DFSGain: Byte;
+    DFSDirectivity: String;
     Message: String;
     ID: Integer;
     Time: TTime;
@@ -117,7 +121,18 @@ const
     (Code: 8; Value: '')
   );
 
-
+  DFSStrengthCodeTable: ArrayOfPHGCode = (
+    (Code: 0; Value: '0'),
+    (Code: 1; Value: '1'),
+    (Code: 2; Value: '2'),
+    (Code: 3; Value: '3'),
+    (Code: 4; Value: '4'),
+    (Code: 5; Value: '5'),
+    (Code: 6; Value: '6'),
+    (Code: 7; Value: '7'),
+    (Code: 8; Value: '8'),
+    (Code: 9; Value: '9')
+  );
 
   APRSPrimarySymbolTable: array[1..90] of TAPRSSymbol = (
     (SymbolChar: '!'; Description: 'Police, Sheriff, Law Enforcement'),
