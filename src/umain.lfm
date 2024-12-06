@@ -1,11 +1,11 @@
 object FMain: TFMain
-  Left = 234
-  Height = 912
-  Top = 282
-  Width = 1290
+  Left = -82
+  Height = 909
+  Top = 618
+  Width = 1575
   Caption = 'APRSMap'
-  ClientHeight = 912
-  ClientWidth = 1290
+  ClientHeight = 909
+  ClientWidth = 1575
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
   OnCreate = FMainInit
@@ -42,12 +42,12 @@ object FMain: TFMain
     Left = 968
     Height = 126
     Top = 0
-    Width = 314
-    Anchors = [akTop, akLeft, akRight]
+    Width = 599
+    Anchors = [akTop, akRight]
     BorderSpacing.Right = 8
     Caption = 'Map'
     ClientHeight = 100
-    ClientWidth = 312
+    ClientWidth = 597
     Color = clForm
     ParentBackground = False
     ParentColor = False
@@ -64,15 +64,14 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 57
-      Top = 32
-      Width = 296
+      Top = 24
+      Width = 286
       Max = 20
       OnChange = TBZoomMapChange
       Position = 0
       ScalePos = trRight
       TickMarks = tmBoth
       TickStyle = tsManual
-      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 8
       TabOrder = 0
     end
@@ -80,8 +79,8 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 885
-    Width = 1290
+    Top = 882
+    Width = 1575
     Panels = <    
       item
         Width = 200
@@ -103,16 +102,16 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
     Left = 968
-    Height = 753
+    Height = 750
     Top = 126
-    Width = 314
-    Anchors = [akTop, akLeft, akRight, akBottom]
+    Width = 599
+    Anchors = [akTop, akRight, akBottom]
     BorderSpacing.Left = 8
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 727
-    ClientWidth = 312
+    ClientHeight = 724
+    ClientWidth = 597
     ParentBackground = False
     TabOrder = 3
     object Label2: TLabel
@@ -123,20 +122,19 @@ object FMain: TFMain
       Caption = 'Callsign'
     end
     object Label3: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 96
+      Top = 8
       Width = 120
       Caption = 'APRS Message'
     end
     object MAPRSMessage: TMemo
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 72
-      Top = 128
-      Width = 299
-      Anchors = [akTop, akLeft, akRight]
+      Left = 304
+      Height = 112
+      Top = 40
+      Width = 288
       BorderSpacing.Right = 5
       Font.Height = -15
       Font.Name = 'Courier New'
@@ -151,14 +149,14 @@ object FMain: TFMain
     object Label4: TLabel
       Left = 8
       Height = 25
-      Top = 208
+      Top = 184
       Width = 67
       Caption = 'Latitude'
     end
     object Label5: TLabel
       Left = 155
       Height = 25
-      Top = 208
+      Top = 184
       Width = 83
       Caption = 'Longitude'
     end
@@ -166,9 +164,10 @@ object FMain: TFMain
       AnchorSideTop.Control = Label4
       AnchorSideTop.Side = asrBottom
       Left = 8
-      Height = 32
-      Top = 233
+      Height = 25
+      Top = 216
       Width = 131
+      BorderSpacing.Top = 7
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -179,9 +178,10 @@ object FMain: TFMain
       AnchorSideTop.Control = Label5
       AnchorSideTop.Side = asrBottom
       Left = 155
-      Height = 32
-      Top = 233
+      Height = 25
+      Top = 216
       Width = 139
+      BorderSpacing.Top = 7
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -189,12 +189,12 @@ object FMain: TFMain
       TabOrder = 2
     end
     object STLongitudeDMS: TStaticText
-      AnchorSideTop.Control = STLongitude
       AnchorSideTop.Side = asrBottom
       Left = 155
       Height = 25
-      Top = 265
+      Top = 254
       Width = 139
+      BorderSpacing.Top = 8
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -202,12 +202,12 @@ object FMain: TFMain
       TabOrder = 3
     end
     object STLatitudeDMS: TStaticText
-      AnchorSideTop.Control = STLatitude
       AnchorSideTop.Side = asrBottom
       Left = 8
       Height = 25
-      Top = 265
+      Top = 254
       Width = 131
+      BorderSpacing.Top = 2
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -217,7 +217,7 @@ object FMain: TFMain
     object Label6: TLabel
       Left = 8
       Height = 25
-      Top = 304
+      Top = 296
       Width = 94
       Caption = 'Altitude (m)'
     end
@@ -226,9 +226,8 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 155
       Height = 25
-      Top = 304
-      Width = 152
-      Anchors = [akTop, akLeft, akRight]
+      Top = 296
+      Width = 139
       BorderSpacing.Right = 5
       Font.Color = clHighlight
       Font.Height = -15
@@ -242,8 +241,7 @@ object FMain: TFMain
       Left = 8
       Height = 41
       Top = 40
-      Width = 299
-      Anchors = [akTop, akLeft, akRight]
+      Width = 286
       BorderSpacing.Right = 5
       Images = ImageList1
       ItemHeight = 0
@@ -254,14 +252,14 @@ object FMain: TFMain
     object Label7: TLabel
       Left = 8
       Height = 25
-      Top = 344
+      Top = 336
       Width = 136
       Caption = 'Course/Direction'
     end
     object Label8: TLabel
       Left = 8
       Height = 25
-      Top = 384
+      Top = 376
       Width = 109
       Caption = 'Speed (km/h)'
     end
@@ -270,9 +268,8 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 155
       Height = 25
-      Top = 344
-      Width = 152
-      Anchors = [akTop, akLeft, akRight]
+      Top = 336
+      Width = 139
       BorderSpacing.Right = 5
       Font.Color = clHighlight
       Font.Height = -15
@@ -285,9 +282,8 @@ object FMain: TFMain
       AnchorSideRight.Side = asrBottom
       Left = 155
       Height = 25
-      Top = 384
-      Width = 152
-      Anchors = [akTop, akLeft, akRight]
+      Top = 376
+      Width = 139
       BorderSpacing.Right = 5
       Font.Color = clHighlight
       Font.Height = -15
@@ -296,16 +292,16 @@ object FMain: TFMain
       TabOrder = 8
     end
     object Label9: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 536
+      Top = 254
       Width = 80
       Caption = 'Power (w)'
     end
     object Label10: TLabel
-      Left = 8
+      Left = 304
       Height = 23
-      Top = 504
+      Top = 216
       Width = 34
       Caption = 'PHG'
       Font.Height = -16
@@ -316,41 +312,40 @@ object FMain: TFMain
     object Panel1: TPanel
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 10
+      Left = 304
       Height = 1
-      Top = 528
-      Width = 297
-      Anchors = [akTop, akLeft, akRight]
+      Top = 240
+      Width = 285
       BorderSpacing.Right = 5
       Caption = 'Panel1'
       TabOrder = 9
     end
     object Label11: TLabel
-      Left = 155
+      Left = 451
       Height = 25
-      Top = 536
+      Top = 254
       Width = 86
       Caption = 'Height (m)'
     end
     object Label12: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 576
+      Top = 296
       Width = 75
       Caption = 'Gain (dB)'
     end
     object Label13: TLabel
-      Left = 155
+      Left = 451
       Height = 25
-      Top = 576
+      Top = 296
       Width = 95
       Caption = 'Direction (°)'
     end
     object STPower: TStaticText
-      Left = 99
+      Left = 405
       Height = 25
-      Top = 536
-      Width = 48
+      Top = 254
+      Width = 38
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -358,10 +353,10 @@ object FMain: TFMain
       TabOrder = 10
     end
     object STHeight: TStaticText
-      Left = 250
+      Left = 560
       Height = 25
-      Top = 536
-      Width = 55
+      Top = 254
+      Width = 32
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -369,10 +364,10 @@ object FMain: TFMain
       TabOrder = 11
     end
     object STGain: TStaticText
-      Left = 99
+      Left = 405
       Height = 25
-      Top = 576
-      Width = 45
+      Top = 296
+      Width = 38
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -380,10 +375,10 @@ object FMain: TFMain
       TabOrder = 12
     end
     object STDirectivity: TStaticText
-      Left = 250
+      Left = 560
       Height = 25
-      Top = 576
-      Width = 53
+      Top = 296
+      Width = 32
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -393,19 +388,18 @@ object FMain: TFMain
     object Panel2: TPanel
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 8
+      Left = 304
       Height = 1
-      Top = 640
-      Width = 299
-      Anchors = [akTop, akLeft, akRight]
+      Top = 360
+      Width = 288
       BorderSpacing.Right = 5
       Caption = 'Panel2'
       TabOrder = 14
     end
     object Label14: TLabel
-      Left = 8
+      Left = 304
       Height = 23
-      Top = 616
+      Top = 336
       Width = 30
       Caption = 'DFS'
       Font.Height = -16
@@ -414,45 +408,38 @@ object FMain: TFMain
       ParentFont = False
     end
     object Label15: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 648
+      Top = 376
       Width = 72
       Caption = 'Strength'
     end
-    object Label16: TLabel
-      Left = 1132
-      Height = 25
-      Top = 800
-      Width = 86
-      Caption = 'Height (m)'
-    end
     object Label17: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 688
+      Top = 416
       Width = 75
       Caption = 'Gain (dB)'
     end
     object Label18: TLabel
-      Left = 155
+      Left = 451
       Height = 25
-      Top = 648
+      Top = 376
       Width = 86
       Caption = 'Height (m)'
     end
     object Label19: TLabel
-      Left = 155
+      Left = 451
       Height = 25
-      Top = 688
+      Top = 416
       Width = 95
       Caption = 'Direction (°)'
     end
     object STStrength: TStaticText
-      Left = 99
+      Left = 405
       Height = 25
-      Top = 648
-      Width = 48
+      Top = 376
+      Width = 38
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -460,10 +447,10 @@ object FMain: TFMain
       TabOrder = 15
     end
     object STDFSGain: TStaticText
-      Left = 99
+      Left = 405
       Height = 25
-      Top = 688
-      Width = 48
+      Top = 416
+      Width = 38
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -471,10 +458,10 @@ object FMain: TFMain
       TabOrder = 16
     end
     object STDFSHeight: TStaticText
-      Left = 250
+      Left = 560
       Height = 25
-      Top = 648
-      Width = 54
+      Top = 376
+      Width = 30
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -482,10 +469,10 @@ object FMain: TFMain
       TabOrder = 17
     end
     object STDFSDirectivity: TStaticText
-      Left = 250
+      Left = 560
       Height = 25
-      Top = 688
-      Width = 54
+      Top = 416
+      Width = 32
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -493,10 +480,10 @@ object FMain: TFMain
       TabOrder = 18
     end
     object STRNGRange: TStaticText
-      Left = 152
+      Left = 405
       Height = 25
-      Top = 464
-      Width = 152
+      Top = 184
+      Width = 38
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -504,28 +491,27 @@ object FMain: TFMain
       TabOrder = 19
     end
     object Label20: TLabel
-      Left = 8
+      Left = 304
       Height = 25
-      Top = 464
+      Top = 184
       Width = 93
       Caption = 'Range (km)'
     end
     object Panel3: TPanel
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 8
+      Left = 304
       Height = 1
-      Top = 456
-      Width = 299
-      Anchors = [akTop, akLeft, akRight]
+      Top = 176
+      Width = 285
       BorderSpacing.Right = 5
       Caption = 'Panel3'
       TabOrder = 20
     end
     object Label21: TLabel
-      Left = 8
+      Left = 304
       Height = 23
-      Top = 432
+      Top = 154
       Width = 35
       Caption = 'RNG'
       Font.Height = -16
@@ -533,6 +519,67 @@ object FMain: TFMain
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object Label22: TLabel
+      Left = 9
+      Height = 23
+      Top = 418
+      Width = 26
+      Caption = 'WX'
+      Font.Height = -16
+      Font.Name = 'Sans'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Panel4: TPanel
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 9
+      Height = 1
+      Top = 448
+      Width = 583
+      BorderSpacing.Right = 5
+      Caption = 'Panel4'
+      TabOrder = 21
+    end
+    object Label23: TLabel
+      Left = 8
+      Height = 25
+      Top = 464
+      Width = 142
+      Caption = 'Wind Direction (°)'
+    end
+    object Label24: TLabel
+      Left = 8
+      Height = 25
+      Top = 504
+      Width = 156
+      Caption = 'Wind Speed (km/h)'
+    end
+    object Label25: TLabel
+      Left = 9
+      Height = 25
+      Top = 544
+      Width = 64
+      Caption = 'Label25'
+    end
+  end
+  object StaticText1: TStaticText
+    AnchorSideRight.Control = MVMap
+    AnchorSideRight.Side = asrBottom
+    Left = 791
+    Height = 16
+    Top = 863
+    Width = 169
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'MAP Copyright OpenStreetMap'
+    Color = clGray
+    Font.Color = clGradientActiveCaption
+    Font.Height = -11
+    Font.Name = 'Sans'
+    ParentFont = False
+    ParentColor = False
+    TabOrder = 4
+    Transparent = False
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1176

@@ -74,8 +74,11 @@ begin
 
   AControl.Left := Round(ControlInfoList[AControl.Tag].OrigLeft * scaleFactorWidth);
 
-  AControl.Width := Round(ControlInfoList[AControl.Tag].OrigWidth * scaleFactorWidth);
-  AControl.Height := Round(ControlInfoList[AControl.Tag].OrigHeight * scaleFactorHeight);
+  if not (AControl is TGroupBox) then
+  begin
+    AControl.Width := Round(ControlInfoList[AControl.Tag].OrigWidth * scaleFactorWidth);
+    AControl.Height := Round(ControlInfoList[AControl.Tag].OrigHeight * scaleFactorHeight);
+  end;
 
   if AControl is TWinControl then
   begin

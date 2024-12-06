@@ -26,13 +26,16 @@ type
     Label13: TLabel;
     Label14: TLabel;
     Label15: TLabel;
-    Label16: TLabel;
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
     Label2: TLabel;
     Label20: TLabel;
     Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -60,6 +63,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    Panel4: TPanel;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -68,6 +72,7 @@ type
     SBMain: TStatusBar;
     Settings1: TMenuItem;
     STAltitude: TStaticText;
+    StaticText1: TStaticText;
     STRNGRange: TStaticText;
     STDFSDirectivity: TStaticText;
     STDFSHeight: TStaticText;
@@ -162,6 +167,8 @@ begin
   for i := 0 to ControlCount - 1 do
     ResizeControl(Controls[i], scaleFactorWidth, scaleFactorHeight, scaleFactor);
 
+  MVMap.Width := FMain.Width - GroupBox1.Width - 25;
+  MVMap.Refresh;
 end;
 
 procedure TFMain.MIFileExitClick(Sender: TObject);

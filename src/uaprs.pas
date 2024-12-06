@@ -28,6 +28,7 @@ function GetPHGGain(const Text: String):Integer;
 function GetPHGDirectivity(const Text: String):String;
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
 function GetRNG(const Text: String):Integer;
+function GetWX(const Text, Search: String):String;
 
 var
   APRSMessageList: TFPHashList;
@@ -287,6 +288,23 @@ begin
     if Regex.Exec(Text) then
     begin
        Result := Round(StrToInt(Regex.Match[1])*1.85);
+       Exit;
+    end;
+  except
+  end;
+end;
+
+function GetWX(const Text, Search: String):String;
+var Regex: TRegExpr;
+begin
+  Result := '';
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^.*'+Search+'(\d{3}).*$';
+    Regex.ModifierI := True;
+    if Regex.Exec(Text) then
+    begin
+       Result := Regex.Match[1];
        Exit;
     end;
   except
