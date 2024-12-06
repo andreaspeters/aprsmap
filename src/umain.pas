@@ -26,6 +26,7 @@ type
     Label13: TLabel;
     Label14: TLabel;
     Label15: TLabel;
+    Label16: TLabel;
     Label17: TLabel;
     Label18: TLabel;
     Label19: TLabel;
@@ -36,7 +37,15 @@ type
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
+    Label26: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
     Label3: TLabel;
+    Label30: TLabel;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
