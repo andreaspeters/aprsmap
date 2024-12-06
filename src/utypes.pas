@@ -38,6 +38,7 @@ type
     DFSHeight: Integer;
     DFSGain: Byte;
     DFSDirectivity: String;
+    RNGRange: Integer;
     Message: String;
     ID: Integer;
     Time: TTime;

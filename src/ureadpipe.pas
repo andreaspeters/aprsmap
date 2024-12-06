@@ -145,6 +145,11 @@ begin
         APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
         APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
         APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
+        APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
+        APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
+        APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
+        APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
+        APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
         APRSMessageObject.Time := now();
         APRSMessageObject.Track := False;
       end;

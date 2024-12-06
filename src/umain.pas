@@ -31,6 +31,8 @@ type
     Label18: TLabel;
     Label19: TLabel;
     Label2: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
@@ -57,6 +59,7 @@ type
     MVDEFPC2: TMVDEFPC;
     Panel1: TPanel;
     Panel2: TPanel;
+    Panel3: TPanel;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -65,6 +68,7 @@ type
     SBMain: TStatusBar;
     Settings1: TMenuItem;
     STAltitude: TStaticText;
+    STRNGRange: TStaticText;
     STDFSDirectivity: TStaticText;
     STDFSHeight: TStaticText;
     STDFSGain: TStaticText;
@@ -227,6 +231,7 @@ begin
       STDFSHeight.Caption := IntToStr(msg^.DFSHeight);
       STDFSGain.Caption := IntToStr(msg^.DFSGain);
       STDFSDirectivity.Caption := msg^.DFSDirectivity;
+      STRNGRange.Caption := IntToStr(msg^.RNGRange);
 
       MVMap.Zoom := 28;
     end;

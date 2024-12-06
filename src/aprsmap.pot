@@ -68,6 +68,14 @@ msgstr ""
 msgid "Callsign"
 msgstr ""
 
+#: tfmain.label20.caption
+msgid "Range (km)"
+msgstr ""
+
+#: tfmain.label21.caption
+msgid "RNG"
+msgstr ""
+
 #: tfmain.label3.caption
 msgid "APRS Message"
 msgstr ""
@@ -122,6 +130,10 @@ msgstr ""
 
 #: tfmain.panel2.caption
 msgid "Panel2"
+msgstr ""
+
+#: tfmain.panel3.caption
+msgid "Panel3"
 msgstr ""
 
 #: tfmain.settings.caption

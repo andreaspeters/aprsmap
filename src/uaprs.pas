@@ -27,6 +27,7 @@ function GetPHGHeight(const Text: String):Integer;
 function GetPHGGain(const Text: String):Integer;
 function GetPHGDirectivity(const Text: String):String;
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
+function GetRNG(const Text: String):Integer;
 
 var
   APRSMessageList: TFPHashList;
@@ -273,6 +274,23 @@ begin
   res := GetAPRSDataExtension(Text, 'PHG', 4, PHGDirectivityCodeTable);
   if Length(res) > 0 then
     Result := res;
+end;
+
+function GetRNG(const Text: String):Integer;
+var Regex: TRegExpr;
+begin
+  Result := 0;
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^RNG(\d{4}).*$';
+    Regex.ModifierI := True;
+    if Regex.Exec(Text) then
+    begin
+       Result := Round(StrToInt(Regex.Match[1])*1.85);
+       Exit;
+    end;
+  except
+  end;
 end;
 
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
