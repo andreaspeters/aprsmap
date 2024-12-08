@@ -39,6 +39,18 @@ type
     DFSGain: Byte;
     DFSDirectivity: String;
     RNGRange: Integer;
+    WXDirection: Integer;
+    WXSpeed: Integer;
+    WXGust: Integer;
+    WXTemperature: Integer;
+    WXPressure: Double;
+    WXLum: Integer;
+    WXSnowFall: Integer;
+    WXRainCount: Integer;
+    WXRainFall1h: Integer;
+    WXRainFall24h: Integer;
+    WXRainFallToday: Integer;
+    WXHumidity: Byte;
     Message: String;
     ID: Integer;
     Time: TTime;

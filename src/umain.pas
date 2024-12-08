@@ -82,6 +82,18 @@ type
     Settings1: TMenuItem;
     STAltitude: TStaticText;
     StaticText1: TStaticText;
+    STWXLum: TStaticText;
+    STWXHumidity: TStaticText;
+    STWXRainCount: TStaticText;
+    STWXRainFall24h: TStaticText;
+    STWXRainFallToday: TStaticText;
+    STWXRainFall1h: TStaticText;
+    STWXPressure: TStaticText;
+    STWXSnowFall24h: TStaticText;
+    STWXTemperature: TStaticText;
+    STWXGust: TStaticText;
+    STWXSpeed: TStaticText;
+    STWXDirection: TStaticText;
     STRNGRange: TStaticText;
     STDFSDirectivity: TStaticText;
     STDFSHeight: TStaticText;
@@ -248,8 +260,22 @@ begin
       STDFSGain.Caption := IntToStr(msg^.DFSGain);
       STDFSDirectivity.Caption := msg^.DFSDirectivity;
       STRNGRange.Caption := IntToStr(msg^.RNGRange);
+      STWXDirection.Caption := IntToStr(msg^.WXDirection);
+      STWXSpeed.Caption := IntToStr(msg^.WXSpeed);
+      STWXGust.Caption := IntToStr(msg^.WXGust);
+      STWXTemperature.Caption := IntToStr(msg^.WXTemperature);
+      STWXPressure.Caption := FloatToStr(msg^.WXPressure);
+      STWXRainFall1h.Caption := IntToStr(msg^.WXRainFall1h);
+      STWXRainFall24h.Caption := IntToStr(msg^.WXRainFall24h);
+      STWXRainFallToday.Caption := IntToStr(msg^.WXRainFallToday);
+      STWXRainCount.Caption := IntToStr(msg^.WXRainCount);
+      STWXHumidity.Caption := IntToStr(msg^.WXHumidity);
+      STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
+      STWXLum.Caption := IntToStr(msg^.WXLum);
 
       MVMap.Zoom := 28;
+      if (Sender is TComboBoxEx) then
+        MVMap.CenterOnObj(FindGPSItem(PoiLayer, call));
     end;
   except
   end;

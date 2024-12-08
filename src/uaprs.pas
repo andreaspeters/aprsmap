@@ -297,10 +297,15 @@ end;
 function GetWX(const Text, Search: String):String;
 var Regex: TRegExpr;
 begin
-  Result := '';
+  Result := '0';
   Regex := TRegExpr.Create;
   try
     Regex.Expression := '^.*'+Search+'(\d{3}).*$';
+    if Search = 'h' then
+      Regex.Expression := '^.*'+Search+'(\d{2}).*$';
+    if Search = 'b' then
+      Regex.Expression := '^.*'+Search+'(\d{5}).*$';
+
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin

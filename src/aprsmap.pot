@@ -44,6 +44,10 @@ msgstr ""
 msgid "Strength"
 msgstr ""
 
+#: tfmain.label16.caption
+msgid "Temperatur (°C)"
+msgstr ""
+
 #: tfmain.label17.caption
 msgctxt "tfmain.label17.caption"
 msgid "Gain (dB)"
@@ -84,11 +88,43 @@ msgid "Wind Speed (km/h)"
 msgstr ""
 
 #: tfmain.label25.caption
-msgid "Label25"
+msgid "Wind Gust (km/h)"
+msgstr ""
+
+#: tfmain.label26.caption
+msgid "Rainfall last 1h (mm)"
+msgstr ""
+
+#: tfmain.label27.caption
+msgid "Rainfall last 24h (mm)"
+msgstr ""
+
+#: tfmain.label28.caption
+msgid "Rainfall today (mm)"
+msgstr ""
+
+#: tfmain.label29.caption
+msgid "Humidity (%)"
 msgstr ""
 
 #: tfmain.label3.caption
 msgid "APRS Message"
+msgstr ""
+
+#: tfmain.label30.caption
+msgid "Pressure (mb)"
+msgstr ""
+
+#: tfmain.label31.caption
+msgid "Lum (watt/m²)"
+msgstr ""
+
+#: tfmain.label32.caption
+msgid "Snowfall last 24h (mm)"
+msgstr ""
+
+#: tfmain.label33.caption
+msgid "Raw Rain Counter"
 msgstr ""
 
 #: tfmain.label4.caption
