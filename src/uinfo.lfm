@@ -1,13 +1,14 @@
 object FInfo: TFInfo
-  Left = 977
+  Left = 1351
   Height = 475
-  Top = 278
+  Top = 220
   Width = 535
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Info'
   ClientHeight = 475
   ClientWidth = 535
+  DefaultMonitor = dmDesktop
   Icon.Data = {
     3E08010000000100010080800000010020002808010016000000280000008000
     0000000100000100200000000000000001006400000064000000000000000000
@@ -2125,6 +2126,7 @@ object FInfo: TFInfo
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
+  Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
   object Image1: TImage
     Left = 56
@@ -2575,9 +2577,9 @@ object FInfo: TFInfo
   end
   object Label1: TLabel
     Left = 200
-    Height = 55
+    Height = 54
     Top = 48
-    Width = 190
+    Width = 184
     Caption = 'APRS Map'
     Font.Height = -40
     ParentFont = False
@@ -2603,16 +2605,16 @@ object FInfo: TFInfo
   end
   object Label2: TLabel
     Left = 224
-    Height = 25
+    Height = 15
     Top = 112
-    Width = 218
+    Width = 142
     Caption = 'by Andreas Peters (DC6AP)'
   end
   object Label3: TLabel
     Left = 408
-    Height = 25
+    Height = 15
     Top = 72
-    Width = 49
+    Width = 30
     Caption = 'v0.1.0'
   end
   object IGithubDonation: TImage
@@ -2677,9 +2679,9 @@ object FInfo: TFInfo
   end
   object LGithubDonation: TLabel
     Left = 224
-    Height = 25
+    Height = 15
     Top = 192
-    Width = 248
+    Width = 159
     Caption = 'Please Donate a small amount'
     Font.Color = clBlue
     ParentFont = False
@@ -2687,9 +2689,9 @@ object FInfo: TFInfo
   end
   object LFPSourceCode: TLabel
     Left = 224
-    Height = 25
+    Height = 15
     Top = 240
-    Width = 192
+    Width = 125
     Caption = 'APRS Map Source Code'
     Font.Color = clBlue
     ParentFont = False
@@ -2697,8 +2699,8 @@ object FInfo: TFInfo
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 49
-    Top = 420
+    Height = 34
+    Top = 435
     Width = 523
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True

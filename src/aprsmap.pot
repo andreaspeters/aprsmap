@@ -198,22 +198,6 @@ msgctxt "tfmain.miinfo.caption"
 msgid "Info"
 msgstr ""
 
-#: tfmain.panel1.caption
-msgid "Panel1"
-msgstr ""
-
-#: tfmain.panel2.caption
-msgid "Panel2"
-msgstr ""
-
-#: tfmain.panel3.caption
-msgid "Panel3"
-msgstr ""
-
-#: tfmain.panel4.caption
-msgid "Panel4"
-msgstr ""
-
 #: tfmain.settings.caption
 msgid "&Settings"
 msgstr ""

@@ -5,7 +5,7 @@ unit uigate;
 interface
 
 uses
-  Classes, SysUtils, Sockets, utypes, netdb, RegExpr, uaprs;
+  Classes, SysUtils, Sockets, utypes,{$IFDEF UNIX}netdb{$ELSE}WinSock, Windows{$ENDIF}, RegExpr, uaprs;
 
 type
   PTAPRSConfig = ^TAPRSConfig;
@@ -56,6 +56,7 @@ begin
   end;
 end;
 
+{$IFDEF UNIX}
 procedure TIGateThread.Execute;
 var
   Addr: TInetSockAddr;
@@ -128,6 +129,110 @@ begin
     Disconnect;
   end;
 end;
+{$ELSE}
+procedure TIGateThread.Execute;
+var
+  WSAData: TWSAData;
+  Addr: TSockAddrIn;
+  Data: array[0..1023] of Char;
+  HostEnt: PHostEnt;
+  LoginString, Response, Line: string;
+  BytesRead, SockState: Integer;
+  Lines: TStringList;
+begin
+  // WinSock initialisieren
+  if WSAStartup($0202, WSAData) <> 0 then
+  begin
+    writeln('Failed to initialize WinSock.');
+    Exit;
+  end;
+
+  try
+    FSocket := socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if FSocket = INVALID_SOCKET then
+    begin
+      {$IFDEF UNIX}
+      writeln('Failed to create socket.');
+      {$ENDIF}
+      WSACleanup();
+      Exit;
+    end;
+
+    try
+      if IsValidIPAddress(FConfig^.IGateServer) then
+      begin
+        Addr.sin_family := AF_INET;
+        Addr.sin_port := htons(FConfig^.IGatePort);
+        Addr.sin_addr.S_addr := inet_addr(PAnsiChar(FConfig^.IGateServer));
+      end
+      else
+      begin
+        HostEnt := gethostbyname(PAnsiChar(FConfig^.IGateServer));
+        if HostEnt = nil then
+        begin
+          {$IFDEF UNIX}
+          writeln('Cannot resolve ', FConfig^.IGateServer);
+          {$ENDIF}
+          closesocket(FSocket);
+          WSACleanup();
+          Exit;
+        end;
+
+        Addr.sin_family := AF_INET;
+        Addr.sin_port := htons(FConfig^.IGatePort);
+        Addr.sin_addr := PInAddr(HostEnt^.h_addr_list^)^;
+      end;
+
+      SockState := connect(FSocket, TSockAddr(Addr), SizeOf(Addr));
+      if SockState = SOCKET_ERROR then
+      begin
+        {$IFDEF UNIX}
+        writeln('Failed to connect to IGate server.');
+        {$ENDIF}
+        closesocket(FSocket);
+        WSACleanup();
+        Exit;
+      end;
+
+      // Login-String senden
+      LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/%.2f/%.2f/100'#10,
+        [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.Latitude, FConfig^.Longitude]);
+
+      send(FSocket, LoginString[1], Length(LoginString), 0);
+
+      // Daten empfangen
+      while not Terminated do
+      begin
+        BytesRead := recv(FSocket, Data, SizeOf(Data) - 1, 0);
+        if BytesRead <= 0 then
+          Break;
+
+        Data[BytesRead] := #0; // Null-Terminierung
+        Response := StrPas(Data);
+
+        Lines := TStringList.Create;
+        try
+          Lines.Text := Response;
+          for Line in Lines do
+          begin
+            if Length(Trim(Line)) > 0 then
+              APRSBuffer := Line;
+          end;
+        finally
+          Lines.Free;
+        end;
+
+        Sleep(10);
+      end;
+    finally
+      closesocket(FSocket); // Socket schließen
+    end;
+  finally
+    WSACleanup(); // WinSock aufräumen
+  end;
+end;
+
+{$ENDIF}
 
 function TIGateThread.IsValidIPAddress(const IP: string): Boolean;
 var
@@ -222,7 +327,11 @@ begin
     end;
   except
     on E: Exception do
+    begin
+       {$IFDEF UNIX}
        writeln('APS Data Error: ', E.Message)
+       {$ENDIF}
+    end;
   end;
 
 end;

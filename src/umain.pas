@@ -6,9 +6,9 @@ interface
 
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms, Controls,
-  Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx,
-  uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
-  Contnrs, uini, uigate, StrUtils, usettings, LCLIntf, uinfo;
+  Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
+  utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
+  mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf, uinfo;
 
 type
 
@@ -69,6 +69,7 @@ type
     MvBGRADrawingEngine3: TMvBGRADrawingEngine;
     MVDEFPC1: TMVDEFPC;
     MVDEFPC2: TMVDEFPC;
+    MvRGBGraphicsDrawingEngine1: TMvRGBGraphicsDrawingEngine;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -154,6 +155,7 @@ implementation
 
 procedure TFMain.FMainInit(Sender: TObject);
 begin
+  FormatSettings.DecimalSeparator := '.';
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
 

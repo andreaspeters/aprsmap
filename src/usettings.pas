@@ -44,6 +44,8 @@ implementation
 
 {$R *.lfm}
 
+{ TFSettings }
+
 procedure TFSettings.BBOSMCacheClick(Sender: TObject);
 begin
   if SDDCacheDirectory.Execute then
@@ -65,7 +67,13 @@ begin
   FConfig^.IGatePort := StrToInt(LEIGatePort.Caption);
   FConfig^.IGatePassword := LEIGatePassword.Caption;
 
+  if Length(FConfig^.IGatePassword) > 0 then
+    FConfig^.IGateEnabled := True;
+
   SaveConfigToFile(FConfig);
+  if MessageDlg('To apply the configuration, we have to restart FlexPacket.', mtConfirmation, [mbCancel, mbOk], 0) = mrOk then
+    RestartApplication;
+
   Close;
 end;
 

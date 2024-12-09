@@ -5,7 +5,7 @@ unit utypes;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, Process;
 
 type
   { Icon Primary meaning
@@ -242,8 +242,23 @@ const
   );
 
 
+procedure RestartApplication;
 
 implementation
+
+procedure RestartApplication;
+var
+  Process: TProcess;
+begin
+  Process := TProcess.Create(nil);
+  try
+    Process.Executable := ParamStr(0);
+    Process.Execute;
+    Halt(0);
+  finally
+    Process.Free;
+  end;
+end;
 
 end.
 

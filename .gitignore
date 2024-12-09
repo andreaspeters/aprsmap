@@ -6,3 +6,6 @@ cache/**/*
 **/*/.~*
 **/src/cache/*
 **/appimage/*
+**/*.res
+**/*.exe
+**/*.bat

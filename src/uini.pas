@@ -54,7 +54,6 @@ begin
   {$IFDEF MSWINDOWS}
   HomeDir := GetEnvironmentVariable('USERPROFILE')+'/aprsmap/';
   CacheDir := GetEnvironmentVariable('USERPROFILE')+'/aprsmap/cache';
-  EXE := '.exe';
   {$ENDIF}
 
   // create directory structure if it does not exist

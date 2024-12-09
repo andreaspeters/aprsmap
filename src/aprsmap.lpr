@@ -1,5 +1,7 @@
 program aprsmap;
 
+{$APPTYPE GUI}
+
 {$mode objfpc}{$H+}
 
 uses

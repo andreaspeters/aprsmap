@@ -69,6 +69,9 @@ var
   PipeHandle: THandle;
   Buffer: array[0..255] of Char;
   BytesRead: DWORD;
+  Text: string;
+  i: Integer;
+
 begin
   PipeHandle := CreateNamedPipe(
     PChar('\\.\pipe\' + FPipeName),
@@ -83,7 +86,9 @@ begin
 
   if PipeHandle = INVALID_HANDLE_VALUE then
   begin
+    {$IFDEF UNIX}
     Writeln('Could not create Pipe to read: ', FPipeName);
+    {$ENDIF}
     Exit;
   end;
 
@@ -92,13 +97,26 @@ begin
     begin
       while not Terminated do
       begin
-        FillChar(Buffer, SizeOf(Buffer), 0);
         if ReadFile(PipeHandle, Buffer, SizeOf(Buffer) - 1, BytesRead, nil) then
-          Synchronize(@ProcessData, string(Buffer))
+        begin
+          if BytesRead > 0 then
+          begin
+            Text := '';
+            for i := 0 to BytesRead - 1 do
+            begin
+              Text := Text + Buffer[i];
+            end;
+            PipeData := Text;
+          end;
+        end
         else
         begin
-          Writeln('Error reading from pipe or pipe closed.');
-          Break;
+          // Fehlerbehandlung bei ReadFile
+          if GetLastError() = ERROR_BROKEN_PIPE then
+          begin
+            // Die Pipe wurde geschlossen
+            Break;
+          end;
         end;
       end;
     end;
