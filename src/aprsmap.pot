@@ -1,8 +1,34 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: tfinfo.caption
+msgid "APRS Map - Info"
+msgstr ""
+
+#: tfinfo.label1.caption
+msgctxt "tfinfo.label1.caption"
+msgid "APRS Map"
+msgstr ""
+
+#: tfinfo.label2.caption
+msgid "by Andreas Peters (DC6AP)"
+msgstr ""
+
+#: tfinfo.label3.caption
+msgid "v0.1.0"
+msgstr ""
+
+#: tfinfo.lfpsourcecode.caption
+msgid "APRS Map Source Code"
+msgstr ""
+
+#: tfinfo.lgithubdonation.caption
+msgid "Please Donate a small amount"
+msgstr ""
+
 #: tfmain.caption
-msgid "APRSMap"
+msgctxt "tfmain.caption"
+msgid "APRS Map"
 msgstr ""
 
 #: tfmain.groupbox1.caption
@@ -159,16 +185,17 @@ msgstr ""
 msgid "&Help"
 msgstr ""
 
-#: tfmain.menuitem3.caption
-msgid "Info"
-msgstr ""
-
 #: tfmain.menuitem4.caption
 msgid "Get Flexpacket"
 msgstr ""
 
 #: tfmain.mifileexit.caption
 msgid "E&xit"
+msgstr ""
+
+#: tfmain.miinfo.caption
+msgctxt "tfmain.miinfo.caption"
+msgid "Info"
 msgstr ""
 
 #: tfmain.panel1.caption
@@ -193,5 +220,45 @@ msgstr ""
 
 #: tfmain.statictext1.caption
 msgid "MAP Copyright OpenStreetMap"
+msgstr ""
+
+#: tfsettings.caption
+msgid "APRS Map - Settings"
+msgstr ""
+
+#: tfsettings.groupbox1.caption
+msgid "IGate"
+msgstr ""
+
+#: tfsettings.label3.caption
+msgid "The password will be stored in plaintext."
+msgstr ""
+
+#: tfsettings.lecallsign.editlabel.caption
+msgid "Callsign                      "
+msgstr ""
+
+#: tfsettings.leigatepassword.editlabel.caption
+msgid "Password                   "
+msgstr ""
+
+#: tfsettings.leigateport.editlabel.caption
+msgid "Port                            "
+msgstr ""
+
+#: tfsettings.leigateserver.editlabel.caption
+msgid "Server                        "
+msgstr ""
+
+#: tfsettings.lelatitude.editlabel.caption
+msgid "Latitude                     "
+msgstr ""
+
+#: tfsettings.lelongitude.editlabel.caption
+msgid "Longitude                  "
+msgstr ""
+
+#: tfsettings.lemapcache.editlabel.caption
+msgid "MAP Cache Directory"
 msgstr ""
 

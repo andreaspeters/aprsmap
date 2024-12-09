@@ -6,9 +6,9 @@ interface
 
 uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms, Controls,
-  Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, PairSplitter, Menus, ComboEx,
+  Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx,
   uresize, utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
-  Contnrs, uini, uigate, StrUtils;
+  Contnrs, uini, uigate, StrUtils, usettings, LCLIntf, uinfo;
 
 type
 
@@ -57,7 +57,7 @@ type
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
+    MIInfo: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
@@ -115,11 +115,14 @@ type
     procedure FMainInit(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure MIInfoClick(Sender: TObject);
+    procedure MenuItem4Click(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
     procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
+    procedure SettingsClick(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure TBZoomMapChange(Sender: TObject);
@@ -190,6 +193,17 @@ begin
 
   MVMap.Width := FMain.Width - GroupBox1.Width - 25;
   MVMap.Refresh;
+end;
+
+procedure TFMain.MIInfoClick(Sender: TObject);
+begin
+  FInfo.Show;
+end;
+
+procedure TFMain.MenuItem4Click(Sender: TObject);
+begin
+  if not OpenURL('https://github.com/andreaspeters/flexpacket') then
+    ShowMessage('Could not open URL: https://github.com/andreaspeters/flexpacket');
 end;
 
 procedure TFMain.MIFileExitClick(Sender: TObject);
@@ -279,6 +293,12 @@ begin
     end;
   except
   end;
+end;
+
+procedure TFMain.SettingsClick(Sender: TObject);
+begin
+  FSettings.SetConfig(@APRSConfig);
+  FSettings.Show;
 end;
 
 procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,

@@ -150,6 +150,23 @@ begin
         APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
+
+        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+        begin
+          APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
+          APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
+          APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
+          APRSMessageObject.WXTemperature := Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9);
+          APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
+          APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
+          APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
+          APRSMessageObject.WXHumidity := StrToInt(GetWX(APRSMessageObject.Message,'h'));
+          APRSMessageObject.WXPressure := Round(StrToInt(GetWX(APRSMessageObject.Message,'b'))/10);
+          APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
+          APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
+          APRSMessageObject.WXRainCount := StrToInt(GetWX(APRSMessageObject.Message,'#'));
+        end;
+
         APRSMessageObject.Time := now();
         APRSMessageObject.Track := False;
       end;

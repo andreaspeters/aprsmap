@@ -10,6 +10,8 @@
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
+        <TextName Value="biz.aventer.aprsmap"/>
+        <TextDesc Value="APRS Map"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
@@ -81,6 +83,18 @@
       <Unit>
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="usettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FSettings"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uinfo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FInfo"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

@@ -1,12 +1,13 @@
-object FMain: TFMain
-  Left = -67
-  Height = 876
-  Top = 695
-  Width = 1575
-  Caption = 'APRS Map'
-  ClientHeight = 876
-  ClientWidth = 1575
-  DefaultMonitor = dmDesktop
+object FSettings: TFSettings
+  Left = 2921
+  Height = 510
+  Top = 555
+  Width = 555
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'APRS Map - Settings'
+  ClientHeight = 510
+  ClientWidth = 555
   Icon.Data = {
     3E08010000000100010080800000010020002808010016000000280000008000
     0000000100000100200000000000000001006400000064000000000000000000
@@ -2124,1155 +2125,379 @@ object FMain: TFMain
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
-  Menu = MainMenu1
-  OnCreate = FMainInit
-  OnDestroy = FormDestroy
-  OnResize = FormResize
-  Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
-  Scaled = False
-  object MVMap: TMapView
-    Cursor = crHandPoint
-    Left = 8
-    Height = 872
-    Top = 8
-    Width = 952
-    Active = True
-    CacheLocation = clCustom
-    DownloadEngine = MVDEFPC1
-    DrawingEngine = MvBGRADrawingEngine1
-    Layers = <>
-    Font.Color = clBlack
-    MapProvider = 'OpenStreetMap Mapnik'
-    POIImages = ImageList1
-    POIImagesWidth = 16
-    POITextBgColor = clWhite
-    UseThreads = True
-    Zoom = 13
-    OnZoomChange = MVMapZoomChange
-    OnMouseDown = MVMapMouseDown
-    OnMouseMove = ShowMapMousePosition
+  object BPDefaultButtons: TButtonPanel
+    Left = 6
+    Height = 49
+    Top = 455
+    Width = 543
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = OKButtonClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
   end
   object GroupBox1: TGroupBox
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    Left = 968
-    Height = 126
-    Top = 0
-    Width = 599
-    Anchors = [akTop, akRight]
-    BorderSpacing.Right = 8
-    Caption = 'Map'
-    ClientHeight = 100
-    ClientWidth = 597
-    Color = clForm
-    ParentBackground = False
-    ParentColor = False
+    Left = 8
+    Height = 192
+    Top = 248
+    Width = 537
+    Caption = 'IGate'
+    ClientHeight = 166
+    ClientWidth = 535
     TabOrder = 1
-    object Label1: TLabel
-      Left = 8
-      Height = 25
-      Top = 8
-      Width = 46
-      Caption = 'Zoom'
-    end
-    object TBZoomMap: TTrackBar
-      AnchorSideRight.Control = GroupBox1
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 57
-      Top = 24
-      Width = 286
-      Max = 20
-      OnChange = TBZoomMapChange
-      Position = 0
-      ScalePos = trRight
-      TickMarks = tmBoth
-      TickStyle = tsManual
-      BorderSpacing.Right = 8
+    object LEIgatePassword: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 104
+      Width = 296
+      EchoMode = emPassword
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Password                   '
+      LabelPosition = lpLeft
+      PasswordChar = '*'
       TabOrder = 0
     end
-  end
-  object SBMain: TStatusBar
-    Left = 0
-    Height = 27
-    Top = 849
-    Width = 1575
-    Panels = <    
-      item
-        Width = 250
-      end    
-      item
-        Width = 250
-      end    
-      item
-        Width = 50
-      end>
-    SimplePanel = False
-  end
-  object GroupBox2: TGroupBox
-    AnchorSideLeft.Control = MVMap
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = GroupBox1
-    AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = SBMain
-    Left = 968
-    Height = 717
-    Top = 126
-    Width = 599
-    Anchors = [akTop, akRight, akBottom]
-    BorderSpacing.Left = 8
-    BorderSpacing.Right = 8
-    BorderSpacing.Bottom = 6
-    Caption = 'PoI Details'
-    ClientHeight = 691
-    ClientWidth = 597
-    ParentBackground = False
-    TabOrder = 3
-    object Label2: TLabel
-      Left = 304
-      Height = 25
+    object LEIGateServer: TLabeledEdit
+      Left = 184
+      Height = 42
       Top = 8
-      Width = 63
-      Caption = 'Callsign'
-    end
-    object Label3: TLabel
-      Left = 8
-      Height = 25
-      Top = 8
-      Width = 120
-      Caption = 'APRS Message'
-    end
-    object MAPRSMessage: TMemo
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 8
-      Height = 112
-      Top = 40
-      Width = 288
-      BorderSpacing.Right = 5
-      Font.Height = -15
-      Font.Name = 'Courier New'
-      Lines.Strings = (
-        ''
-      )
-      ParentFont = False
-      ReadOnly = True
-      ScrollBars = ssAutoVertical
-      TabOrder = 0
-    end
-    object Label4: TLabel
-      Left = 8
-      Height = 25
-      Top = 184
-      Width = 67
-      Caption = 'Latitude'
-    end
-    object Label5: TLabel
-      Left = 155
-      Height = 25
-      Top = 184
-      Width = 83
-      Caption = 'Longitude'
-    end
-    object STLatitude: TStaticText
-      AnchorSideTop.Control = Label4
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 216
-      Width = 131
-      BorderSpacing.Top = 7
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Server                        '
+      LabelPosition = lpLeft
       TabOrder = 1
     end
-    object STLongitude: TStaticText
-      AnchorSideTop.Control = Label5
-      AnchorSideTop.Side = asrBottom
-      Left = 155
-      Height = 25
-      Top = 216
-      Width = 139
-      BorderSpacing.Top = 7
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
+    object LEIGatePort: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 56
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Port                            '
+      LabelPosition = lpLeft
+      NumbersOnly = True
       TabOrder = 2
     end
-    object STLongitudeDMS: TStaticText
-      AnchorSideTop.Side = asrBottom
-      Left = 155
-      Height = 25
-      Top = 254
-      Width = 139
-      BorderSpacing.Top = 8
-      Font.Color = clHighlight
-      Font.Height = -15
+    object Label3: TLabel
+      Left = 184
+      Height = 16
+      Top = 144
+      Width = 210
+      Caption = 'The password will be stored in plaintext.'
+      Font.Color = clRed
+      Font.Height = -11
       Font.Name = 'Sans'
       ParentFont = False
+    end
+  end
+  object GroupBox2: TGroupBox
+    Left = 8
+    Height = 232
+    Top = 16
+    Width = 537
+    ClientHeight = 230
+    ClientWidth = 535
+    TabOrder = 2
+    object LEMapCache: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 24
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 171
+      EditLabel.Caption = 'MAP Cache Directory'
+      LabelPosition = lpLeft
+      TabOrder = 0
+    end
+    object LECallsign: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 72
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Callsign                      '
+      LabelPosition = lpLeft
+      TabOrder = 1
+    end
+    object LELatitude: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 120
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 172
+      EditLabel.Caption = 'Latitude                     '
+      LabelPosition = lpLeft
+      TabOrder = 2
+    end
+    object LELongitude: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 168
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Longitude                  '
+      LabelPosition = lpLeft
       TabOrder = 3
     end
-    object STLatitudeDMS: TStaticText
-      AnchorSideTop.Side = asrBottom
-      Left = 8
-      Height = 25
-      Top = 254
-      Width = 131
-      BorderSpacing.Top = 2
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 4
-    end
-    object Label6: TLabel
-      Left = 8
-      Height = 25
-      Top = 296
-      Width = 94
-      Caption = 'Altitude (m)'
-    end
-    object STAltitude: TStaticText
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 155
-      Height = 25
-      Top = 296
-      Width = 139
-      BorderSpacing.Right = 5
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 5
-    end
-    object CBEPOIList: TComboBoxEx
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 304
-      Height = 41
-      Top = 40
-      Width = 286
-      BorderSpacing.Right = 5
+    object BBOSMCache: TBitBtn
+      Left = 488
+      Height = 40
+      Top = 24
+      Width = 41
+      Glyph.Data = {
+        36190000424D3619000000000000360000002800000028000000280000000100
+        2000000000000019000064000000640000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000EAE5E12BEAE5E12BD7D1CC8AD7D1CC93D7D1
+        CC9ED7D1CCA7D7D1CCB3D7D1CCBDD7D1CCBDD7D1CCC7D7D1CCD1D7D1CCDCD7D1
+        CCE6D7D1CCF0D7D1CCFAD7D1CCFAD7D1CCFAD7D1CCF0D7D1CCE6D7D1CCDCD7D1
+        CCD1D7D1CCC7D7D1CCC7D7D1CCBDD7D1CCB3D7D1CCA7D7D1CC9ED7D1CC93D7D1
+        CC8AD7D1CC8AFCFAF72B00000000000000000000000000000000000000000000
+        00000000000000000000A0938BD568554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFFB2A7A0D5000000000000000000000000000000000000
+        000000000000D7D1CC8B68554AFFB2A7A0FFB2A7A0FFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFB2A7A0FF68554AFFC4BCB68D0000000000000000000000000000
+        0000000000008D7E75958D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000007B6A60FFA0938B9A0000000000000000000000000000
+        0000000000008D7E75958D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000007B6A60FFA0938B9A0000000000000000000000000000
+        0000000000008D7E75A18D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75A80000000000000000000000000000
+        0000000000008D7E75AC8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75B50000000000000000000000000000
+        0000000000008D7E75B78D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75C30000000000000000000000000000
+        0000000000008D7E75C28D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75D00000000000000000000000000000
+        0000000000008D7E75CD8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75DE0000000000000000000000000000
+        0000000000008D7E75D98D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75EB0000000000000000000000000000
+        0000000000008D7E75D98D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75EB0000000000000000000000000000
+        0000000000008D7E75E48D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75F90000000000000000000000000000
+        0000000000008D7E75EF8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75F90000000000000000000000000000
+        0000000000008D7E75FA8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75EB0000000000000000000000000000
+        0000000000008D7E75FA8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75DE0000000000000000000000000000
+        0000000000008D7E75EF8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75D00000000000000000000000000000
+        0000000000008D7E75E48D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75C30000000000000000000000000000
+        0000000000008D7E75D98D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75B50000000000000000000000000000
+        0000000000008D7E75D98D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75B50000000000000000000000000000
+        0000000000008D7E75CD8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E75A80000000000000000000000000000
+        0000000000008D7E75C28D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000000000008D7E75FF8D7E759A0000000000000000000000000000
+        0000000000008D7E75B78D7E75FF000000000000000000000000000000000000
+        000000000000000000000000000000000000000000000000000000000000EAE5
+        E12BD7D1CC90D7D1CCA0D7D1CCA0D7D1CCB0D7D1CCC0D7D1CCD0D7D1CCE0D7D1
+        CCF0D7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFB2A7A0FF68554AFFD7D1CC8D0000000000000000000000000000
+        0000000000008D7E75AC8D7E75FF000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000B2A7A0FF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF7B6A60FFA0938BD5000000000000000000000000000000000000
+        0000000000008D7E75A18D7E75FF000000000000000000000000000000000000
+        00000000000000000000000000000000000000000000EAE5E12B68554AFFA093
+        8BFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCF0D7D1CCF0D7D1CCE0D7D1CCD0D7D1CCC0D7D1CCB0D7D1CCA0D7D1
+        CC90D7D1CC90FCFAF72B00000000000000000000000000000000000000000000
+        000000000000A0938B958D7E75FF000000000000000000000000000000000000
+        0000FCFAF70FFCFAF72BFCFAF748FCFAF748EAE5E1647B6A60FF7B6A60FF0000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000A0938B958D7E75FF000000000000000000000000000000000000
+        0000FCFAF70FFCFAF72BFCFAF748FCFAF748EAE5E1647B6A60FF7B6A60FF0000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000C4BCB68B68554AFFB2A7A0FFB2A7A0FFD7D1CCFFD7D1CCFFD7D1
+        CCFFD7D1CCFFD7D1CCFFD7D1CCFFD7D1CCFF7B6A60FF7B6A60FFD7D1CCD50000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00000000000000000000B2A7A0D568554AFF68554AFF68554AFF68554AFF6855
+        4AFF68554AFF68554AFF68554AFF68554AFF7B6A60FFD7D1CCD5000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000EAE5E12BEAE5E12BD7D1CCA4D7D1CCC9D7D1
+        CCEDD7D1CCEDD7D1CCC9D7D1CCA4D7D1CCA4FCFAF72B00000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000
+      }
       Images = ImageList1
-      ItemHeight = 0
-      ItemsEx = <>
-      OnSelect = SelectPOI
-      TabOrder = 6
-    end
-    object Label7: TLabel
-      Left = 8
-      Height = 25
-      Top = 336
-      Width = 136
-      Caption = 'Course/Direction'
-    end
-    object Label8: TLabel
-      Left = 8
-      Height = 25
-      Top = 376
-      Width = 109
-      Caption = 'Speed (km/h)'
-    end
-    object STCourse: TStaticText
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 155
-      Height = 25
-      Top = 336
-      Width = 139
-      BorderSpacing.Right = 5
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 7
-    end
-    object STSpeed: TStaticText
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 155
-      Height = 25
-      Top = 376
-      Width = 139
-      BorderSpacing.Right = 5
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 8
-    end
-    object Label9: TLabel
-      Left = 304
-      Height = 25
-      Top = 254
-      Width = 80
-      Caption = 'Power (w)'
-    end
-    object Label10: TLabel
-      Left = 304
-      Height = 23
-      Top = 216
-      Width = 34
-      Caption = 'PHG'
-      Font.Height = -16
-      Font.Name = 'Sans'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Panel1: TPanel
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 304
-      Height = 1
-      Top = 240
-      Width = 285
-      BorderSpacing.Right = 5
-      Caption = 'Panel1'
-      TabOrder = 9
-    end
-    object Label11: TLabel
-      Left = 451
-      Height = 25
-      Top = 254
-      Width = 86
-      Caption = 'Height (m)'
-    end
-    object Label12: TLabel
-      Left = 304
-      Height = 25
-      Top = 296
-      Width = 75
-      Caption = 'Gain (dB)'
-    end
-    object Label13: TLabel
-      Left = 451
-      Height = 25
-      Top = 296
-      Width = 95
-      Caption = 'Direction (°)'
-    end
-    object STPower: TStaticText
-      Left = 405
-      Height = 25
-      Top = 254
-      Width = 38
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 10
-    end
-    object STHeight: TStaticText
-      Left = 560
-      Height = 25
-      Top = 254
-      Width = 32
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 11
-    end
-    object STGain: TStaticText
-      Left = 405
-      Height = 25
-      Top = 296
-      Width = 38
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 12
-    end
-    object STDirectivity: TStaticText
-      Left = 560
-      Height = 25
-      Top = 296
-      Width = 32
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 13
-    end
-    object Panel2: TPanel
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 304
-      Height = 1
-      Top = 360
-      Width = 288
-      BorderSpacing.Right = 5
-      Caption = 'Panel2'
-      TabOrder = 14
-    end
-    object Label14: TLabel
-      Left = 304
-      Height = 23
-      Top = 336
-      Width = 30
-      Caption = 'DFS'
-      Font.Height = -16
-      Font.Name = 'Sans'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Label15: TLabel
-      Left = 304
-      Height = 25
-      Top = 376
-      Width = 72
-      Caption = 'Strength'
-    end
-    object Label17: TLabel
-      Left = 304
-      Height = 25
-      Top = 416
-      Width = 75
-      Caption = 'Gain (dB)'
-    end
-    object Label18: TLabel
-      Left = 451
-      Height = 25
-      Top = 376
-      Width = 86
-      Caption = 'Height (m)'
-    end
-    object Label19: TLabel
-      Left = 451
-      Height = 25
-      Top = 416
-      Width = 95
-      Caption = 'Direction (°)'
-    end
-    object STStrength: TStaticText
-      Left = 405
-      Height = 25
-      Top = 376
-      Width = 38
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 15
-    end
-    object STDFSGain: TStaticText
-      Left = 405
-      Height = 25
-      Top = 416
-      Width = 38
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 16
-    end
-    object STDFSHeight: TStaticText
-      Left = 560
-      Height = 25
-      Top = 376
-      Width = 30
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 17
-    end
-    object STDFSDirectivity: TStaticText
-      Left = 557
-      Height = 25
-      Top = 416
-      Width = 32
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 18
-    end
-    object STRNGRange: TStaticText
-      Left = 405
-      Height = 25
-      Top = 184
-      Width = 38
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 19
-    end
-    object Label20: TLabel
-      Left = 304
-      Height = 25
-      Top = 184
-      Width = 93
-      Caption = 'Range (km)'
-    end
-    object Panel3: TPanel
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 304
-      Height = 1
-      Top = 176
-      Width = 285
-      BorderSpacing.Right = 5
-      Caption = 'Panel3'
-      TabOrder = 20
-    end
-    object Label21: TLabel
-      Left = 304
-      Height = 23
-      Top = 154
-      Width = 35
-      Caption = 'RNG'
-      Font.Height = -16
-      Font.Name = 'Sans'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Label22: TLabel
-      Left = 9
-      Height = 23
-      Top = 418
-      Width = 26
-      Caption = 'WX'
-      Font.Height = -16
-      Font.Name = 'Sans'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
-    object Panel4: TPanel
-      AnchorSideRight.Control = GroupBox2
-      AnchorSideRight.Side = asrBottom
-      Left = 9
-      Height = 1
-      Top = 448
-      Width = 583
-      BorderSpacing.Right = 5
-      Caption = 'Panel4'
-      TabOrder = 21
-    end
-    object Label23: TLabel
-      Left = 8
-      Height = 25
-      Top = 464
-      Width = 142
-      Caption = 'Wind Direction (°)'
-    end
-    object Label24: TLabel
-      Left = 8
-      Height = 25
-      Top = 504
-      Width = 156
-      Caption = 'Wind Speed (km/h)'
-    end
-    object Label25: TLabel
-      Left = 8
-      Height = 25
-      Top = 544
-      Width = 142
-      Caption = 'Wind Gust (km/h)'
-    end
-    object Label16: TLabel
-      Left = 8
-      Height = 25
-      Top = 584
-      Width = 129
-      Caption = 'Temperatur (°C)'
-    end
-    object Label26: TLabel
-      Left = 304
-      Height = 25
-      Top = 464
-      Width = 166
-      Caption = 'Rainfall last 1h (mm)'
-    end
-    object Label28: TLabel
-      Left = 304
-      Height = 25
-      Top = 544
-      Width = 158
-      Caption = 'Rainfall today (mm)'
-    end
-    object Label29: TLabel
-      Left = 304
-      Height = 25
-      Top = 624
-      Width = 103
-      Caption = 'Humidity (%)'
-    end
-    object Label30: TLabel
-      Left = 8
-      Height = 25
-      Top = 624
-      Width = 113
-      Caption = 'Pressure (mb)'
-    end
-    object Label31: TLabel
-      Left = 304
-      Height = 25
-      Top = 664
-      Width = 115
-      Caption = 'Lum (watt/m²)'
-    end
-    object Label33: TLabel
-      Left = 304
-      Height = 25
-      Top = 584
-      Width = 147
-      Caption = 'Raw Rain Counter'
-    end
-    object STWXDirection: TStaticText
-      Left = 208
-      Height = 25
-      Top = 464
-      Width = 86
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 22
-    end
-    object STWXSpeed: TStaticText
-      Left = 208
-      Height = 25
-      Top = 504
-      Width = 86
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 23
-    end
-    object STWXGust: TStaticText
-      Left = 208
-      Height = 25
-      Top = 544
-      Width = 88
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 24
-    end
-    object STWXTemperature: TStaticText
-      Left = 208
-      Height = 25
-      Top = 584
-      Width = 86
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 25
-    end
-    object STWXPressure: TStaticText
-      Left = 208
-      Height = 25
-      Top = 624
-      Width = 86
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 26
-    end
-    object STWXRainFall1h: TStaticText
-      Left = 512
-      Height = 25
-      Top = 464
-      Width = 78
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 27
-    end
-    object Label32: TLabel
-      Left = 6
-      Height = 25
-      Top = 664
-      Width = 185
-      Caption = 'Snowfall last 24h (mm)'
-    end
-    object STWXSnowFall24h: TStaticText
-      Left = 208
-      Height = 25
-      Top = 664
-      Width = 86
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 28
-    end
-    object STWXRainFallToday: TStaticText
-      Left = 512
-      Height = 25
-      Top = 544
-      Width = 78
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 29
-    end
-    object STWXRainCount: TStaticText
-      Left = 512
-      Height = 25
-      Top = 584
-      Width = 77
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 30
-    end
-    object STWXHumidity: TStaticText
-      Left = 512
-      Height = 25
-      Top = 624
-      Width = 77
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 31
-    end
-    object STWXLum: TStaticText
-      Left = 512
-      Height = 25
-      Top = 664
-      Width = 77
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 32
-    end
-    object Label27: TLabel
-      Left = 304
-      Height = 25
-      Top = 504
-      Width = 176
-      Caption = 'Rainfall last 24h (mm)'
-    end
-    object STWXRainFall24h: TStaticText
-      Left = 512
-      Height = 25
-      Top = 504
-      Width = 79
-      Font.Color = clHighlight
-      Font.Height = -15
-      Font.Name = 'Sans'
-      ParentFont = False
-      TabOrder = 33
-    end
-  end
-  object StaticText1: TStaticText
-    AnchorSideRight.Control = MVMap
-    AnchorSideRight.Side = asrBottom
-    Left = 791
-    Height = 16
-    Top = 863
-    Width = 169
-    Anchors = [akTop, akLeft, akRight]
-    Caption = 'MAP Copyright OpenStreetMap'
-    Color = clGray
-    Font.Color = clGradientActiveCaption
-    Font.Height = -11
-    Font.Name = 'Sans'
-    ParentFont = False
-    ParentColor = False
-    TabOrder = 4
-    Transparent = False
-  end
-  object MvBGRADrawingEngine1: TMvBGRADrawingEngine
-    Left = 1176
-    Top = 24
-  end
-  object MVDEFPC1: TMVDEFPC
-    ProxyPort = 0
-    Left = 1216
-    Top = 24
-  end
-  object TMainLoop: TTimer
-    OnTimer = TMainLoopTimer
-    Left = 1136
-    Top = 24
-  end
-  object MainMenu1: TMainMenu
-    Left = 1096
-    Top = 24
-    object MenuItem1: TMenuItem
-      Caption = '&File'
-      OnClick = FormDestroy
-      object MIFileExit: TMenuItem
-        Caption = 'E&xit'
-        OnClick = MIFileExitClick
-      end
-    end
-    object Settings: TMenuItem
-      Caption = '&Settings'
-      OnClick = SettingsClick
-    end
-    object MenuItem2: TMenuItem
-      Caption = '&Help'
-      object MenuItem4: TMenuItem
-        Caption = 'Get Flexpacket'
-        OnClick = MenuItem4Click
-      end
-      object Separator1: TMenuItem
-        Caption = '-'
-      end
-      object MIInfo: TMenuItem
-        Caption = 'Info'
-        OnClick = MIInfoClick
-      end
+      ImageIndex = 0
+      OnClick = BBOSMCacheClick
+      TabOrder = 4
     end
   end
   object ImageList1: TImageList
-    Left = 1056
-    Top = 24
+    Height = 30
+    Width = 30
+    Left = 493
+    Top = 285
     Bitmap = {
-      4C7AC000000010000000100000006A2900000000000078DAED9D2B58333DD380
-      2B5FF9D957221F89452291486CC52790884F609148642DF29148646D6565C52F
-      B04864FECDB629B3B33393994CB607C87531EC369B7B3239ED21C710C22C5496
-      D96C152829E5347AB09FAFAFAF91483A2C2CE62D2CFC8D790D6BE139BB34BC14
-      A71CAF4D0F8A2FCDC363E67F8DF25BA3FE5497C52CAC66B3E270235BCA27B644
-      0766451D0BDAAF4622FBF4F4347083CAE16FEC0FDB0379E928C5850B1FF352BA
-      E170B43CF62FF15CDC399E4BBFE8E6CD3F77F999A0FCD6A83F35EAAF5762FEF4
-      7954FC1E318BFF7E251FD32DA2517269B8F53B4312C0B3238CAE439D5EDE6B7F
-      CBFF69EA8FFB3DFEA9B3FFC9117F079FD8121D989574707EB5C2E918BD3F66EC
-      C12CAC6B940E292E89FFEA1CF7E780CFA51B64B4BCC77E4FFAD5C83F4FF999A2
-      FC1EB2FE95BE3B5905E7A79585EF79F1DCA283F27B489EF27F48FE102C95B716
-      16E62F5546249B73F1F15CD7A415B6BF349D3D75A4F81BC8FB8E1FDF059150D7
-      351CA543CB53EE9C0EF85B63B397D7D83B355F12564DFE98F1B7E45F69F9F196
-      DFD2FA33E9FBBFE3FB057F2F7A588B0E8ED5E818F81D5F1475886C4607C962DB
-      191D1A7F26A178260EA40D46FB6BA45F8DFCAB517E6A94DF1AF5E754DA1F7E2B
-      9F382C254C4E97959B52B4E9674D93732C3F96BCAF517EB4E5C1F33EB05AAD42
-      94784F49E7D2BD87E2535B73DF9F63E0ADF7D4DAE16BE39FAE63817E39BB138B
-      DBDFD2EF5CDE506D7601FCCEC5375EC7FCFE5B74A79F622F2F2F7DEF1BFD39EE
-      EF9E65FAD12556C3C37CE27EE7FDC3B219D3E13B2D5623BFC3EBBBEF875DBDA4
-      AE6381D7A572972B97F0FAEBEDBF01CADFF99FB0797F0D1FABB7F0767F15F0F5
-      9C2C9FE7FB32B3FEFB62E6DF1E6EF6FCF2E5DECCBFDE5E848FF532ACDF16056C
-      277717E133F205B6A7F023BF79FFDBC5E57A2F7FEFFEE4E3DEA5F7EAF5297C6E
-      D65DBDFD0C9F1F9BBD2C9FBBB4B8A1C3DBB2D71DF21136CBB79EDFBCBD767979
-      F92D77176CB87FFB38AF3A66B1B73F86FFD5850B25FA89E5639C67D77D7EA5F2
-      F2FE78DBDB3B9097875E472C1F988FFEBFBAF072E913CB658C1F5566E27D2EC6
-      53CAD7DE862E9CEFBCB8D8C73FDAB65A3CB2FCEAF5B9CFD3E86FFDB73B5FFE1D
-      F88FBA3B237A3798D7D1A698AE5F9F9F7D3AC438F4F9D41DA3DD388C78ADCFBF
-      4EFF4717D7FE7797EECBA7F95EDF369E178338C0B48836ACDF5EFA321CC3A4F2
-      2CC9B1FA160F2D17B36588E2E56BE8A86D0374C7129F3D94BB96E704BF972D16
-      8B5EB4BFD3332CB99708D45BCA7BECFFF8F838BA4CD7F6E71B7BD8781DAF1D33
-      FA53A5959FD3E4B73A3E1D639F3E4392A979EC0FB2DC35C9AF566AF316FB25DE
-      E2EEE5B97222E59F254F0F517E72E582F3E32943B9FAA64DE7A9EAEFB90AD56E
-      58CA97F4BFB0FD7207E8BFD4F0B93653AD78D86C1F9E1CC17CFF5D6A17C4FD7F
-      161E73D6F03D7C853EC8C3D6B9ED38EF52FFE9B74607E757A323E747BAAEB591
-      F267891FF66F65391DA5795A23ECD2B8D748FB1A795FA3EC69E237557D6B7284
-      7BE21CCC9F991BEB0F640B747CCFD90983793CF66FC742DE69BF37FD9AF8C6FB
-      15BFB715BEFB51D7C7F3AF67F9B1670C2BE99058C92DC76BDD73615B6C3877DE
-      9B7E35F2CF5A7EBCE5B746FDA9517F7BFE721EB05C5E5D8DDCB4AC245A769F7E
-      8C0E0DCBF15AD6CA9365C718BED7FEC4870C4FE56FCDF08FC173F557ABC7C297
-      947D6B1DC8B1561DFCF37F13C6B21AB9E9595E3C2CD481DDA4BCDBDE87797D39
-      36A743F2A3B5A144B78F5D550F733A5B3707CB3F2DEF2DBF35EA8F5587F8CDA5
-      100F4BE9B0B250077613F34DA1339BF785B61E9A4FFE43A1ED35E37EC8F87BF3
-      CFCA7ACB6F8DFA53A3FE865D93A2463C2CA5A7B4C182639F9F9FF742FDCE8987
-      A7FC1E8A87FE24B1F02F06DE12A79FC27BCB6F691DA85D7F7BFE7D1646B21ABB
-      A959413C2CD481DDB2F7FF8CCE5A7C699C6AF1E4F35F91BFDEF81F3B5DA6CC7F
-      6D193C441DF0D441AEFE6FBA3B089615E1A66525F1B05007E52EE5614E67AEFC
-      68F9D238D5E2A9FAAFC9DFA9E27F68BED47E4987A50C4E5D076AD7DF7E2EC66E
-      49D49C78584A8795853AB09B94F71A9D5E5ED2798E7CB3FDCB5C06B57CADFA53
-      A3FEC2F9ED39F1B0940E2B0B7550EE5CBFA74667AEEF54CB6BDDFDFCBA6AFC6B
-      A5DFE1E25F37FFACF1F796DF1AF547D6B156B135C6FFE8FB4FC6631FB42CD6A1
-      1D6B21F92B19DF93E32D614DC197DA5F3246499B5F87E2A78ABFA50C4E59076A
-      8EFFF94A6D9885F35CBCF3644A78691D19CD5A68B9B15BAA35F6A8DFD01DD843
-      32A04C917A46BAE8E75248FCC00630EE76BF48CF9CB613328118B70BDD929E28
-      83B411E6F852F68CD2D6306718843DE2F7B6ADBE8FF89C5CBB67351C23C3F103
-      3DB3E17A4098CFE9D8C5430C5FFA8DD723A2C29664B652D5B7CBF9C235F65A1A
-      6F3439DF7DECF4FCA270CE94878FEC7CCBC7A359C762D7361FF995914F61035E
-      6D0360FB77E18EEF8F1A1D30DCD5768DB5C8F7C79D1BA90371FBB041FAED6D40
-      7A62F91CE88761039EF3B32F6754D880A76C1894532A6CC4631B287E1036E2B1
-      0DA97E7AA4CD7B38FC9C64ED9AADF839E79DC3A161B463E4A9750335EF50782D
-      41BCDEA1343E1EFBC3E14B6B144AFE4AD606FEA965956A43886B0EC263893E8F
-      0EBCD664146B79AF313F3D57AEF1F7A3664DE653E1CBC4B1CEF80FE2A5F600EE
-      1E2EF9E5DCB8E78354DEA56FEE9F7AFFCAADBF9B633F3F3FF7C724DAF577A17F
-      CC6BD6DFE578E9D9767D7D5D61FD5D3C4E7C9619472EB11A7E03ECE07EE7FDC3
-      B21ED3E13B2D3623BFC3EB5B763FAE8FB88E055EAFB5FEEEA94B7CD6CEE77352
-      2E2E2EC4785C5D5D85CD6643CACBCB4B9F96121FC3582E97A4C46F292F9FB3FF
-      F6F636BCBEBE9212AF4591F8FBFB7B31FE35C3E7F2E9EEEE2E9BFEB14CBEBFBF
-      87C7C7C781FCFDFBB7F7934BFFC847FF78C18F68E7B9F031FE58521AC5348CE7
-      917B7959F592CA4F2CE3319D70DA25496BCEE3FC896CB29BB22DFA89C7188778
-      CE3DCFA39E745FA2249691735947E85BBEBE6DEB37B1D4AFFFF0D595EDF0F11E
-      C2E7267CBE3D87F54397079D7CBC3C86AFB8AE35D48DE56B13D6CF4FFD1ACF9B
-      EEB8EEF276D5C9FBD54D7F5CDDDD765EF8F57B3FFEBE868FAE2C7C2D5FC3FA26
-      B237BDACAFBA327875DBEB8B76B0E32F1F1EC2D7DB6BF87CB9EDB8EBB0BAB9E9
-      F5AC77E7D186181F323DE2F8B4FBC82FC257C747EE6BB5E8259E7F3E5D77D7AF
-      C3471746F43BE643D874BAA39FE817F35167D4BDBE7F60C20F7D3AF736DE6CE3
-      DCA7416FF7751FA718B7750C9F4BBF2E6D621A6DD3EAFA3BFD62F8CB98B66FE1
-      B34B633EEF977D1E2D419E457D9B5D9EC6BC8D792C95BBAFB80EFACB531F9798
-      D6B10CC5B214CB545FB6B46578546EBF4EB3BE950E8E3A80ECC7B0365EED571A
-      FF3B7057F25F4ABEE55F7DFE20F203BEF917B3CB90447283EED80D9F6BDD4A79
-      8FFD145F626B099FFBADE16BA41F9756D0AF36FF9BFCBCBEB5D2B148561DA91F
-      D5A283EB8BEDF77832B8D7D041D9B3DF6F2AE3CEC569B06715E36EE9C72CED83
-      ABA9A3F6DE9ABF41BC7B0E7AD3F89CF9ED9E70DBA62CCD3E9974DF145CC77378
-      1DEF21EAE1BDF6B7FC9FA6FE1CFB796CE96F8CEDAD1A3EF9A3C2853AA8B6CE78
-      DDB2FEFDDBDB9B790C4D6438C93D4B28FF391D129BBB9678899574D408DF1BFF
-      1AE95F2BFF3DE5CF5BFEBDF5AFB8BEA331959468F5E03EAA127EBD5EEFA5942F
-      0DDF22908D7D3CB8BCF46E0A1D14ABD531D8BB36BEA377AFF4BDC077752DBFF8
-      8E507F4ED4176C2BFCADE1939DBD1FEA3B83B03FB737472EFD72E14BF987CB48
-      EC27847EE2EFE3B79DC52E009FE0F18216B79FC0B7F46BE977AEE977D27D1367
-      22DE3E9E53E1717F95D4F787FD59FA10737C69F8A56966EDFBA4ECF4867FE83C
-      AFD5FF57E52504CE774A82DDA9DF78FDC5F96CAC57388EE2C0F1949D161E1FB9
-      F51F33E1E178D75C3FB21AAFC8B3ECFA95D0AF22EE599E2833E6F015EB676ED7
-      E0E5F32CC76AF2616ABEB5FFB7F6FFD6FEDFDAFFD7EBE53EAFD7EB65288ABB72
-      CFD3DA3CB987AC61FE2C37965A373F343FE7A59CA575C8EC4AD4919F7323CFC5
-      81E17FA713CD0CAFE3F6FFE1F571DA4FCF53B6F2713A35DE37BFD5A323B5DF5A
-      C437EF7236D2B1582C5442F1FB6B99F676A803F3DA767F96C7715C11EDEFB30C
-      BF421C6EC32FE1D1B1885FCD467EABC7DF99FE9EFC2F297FDAF5A74E61EE8EA5
-      1F4CEA173B245BC297F4DDD5E8FF737F7B1F68DF1896B7ACDFC5EC23ECE5BDEB
-      E7D6587F77B55B6F3B27E23C72075B7B2C3D251AF67BDDE36F0EFED6F098C9F1
-      5C58942E6E3C3AC573F1B1A4592E2DB13BBFFEB83CCE9DD213084E2B5CB8161B
-      4AE2CFA5815416A5FCD394E35CF89A7A904B4B4BF997C29FAAFEA6750AE20D6E
-      B16BFFE9EF750BFDFA19FD5A6EDB1BD9F67EBDDAB595677440B63FC2FBFD42A1
-      03B2C49A93F03AD76E3A0897D0B5D7C13C7F389BA1BBB4763B67B3858F47EAB9
-      31C84FA1EC48CF1E4DF9813AE2FB82858579B95D072F84542EAC6BC078D79BEA
-      D9F9A278AD8E7E7C50DC5FB9708D3D2F9FDA748FD57EE8FD56C1EBBC6925ADE5
-      52B2FE4F62F73A766B7FA6DF5A76BF0657C7A77D2034EBFF2436F91FEDBBB76B
-      9B8CE735DA6EB6FA6EF6B646497BC424B7789DDA5726954DC8CEE0F59DBBB487
-      4DB241730DDBBDC9C58DB28758CFA7340DA53598A8756972D74F6D0C7F499B43
-      F207D7ADC26B6049EDDF1C47E9C9B1D87649075EB74BD287796A9D2FC9EE9C4E
-      4DDCB53C159743F256FB4BD2CF9B7F35CA8FB7FCD6A83F35EAEF54F78AD2FE06
-      0B2FBD7758F8DC1A99D2FC0E4D78D2B976CEAAA6FD58934FD6B2A2495BAD0DDA
-      B4AAC953F3608ECDFF9475ABC9F7F7C2BEFBF8CD96964F8A127F6BEF7B294CEE
-      A8E5B9F343859FE2EDE1939C2B5F127F18363ED786FF85F647816EDA6721B65B
-      153E1AAF3258A35533F650B1B7B877EFAF53ECFFD7F6BD4AFDF751BA8F7D5124
-      1EFA1BA7D15087C4F7BF51C85087C42716EA806E5A9E120B8FE3AFE5BDF1F7A4
-      BF37FFADE5EF9CFAFF7FF4FA4186BEEF5E661BF4AEB7D9B6D7CD43F618DBED70
-      1B60AF33EC74E78E3B1D7B5BC2D69EB239173B5DB3D52E5EBBB2359719E86F60
-      0BE4C5F41BF2A9AD3DB571E6FA8834FE9A9C4E9BE16F797F8851D9CF615FA435
-      A877FD57E0B9E3E135E12F9CFC6C42FE10F13F96FD3FE9F95F3A7620F97B8AFD
-      8E84E4C64E701CA5A794A5747878385E035E876EF83AFC6DE1B168794A078C07
-      0EAB94E76CD4DA4FF9CFA51FCC031CFF43E47F8DF25BA3FE94D6DFAF03CF09FC
-      C9FBF779DF8146FB3C53F3A2E74CBBF85C9634972CE9A5F6A1D2F049283BD879
-      B088E7E291D361E12CE796B0B53634399D7E88D277A63466071EAD6C093F436B
-      BD58F819B14E0CB6C5C26A798EC53CA5436273BCF73B70AFC3387F83ECF32B64
-      AD7139F7B6016DDD1EEC6F9EF63B5F59FBF757631ECD49C3FB660EF7A295F9DC
-      1E9C75C227E6C6A9C3FF1EBF3BDCB34F17FE8AE2D19C6A29FC1C7F0EE14BFB26
-      6AD25FBB3680B58EFF967E801AEB30948CA386E5C6C2A7F5EE139FCEE1B51C8B
-      79EDBEEDF03AC76BECF7C49F7B965974506CCE7EEC1F96192D0FD38C722FAD8F
-      E7F8FCF68EDF3FC7F53F6AAC1F225C0C53F222ABD0E1E1C9770B6E2C0B37B62F
-      F9851C76237892C1BCA043C533E9C0BD53B03A29BFE51534D4F8FE19CCBBCACD
-      3FA6E6622D74F39E493D0BDE9D3A62BF16364DDEB6DAAA8D0FB6893AE7C28FEF
-      8CF008D778A4AE537C92811EF45BE25398923E89B71C3D3C4C975312D53CC585
-      7F6E7F4D3E3707D233CE228DD5F86D3C1CA7A21DAF42319C405D2F19BF2F4A9D
-      507712C94D9336BF35FF215BA283CB9B12F6A5C40EB48F7A12720D640527E9B1
-      B25847090B75A43ED0AFB49270BA06DCF66151F623BF169EF22BF1A3B457F25C
-      B86458E068E529B1D88FC356A5DF2EFFA9F8B3E98DCB9FB3FCB8CB6F8DFA5358
-      7FBDED1135DAE6D25A051EBE54474A03A8C3D2F782F9A483EAC3D2F25887D8FF
-      D7F1697E14A523D77707CB01E6293B385EA323173E170F18172EFDF6ED7E191D
-      AA764A838E6CBF22932F393EDAD0B75BEE6CC1BA34E307930E6D5FDC4F1F772C
-      AD339213694E2AED7FDBE787EB06557E3816EA18F70B8EFBEF245E8A93C6FE1C
-      9FB769C6F46FF2C2B19C68EEDFD80F2E47D27D42BA0F699E856DEE4E1BBFE4D9
-      6FDA7B3FD4F64DE1BA975B6F213EDBB9FEF3D1DCDCD88E07DE05A0DFD1B8858C
-      3F1C3E353688B2531A4334E59A563F69DE8E74AF573D4F17E57CCF16F27BB680
-      1FB0467EC41A789255F22CABE04536C367598157B10CAF6609DEC422DECC02BE
-      885DCCEAF7FFD5EEFF07E3DECA599B0E9AD5E9905959878EA575D8D8A18E1A65
-      C01EF60A8D4BC46D1DC323764FE79887BA293D637FE3F029FE50E16B792A7C5F
-      FA4F53FF4F620C51857544A79C3F60B987726396ADDF8CB975CF0EB1FF4BCD76
-      985C3A68D85C7E706170DF0BDA3072BCE75BAE49ED7BD1267818EEDC1AEE508F
-      768ECAF7DE4F54FB37FC5EA7CF87FB47EDC710ECFCA57D2DF039DE3F6CFBECFA
-      B64357E7873CD4E111B897976E1F33CEDF0CF4D1C83CF4D7DA0F4EA14EE7F786
-      C9F283F5696CFA46FC68BD1B595F5AEBDFB0A95155D98F8FBFD4AFCFCFF94D6B
-      ED4B920B47BAAEB591B243C35AF72DB1F0E93AB787D2B1E494C64FC2F1A6ED7A
-      F9F5C1F810C2CDC27F15F0ED7AD9F5A38C59866B8416EE7D47EE7F07D74B5881
-      3D81909EBDDBF70D692B71FF8639E276E7A3F0B0EDDB095F5BC11C388736EC75
-      EED643813C1557EEF75ED78E2F7EAF39333E3ED7FA3977E998D20FBBA3E71FBE
-      663D7AD87E8EDF62E662D3B8FF3E5E608340EA776206ECEE198CE787648FEDDD
-      DF349E7A6A1EEFE932D85BE6BDCB7F24E4B721B80EF7F9D1F283FDA2DFD3EF1B
-      70FE2DB93D84920EC8C26B984FD7E13E4578EFF4DC3EEAD2F731DCD7C99B9F4D
-      7E876CDBB0507B97B1ED6FBBF76228D291F8D4FE26EDBD97E3A10E68076E9F83
-      6D73DF7516B797ED641E94ED6B0CAF6E9F93D819B83E1B31C37B08F607DBF2BE
-      C705C17CA7C2A3C67342BDB9FBFC39ECE1E591F57A19FEFCF913AEAEAEC2CDED
-      6D787CF85FF8FBBA08FFB75AEF676548F2FAF212EEEE6EC37C3E0FF7F777E17E
-      FEDF707B73176E6F6FC24DF73CBABFBBEBD741FDFCF820753D3D3E767EEFC2C5
-      C5452F7FFE5CF6CFB1A8F3FEE13ECCEFEFBBF379A78BCA83CFF0FC74DFD97DD7
-      B7F95C757279F5A73BBFD89E77F1FAF3E722C430E69D1DA3F1E41F9FE1F1FE31
-      DCDCDD74FEBB34B8BC0AD757D77D5A44B9EC8FD7E1F1E9213C7582F98FCD26FC
-      EFE1BF9DBDB71DD7857F1DF92D7B7DBD3DDE7669FA703FEFD2F475C46FBAB48F
-      D76E6E6E7B7B7BAE67AFFBF8C6F3FB2EFEF3BB87B07A1FDE8F966F6FE1E5E929
-      2CDF9761D5E9F9FBF7B5CFBB185E0A3BDAF4F8F814EEE677E1F3739BFE1F9B75
-      6FF3CBCB22BC74F912F3ECE1FEA1CFA3E5F2BDBBDFACC35BA7FBB9D37DDFD976
-      FFD0C5FD61BBAFE4FBDB6BE7F7BE0F2FEA8BF3CD62BEDF7561F6D2A571B437EA
-      8D767DAC377D7988B6F6F5A98B67DCDB2A16ABCD66D387B57C7FEFC37EE86C9F
-      77F97CDBE545F4F7FAF2DA5D7BEBE393E6BE2CBAF0E2EFA83FC623B2EF3B59AF
-      63DBDFB28BD74B78EDCAEFC7C7A62B87B79DEDC37C8BE5FAFE6EDEA7F1D3D373
-      17E76567CBBAB767BD5EF7E7919DDFDDF7E5217CD275208615CBE865575EEFBB
-      F47B5FBE75EC478865E2E1F1215CFCE7DFB059E79F21EBEEFE1EEBC89F8B3F7D
-      FA3D46F69F7FC3FBDBBBE99E136D8E69F8EF7FFE13DE88B206DB2C3FBABA489D
-      4389EED4B5E4068FD0AFE6B797AFFD5B1B7FC8D69634754BF6B711D8D4CE1F0A
-      C32EE7F5F64F235CDE59F85AE197F23ABF9B4CF83351D714FB7F4AEB3896AC1F
-      49E9D1AC7989C7924B6B48624E3B978E5A9B929A3746CD0BA47442FFA9ED489A
-      8FC7F178ED9143F325F697A49F37FF6A941F6FF9AD517FA6D8FF33BE3F5BFA85
-      319B9E1F561D90B5EAA058AD0E89CDE9D0B09C0E0B8B7594B09C8EEF7DEE56FB
-      DF837984E0378C03E4B15FEE58CAE7C2CF85EBB57FEAF87BD2BF24EF0FB1C6EF
-      D43C37374C1BA676AEAFE61E2BCD79A5F687D4CD25E6E7CEE6E21484B9BBD4DE
-      0FEA394902FF25AC4D975B7B22B7D7273537D1BAEF2C574E2C7B20E7F83687D0
-      36F65CB3EEBBF5DDEB37F12DFDCF37FD8F29AFBB7641F2B8FB7E93FCD4106FF8
-      D4B5FD7A8C60BC04E7971B178979EBB8CAB3E5C15893C1B9714C291CFF625D9F
-      72C014F2A563660663E31665EB6B56B19FD265E447F16972F43D4F4AF60F2A9B
-      43AD987B37CFEF1D76AAE2B1BF9551DB9C872925F7AD39354FE9CA8561E12D76
-      497CCE462DEF897F29AFD55192BEB5C3C8F92FE56B94CB12B6642E53BBFFE9D2
-      CACA635DA53CF5DBCAA7FEE119D85B169EC3FE63FADAD62D8EDF49EF17E99C7A
-      1F49D72217CF934D9A39F8167F4D7E99C4F1F0391158D8B6837F43770FCFEA30
-      F0A40E4DDC77D28F594569329B7DF2CC22A373A10F9B9338BE2D1EF7DF2719FF
-      D01F64076D73023BF2477C6B69BFC94AD69939B5F6BF5379FFA7CE2DEFB71A9E
-      F3770A3CF56E47FDD69E6BDD34F61F932F8DBF648BF63BA6E637ED29D4B3537C
-      F72F6D27A3D659F7DC83AD6BE596C4A5645C41C973835B87DE9BB625EBADD558
-      6FD2D22F5FBA0775C9B83A4FDAD61A2B536B6DEADCD1D3F73F65F8B5D7562B59
-      179A8B4F493E7BFB8D3DF971A8F5FFB2F5B870FF52761F51B497A7690FD5CCDE
-      A393F027327620CDDFF0B0253AB8AD8F3CAC468776FB260F4BE928DC7E2A78D8
-      1A3A6AD8DFF8E3F353C97E1EC811F7163B577E3B67659B4FB934A4F7BD19CEDF
-      A3F6C1A9C57BED6FF93F4DFD39F7F12F8D6F7CE3CF77AE407BFE9FE6F3BF36DF
-      9EFFEDF9DFE4B8EF4C257B7C78F70F9A82AF3D8FFDA7ED777BEAE53657D6B4FB
-      A958F689E178CA268EE7FC5AF773D1EC9779E8BD464BFA2FCE99F7DC337E7BFA
-      4DB12787692F0DC39E15129BD6528092DD8743C962DEC2C2DF98D7B016FE7B6D
-      D015A953E2A538E5786D7A507C691E1E33FF6B94DF1AF5E727EDDD57E59D0FF6
-      C11EE81932089B389F92E7E2AD4D070F3FF24BF1820E0F4FFACB74F492EFAA8C
-      3F8917C3D65CB3DACEF127B8FF676BFF6BFD7FADFDEF7CDBFF664F9DFD4F8EF8
-      3BF8C496EAD0F2D89F553C3A3C7678E2E24D8B1AE958230F6AE5DF31CBDFA9D4
-      3F4F9A517EFA6F2670E47470ECE8FB4B99FF385CC90E0BEF0DDF527E619C4B78
-      C8497E72BC94F6DAF0ADF96749C729786FF9B1965F6FFDA9517FDBFB7F7BFF6F
-      EFFFEDFDFF54DAFFAAB4BF15CE4572CD5B71ACBF798CFEF75AED4735DA9EAACD
-      1DAA301FCDDB5E762AE3166AB4F1D5B8FF78749C2A2BF5C768D8D4A764D581FB
-      D9AC71D8873DD7F569611DBDDFF9789D7ACA1E89A578A88362297FDCB5DC7529
-      5DA11F0DCBE58DA60F6FB46FB6D47748ECC7DDAFFD9FF65A262477DD5BB735FB
-      9DD4D0A1D195FCC4B2E3B127953FAD2D16FB319FF323D911F9B8579DC4C7EB9C
-      0EADED1E3E673FDCA30732D88DD28BDF93D37E3551A00EE80EAFB5B17BD3CC17
-      2E997348FB9FA974F0FEF9DF7CD833C5796EFEEE8C391AE6FF0E3C68E60F0BFD
-      C9C4B77DFDF06BC5DF93FE65F9EF2D7F35CAFFC9CBC2F11DA16117CC1AF3600D
-      F91CDFEF4783FD4277850D231D9AB0051D83B0715C84F80EEC0042C63197665C
-      F80C93C218D99009AFC866216DD874D49639A4BBA81C7071D4842DA5F3B1EB5B
-      9B433C09EF6D833A77BECDC1FDDD73806FC345E0E4103CA723E7D7C24337C9DE
-      9CD4E0631B90E447BA7E0AF67BF963971F8D0E4F5D3AF6F3B7F47A2DD63A9FC9
-      FBEC2B5D733E375FD0D387E37D6EFCB6F503A528EACA65F287393D8F396BF81E
-      7EAA3524B55CC9FEE59EFDD3317B315B8E44D20179CA3FE546ED3D9FFC523673
-      364CC1537E3DBC9486B97CE3580D2FB1521E58CB10C7E76CCF955F4DD9AB557F
-      6A8F3F68E27C779A8376F7B971FDD339D1666FD051630EBC8B77DAEF4DBF26D3
-      ECE77D2ECFFF5AF77F0D5FC25A9E9F8D5F1DEDF93F5519FC2DCFFF36FEBF8DFF
-      6FE3FF7FEFFA7FADFEB7FADFEA7FABFFADFEB7FADFF2BFD5FF96FFADFEB7FC6F
-      F5BFE57FABFF2DFF5BFD6FF9DFEA7FCBFF56FF5BFEB7FADFF2BFD5FF96FFADFE
-      B7FC3F6EFD5FC5F107403CAC4547F28BD74DD4EAE1C2B6F25CF8C94F69F83578
-      4907CB39F955E34F82CF95214DFEAF0AD7203BD6FA7FDF6B29D9E79C8EF76FD1
-      CF9DA0D66FCDE9C8B1928E53DCBBA1D67C23EBFA7F25E95723FF6A949F1AE5F7
-      58EBFFBDBDBD058B7858A8239D5BCB0ED6E5E5B11EADBB97876E56DB8EBDF6A7
-      C5F629D357CBE6D2D1C35BCB7E62BCF5A746FD9DEEDB67E55CFB00AE7F583287
-      855A47D1720FAF11BE6FED87A9E66E37BEF1ADEDAFB5FDB5B6BFD6F66759C3D0
-      BBFE27A743CB523AFEF9E79F1045CB26FFA7C27BE3FFDBF996FF8EFA47ACD758
-      4360DB8987B5EAA0FC6B7548FE343ABC7CA9EE9FC89E025FAB0E9CB4FDD2BAA1
-      8BF87739106E6DD1FE1AE2B83E89919E9D7FA80BFB4F32D0C1848D59EE774A83
-      7DBF08B25B62A15D9097FC63B7812D88DFA7D1626CF3E037C3E3F4A5E23CE827
-      42EE220FFA9B922DC95E8DFD89A7F2544AAF1C9FCB3358EEA838E774C134E1CA
-      2B5556C9F24A947FAECE60FF83F29EABAFEF721D3F8536644DBF0FD71FD37899
-      8F5E5BFA9D3E7F2C797F7F3FAA603BB04DB96BC90D1F29378EE7C2E07878B486
-      8FCFA9F073F670BFBDE92FC52197FE547A6AD29F4A1F4DBA97F252FA97C4FFD8
-      F5C72BE93DE0F3F3335804BE43E0DFFDDA6D84500C64398ED3036DD1B25087C4
-      8FEED7029F63391D149F7D6EFC70BE24FDBCF957A3FC94965F6FFDA9517FBDF7
-      0F0F0FDF8534CF65EABDCBF20CC6F76F8ED7BE9748E16B9E235CFC35CFC81AEF
-      70395DDA67B6C6F65C3CB832C03DA3B9FCB3D80D79EBBB4A3C3E3BD3FFD8F50F
-      BE0384CCBE9CD47E8C90877B36C27D16A5F3D4479AF38BF7734CE7297CAA8F5A
-      A303F2F0DB2CB77F6572E7786D9AC2352C353C166BF8D2FE048D3F7CFA9F027F
-      0ADFFFD47D5EF34CE09E7FD2B3407A0E49EF205ADD9AE788969FF2D96F89E729
-      3EFBA96BD67606CFB3FF277DFFE7F6AC9939E60ED59A4354BAF6B167FC64E9DC
-      8D5AFBFF4C35F7A656FBB565EE8E660E549BFF73D8F93FF81B28D99CCEA11B97
-      A6F05B5A12F8CD8BBF7D210FFD4936E06F786B19861CCEAF125D547CB87870E9
-      AB8D4FE296CBA5989E54FF9F94A7387CCF3D82D28BF3565BC6BCE152F923D941
-      BD8B607DB83C53F1A0F21786AD61B87484F9CB9533781DC767EAF9BB53EC9F7B
-      EA7CADFD17A6D873AF3DFFDBF3DF2BA3F145056C7228E1A18385A7C2B6F2DAB0
-      F1354BD8C91F1E2FA665C77E67EA34C7714CFEB52CB4DD9A5798C5654D9BB7D6
-      32C5855D52AE0E1DF6969F15879DC4F35E578BA7EEBB78DE02773F96DE532516
-      F2391B281EC79FB2410A5BC7D3BFB9F77BEA7D557A97A7F2CFF2AE90E37363E5
-      34BC94BFB9F18D52DEE6788DDBA9D49FD2EB978BAD8CEE2B8B458082AF630EFE
-      C62CD4C18537D6B308F4798EFB0E3FB949E1D78A3FC5C7FE3D8ECFDED733E16B
-      F9D7D7D762FE58F62706866FD12195BF530BFF72DE955320B9F0B1FFD97C15B0
-      1B6452FEF7F5613E96B606405B03A0AD01D0D60098726DB8F3E643F0B09A7513
-      B473B97F22BF40F9B3D8B7296E99C5FE5EB47BB71BE5E72224B7ED31FDCE1DBF
-      FDC36BD6DFA59CA4CB74ECDE11C47072D727AA3B707C4469BD4DCFA5C61F9687
-      CFF8B275CFC6BCB6EF253DF3A8B19CB5FA41241B2E6EB727E998CEA368C6D0F5
-      DC2C19F5AD67AF6FB6ED8B8BEFE5F039BFEF9F43DCFEDD2B6CDFA32287DF09E0
-      58D86DBDFBBE0947D9DA24BFB36DDB89F5E261A10EECC6B55368754A6D1D165E
-      EB7E6CFE39137FD8FEE3493F6BFA97968973E76BD4819A75F059C1D6EABF4EFE
-      B83947B9BE5BEDDC25AAEF980B8BB3098FD1C31CA70FF3D86F2EFE399D9AB86B
-      792A2E87E4ADF697A49F37FF6A941F6FF9AD517F4AEBEF537C2F9850E2BDD4EA
-      07FE96AE61377CE4CE399D12AFB1F118FC33F89D441B8E26AF34E9DFF83A7C49
-      FD79CEF0B9EB3FA5FD0E7FDB58BF01D39C3ECDBC07892FFDFED4F2D2BC420F0F
-      E37ECEE32F3DFCCC511F4AE61C7AEA488D79259E7D68388E1A2BC18DA5C07310
-      3463F3319F1BEF89CFE198327ABC0F1F673CF631B9617F69DD362D8F7FAF08BF
-      BCCC9CD7CB851B13AAE55475B9706C1B64AD7C8D396435D8A3F459CE572177AE
-      D5818FDA704BFDEDC3232E722C769302CFA5932671A43868F9F15A31F6F0C9B4
-      2808DF1BFF1AE9EFC9FF9AE5CF53FE6BD6BF6388E6FECEF9496EF8F94CC91733
-      467CD856CDB3941FCA7DDCFE9DF7CBB11AFF5A5B30C3A5C11718FFCFD9C1E581
-      DC87929F7FE079FE7BDF1D72E97F08BEC6BBCFA9D4656BDAF7EFB14F3352B2F3
-      5E188ED253CA523A3C7C098BD3C3C767FCADA60EFFB8FCB1F3BF46F9AD517FF8
-      FA2B7353B7FF5BDA3925F1F2391D929F53E69F33F14FFDFF35D35FEB465DE3FC
-      E5D228978F53F21EFBAD696595A9DBFFDBF8FF36FEBF8DFF6FE3FF5BFD6FF5BF
-      D5FF56FFF7FDCD70DFA902AE5FFFD6C00FB8240A7EC429C3E7C2CBF12487C325
-      EC17C393782E3C785DE0595619FE24D739370D4F8995CFFD2EB14FD2C9A57F4E
-      60FE3392BDDE9EFFEDF9DF9EFFEDF9DFEA7FABFFADFEB7FA4FEC55712CFBCF95
-      4F6371A1E4D29162B01D94AE54BF38797E7E66AFF5FD4A88C77B9C706E896FF9
-      2FB3253AB8FC2A6171FEAB6CA0166FD0DCC7384EA347CB523AAC2CD6E1E14BD9
-      2675E4D8F95FA3FCD6A83F85F5F794D72ED4F2714FF381FB829807BF9876EDC6
-      121B6AF0DEF51F8BD26DE1DB0B20F1946DAA783BF9A9CB2F1BDE62E60ABF76FE
-      6BD770F2AE7D5563ED28AD8EFCADB39C9574D86FFFE52CD471FCC7AFCFFE1AE9
-      5723FF6A949F1AE5B746FD29ADBF35F6AAB0EC41989BC3975B274133FF2FD71E
-      6399FF47CD0DB3CCFFA3E2939BFF979B7FA999FF47E52D37275133EE1BEB3AE6
-      78779C1ED2DC5AA93C487BDE71736DA9FC28E1ADE1CF983CB5A487543F639B01
-      2E6FD14D9B17171717BDECD74F4BBF33EBFF247F90C53A921E89CDF158472E6C
-      C986982EB9B0391B523A6B58CE869ABCB6D2D5E453FA592B7E4A3F38D7B76061
-      57B6FCE4445306B52C577F284EF35CB5D4DF92BDADA47B0DFCB6C06D8ED4BC7F
-      89C7D729772B4F854FED05A2E5B96F308ED77E7FB5FEBFD6FF77E8FEBFB6FE47
-      5BFFE394D6FF28A967DCF345FA86D37C2F94F8E3C2D7BE976BFD5BE2CCF1D2BA
-      585C7F75EE3B02B2979797014ABAAE79FFC02CD4A1099F6353F8B97E79AC431B
-      7FA803F325027558C765601B866308F26B8BC1F0B5DFD71ABB35E927A55B8EA7
-      F24CB3965BCE762AFFA5F8E3F1349AF4877EA10DA56372226FDDC3D4774F5E39
-      D7405A012959877E458825FEC3B0CBC29F1DF1DDF7A7A4FFCA95FE875E83EB9C
-      D6CD9CCD36E11464FBEEAD3B876E1A7FF0F8FD9E3FE6F1F5788CEB2E73FA4AC2
-      9F8AF7C8F5F57591D4B4018E31A4F243CABB9FC81F4E664D9A34F9A532799B62
-      BF3EA572DCC4CE6FF26F61291D5656B2A534CE561DD8BFC50ECE9FA403A717E7
-      57F2A7E14BF458DED3BF9F9DBADF788E8B55920E2FEFB5FFB7CB6C16F745D10B
-      C50FDFCD3EC9F3F47B0ADE138712BE9E846ABA86DF157A7F291DE2EF583FE251
-      2A2F9C3FA837C76BFC3569F37FDBFCDFD6FF7FCEF37F6BEDB9921B4F5B3AFF02
-      F6DF4B7DF939861A27A071FB29E17BD2DF9BFFADFE9F2EEFBF7F94CF5D38E6FC
-      A363CE5F3AE6FCA7739D3F75CCF957C79EBF354DBD5D917DB7A59C46CFC81F6E
-      0F127450DCE85945E819F173C5330FE8A0C21EF8DD09C767D964B3A86333E267
-      033F9B910ED206965F99799BFDBEF4F3E65F8DF2E32DBF35EA0FAF67A3E6601B
-      ED7ECCD062D8166DD5818FDA704BFDEDC30BDC1E50741B7828DA83AAFB1FC762
-      65246B874207D4C5B6FBEFFCF4733D243D525FC1EE24E9F8F8F810F558ED1FF1
-      193FD9B828C4ABC3C3E7D8783D89E4C67169BE4F14D8360975E0711B906DED7F
-      ADFDAFB5FFB5F6BFED3C11BD7858A8A394E564B85F5BDEBD365FCB7618D633B8
-      8E996705AFB53FC77336E4782A2D251DD88F649786D7DA5F833F641DD0D4C167
-      05AB9D7353324FC5AA4362733A34ACA4C3C35B584A47E37F375FA3FCD65EFBD7
-      E26E9DF7E7B98F68C397E6FD95E8B0D87E2AF3FE96CB6528E5A5797F53DBED09
-      5733EFCF526EA9797F5A1BA4797F393B0E31EFCFB3FEE12988759C59290FFD96
-      F2948E12BB299B7EEBF83FE89EC6F5E578E8AF8DFFFB01F2DE1D7222B0705C36
-      FE0DDD3D3CABC3C0933A347117D2A4AF031E1D4EB9BBBBEB8FFBB6B28C7FE80F
-      B28371F5023BF2B76BA7C3E3F2B9F63CCEDFA1C6341D6CEF8FCCDE78B973AD2E
-      8F4D2B3007C3FD0DB3606C5C30F15B107BF711F6E5DCBDE2DDFFEDEC25DD1717
-      604FC6DD797F247E530CB9F7A0E608F7F62BE599B868EC6FFBFFB5FEBFD6FFD7
-      FAFF4A6534BE4929E4D8A8FD582766CC37A143CD323AD45C4E8F97B7E8C8A5AF
-      81BDB835EAB0E4B387ADC1631D3F901DD5014398707F0FCE0F573E346BD0B6FD
-      3F7EFEFE1FC71EFFDEF8E3F351DEDFDF4314F81B1E25D1F8C1616006874DD942
-      E9E3E69469D62AE6D649D3EE99C0BDDF41B76423E79EDB43820B3FA549CE8DE2
-      617A72F6537E34E90BE34BF1306F138FF3D79BFE96FCF794415C9E393F9AFA60
-      6134F5271796B6CE1E7BEEB177FDC6C637FE1CF9B6FE476BFF6BED7FADFDEF98
-      EB7F3439DC3DDFBACF8A77ED8DA9786B9CDA73F46795FB5C59D5EEA5227D576B
-      7969CF138DFDDA75D52DFBAA4C5D8635ED193F9DF7DC737E5BFAFD3FD0BCCB32
+      4C7A010000001E0000001E000000520200000000000078DA63601805F4067C7C
+      7C4C5696165CE6A6268AA626C626406C0DA53581E292FCFCFC4CB4B037372DB1
+      74E5DC6953174DEB3BBC6072F74B20FE06A52FAD5B3C7B7343757929B5EDCCCB
+      4AF36B29C9FA01B4E3FFD6558BFFEFDEB40605CFEE6BFBDF535BF2A3B2ACB882
+      9AF656E4651464C545EC4716ABABAD66FFF3EBBB0A107B7CFEF0266C7A67C3CD
+      187F8FFDD4B4B7302DA10468EF0164317B3B5B66A0DD4240AC525951A6BD78D6
+      D49ACCA8C0077191610DD91969D8700D105700711E10A700711410FB01B10750
+      BF12367B8176D6A3FB171DE8686B714C6DAFFB5F9B93F41F1827D8F03F20FE03
+      C4DF81F81310BF05E2E740FC646A47FDC5A860BF0A2CF67613B21766F7CA250B
+      DD16CE9D590AC4D540DC05C43381783510EF02E2FDD8704F6BC3FEB6B2DC2749
+      71D11E68F64E430F676A83DEBAD2176EF6560168F62E24C6BF14DAFB06686F24
+      9ABD4BE960EF3BA0BD3168F6AEA743387F02DA9B8A66EF2E3AF8F71BD0DEDC01
+      B0F737D0DEF20108E77F407B6B06205D61F32F3DF2D12FA0BD2503506E7C05DA
+      9B4D4E3949A1BD1F81F626935A2FD0A8BC2AA17538775616BCF07671402F9F0B
+      68EDDF9692EC67019EAEBEC862C0F68B5F43411ACE760EA578F9ACC9FF1B8BB2
+      2E79BAB998A2BB272D2E12D6AEDB09B4FF34105F04E21B407C0F881F02F17320
+      7E0FC45F81F80F10FF05E25F40FC0588DF02F133207E0CC47781F81A105F00E2
+      13407C14D82E5CE86C671340A01D2B036CBBAA02B10610EB00B13E101B00B131
+      1003A58DAD80D80E8A6DA17C33A8BC2110EB01B13654BF0A102BD9D8580B8CF6
+      14E80F0082D0C603
     }
+  end
+  object SDDCacheDirectory: TSelectDirectoryDialog
+    Left = 508
+    Top = 195
   end
 end

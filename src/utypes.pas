@@ -80,6 +80,7 @@ type
 
   ArrayOfPHGCode = array[0..9] of TPHGCode;
   PAPRSMessage = ^TAPRSMessage;
+  PAPRSConfig = ^TAPRSConfig;
 
 const
   PHGPowerCodeTable: ArrayOfPHGCode = (
