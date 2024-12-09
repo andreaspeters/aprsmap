@@ -4,7 +4,7 @@
 
 ## Features
 
-- Receive APRS Messages via Radio thgrough FlexPacket.
+- Receive APRS Messages via Radio through FlexPacket.
 - Receive APRS Messages via IGate
 
 ## Planned Features
