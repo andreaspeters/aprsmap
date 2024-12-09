@@ -2676,7 +2676,7 @@ object FInfo: TFInfo
     Proportional = True
   end
   object LGithubDonation: TLabel
-    Left = 208
+    Left = 224
     Height = 25
     Top = 192
     Width = 248
@@ -2686,7 +2686,7 @@ object FInfo: TFInfo
     OnClick = LGithubDonationClick
   end
   object LFPSourceCode: TLabel
-    Left = 208
+    Left = 224
     Height = 25
     Top = 240
     Width = 192
