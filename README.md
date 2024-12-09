@@ -2,18 +2,14 @@
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=H553XE4QJ9GJ8)
 
-## Requirements
-
-- To receiver APRS Messages via Radio, APRSMap need's FlexPacket.
-
 ## Features
 
-- Receive APRSMessages via FlexPacket and show it on a OpenStreetMap.
+- Receive APRS Messages via Radio thgrough FlexPacket.
+- Receive APRS Messages via IGate
 
 ## Planned Features
 
-- Support to receiver APRS Messages via IGate
-- Offline Mode
+- Offline Map Mode
 
 ## How to compile
 
