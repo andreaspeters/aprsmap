@@ -17,10 +17,11 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="91"/>
-        <CursorPos X="75" Y="127"/>
+        <TopLine Value="280"/>
+        <CursorPos X="18" Y="312"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uresize.pas"/>
@@ -52,8 +53,9 @@
       <Unit>
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="50" Y="25"/>
+        <CursorPos X="95" Y="55"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -81,11 +83,10 @@
         <ComponentName Value="FSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="8"/>
         <TopLine Value="17"/>
         <CursorPos X="50" Y="41"/>
-        <UsageCount Value="59"/>
+        <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -97,14 +98,14 @@
         <EditorIndex Value="1"/>
         <TopLine Value="6"/>
         <CursorPos Y="43"/>
-        <UsageCount Value="35"/>
+        <UsageCount Value="65"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="umain.lfm"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="33" Y="34"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -113,7 +114,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="2995"/>
         <CursorPos Y="3025"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:/Users/andreas/Desktop/LazMapViewer/source/addons/bgra_drawingengine/mvde_bgra.pas"/>
@@ -121,28 +122,16 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="87"/>
         <CursorPos Y="118"/>
-        <UsageCount Value="9"/>
+        <UsageCount Value="6"/>
       </Unit>
       <Unit>
         <Filename Value="C:/lazarus/lcl/include/png.inc"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="45"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="7"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uigate.pas"/>
-        <Caret Line="206" Column="27" TopLine="158"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="157" Column="6" TopLine="125"/>
-      </Position>
-      <Position>
-        <Filename Value="uigate.pas"/>
-        <Caret Line="143" TopLine="112"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="158" Column="16" TopLine="125"/>
@@ -250,6 +239,18 @@
       <Position>
         <Filename Value="uigate.pas"/>
         <Caret Line="193" Column="145" TopLine="162"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="127" Column="75" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="312" Column="70" TopLine="299"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="9" Column="54"/>
       </Position>
     </JumpHistory>
     <RunParams>

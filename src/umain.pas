@@ -309,6 +309,7 @@ var
   p: TRealPoint;
 begin
   p := MVMap.ScreenToLatLon(Point(X, Y));
+  SBMain.Panels[2].Text := 'Locator: ' + LatLonToLocator(p.Lat, p.Lon);
   SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(p.Lon, False);
   SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(p.Lat, False);
 end;

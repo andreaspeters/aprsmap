@@ -6,13 +6,14 @@ interface
 
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
-  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr;
+  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
+function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
 function GetAltitude(const Text: String):Integer;
@@ -34,6 +35,26 @@ var
   APRSMessageList: TFPHashList;
 
 implementation
+
+
+function LatLonToLocator(const Latitude, Longitude: Double): string;
+var
+  FieldLon, FieldLat: Char;
+  SquareLon, SquareLat: Integer;
+  SubLon, SubLat: Char;
+begin
+  FieldLon := Chr(Ord('A') + Trunc((Longitude + 180) / 20));
+  FieldLat := Chr(Ord('A') + Trunc((Latitude + 90) / 10));
+
+  SquareLon := Trunc((Longitude + 180) / 2) mod 10;
+  SquareLat := Trunc((Latitude + 90)) mod 10;
+
+  SubLon := Chr(Ord('a') + Trunc(((Longitude + 180) mod 2) * 12));
+  SubLat := Chr(Ord('a') + Trunc(((Latitude + 90) mod 1) * 24));
+
+  Result := FieldLon + FieldLat + IntToStr(SquareLat) + IntToStr(SquareLon) + SubLon + SubLat;
+end;
+
 
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
 var
