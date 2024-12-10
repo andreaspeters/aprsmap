@@ -2,7 +2,11 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release"/>
+    <BuildModes Active="Release">
+      <SessionMatrixOptions Count="1">
+        <Item1 ID="709598368925" Modes="Release" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
+      </SessionMatrixOptions>
+    </BuildModes>
     <Units>
       <Unit>
         <Filename Value="aprsmap.lpr"/>
@@ -17,8 +21,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <TopLine Value="280"/>
-        <CursorPos X="18" Y="312"/>
+        <CursorPos Y="312"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -45,7 +50,7 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="178"/>
+        <TopLine Value="128"/>
         <CursorPos Y="262"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -53,9 +58,9 @@
       <Unit>
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <CursorPos X="95" Y="55"/>
+        <TopLine Value="133"/>
+        <CursorPos X="13" Y="156"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -72,8 +77,8 @@
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="153"/>
-        <CursorPos X="24" Y="173"/>
+        <TopLine Value="21"/>
+        <CursorPos Y="54"/>
         <UsageCount Value="278"/>
         <Loaded Value="True"/>
       </Unit>
@@ -85,7 +90,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="8"/>
         <TopLine Value="17"/>
-        <CursorPos X="50" Y="41"/>
+        <CursorPos X="24" Y="41"/>
         <UsageCount Value="89"/>
         <Loaded Value="True"/>
       </Unit>
@@ -132,14 +137,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="158" Column="16" TopLine="125"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="11" Column="74"/>
-      </Position>
       <Position>
         <Filename Value="uigate.pas"/>
         <Caret Line="185" Column="20" TopLine="179"/>
@@ -251,6 +248,14 @@
       <Position>
         <Filename Value="uaprs.pas"/>
         <Caret Line="9" Column="54"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="41" Column="43" TopLine="18"/>
+      </Position>
+      <Position>
+        <Filename Value="uigate.pas"/>
+        <Caret Line="205" Column="65" TopLine="198"/>
       </Position>
     </JumpHistory>
     <RunParams>

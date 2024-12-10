@@ -65,7 +65,7 @@
         </CompilerOptions>
       </Item>
       <Item Name="Release">
-        <MacroValues Count="1">
+        <MacroValues Count="2">
           <Macro1 Name="LCLWidgetType" Value="gtk2"/>
         </MacroValues>
         <CompilerOptions>

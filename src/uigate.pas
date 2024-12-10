@@ -49,11 +49,9 @@ end;
 
 procedure TIGateThread.Disconnect;
 begin
-  if FSocket <> -1 then
-  begin
+  if FSocket < 0 then
     fpShutdown(FSocket, SHUT_RDWR);
-    FSocket := -1;
-  end;
+
 end;
 
 {$IFDEF UNIX}
@@ -151,9 +149,6 @@ begin
     FSocket := socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if FSocket = INVALID_SOCKET then
     begin
-      {$IFDEF UNIX}
-      writeln('Failed to create socket.');
-      {$ENDIF}
       WSACleanup();
       Exit;
     end;
@@ -170,9 +165,6 @@ begin
         HostEnt := gethostbyname(PAnsiChar(FConfig^.IGateServer));
         if HostEnt = nil then
         begin
-          {$IFDEF UNIX}
-          writeln('Cannot resolve ', FConfig^.IGateServer);
-          {$ENDIF}
           closesocket(FSocket);
           WSACleanup();
           Exit;
@@ -186,9 +178,6 @@ begin
       SockState := connect(FSocket, TSockAddr(Addr), SizeOf(Addr));
       if SockState = SOCKET_ERROR then
       begin
-        {$IFDEF UNIX}
-        writeln('Failed to connect to IGate server.');
-        {$ENDIF}
         closesocket(FSocket);
         WSACleanup();
         Exit;

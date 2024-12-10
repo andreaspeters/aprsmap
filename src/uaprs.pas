@@ -153,7 +153,7 @@ var i: Byte;
 begin
   count := Length(APRSPrimarySymbolTable);
   Result := 0;
-  for i := 0 to count do
+  for i := 1 to count do
   begin
     if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
     begin
