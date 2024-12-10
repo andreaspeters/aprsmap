@@ -71,7 +71,7 @@ begin
     FConfig^.IGateEnabled := True;
 
   SaveConfigToFile(FConfig);
-  if MessageDlg('To apply the configuration, we have to restart FlexPacket.', mtConfirmation, [mbCancel, mbOk], 0) = mrOk then
+  if MessageDlg('To apply the configuration, we have to restart APRSMap.', mtConfirmation, [mbCancel, mbOk], 0) = mrOk then
     RestartApplication;
 
   Close;
