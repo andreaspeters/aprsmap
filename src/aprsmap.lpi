@@ -65,9 +65,6 @@
         </CompilerOptions>
       </Item>
       <Item Name="Release">
-        <MacroValues Count="2">
-          <Macro1 Name="LCLWidgetType" Value="gtk2"/>
-        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -97,9 +94,6 @@
           </Linking>
         </CompilerOptions>
       </Item>
-      <SharedMatrixOptions Count="1">
-        <Item1 ID="053525061501" Modes="Release" Type="IDEMacro" MacroName="LCLWidgetType" Value="gtk2"/>
-      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>

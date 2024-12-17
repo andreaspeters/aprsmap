@@ -2,11 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release">
-      <SessionMatrixOptions Count="1">
-        <Item1 ID="709598368925" Modes="Release" Type="IDEMacro" MacroName="LCLWidgetType" Value="win32"/>
-      </SessionMatrixOptions>
-    </BuildModes>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="aprsmap.lpr"/>
@@ -21,12 +17,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="280"/>
-        <CursorPos Y="312"/>
+        <CursorPos X="20" Y="22"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uresize.pas"/>
@@ -59,7 +52,7 @@
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="133"/>
+        <TopLine Value="187"/>
         <CursorPos X="13" Y="156"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -76,9 +69,10 @@
       <Unit>
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="21"/>
-        <CursorPos Y="54"/>
+        <TopLine Value="265"/>
+        <CursorPos X="34" Y="288"/>
         <UsageCount Value="278"/>
         <Loaded Value="True"/>
       </Unit>
@@ -101,8 +95,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="6"/>
-        <CursorPos Y="43"/>
+        <CursorPos Y="35"/>
         <UsageCount Value="65"/>
         <Loaded Value="True"/>
       </Unit>
@@ -135,20 +128,23 @@
         <CursorPos Y="45"/>
         <UsageCount Value="7"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../not_me/lazarus/lcl/interfaces/win32/win32int.pp"/>
+        <UnitName Value="Win32Int"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="13"/>
+        <CursorPos X="19" Y="32"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../not_me/lazarus/lcl/interfaces/win32/win32int.pp"/>
+        <UnitName Value="Win32Int"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="35" Y="48"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uigate.pas"/>
-        <Caret Line="185" Column="20" TopLine="179"/>
-      </Position>
-      <Position>
-        <Filename Value="uigate.pas"/>
-        <Caret Line="169" TopLine="109"/>
-      </Position>
-      <Position>
-        <Filename Value="uigate.pas"/>
-        <Caret Line="182" TopLine="152"/>
-      </Position>
       <Position>
         <Filename Value="uigate.pas"/>
         <Caret Line="150" TopLine="118"/>
@@ -256,6 +252,18 @@
       <Position>
         <Filename Value="uigate.pas"/>
         <Caret Line="205" Column="65" TopLine="198"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="312" TopLine="287"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="317" Column="103" TopLine="296"/>
+      </Position>
+      <Position>
+        <Filename Value="uigate.pas"/>
+        <Caret Line="304" Column="44" TopLine="265"/>
       </Position>
     </JumpHistory>
     <RunParams>

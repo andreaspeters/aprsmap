@@ -9,3 +9,4 @@ cache/**/*
 **/*.res
 **/*.exe
 **/*.bat
+**/*.dbg

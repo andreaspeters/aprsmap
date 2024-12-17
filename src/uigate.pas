@@ -140,10 +140,7 @@ var
 begin
   // WinSock initialisieren
   if WSAStartup($0202, WSAData) <> 0 then
-  begin
-    writeln('Failed to initialize WinSock.');
     Exit;
-  end;
 
   try
     FSocket := socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -292,6 +289,19 @@ begin
         APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
+
+        APRSMessageObject.WXDirection := 0;
+        APRSMessageObject.WXSpeed := 0;
+        APRSMessageObject.WXGust := 0;
+        APRSMessageObject.WXTemperature := 0;
+        APRSMessageObject.WXRainFall1h := 0;
+        APRSMessageObject.WXRainFall24h := 0;
+        APRSMessageObject.WXRainFallToday := 0;
+        APRSMessageObject.WXHumidity := 0;
+        APRSMessageObject.WXPressure := 0;
+        APRSMessageObject.WXLum := 0;
+        APRSMessageObject.WXSnowFall := 0;
+        APRSMessageObject.WXRainCount := 0;
 
         if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
         begin
