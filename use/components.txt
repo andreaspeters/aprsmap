@@ -1,3 +1,7 @@
 RichMemo
 LazRGBGraphics
 BGRABitmap
+BGRAGames
+BGRAControls
+laz_synapse
+LazSerial

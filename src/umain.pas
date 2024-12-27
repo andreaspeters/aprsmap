@@ -215,7 +215,7 @@ end;
 
 procedure TFMain.MVMapMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
-var poi: TPointOfInterest;
+var poi: TMapPointOfInterest;
     i, count, curZoom: Integer;
 begin
   poi := FindGPSItem(PoILayer, x, y);

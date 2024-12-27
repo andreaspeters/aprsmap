@@ -15,7 +15,7 @@ procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Lon
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
-function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
+function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
 function GetAltitude(const Text: String):Integer;
 function GetCourse(const Text: String):Integer;
 function GetSpeed(const Text: String):Integer;
@@ -56,11 +56,11 @@ begin
 end;
 
 
-function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TPointOfInterest;
+function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
 var
   p: TRealPoint;
   i, count: Integer;
-  poi: TPointOfInterest;
+  poi: TMapPointOfInterest;
   Tolerance: Double;
 begin
   count := Layer.PointsOfInterest.Count;
@@ -110,9 +110,9 @@ end;
 
 
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
-var poi: TPointOfInterest;
+var poi: TMapPointOfInterest;
 begin
-  poi := Layer.PointsOfInterest.Add as TPointOfInterest;
+  poi := Layer.PointsOfInterest.Add as TMapPointOfInterest;
   poi.Longitude := Message^.Longitude;
   poi.Latitude := Message^.Latitude;
   poi.Caption := Message^.FromCall;
@@ -121,9 +121,9 @@ begin
 end;
 
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
-var poi: TPointOfInterest;
+var poi: TMapPointOfInterest;
 begin
-  poi := Layer.PointsOfInterest.Add as TPointOfInterest;
+  poi := Layer.PointsOfInterest.Add as TMapPointOfInterest;
   poi.Longitude := Longitude;
   poi.Latitude := Latitude;
   poi.Caption := Text;

@@ -16,7 +16,7 @@ function priv_lazbuild
         case ${ID:?} in
             debian | ubuntu)
                 sudo apt-get update
-                sudo apt-get install -y lazarus{-ide-qt5,} &
+                sudo apt-get install -y lazarus{-ide-gtk2,} &
                 ;;
         esac
     fi
@@ -55,7 +55,7 @@ function priv_lazbuild
         declare -A TMP=(
             [out]=$(mktemp)
         )
-        if (lazbuild --build-all --recursive --no-write-project --build-mode='release' --widgetset='qt5' "${REPLY}" > "${TMP[out]}"); then
+        if (lazbuild --build-all --verbose --recursive --no-write-project --build-mode='release' --widgetset='gtk2' "${REPLY}" > "${TMP[out]}"); then
             printf '\x1b[32m\t[%s]\t%s\x1b[0m\n' "${?}" "${REPLY}"
             grep --color='always' 'Linking' "${TMP[out]}"
         else
