@@ -1,0 +1,3 @@
+RichMemo
+LazRGBGraphics
+BGRABitmap
