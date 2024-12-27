@@ -14,7 +14,7 @@
 ## How to compile
 
 - Install Lazarus 3.6
-- Install TRichMemo, LazMapViewer
+- Install TRichMemo, LazMapViewer (it has to be [this version](https://github.com/wp-xyz/LazMapViewer.git))
 
 # Screenshots
 
