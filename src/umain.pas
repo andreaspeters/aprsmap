@@ -16,6 +16,7 @@ type
 
   TFMain = class(TForm)
     CBEPOIList: TComboBoxEx;
+    CBEMapProvider: TComboBoxEx;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     ImageList1: TImageList;
@@ -47,6 +48,7 @@ type
     Label32: TLabel;
     Label33: TLabel;
     Label34: TLabel;
+    Label35: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -83,7 +85,7 @@ type
     SBMain: TStatusBar;
     Settings1: TMenuItem;
     STAltitude: TStaticText;
-    StaticText1: TStaticText;
+    STMapCopyright: TStaticText;
     STCallsign: TStaticText;
     STWXLum: TStaticText;
     STWXHumidity: TStaticText;
@@ -115,6 +117,7 @@ type
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
+    procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -156,6 +159,8 @@ implementation
 { TFMain }
 
 procedure TFMain.FMainInit(Sender: TObject);
+var Providers: TStringList;
+    i, CountProvider: Byte;
 begin
   FormatSettings.DecimalSeparator := '.';
   OrigWidth := Self.Width;
@@ -176,6 +181,29 @@ begin
   SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y', '/'), MVMap.GPSItems);
   MyPosition := FindGPSItem(PoILayer, APRSConfig.Callsign);
   MVMap.CenterOnObj(MyPosition);
+
+  Providers := TStringList.Create;
+  MVMap.GetMapProviders(Providers);
+  CountProvider := Providers.Count;
+  for i := 0 to CountProvider - 1 do
+  begin
+    CBEMapProvider.ItemsEx.AddItem(Providers.ValueFromIndex[i], -1, 0, 0, 0, nil);
+
+    if Providers.ValueFromIndex[i] = APRSConfig.MAPProvider then
+    begin
+      CBEMapProvider.ItemIndex := i;
+      ChangeMapProvider(Sender);
+    end;
+  end;
+end;
+
+procedure TFMain.ChangeMapProvider(Sender: TObject);
+begin
+  MVMap.MapProvider := CBEMapProvider.ItemsEx.Items[CBEMapProvider.ItemIndex].Caption;
+  STMapCopyright.Caption := 'MAP Copyright '+MVMap.MapProvider;
+  STMapCopyright.Width := Length(STMapCopyright.Caption)*7;
+  APRSConfig.MAPProvider := MVMap.MapProvider;
+  SaveConfigToFile(@APRSConfig);
 end;
 
 procedure TFMain.FormDestroy(Sender: TObject);

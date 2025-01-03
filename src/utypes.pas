@@ -59,6 +59,7 @@ type
 
   TAPRSConfig = record
     MAPCache: String;
+    MAPProvider: String;
     IGateEnabled: Boolean;
     IGateServer: String;
     IGatePort: Integer;

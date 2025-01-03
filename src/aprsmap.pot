@@ -159,6 +159,10 @@ msgctxt "tfmain.label34.caption"
 msgid "Callsign"
 msgstr ""
 
+#: tfmain.label35.caption
+msgid "Provider"
+msgstr ""
+
 #: tfmain.label4.caption
 msgid "Latitude"
 msgstr ""
@@ -208,7 +212,8 @@ msgstr ""
 msgid "&Settings"
 msgstr ""
 
-#: tfmain.statictext1.caption
+#: tfmain.stmapcopyright.caption
+msgctxt "tfmain.stmapcopyright.caption"
 msgid "MAP Copyright OpenStreetMap"
 msgstr ""
 
