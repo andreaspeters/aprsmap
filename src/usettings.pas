@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, utypes, uini;
+  Buttons, StdCtrls, PopupNotifier, utypes, uini;
 
 type
 
@@ -21,6 +21,7 @@ type
     Label3: TLabel;
     LECallsign: TLabeledEdit;
     LEIgatePassword: TLabeledEdit;
+    LEIgateFilter: TLabeledEdit;
     LEIGateServer: TLabeledEdit;
     LEIGatePort: TLabeledEdit;
     LELatitude: TLabeledEdit;
@@ -66,6 +67,7 @@ begin
   FConfig^.IGateServer := LEIGateServer.Caption;
   FConfig^.IGatePort := StrToInt(LEIGatePort.Caption);
   FConfig^.IGatePassword := LEIGatePassword.Caption;
+  FConfig^.IGateFilter := LEIGateFilter.Caption;
 
   if Length(FConfig^.IGatePassword) > 0 then
     FConfig^.IGateEnabled := True;
@@ -87,6 +89,7 @@ begin
   LEIGateServer.Caption := FConfig^.IGateServer;
   LEIGatePort.Caption := IntToStr(FConfig^.IGatePort);
   LEIGatePassword.Caption := FConfig^.IGatePassword;
+  LEIGateFilter.Caption := FConfig^.IGateFilter;
 end;
 
 end.

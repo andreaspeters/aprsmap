@@ -63,6 +63,7 @@ type
     IGateServer: String;
     IGatePort: Integer;
     IGatePassword: String;
+    IGateFilter: String;
     Callsign: String;
     Latitude: Double;
     Longitude: Double;

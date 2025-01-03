@@ -90,7 +90,8 @@ msgid "Direction (°)"
 msgstr ""
 
 #: tfmain.label2.caption
-msgid "Callsign"
+msgctxt "tfmain.label2.caption"
+msgid "Select Callsign"
 msgstr ""
 
 #: tfmain.label20.caption
@@ -151,6 +152,11 @@ msgstr ""
 
 #: tfmain.label33.caption
 msgid "Raw Rain Counter"
+msgstr ""
+
+#: tfmain.label34.caption
+msgctxt "tfmain.label34.caption"
+msgid "Callsign"
 msgstr ""
 
 #: tfmain.label4.caption
@@ -219,27 +225,31 @@ msgid "The password will be stored in plaintext."
 msgstr ""
 
 #: tfsettings.lecallsign.editlabel.caption
-msgid "Callsign                      "
+msgid "Callsign                            "
+msgstr ""
+
+#: tfsettings.leigatefilter.editlabel.caption
+msgid "Filter                                 "
 msgstr ""
 
 #: tfsettings.leigatepassword.editlabel.caption
-msgid "Password                   "
+msgid "Password                         "
 msgstr ""
 
 #: tfsettings.leigateport.editlabel.caption
-msgid "Port                            "
+msgid "Port                                   "
 msgstr ""
 
 #: tfsettings.leigateserver.editlabel.caption
-msgid "Server                        "
+msgid "Server                              "
 msgstr ""
 
 #: tfsettings.lelatitude.editlabel.caption
-msgid "Latitude                     "
+msgid "Latitude                           "
 msgstr ""
 
 #: tfsettings.lelongitude.editlabel.caption
-msgid "Longitude                  "
+msgid "Longitude                       "
 msgstr ""
 
 #: tfsettings.lemapcache.editlabel.caption

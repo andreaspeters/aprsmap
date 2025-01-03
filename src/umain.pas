@@ -46,6 +46,7 @@ type
     Label31: TLabel;
     Label32: TLabel;
     Label33: TLabel;
+    Label34: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -83,6 +84,7 @@ type
     Settings1: TMenuItem;
     STAltitude: TStaticText;
     StaticText1: TStaticText;
+    STCallsign: TStaticText;
     STWXLum: TStaticText;
     STWXHumidity: TStaticText;
     STWXRainCount: TStaticText;
@@ -260,6 +262,7 @@ begin
     if msg <> nil then
     begin
       MAPRSMessage.Lines.Add(msg^.Message);
+      STCallsign.Caption := Call;
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);

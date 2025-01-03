@@ -96,8 +96,11 @@ begin
       Exit;
     end;
 
-    LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/%.2f/%.2f/100'#10,
-      [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.Latitude, FConfig^.Longitude]);
+    LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter %s'#10,
+      [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.IGateFilter]);
+
+    LoginString := StringReplace(LoginString, '<LAT>', Format('%.2f',[FConfig^.Latitude]), []);
+    LoginString := StringReplace(LoginString, '<LON>', Format('%.2f',[FConfig^.Longitude]), []);
 
     fpSend(FSocket, PChar(LoginString), Length(LoginString), 0);
 
@@ -181,8 +184,11 @@ begin
       end;
 
       // Login-String senden
-      LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter r/%.2f/%.2f/100'#10,
-        [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.Latitude, FConfig^.Longitude]);
+      LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter %s'#10,
+        [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.IGateFilter]);
+
+      LoginString := StringReplace(LoginString, '<LAT>', Format('%.2f',[FConfig^.Latitude]), []);
+      LoginString := StringReplace(LoginString, '<LON>', Format('%.2f',[FConfig^.Longitude]), []);
 
       send(FSocket, LoginString[1], Length(LoginString), 0);
 

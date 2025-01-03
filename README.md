@@ -22,6 +22,24 @@
 - Install Lazarus 3.6
 - Install TRichMemo, LazMapViewer (it has to be [this version](https://github.com/wp-xyz/LazMapViewer.git))
 
+## How to use:
+
+### Set IGate Filter
+
+It is possible to configure a IGate filter. To do that, open 'Settings' and 
+change the value of Filter. The default one is:
+
+```
+r/<LAT>/<LON>/200
+```
+
+`r` Stands for the "Range" Filter. `<LAT>` and `<LON>` will be replaced with 
+the values of Latitude and Longitude. `200` is the range in km arround
+your position.
+
+Take a look into the official [APRS-IS manual](https://www.aprs-is.net/javAPRSFilter.aspx)
+to find more examples for filters.
+
 
 # Screenshots
 
