@@ -1,11 +1,11 @@
 object FMain: TFMain
-  Left = 331
-  Height = 837
-  Top = 490
-  Width = 1575
+  Left = 731
+  Height = 907
+  Top = 273
+  Width = 1440
   Caption = 'APRS Map'
-  ClientHeight = 837
-  ClientWidth = 1575
+  ClientHeight = 907
+  ClientWidth = 1440
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
   OnCreate = FMainInit
@@ -21,6 +21,7 @@ object FMain: TFMain
     Top = 8
     Width = 952
     Active = True
+    BorderSpacing.Bottom = 7
     DownloadEngine = MVDEFPC1
     DrawingEngine = MvRGBGraphicsDrawingEngine1
     Layers = <>
@@ -37,7 +38,7 @@ object FMain: TFMain
   object GroupBox1: TGroupBox
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 968
+    Left = 833
     Height = 126
     Top = 0
     Width = 599
@@ -77,8 +78,8 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 21
-    Top = 816
-    Width = 1575
+    Top = 886
+    Width = 1440
     Panels = <    
       item
         Width = 250
@@ -99,8 +100,8 @@ object FMain: TFMain
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
-    Left = 968
-    Height = 684
+    Left = 833
+    Height = 754
     Top = 126
     Width = 599
     Anchors = [akTop, akRight, akBottom]
@@ -108,7 +109,7 @@ object FMain: TFMain
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 664
+    ClientHeight = 734
     ClientWidth = 597
     ParentBackground = False
     TabOrder = 3
@@ -769,13 +770,17 @@ object FMain: TFMain
     end
   end
   object StaticText1: TStaticText
+    AnchorSideLeft.Control = MVMap
+    AnchorSideTop.Control = MVMap
     AnchorSideRight.Control = MVMap
     AnchorSideRight.Side = asrBottom
-    Left = 791
+    AnchorSideBottom.Control = MVMap
+    AnchorSideBottom.Side = asrBottom
+    Left = 8
     Height = 16
-    Top = 863
-    Width = 169
-    Anchors = [akTop, akLeft, akRight]
+    Top = 864
+    Width = 170
+    Anchors = [akLeft, akBottom]
     Caption = 'MAP Copyright OpenStreetMap'
     Color = clGray
     Font.Color = clGradientActiveCaption
