@@ -65,6 +65,7 @@ var
 begin
   count := Layer.PointsOfInterest.Count;
   p := Layer.View.ScreenToLatLon(Point(x, y));
+  Tolerance := 0.0;
 
   if Layer.View.Zoom < 20 then
     Tolerance := 0.0005;
