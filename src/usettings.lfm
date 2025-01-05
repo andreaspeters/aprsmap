@@ -1,21 +1,21 @@
 object FSettings: TFSettings
-  Left = 414
-  Height = 520
-  Top = 160
-  Width = 555
+  Left = 1179
+  Height = 555
+  Top = 455
+  Width = 550
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 520
-  ClientWidth = 555
+  ClientHeight = 555
+  ClientWidth = 550
   DefaultMonitor = dmDesktop
   Position = poDesktopCenter
   LCLVersion = '3.6.0.0'
   object BPDefaultButtons: TButtonPanel
     Left = 6
-    Height = 44
-    Top = 470
-    Width = 543
+    Height = 49
+    Top = 500
+    Width = 538
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     OKButton.OnClick = OKButtonClick
@@ -31,45 +31,45 @@ object FSettings: TFSettings
   end
   object GroupBox1: TGroupBox
     Left = 8
-    Height = 216
+    Height = 240
     Top = 248
     Width = 537
     Caption = 'IGate'
-    ClientHeight = 196
+    ClientHeight = 214
     ClientWidth = 535
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 104
       Width = 296
       EchoMode = emPassword
-      EditLabel.Height = 19
-      EditLabel.Width = 133
-      EditLabel.Caption = 'Password                         '
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Password                   '
       LabelPosition = lpLeft
       PasswordChar = '*'
       TabOrder = 0
     end
     object LEIGateServer: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 8
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 132
-      EditLabel.Caption = 'Server                              '
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Server                        '
       LabelPosition = lpLeft
       TabOrder = 1
     end
     object LEIGatePort: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 56
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 132
-      EditLabel.Caption = 'Port                                   '
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Port                            '
       LabelPosition = lpLeft
       NumbersOnly = True
       TabOrder = 2
@@ -77,7 +77,7 @@ object FSettings: TFSettings
     object Label3: TLabel
       Left = 184
       Height = 16
-      Top = 136
+      Top = 144
       Width = 210
       Caption = 'The password will be stored in plaintext.'
       Font.Color = clRed
@@ -87,12 +87,12 @@ object FSettings: TFSettings
     end
     object LEIgateFilter: TLabeledEdit
       Left = 184
-      Height = 36
-      Top = 152
+      Height = 42
+      Top = 160
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 131
-      EditLabel.Caption = 'Filter                                 '
+      EditLabel.Height = 25
+      EditLabel.Width = 170
+      EditLabel.Caption = 'Filter                          '
       LabelPosition = lpLeft
       TabOrder = 3
     end
@@ -107,45 +107,45 @@ object FSettings: TFSettings
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 24
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 130
+      EditLabel.Height = 25
+      EditLabel.Width = 171
       EditLabel.Caption = 'MAP Cache Directory'
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LECallsign: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 72
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 130
-      EditLabel.Caption = 'Callsign                            '
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Callsign                      '
       LabelPosition = lpLeft
       TabOrder = 1
     end
     object LELatitude: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 120
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 132
-      EditLabel.Caption = 'Latitude                           '
+      EditLabel.Height = 25
+      EditLabel.Width = 172
+      EditLabel.Caption = 'Latitude                     '
       LabelPosition = lpLeft
       TabOrder = 2
     end
     object LELongitude: TLabeledEdit
       Left = 184
-      Height = 36
+      Height = 42
       Top = 168
       Width = 296
-      EditLabel.Height = 19
-      EditLabel.Width = 132
-      EditLabel.Caption = 'Longitude                       '
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Longitude                  '
       LabelPosition = lpLeft
       TabOrder = 3
     end

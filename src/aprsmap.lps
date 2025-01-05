@@ -17,11 +17,11 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="184"/>
-        <CursorPos X="33" Y="195"/>
+        <TopLine Value="152"/>
+        <CursorPos X="36" Y="186"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uresize.pas"/>
@@ -83,11 +83,13 @@
         <ComponentName Value="FSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="72"/>
-        <CursorPos X="49" Y="92"/>
+        <TopLine Value="45"/>
+        <CursorPos X="50" Y="92"/>
         <UsageCount Value="130"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uinfo.pas"/>

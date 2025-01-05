@@ -230,31 +230,31 @@ msgid "The password will be stored in plaintext."
 msgstr ""
 
 #: tfsettings.lecallsign.editlabel.caption
-msgid "Callsign                            "
+msgid "Callsign                      "
 msgstr ""
 
 #: tfsettings.leigatefilter.editlabel.caption
-msgid "Filter                                 "
+msgid "Filter                          "
 msgstr ""
 
 #: tfsettings.leigatepassword.editlabel.caption
-msgid "Password                         "
+msgid "Password                   "
 msgstr ""
 
 #: tfsettings.leigateport.editlabel.caption
-msgid "Port                                   "
+msgid "Port                            "
 msgstr ""
 
 #: tfsettings.leigateserver.editlabel.caption
-msgid "Server                              "
+msgid "Server                        "
 msgstr ""
 
 #: tfsettings.lelatitude.editlabel.caption
-msgid "Latitude                           "
+msgid "Latitude                     "
 msgstr ""
 
 #: tfsettings.lelongitude.editlabel.caption
-msgid "Longitude                       "
+msgid "Longitude                  "
 msgstr ""
 
 #: tfsettings.lemapcache.editlabel.caption
