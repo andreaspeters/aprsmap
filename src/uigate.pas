@@ -252,89 +252,25 @@ end;
 
 function TIGateThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
-    Lat, Lon: Double;
-const
-    PositionType = '!=/@zh';
+    DataType, DataMessage: String;
 begin
   Regex := TRegExpr.Create;
   try
-    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP).*([!|=|\/@|z|h]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
+    // check type
+    Regex.Expression := '^(?:\S+)>(?:\S+),(?:TCPIP*)?.*:([!=\/@;#*)_:>]{1})(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
-      // FromCall: String;
-      // ToCall: String;
-      // IconPrimary: Double;
-      // IconSecondary: Double;
-      // Path: String;
-      // Longitude: Double;
-      // Latitude: Double;
-      // Message: String;
-      // Time: String
-      APRSMessageObject.FromCall := Trim(Regex.Match[1]);
-      APRSMessageObject.ToCall := Trim(Regex.Match[2]);
-      APRSMessageObject.DataType := Regex.Match[3];
-
-      if Pos(APRSMessageObject.DataType, PositionType) > 0 then
-      begin
-        ConvertNMEAToLatLong(Regex.Match[4], Regex.Match[6], Lat, Lon, 1);
-        APRSMessageObject.Latitude := Lat;
-        APRSMessageObject.Longitude := Lon;
-        APRSMessageObject.IconPrimary := Regex.Match[5];
-        APRSMessageObject.Icon := Regex.Match[7];
-        APRSMessageObject.Message := Regex.Match[8];
-        APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
-        APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
-        APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
-        APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
-        APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
-        APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
-        APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
-        APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
-        APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
-        APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
-        APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
-        APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
-
-        APRSMessageObject.WXDirection := 0;
-        APRSMessageObject.WXSpeed := 0;
-        APRSMessageObject.WXGust := 0;
-        APRSMessageObject.WXTemperature := 0;
-        APRSMessageObject.WXRainFall1h := 0;
-        APRSMessageObject.WXRainFall24h := 0;
-        APRSMessageObject.WXRainFallToday := 0;
-        APRSMessageObject.WXHumidity := 0;
-        APRSMessageObject.WXPressure := 0;
-        APRSMessageObject.WXLum := 0;
-        APRSMessageObject.WXSnowFall := 0;
-        APRSMessageObject.WXRainCount := 0;
-
-        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
-        begin
-          APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
-          APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
-          APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
-          APRSMessageObject.WXTemperature := Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9);
-          APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
-          APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
-          APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
-          APRSMessageObject.WXHumidity := StrToInt(GetWX(APRSMessageObject.Message,'h'));
-          APRSMessageObject.WXPressure := Round(StrToInt(GetWX(APRSMessageObject.Message,'b'))/10);
-          APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
-          APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
-          APRSMessageObject.WXRainCount := StrToInt(GetWX(APRSMessageObject.Message,'#'));
-        end;
-
-        APRSMessageObject.Time := now();
-        APRSMessageObject.Track := False;
-      end;
-      Result := APRSMessageObject;
+      // check if type is a position type
+      DataType := Regex.Match[1];
+      DataMessage := Regex.Match[2];
+      Result := GetAPRSMessageObject(Data, DataType, DataMessage, '^(\S+)>(\S+),(?:TCPIP)?.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$');
     end;
   except
     on E: Exception do
     begin
        {$IFDEF UNIX}
-       writeln('APS Data Error: ', E.Message)
+       writeln('APRS Data Error: ', E.Message)
        {$ENDIF}
     end;
   end;
