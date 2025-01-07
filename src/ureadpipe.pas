@@ -136,13 +136,13 @@ begin
     if Length(Data) <= 0 then
       Exit;
 
-    Regex.Expression := '^.*F0.*\[(?:\d{2}:\d{2}:\d{2})\]([!=\/@;#*)_:>]{1})(.*)';
+    Regex.Expression := '^.*F0.*(?:\[(\d{2}:\d{2}:\d{2})\])?\s([!=\/@;#*)_:>]{1})(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
       // check if type is a position type
-      DataType := Regex.Match[1];
-      DataMessage := Regex.Match[2];
+      DataType := Regex.Match[2];
+      DataMessage := Regex.Match[3];
       Result := GetAPRSMessageObject(Data, DataType, DataMessage, '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$');
     end;
   finally
