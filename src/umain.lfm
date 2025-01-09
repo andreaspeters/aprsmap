@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 1953
-  Height = 914
-  Top = 418
+  Left = 1019
+  Height = 913
+  Top = 1055
   Width = 1438
   Caption = 'APRS Map'
-  ClientHeight = 914
+  ClientHeight = 913
   ClientWidth = 1438
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -98,7 +98,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 887
+    Top = 886
     Width = 1438
     Panels = <    
       item
@@ -121,7 +121,7 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
     Left = 831
-    Height = 755
+    Height = 754
     Top = 126
     Width = 599
     Anchors = [akTop, akRight, akBottom]
@@ -129,7 +129,7 @@ object FMain: TFMain
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 729
+    ClientHeight = 728
     ClientWidth = 597
     ParentBackground = False
     TabOrder = 3

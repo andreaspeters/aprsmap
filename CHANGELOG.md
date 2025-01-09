@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## v0.2.0
 
 - ADD: Show locator in the Statusbar beside the GPS Position.
 - FIX: Reset WX Data 
