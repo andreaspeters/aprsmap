@@ -497,6 +497,7 @@ begin
         if Regex.Exec(DataMessage) then
         begin
           // todo telemetry messages
+          APRSMessageObject.Message := APRSMessageObject.Message + Data;
         end;
 
         // check bulletin message
@@ -505,6 +506,8 @@ begin
         if Regex.Exec(DataMessage) then
         begin
           // todo bulletin message
+          writeln(data);
+          APRSMessageObject.Message := APRSMessageObject.Message + Data;
         end;
 
         // check National Weather Service bulletin
@@ -513,20 +516,21 @@ begin
         if Regex.Exec(DataMessage) then
         begin
           // todo nws message
+          APRSMessageObject.Message := APRSMessageObject.Message + Data;
         end
       end;
 
       // check status report
       if (Pos(DataType, StatusReport) > 0) then
       begin
-        // todo Status Reports
-        //writeln(data);
+        APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
 
       // check telemetry
       if (Pos(DataType, Telemetry) > 0) then
       begin
-        // todo Telemetry init message
+        // todo telemetry messages
+        APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
       Result := APRSMessageObject;
   finally

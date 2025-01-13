@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- ADD: Support for Status reports.
+
 ## v0.2.0
 
 - ADD: Show locator in the Statusbar beside the GPS Position.

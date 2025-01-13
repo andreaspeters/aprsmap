@@ -1,10 +1,10 @@
 object FMain: TFMain
-  Left = 1019
-  Height = 913
-  Top = 1055
+  Left = 2197
+  Height = 912
+  Top = 1447
   Width = 1438
   Caption = 'APRS Map'
-  ClientHeight = 913
+  ClientHeight = 912
   ClientWidth = 1438
   DefaultMonitor = dmDesktop
   Menu = MainMenu1
@@ -98,7 +98,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 886
+    Top = 885
     Width = 1438
     Panels = <    
       item
@@ -121,7 +121,7 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
     Left = 831
-    Height = 754
+    Height = 753
     Top = 126
     Width = 599
     Anchors = [akTop, akRight, akBottom]
@@ -129,7 +129,7 @@ object FMain: TFMain
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 728
+    ClientHeight = 727
     ClientWidth = 597
     ParentBackground = False
     TabOrder = 3
@@ -771,10 +771,10 @@ object FMain: TFMain
       TabOrder = 33
     end
     object STCallsign: TStaticText
-      Left = 405
+      Left = 432
       Height = 24
       Top = 88
-      Width = 184
+      Width = 150
       Font.Color = clHighlight
       Font.Height = -15
       Font.Name = 'Sans'
@@ -787,6 +787,16 @@ object FMain: TFMain
       Top = 88
       Width = 63
       Caption = 'Callsign'
+    end
+    object ICallsignIcon: TImage
+      Left = 405
+      Height = 16
+      Top = 92
+      Width = 27
+      ImageIndex = -1
+      Images = ImageList1
+      Proportional = True
+      Stretch = True
     end
   end
   object STMapCopyright: TStaticText
@@ -856,6 +866,7 @@ object FMain: TFMain
     end
   end
   object ImageList1: TImageList
+    DrawingStyle = dsTransparent
     Left = 1048
     Top = 24
     Bitmap = {

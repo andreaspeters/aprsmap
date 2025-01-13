@@ -19,6 +19,7 @@ type
     CBEMapProvider: TComboBoxEx;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    ICallsignIcon: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
     Label10: TLabel;
@@ -163,6 +164,8 @@ var Providers: TStringList;
     i, CountProvider: Byte;
 begin
   FormatSettings.DecimalSeparator := '.';
+  Width := 1438;
+  Height := 915;
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
 
@@ -289,6 +292,7 @@ begin
     msg := APRSMessageList.Find(call);
     if msg <> nil then
     begin
+      ICallSignIcon.ImageIndex := GetImageIndex(msg^.Icon, msg^.IconPrimary);
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
