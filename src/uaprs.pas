@@ -37,6 +37,8 @@ var
 
 implementation
 
+uses
+  umain;
 
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 var
@@ -60,11 +62,10 @@ end;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
 var
   p: TRealPoint;
-  i, count: Integer;
+  i: Integer;
   poi: TMapPointOfInterest;
   Tolerance: Double;
 begin
-  count := Layer.PointsOfInterest.Count;
   p := Layer.View.ScreenToLatLon(Point(x, y));
   Tolerance := 0.0;
 
@@ -81,7 +82,7 @@ begin
   if Layer.View.Zoom < 5 then
     Tolerance := 0.3000;
 
-  for i := 0 to count - 1 do
+  for i := 0 to Layer.PointsOfInterest.Count - 1 do
   begin
     poi := Layer.PointsOfInterest[i];
 
@@ -96,12 +97,11 @@ begin
 end;
 
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
-var i, count: Integer;
+var i: Integer;
 begin
-  count := Layer.PointsOfInterest.Count;
-  for i := 0 to count - 1 do
+  for i := 0 to Layer.PointsOfInterest.Count - 1 do
   begin
-    if Layer.PointsOfInterest[i].Caption = Call then
+    if UpperCase(Trim(Layer.PointsOfInterest[i].Caption)) = UpperCase(Trim(Call)) then
     begin
       Result := Layer.PointsOfInterest[i].GPSObj;
       Exit;
@@ -133,17 +133,20 @@ begin
 end;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
-var i, count: Integer;
+var i: Integer;
     msg: PAPRSMessage;
 begin
-  count := Layer.PointsOfInterest.Count;
-  for i := 1 to count - 1 do
+  // Do not check position 0 because it's ourself.
+  for i := 1 to Layer.PointsOfInterest.Count - 1 do
   begin
     msg := APRSMessageList.Find(Call);
     if msg <> nil then
     begin
       APRSMessageList.Remove(msg);
-      Layer.PointsOfInterest.Delete(i);
+      try
+        Layer.PointsOfInterest.Delete(i);
+      except
+      end;
       Exit;
     end;
   end;
@@ -206,7 +209,8 @@ begin
       Result := StrToInt(Regex.Match[1]);
       Exit;
     end;
-  except
+  finally
+    Regex.Free;
   end;
   Result := 0;
 end;
@@ -223,7 +227,8 @@ begin
       Result := Round(StrToInt(Regex.Match[2])*1.85);
       Exit;
     end;
-  except
+  finally
+    Regex.Free;
   end;
   Result := 0;
 end;
@@ -335,7 +340,8 @@ begin
        Result := Regex.Match[1];
        Exit;
     end;
-  except
+  finally
+    Regex.Free;
   end;
 end;
 
@@ -361,7 +367,8 @@ begin
          end;
        end;
     end;
-  except
+  finally
+    Regex.Free;
   end;
 end;
 
@@ -506,7 +513,9 @@ begin
         if Regex.Exec(DataMessage) then
         begin
           // todo bulletin message
+          {$IFDEF UNIX}
           writeln(data);
+          {$ENDIF}
           APRSMessageObject.Message := APRSMessageObject.Message + Data;
         end;
 

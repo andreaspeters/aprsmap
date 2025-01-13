@@ -225,12 +225,25 @@ msgstr ""
 msgid "IGate"
 msgstr ""
 
+#: tfsettings.groupbox2.caption
+msgctxt "tfsettings.groupbox2.caption"
+msgid "APRS Map"
+msgstr ""
+
+#: tfsettings.groupbox3.caption
+msgid "Station Info"
+msgstr ""
+
 #: tfsettings.label3.caption
 msgid "The password will be stored in plaintext."
 msgstr ""
 
 #: tfsettings.lecallsign.editlabel.caption
 msgid "Callsign                      "
+msgstr ""
+
+#: tfsettings.lecleanuptime.editlabel.caption
+msgid "Cleanup Time (m)     "
 msgstr ""
 
 #: tfsettings.leigatefilter.editlabel.caption

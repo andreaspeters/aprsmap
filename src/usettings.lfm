@@ -1,12 +1,12 @@
 object FSettings: TFSettings
-  Left = 1179
-  Height = 555
-  Top = 455
+  Left = 1654
+  Height = 675
+  Top = 406
   Width = 550
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 555
+  ClientHeight = 675
   ClientWidth = 550
   DefaultMonitor = dmDesktop
   Position = poDesktopCenter
@@ -14,7 +14,7 @@ object FSettings: TFSettings
   object BPDefaultButtons: TButtonPanel
     Left = 6
     Height = 49
-    Top = 500
+    Top = 620
     Width = 538
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -30,9 +30,9 @@ object FSettings: TFSettings
     ShowButtons = [pbOK, pbCancel]
   end
   object GroupBox1: TGroupBox
-    Left = 8
+    Left = 6
     Height = 240
-    Top = 248
+    Top = 368
     Width = 537
     Caption = 'IGate'
     ClientHeight = 214
@@ -66,7 +66,7 @@ object FSettings: TFSettings
       Left = 184
       Height = 42
       Top = 56
-      Width = 296
+      Width = 152
       EditLabel.Height = 25
       EditLabel.Width = 173
       EditLabel.Caption = 'Port                            '
@@ -98,17 +98,18 @@ object FSettings: TFSettings
     end
   end
   object GroupBox2: TGroupBox
-    Left = 8
-    Height = 232
-    Top = 16
+    Left = 6
+    Height = 144
+    Top = 208
     Width = 537
-    ClientHeight = 230
+    Caption = 'APRS Map'
+    ClientHeight = 118
     ClientWidth = 535
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
       Height = 42
-      Top = 24
+      Top = 8
       Width = 296
       EditLabel.Height = 25
       EditLabel.Width = 171
@@ -116,43 +117,10 @@ object FSettings: TFSettings
       LabelPosition = lpLeft
       TabOrder = 0
     end
-    object LECallsign: TLabeledEdit
-      Left = 184
-      Height = 42
-      Top = 72
-      Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 173
-      EditLabel.Caption = 'Callsign                      '
-      LabelPosition = lpLeft
-      TabOrder = 1
-    end
-    object LELatitude: TLabeledEdit
-      Left = 184
-      Height = 42
-      Top = 120
-      Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 172
-      EditLabel.Caption = 'Latitude                     '
-      LabelPosition = lpLeft
-      TabOrder = 2
-    end
-    object LELongitude: TLabeledEdit
-      Left = 184
-      Height = 42
-      Top = 168
-      Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 173
-      EditLabel.Caption = 'Longitude                  '
-      LabelPosition = lpLeft
-      TabOrder = 3
-    end
     object BBOSMCache: TBitBtn
       Left = 488
       Height = 40
-      Top = 24
+      Top = 10
       Width = 41
       Glyph.Data = {
         36190000424D3619000000000000360000002800000028000000280000000100
@@ -361,7 +329,62 @@ object FSettings: TFSettings
       Images = ImageList1
       ImageIndex = 0
       OnClick = BBOSMCacheClick
-      TabOrder = 4
+      TabOrder = 1
+    end
+    object LECleanupTime: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 62
+      Width = 152
+      EditLabel.Height = 25
+      EditLabel.Width = 169
+      EditLabel.Caption = 'Cleanup Time (m)     '
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 2
+    end
+  end
+  object GroupBox3: TGroupBox
+    Left = 6
+    Height = 184
+    Top = 8
+    Width = 537
+    Caption = 'Station Info'
+    ClientHeight = 158
+    ClientWidth = 535
+    TabOrder = 3
+    object LECallsign: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 0
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Callsign                      '
+      LabelPosition = lpLeft
+      TabOrder = 0
+    end
+    object LELatitude: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 48
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 172
+      EditLabel.Caption = 'Latitude                     '
+      LabelPosition = lpLeft
+      TabOrder = 1
+    end
+    object LELongitude: TLabeledEdit
+      Left = 184
+      Height = 42
+      Top = 96
+      Width = 296
+      EditLabel.Height = 25
+      EditLabel.Width = 173
+      EditLabel.Caption = 'Longitude                  '
+      LabelPosition = lpLeft
+      TabOrder = 2
     end
   end
   object ImageList1: TImageList

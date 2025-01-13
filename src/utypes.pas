@@ -68,6 +68,7 @@ type
     Callsign: String;
     Latitude: Double;
     Longitude: Double;
+    CleanupTime: Integer;
   end;
 
   TAPRSSymbol = record

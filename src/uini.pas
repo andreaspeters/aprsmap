@@ -37,6 +37,7 @@ begin
   ini.WriteString('APRS', 'callsign', Config^.Callsign);
   ini.WriteFloat('APRS', 'latitude', Config^.Latitude);
   ini.WriteFloat('APRS', 'longitude', Config^.Longitude);
+  ini.WriteInteger('APRS', 'cleanuptime', Config^.CleanupTime);
   ini.WriteBool('IGATE', 'enable', Config^.IGateEnabled);
   ini.WriteString('IGATE', 'server', Config^.IGateServer);
   ini.WriteInteger('IGATE', 'port', Config^.IGatePort);
@@ -68,6 +69,7 @@ begin
   Config^.Callsign := ini.ReadString('APRS', 'callsign', 'NOCALL');
   Config^.Latitude := ini.ReadFloat('APRS', 'latitude', 34.509410);
   Config^.Longitude := ini.ReadFloat('APRS', 'longitude', -32.892659);
+  Config^.CleanupTime := ini.ReadInteger('APRS', 'cleanuptime', 5);
   Config^.IGateEnabled := ini.ReadBool('IGATE', 'enable', False);
   Config^.IGateServer := ini.ReadString('IGATE', 'server', 'rotate.aprs.net');
   Config^.IGatePort := ini.ReadInteger('IGATE', 'port', 14580);

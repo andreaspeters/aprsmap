@@ -152,7 +152,8 @@ var
   IGate: TIGateThread;
   LastZoom: Byte;
   MyPosition: TGPSObj;
-  PoILayer: TMapLayer;
+  MyPositionGPS: TGPSPoint;
+  PoILayer, myPoILayer: TMapLayer;
 
 implementation
 
@@ -184,6 +185,8 @@ begin
   PoILayer := (MVMap.Layers.Add as TMapLayer);
   SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y', '/'), MVMap.GPSItems);
   MyPosition := FindGPSItem(PoILayer, APRSConfig.Callsign);
+  if MyPosition <> nil then
+    MyPositionGPS := TGpsPoint(MyPosition);
   MVMap.CenterOnObj(MyPosition);
 
   Providers := TStringList.Create;
@@ -285,6 +288,7 @@ end;
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
+    poiGPS: TGPSObj;
 begin
   try
     MAPRSMessage.Lines.Clear;
@@ -327,9 +331,24 @@ begin
 
       MVMap.Zoom := 28;
       if (Sender is TComboBoxEx) then
-        MVMap.CenterOnObj(FindGPSItem(PoiLayer, call));
+      begin
+        poiGPS := FindGPSItem(PoiLayer, call);
+        if poiGPS <> nil then
+          MVMap.CenterOnObj(poiGPS)
+        else
+        begin
+          DeleteCombobox(msg^.FromCall);
+          ShowMessage('Could not find PoI in Map.');
+        end;
+      end;
     end;
   except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Select PoI Error: ', E.Message);
+      {$ENDIF}
+    end;
   end;
 end;
 
@@ -357,23 +376,38 @@ end;
 
 
 procedure TFMain.DelPoiByAge;
-var i, count: Integer;
+var i: Integer;
     curTime: TTime;
+    poi: TMapPointOfInterest;
     msg: PAPRSMessage;
+    call: String;
 begin
   curTime := now();
-  count := PoiLayer.PointsOfInterest.Count;
-  for i := 1 to count - 1 do
+  // Do not check position 0 because it's ourself.
+  for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
   begin
-    msg := APRSMessageList.Find(PoILayer.PointsOfInterest.Items[i].Caption);
-    if msg <> nil then
-    begin
-      if Frac(curTime - msg^.Time)*1440 > 5 then
+    try
+      poi := PoILayer.PointsOfInterest.Items[i];
+      if poi = nil then
+        Continue;
+
+      call := PoILayer.PointsOfInterest.Items[i].caption;
+      if Length(call) <= 0 then
+        Continue;
+
+      msg := APRSMessageList.Find(call);
+      if msg = nil then
+        Continue;
+
+      if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
       begin
-        DeleteCombobox(msg^.FromCall);
-        APRSMessageList.Remove(msg);
-        PoILayer.PointsOfInterest.Delete(i);
+        DelPoI(PoILayer, call);
+        DeleteCombobox(call);
       end;
+    except
+      {$IFDEF UNIX}
+      writeln('Error Find PoI on Layer')
+      {$ENDIF}
     end;
   end;
 end;
@@ -408,12 +442,23 @@ begin
         else
         begin
           // update poi data
+          if (newMsg^.Latitude <= 0) and (newMsg^.Longitude <= 0) then
+          begin
+            newMsg^.Latitude := msg.Latitude;
+            newMsg^.Longitude := msg.Longitude;
+          end;
           DelPoI(PoILayer, msg.FromCall);
           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
           MVMap.Refresh;
         end;
       end;
     except
+      on E: Exception do
+      begin
+        {$IFDEF UNIX}
+        writeln('Main Loop IGate Error: ', E.Message);
+        {$ENDIF}
+      end;
     end;
   end;
 
@@ -434,38 +479,63 @@ begin
       else
       begin
         // update poi data
+        if (newMsg^.Latitude <= 0) and (newMsg^.Longitude <= 0) then
+        begin
+          newMsg^.Latitude := msg.Latitude;
+          newMsg^.Longitude := msg.Longitude;
+        end;
+
         DelPoI(PoILayer, msg.FromCall);
         SetPoi(PoILayer, newMsg, MVMap.GPSItems);
         MVMap.Refresh;
       end;
     end;
   except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Receive Data Pipe Error: ', E.Message);
+      {$ENDIF}
+    end;
   end;
 end;
 
 procedure TFMain.DeleteCombobox(const Call: String);
-var i, count: Integer;
+var i: Integer;
 begin
-  count := CBEPOIList.ItemsEx.Count;
-  for i:= 0 to count - 1 do
+  for i:= 0 to CBEPOIList.ItemsEx.Count - 1 do
   begin
-    if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = Call then
+    if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = Trim(Call) then
     begin
       CBEPOIList.ItemsEx.Delete(i);
+      CBEPOIList.Refresh;
       Exit;
     end;
   end;
 end;
 
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
-var poi: TGpsPoint;
+var poi, me: TGpsPoint;
     km: Double;
     imageIndex: Byte;
 begin
   poi := TGpsPoint(FindGPSItem(PoILayer, msg.FromCall));
-  km := poi.DistanceInKmFrom(TGpsPoint(MyPosition),False);
-  imageIndex := GetImageIndex(msg.Icon, msg.IconPrimary);
-  CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);
+
+  if (poi = nil) or (MyPositionGPS = nil) then
+    Exit;
+
+  try
+    km := poi.DistanceInKmFrom(MyPositionGPS,False);
+    imageIndex := GetImageIndex(msg.Icon, msg.IconPrimary);
+    CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Calculate Distance in km: ', E.Message);
+      {$ENDIF}
+    end;
+  end;
 end;
 
 end.

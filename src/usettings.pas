@@ -17,8 +17,10 @@ type
     BPDefaultButtons: TButtonPanel;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
     ImageList1: TImageList;
     Label3: TLabel;
+    LECleanupTime: TLabeledEdit;
     LECallsign: TLabeledEdit;
     LEIgatePassword: TLabeledEdit;
     LEIgateFilter: TLabeledEdit;
@@ -68,6 +70,7 @@ begin
   FConfig^.IGatePort := StrToInt(LEIGatePort.Caption);
   FConfig^.IGatePassword := LEIGatePassword.Caption;
   FConfig^.IGateFilter := LEIGateFilter.Caption;
+  FConfig^.CleanupTime := StrToInt(LECleanupTime.Caption);
 
   if Length(FConfig^.IGatePassword) > 0 then
     FConfig^.IGateEnabled := True;
@@ -90,6 +93,7 @@ begin
   LEIGatePort.Caption := IntToStr(FConfig^.IGatePort);
   LEIGatePassword.Caption := FConfig^.IGatePassword;
   LEIGateFilter.Caption := FConfig^.IGateFilter;
+  LECleanupTime.Caption := IntToStr(FConfig^.CleanupTime);
 end;
 
 end.
