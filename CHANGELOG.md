@@ -3,6 +3,7 @@
 ## master
 
 - ADD: Support for Status reports.
+- FIX: Create PoI from APRS data received over FlexPacket.
 
 ## v0.2.0
 

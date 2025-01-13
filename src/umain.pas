@@ -8,7 +8,8 @@ uses
   Classes, SysUtils, mvMapViewer, mvDLEFpc, mvDE_BGRA, Forms, Controls,
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
-  mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf, uinfo;
+  mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
+  FileCtrl, uinfo;
 
 type
 
@@ -383,10 +384,11 @@ var msg: TAPRSMessage;
     buffer: String;
     newMSG: PAPRSMessage;
 begin
+  DelPoIByAge;
+
   if APRSConfig.IGateEnabled then
   begin
     try
-      DelPoIByAge;
       buffer := IGate.APRSBuffer;
       IGate.APRSBuffer := '';
       msg := IGate.DecodeAPRSMessage(buffer);
@@ -410,19 +412,33 @@ begin
           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
           MVMap.Refresh;
         end;
-        //WriteLn('Source: ', msg.FromCall);
-        //WriteLn('Destination: ', msg.ToCall);
-        //WriteLn('Path: ', msg.Path);
-        //WriteLn('Latitude: ',  LatToStr(msg.Latitude, False));
-        //WriteLn('Longitude: ', LonToStr(msg.Longitude, False));
-        //WriteLn('Message: ', msg.Message);
       end;
     except
     end;
   end;
 
   try
-    ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData);
+    msg := ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData);
+    if Length(msg.FromCall) > 0 then
+    begin
+      New(newMSG);
+      newMSG^ := msg;
+
+      if APRSMessageList.Find(msg.FromCall) = nil then
+      begin
+        // create a new poi
+        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+        AddCombobox(msg);
+        MVMap.Refresh;
+      end
+      else
+      begin
+        // update poi data
+        DelPoI(PoILayer, msg.FromCall);
+        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+        MVMap.Refresh;
+      end;
+    end;
   except
   end;
 end;
