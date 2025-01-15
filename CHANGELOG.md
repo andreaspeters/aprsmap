@@ -6,6 +6,7 @@
 - FIX: Create PoI from APRS data received over FlexPacket.
 - FIX: Error during cleanup old APRS data.
 - ADD: Now we can configure how old the APRS Data could be before we clean them up.
+- CHANGE: Folder Icon
 
 ## v0.2.0
 

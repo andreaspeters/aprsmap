@@ -216,6 +216,10 @@ end;
 procedure TFMain.FormDestroy(Sender: TObject);
 begin
   SaveConfigToFile(@APRSConfig);
+  try
+    ReadPipe.Terminate;
+  except
+  end;
 end;
 
 procedure TFMain.FormResize(Sender: TObject);
