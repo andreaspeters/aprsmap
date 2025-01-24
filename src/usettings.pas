@@ -31,7 +31,6 @@ type
     SDDCacheDirectory: TSelectDirectoryDialog;
     SpeedButton1: TSpeedButton;
     procedure BBOSMCacheClick(Sender: TObject);
-    procedure BPDefaultButtonsClick(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
   private
@@ -55,12 +54,6 @@ begin
   if SDDCacheDirectory.Execute then
     LEMapCache.Caption := SDDCacheDirectory.FileName;
 end;
-
-procedure TFSettings.BPDefaultButtonsClick(Sender: TObject);
-begin
-
-end;
-
 
 procedure TFSettings.CancelButtonClick(Sender: TObject);
 begin

@@ -10,6 +10,7 @@ object FSettings: TFSettings
   ClientWidth = 550
   DefaultMonitor = dmDesktop
   Position = poDesktopCenter
+  LCLVersion = '3.6.0.0'
   object BPDefaultButtons: TButtonPanel
     Left = 6
     Height = 49
@@ -26,7 +27,6 @@ object FSettings: TFSettings
     CancelButton.DefaultCaption = True
     CancelButton.OnClick = CancelButtonClick
     TabOrder = 0
-    OnClick = BPDefaultButtonsClick
     ShowButtons = [pbOK, pbCancel]
   end
   object GroupBox1: TGroupBox
@@ -35,8 +35,8 @@ object FSettings: TFSettings
     Top = 368
     Width = 537
     Caption = 'IGate'
-    ClientHeight = 214
-    ClientWidth = 535
+    ClientHeight = 228
+    ClientWidth = 525
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 184
@@ -103,8 +103,8 @@ object FSettings: TFSettings
     Top = 208
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 118
-    ClientWidth = 535
+    ClientHeight = 132
+    ClientWidth = 525
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
@@ -146,8 +146,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 158
-    ClientWidth = 535
+    ClientHeight = 172
+    ClientWidth = 525
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 184
