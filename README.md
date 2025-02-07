@@ -15,7 +15,11 @@
 
 - You will find the current and all last releases for Windows and Linux [here](https://github.com/andreaspeters/aprsmap/releases)
 - The newest builds created by the master branch, you will find [here](https://github.com/andreaspeters/aprsmap/actions). Open
-  the last successfull build and scroll down to the artifacts. 
+  the last successfull build and scroll down to the artifacts.
+
+## Requirements
+
+- [libqt6pas.so/dll](https://github.com/davidbannon/libqt6pas/releases)
 
 ## How to compile
 
