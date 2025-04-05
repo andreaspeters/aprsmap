@@ -71,7 +71,6 @@ object FSettings: TFSettings
       EditLabel.Width = 173
       EditLabel.Caption = 'Port                            '
       LabelPosition = lpLeft
-      NumbersOnly = True
       TabOrder = 2
     end
     object Label3: TLabel
@@ -126,7 +125,6 @@ object FSettings: TFSettings
       EditLabel.Width = 169
       EditLabel.Caption = 'Cleanup Time (m)     '
       LabelPosition = lpLeft
-      NumbersOnly = True
       TabOrder = 1
     end
     object SpeedButton1: TSpeedButton

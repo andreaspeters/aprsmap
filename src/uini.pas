@@ -64,7 +64,7 @@ begin
   ForceDirectories(CacheDir);
 
   ini := TIniFile.Create(HomeDir+'/aprsmap.ini');
-  Config^.MAPProvider := ini.ReadString('MAP', 'provider', 'OpenStreetMap Mapnik');
+  Config^.MAPProvider := ini.ReadString('MAP', 'provider', 'OpenStreetMap Standard');
   Config^.MAPCache := ini.ReadString('APRS', 'mapcache', CacheDir);
   Config^.Callsign := ini.ReadString('APRS', 'callsign', 'NOCALL');
   Config^.Latitude := ini.ReadFloat('APRS', 'latitude', 34.509410);

@@ -27,7 +27,7 @@ object FMain: TFMain
     DrawingEngine = MvRGBGraphicsDrawingEngine1
     Layers = <>
     Font.Color = clBlack
-    MapProvider = 'OpenStreetMap Mapnik'
+    MapProvider = 'OpenStreetMap Standard'
     POIImages = ImageList1
     POIImagesWidth = 16
     POITextBgColor = clWhite
