@@ -1,3 +1,3 @@
 [submodule "use/LazMapViewer"]
 	path = use/LazMapViewer
-	url = git@github.com:andreaspeters/LazMapViewer.git
+	url = https://github.com/andreaspeters/LazMapViewer.git
