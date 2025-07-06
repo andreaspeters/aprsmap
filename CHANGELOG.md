@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- ADD: Support for local OSM Tiles
+
 ## v0.3.0
 
 - ADD: Support for Status reports.

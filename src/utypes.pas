@@ -60,6 +60,7 @@ type
   TAPRSConfig = record
     MAPCache: String;
     MAPProvider: String;
+    LocalTilesDirectory: String;
     IGateEnabled: Boolean;
     IGateServer: String;
     IGatePort: Integer;

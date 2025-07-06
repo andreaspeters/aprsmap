@@ -16,7 +16,7 @@ procedure LoadConfigFromFile(Config: PTAPRSConfig);
 implementation
 
 var
-  HomeDir, CacheDir: String;
+  HomeDir, CacheDir, TilesDir: String;
 
 procedure SaveConfigToFile(Config: PTAPRSConfig);
 var
@@ -33,6 +33,7 @@ begin
   ini := TIniFile.Create(HomeDir+'/aprsmap.ini');
 
   ini.WriteString('MAP', 'provider', Config^.MAPProvider);
+  ini.WriteString('MAP', 'LocalTilesDirectory', Config^.LocalTilesDirectory);
   ini.WriteString('APRS', 'mapcache', Config^.MAPCache);
   ini.WriteString('APRS', 'callsign', Config^.Callsign);
   ini.WriteFloat('APRS', 'latitude', Config^.Latitude);
@@ -52,19 +53,23 @@ begin
   // Load config file
   {$IFDEF UNIX}
   HomeDir := GetEnvironmentVariable('HOME')+'/.config/aprsmap/';
-  CacheDir := GetEnvironmentVariable('HOME')+'/.cache/aprsmap/map/';
+  CacheDir := GetEnvironmentVariable('HOME')+'/.cache/aprsmap/cache/';
+  TilesDir := GetEnvironmentVariable('HOME')+'/.cache/aprsmap/tiles/';
   {$ENDIF}
   {$IFDEF MSWINDOWS}
   HomeDir := GetEnvironmentVariable('USERPROFILE')+'/aprsmap/';
   CacheDir := GetEnvironmentVariable('USERPROFILE')+'/aprsmap/cache';
+  TilesDir := GetEnvironmentVariable('USERPROFILE')+'/aprsmap/tiles';
   {$ENDIF}
 
   // create directory structure if it does not exist
   ForceDirectories(HomeDir);
   ForceDirectories(CacheDir);
+  ForceDirectories(TilesDir);
 
   ini := TIniFile.Create(HomeDir+'/aprsmap.ini');
   Config^.MAPProvider := ini.ReadString('MAP', 'provider', 'OpenStreetMap Standard');
+  Config^.LocalTilesDirectory := ini.ReadString('MAP', 'LocalTilesDirectory', TilesDir );
   Config^.MAPCache := ini.ReadString('APRS', 'mapcache', CacheDir);
   Config^.Callsign := ini.ReadString('APRS', 'callsign', 'NOCALL');
   Config^.Latitude := ini.ReadFloat('APRS', 'latitude', 34.509410);

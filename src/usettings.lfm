@@ -1,20 +1,19 @@
 object FSettings: TFSettings
   Left = 1654
-  Height = 675
+  Height = 731
   Top = 406
   Width = 550
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 675
+  ClientHeight = 731
   ClientWidth = 550
   DefaultMonitor = dmDesktop
   Position = poDesktopCenter
-  LCLVersion = '3.6.0.0'
   object BPDefaultButtons: TButtonPanel
     Left = 6
-    Height = 49
-    Top = 620
+    Height = 40
+    Top = 685
     Width = 538
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -32,52 +31,52 @@ object FSettings: TFSettings
   object GroupBox1: TGroupBox
     Left = 6
     Height = 240
-    Top = 368
+    Top = 424
     Width = 537
     Caption = 'IGate'
-    ClientHeight = 228
-    ClientWidth = 525
+    ClientHeight = 209
+    ClientWidth = 533
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 104
-      Width = 296
+      Width = 304
       EchoMode = emPassword
-      EditLabel.Height = 25
-      EditLabel.Width = 173
-      EditLabel.Caption = 'Password                   '
+      EditLabel.Height = 34
+      EditLabel.Width = 138
+      EditLabel.Caption = 'Password                  '
       LabelPosition = lpLeft
       PasswordChar = '*'
       TabOrder = 0
     end
     object LEIGateServer: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 8
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 173
+      EditLabel.Height = 34
+      EditLabel.Width = 139
       EditLabel.Caption = 'Server                        '
       LabelPosition = lpLeft
       TabOrder = 1
     end
     object LEIGatePort: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 56
       Width = 152
-      EditLabel.Height = 25
-      EditLabel.Width = 173
+      EditLabel.Height = 34
+      EditLabel.Width = 139
       EditLabel.Caption = 'Port                            '
       LabelPosition = lpLeft
       TabOrder = 2
     end
     object Label3: TLabel
       Left = 184
-      Height = 16
+      Height = 15
       Top = 144
-      Width = 210
+      Width = 207
       Caption = 'The password will be stored in plaintext.'
       Font.Color = clRed
       Font.Height = -11
@@ -86,11 +85,11 @@ object FSettings: TFSettings
     end
     object LEIgateFilter: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 160
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 170
+      EditLabel.Height = 34
+      EditLabel.Width = 137
       EditLabel.Caption = 'Filter                          '
       LabelPosition = lpLeft
       TabOrder = 3
@@ -98,32 +97,32 @@ object FSettings: TFSettings
   end
   object GroupBox2: TGroupBox
     Left = 6
-    Height = 144
+    Height = 200
     Top = 208
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 132
-    ClientWidth = 525
+    ClientHeight = 169
+    ClientWidth = 533
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 8
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 171
+      EditLabel.Height = 34
+      EditLabel.Width = 148
       EditLabel.Caption = 'MAP Cache Directory'
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LECleanupTime: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 62
       Width = 152
-      EditLabel.Height = 25
-      EditLabel.Width = 169
-      EditLabel.Caption = 'Cleanup Time (m)     '
+      EditLabel.Height = 34
+      EditLabel.Width = 147
+      EditLabel.Caption = 'Cleanup Time (m)      '
       LabelPosition = lpLeft
       TabOrder = 1
     end
@@ -135,7 +134,28 @@ object FSettings: TFSettings
       Flat = True
       Images = ImageList1
       ImageIndex = 0
-      OnClick = BBOSMCacheClick
+      OnClick = BBOSMMapCacheClick
+    end
+    object LEMapLocalDirectory: TLabeledEdit
+      Left = 184
+      Height = 34
+      Top = 112
+      Width = 296
+      EditLabel.Height = 34
+      EditLabel.Width = 146
+      EditLabel.Caption = 'Local Tiles                   '
+      LabelPosition = lpLeft
+      TabOrder = 2
+    end
+    object SpeedButton2: TSpeedButton
+      Left = 488
+      Height = 40
+      Top = 112
+      Width = 39
+      Flat = True
+      Images = ImageList1
+      ImageIndex = 0
+      OnClick = BBOSMLocalTilesClick
     end
   end
   object GroupBox3: TGroupBox
@@ -144,38 +164,38 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 172
-    ClientWidth = 525
+    ClientHeight = 153
+    ClientWidth = 533
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 0
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 173
+      EditLabel.Height = 34
+      EditLabel.Width = 141
       EditLabel.Caption = 'Callsign                      '
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LELatitude: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 48
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 172
+      EditLabel.Height = 34
+      EditLabel.Width = 140
       EditLabel.Caption = 'Latitude                     '
       LabelPosition = lpLeft
       TabOrder = 1
     end
     object LELongitude: TLabeledEdit
       Left = 184
-      Height = 42
+      Height = 34
       Top = 96
       Width = 296
-      EditLabel.Height = 25
-      EditLabel.Width = 173
+      EditLabel.Height = 34
+      EditLabel.Width = 142
       EditLabel.Caption = 'Longitude                  '
       LabelPosition = lpLeft
       TabOrder = 2

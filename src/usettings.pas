@@ -28,9 +28,12 @@ type
     LELatitude: TLabeledEdit;
     LELongitude: TLabeledEdit;
     LEMapCache: TLabeledEdit;
+    LEMapLocalDirectory: TLabeledEdit;
     SDDCacheDirectory: TSelectDirectoryDialog;
     SpeedButton1: TSpeedButton;
-    procedure BBOSMCacheClick(Sender: TObject);
+    SpeedButton2: TSpeedButton;
+    procedure BBOSMMapCacheClick(Sender: TObject);
+    procedure BBOSMLocalTilesClick(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
   private
@@ -49,10 +52,16 @@ implementation
 
 { TFSettings }
 
-procedure TFSettings.BBOSMCacheClick(Sender: TObject);
+procedure TFSettings.BBOSMMapCacheClick(Sender: TObject);
 begin
   if SDDCacheDirectory.Execute then
     LEMapCache.Caption := SDDCacheDirectory.FileName;
+end;
+
+procedure TFSettings.BBOSMLocalTilesClick(Sender: TObject);
+begin
+  if SDDCacheDirectory.Execute then
+    LEMapLocalDirectory.Caption := SDDCacheDirectory.FileName;
 end;
 
 procedure TFSettings.CancelButtonClick(Sender: TObject);
@@ -71,6 +80,7 @@ begin
   FConfig^.IGatePassword := LEIGatePassword.Caption;
   FConfig^.IGateFilter := LEIGateFilter.Caption;
   FConfig^.CleanupTime := StrToInt(LECleanupTime.Caption);
+  FConfig^.LocalTilesDirectory := LEMapLocalDirectory.Caption;
 
   if Length(FConfig^.IGatePassword) > 0 then
     FConfig^.IGateEnabled := True;
@@ -94,6 +104,7 @@ begin
   LEIGatePassword.Caption := FConfig^.IGatePassword;
   LEIGateFilter.Caption := FConfig^.IGateFilter;
   LECleanupTime.Caption := IntToStr(FConfig^.CleanupTime);
+  LEMapLocalDirectory.Caption := FConfig^.LocalTilesDirectory;
 end;
 
 end.

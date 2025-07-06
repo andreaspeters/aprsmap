@@ -6,10 +6,7 @@
 
 - Receive APRS Messages via Radio through FlexPacket.
 - Receive APRS Messages via IGate
-
-## Planned Features
-
-- Offline Map Mode
+- Support for Local (Offline) OSM Tiles
 
 ## Download
 

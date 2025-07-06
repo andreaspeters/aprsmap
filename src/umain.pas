@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  FileCtrl, uinfo;
+  FileCtrl, uinfo, mvMapProvider;
 
 type
 
@@ -172,6 +172,8 @@ begin
   OrigHeight := Self.Height;
 
   LoadConfigFromFile(@APRSConfig);
+
+  MVMap.Engine.AddMapProvider('OpenStreetMap Local Tiles', ptEPSG3857, 'file:///'+APRSConfig.LocalTilesDirectory+'/%z%/%x%/%y%.png', 0, 19, 3,Nil);
 
   TBZoomMap.Position := MVMap.Zoom;
   MVMap.CachePath := APRSConfig.MAPCache;

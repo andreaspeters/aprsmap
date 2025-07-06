@@ -23,9 +23,15 @@
       <MinorVersionNr Value="2"/>
       <StringTable ProductName="APRS Map"/>
     </VersionInfo>
+    <MacroValues Count="1">
+      <Macro1 Name="LCLWidgetType" Value="qt6"/>
+    </MacroValues>
     <BuildModes>
       <Item Name="Default" Default="True"/>
       <Item Name="Debug">
+        <MacroValues Count="1">
+          <Macro1 Name="LCLWidgetType" Value="qt6"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -65,6 +71,9 @@
         </CompilerOptions>
       </Item>
       <Item Name="Release">
+        <MacroValues Count="1">
+          <Macro1 Name="LCLWidgetType" Value="qt6"/>
+        </MacroValues>
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
@@ -94,6 +103,9 @@
           </Linking>
         </CompilerOptions>
       </Item>
+      <SharedMatrixOptions Count="1">
+        <Item1 ID="055354886374" Modes="Release,Debug,Default" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt6"/>
+      </SharedMatrixOptions>
     </BuildModes>
     <PublishOptions>
       <Version Value="2"/>
