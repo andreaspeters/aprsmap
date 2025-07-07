@@ -17,10 +17,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="164"/>
-        <CursorPos X="115" Y="176"/>
+        <TopLine Value="12"/>
+        <CursorPos X="96" Y="34"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -150,20 +149,18 @@
         <CursorPos X="159" Y="26"/>
         <UsageCount Value="15"/>
       </Unit>
+      <Unit>
+        <Filename Value="../use/LazMapViewer/source/mvmapviewerreg.pas"/>
+        <UnitName Value="mvMapViewerReg"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="9"/>
+        <TopLine Value="7"/>
+        <CursorPos X="12" Y="35"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="28">
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="81" TopLine="50"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="82" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="81" TopLine="50"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="usettings.pas"/>
         <Caret Line="82" TopLine="51"/>
@@ -267,6 +264,22 @@
       <Position>
         <Filename Value="uini.pas"/>
         <Caret Line="68" Column="25" TopLine="51"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="176" Column="115" TopLine="164"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="12" Column="33" TopLine="12"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="34" Column="96" TopLine="12"/>
+      </Position>
+      <Position>
+        <Filename Value="utypes.pas"/>
+        <Caret Line="63" Column="33" TopLine="46"/>
       </Position>
     </JumpHistory>
     <RunParams>

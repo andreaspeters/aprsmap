@@ -2,6 +2,10 @@
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=ZDB5ZSNJNK9XQ)
 
+## Info
+
+Currently, the Windows autobuild is not working because fossies.org blocks requests originating from GitHub.
+
 ## Features
 
 - Receive APRS Messages via Radio through FlexPacket.
@@ -10,9 +14,10 @@
 
 ## Download
 
-- You will find the current and all last releases for Windows and Linux [here](https://github.com/andreaspeters/aprsmap/releases)
+- You will find the current and all last releases for ~~Windows and~~ Linux [here](https://github.com/andreaspeters/aprsmap/releases)
 - The newest builds created by the master branch, you will find [here](https://github.com/andreaspeters/aprsmap/actions). Open
   the last successfull build and scroll down to the artifacts.
+- The newest APPImage for Linux your will find [here](https://www.hamradiotech.de/assets/download/APRS_Map-x86_64.AppImage).
 
 ## Requirements
 
