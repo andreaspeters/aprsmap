@@ -27,7 +27,7 @@ msgid "Please Donate a small amount"
 msgstr ""
 
 #: tfmain.btnbuymeacoffee.caption
-msgid "Buymeacoffee"
+msgid "Buy me a coffee"
 msgstr ""
 
 #: tfmain.caption
