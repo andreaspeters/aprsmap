@@ -26,6 +26,10 @@ msgstr ""
 msgid "Please Donate a small amount"
 msgstr ""
 
+#: tfmain.btnbuymeacoffee.caption
+msgid "Buymeacoffee"
+msgstr ""
+
 #: tfmain.caption
 msgctxt "tfmain.caption"
 msgid "APRS Map"
@@ -206,6 +210,10 @@ msgstr ""
 #: tfmain.miinfo.caption
 msgctxt "tfmain.miinfo.caption"
 msgid "Info"
+msgstr ""
+
+#: tfmain.mntdonate.caption
+msgid "Donate"
 msgstr ""
 
 #: tfmain.settings.caption

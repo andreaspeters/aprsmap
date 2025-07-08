@@ -62,6 +62,8 @@ type
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    btnBuymeacoffee: TMenuItem;
+    mntDonate: TMenuItem;
     MIInfo: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
@@ -119,6 +121,7 @@ type
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
+    procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -126,6 +129,7 @@ type
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
+    procedure mntDonateClick(Sender: TObject);
     procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
@@ -215,6 +219,12 @@ begin
   SaveConfigToFile(@APRSConfig);
 end;
 
+procedure TFMain.btnBuymeacoffeeClick(Sender: TObject);
+begin
+  if not OpenURL('https://buymeacoffee.com/hamradiotech') then
+    ShowMessage('Could not open URL: https://buymeacoffee.com/hamradiotech');
+end;
+
 procedure TFMain.FormDestroy(Sender: TObject);
 begin
   SaveConfigToFile(@APRSConfig);
@@ -254,6 +264,12 @@ end;
 procedure TFMain.MIFileExitClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TFMain.mntDonateClick(Sender: TObject);
+begin
+  if not OpenURL('https://www.paypal.com/donate/?hosted_button_id=ZDB5ZSNJNK9XQ') then
+    ShowMessage('Could not open URL: https://www.paypal.com/donate/?hosted_button_id=ZDB5ZSNJNK9XQ');
 end;
 
 procedure TFMain.MVMapMouseDown(Sender: TObject; Button: TMouseButton;
