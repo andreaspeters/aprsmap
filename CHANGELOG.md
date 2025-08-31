@@ -3,6 +3,7 @@
 ## master
 
 - ADD: Support for local OSM Tiles
+- FIX: Show APRS Messages piped from FlexPacket
 
 ## v0.3.0
 

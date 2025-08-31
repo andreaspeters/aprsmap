@@ -30,7 +30,7 @@ function GetPHGDirectivity(const Text: String):String;
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
 function GetRNG(const Text: String):Integer;
 function GetWX(const Text, Search: String):String;
-function GetAPRSMessageObject(const Data, DataType, DataMessage: String; const RegExString: String): TAPRSMessage;
+function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
 
 var
   APRSMessageList: TFPHashList;
@@ -402,10 +402,11 @@ begin
     Longitude := -Longitude;
 end;
 
-function GetAPRSMessageObject(const Data, DataType, DataMessage: String; const RegExString: String): TAPRSMessage;
+function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
 var Regex: TRegExpr;
     Lat, Lon: Double;
     APRSMessageObject: TAPRSMessage;
+    Message: Array of String;
 const
     // with position
     WX = '!=/@;';
@@ -424,124 +425,131 @@ begin
     if Length(Data) <= 0 then
       Exit;
 
-      //Regex.Expression := '^.*?Fm ([A-Z0-9]{1,6}(?:-[0-9]{1,2})?) To ([A-Z0-9]{1,6})(?: Via ([A-Z0-9,-]+))? .*?>\[(\d{2}:\d{2}:\d{2})\].?\s*(.+)$';
-      Regex.Expression := RegExString;
+    Message := Data.Split('|');
+    if Length(Message) < 4 then
+      Exit;
+
+    //, '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
+    Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
+    Regex.ModifierI := False;
+
+    if Regex.Exec(Message[3]) then
+    begin
+      // FromCall: String;
+      // ToCall: String;
+      // Path: String;
+      // Longitude: Double;
+      // Latitude: Double;
+      // Message: String;
+      // Time: String
+      APRSMessageObject.FromCall := Trim(Message[0]);
+      APRSMessageObject.ToCall := Trim(Message[1]);
+
+      if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
+      begin
+        if Regex.SubExprMatchCount < 6 then
+          Exit;
+        ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
+        APRSMessageObject.Latitude := Lat;
+        APRSMessageObject.Longitude := Lon;
+        APRSMessageObject.IconPrimary := Regex.Match[3];
+        APRSMessageObject.Icon := Regex.Match[5];
+        APRSMessageObject.Message := Regex.Match[6];
+        APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
+        APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
+        APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
+        APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
+        APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
+        APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
+        APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
+        APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
+        APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
+        APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
+        APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
+        APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
+
+        APRSMessageObject.WXDirection := 0;
+        APRSMessageObject.WXSpeed := 0;
+        APRSMessageObject.WXGust := 0;
+        APRSMessageObject.WXTemperature := 0;
+        APRSMessageObject.WXRainFall1h := 0;
+        APRSMessageObject.WXRainFall24h := 0;
+        APRSMessageObject.WXRainFallToday := 0;
+        APRSMessageObject.WXHumidity := 0;
+        APRSMessageObject.WXPressure := 0;
+        APRSMessageObject.WXLum := 0;
+        APRSMessageObject.WXSnowFall := 0;
+        APRSMessageObject.WXRainCount := 0;
+
+        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+        begin
+          APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
+          APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
+          APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
+          APRSMessageObject.WXTemperature := Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9);
+          APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
+          APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
+          APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
+          APRSMessageObject.WXHumidity := StrToInt(GetWX(APRSMessageObject.Message,'h'));
+          APRSMessageObject.WXPressure := Round(StrToInt(GetWX(APRSMessageObject.Message,'b'))/10);
+          APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
+          APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
+          APRSMessageObject.WXRainCount := StrToInt(GetWX(APRSMessageObject.Message,'#'));
+        end;
+
+        APRSMessageObject.Time := now();
+        APRSMessageObject.Track := False;
+      end;
+    end;
+
+    // text, bulletins, announcement and some telemetry messages
+    // shares the same datatype
+    if (Pos(DataType, Messages) > 0) then
+    begin
+      // check telemetry message
+      Regex.Expression := '^.*((UNIT|PARM|EQNS|BITS))(.*)$';
       Regex.ModifierI := False;
-      if Regex.Exec(Data) then
-      begin
-        // FromCall: String;
-        // ToCall: String;
-        // Path: String;
-        // Longitude: Double;
-        // Latitude: Double;
-        // Message: String;
-        // Time: String
-        APRSMessageObject.FromCall := Trim(Regex.Match[1]);
-        APRSMessageObject.ToCall := Trim(Regex.Match[2]);
-
-        if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
-        begin
-          ConvertNMEAToLatLong(Regex.Match[4], Regex.Match[6], Lat, Lon, 1);
-          APRSMessageObject.Latitude := Lat;
-          APRSMessageObject.Longitude := Lon;
-          APRSMessageObject.IconPrimary := Regex.Match[5];
-          APRSMessageObject.Icon := Regex.Match[7];
-          APRSMessageObject.Message := Regex.Match[8];
-          APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
-          APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
-          APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
-          APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
-          APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
-          APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
-          APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
-          APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
-          APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
-          APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
-          APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
-          APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
-
-          APRSMessageObject.WXDirection := 0;
-          APRSMessageObject.WXSpeed := 0;
-          APRSMessageObject.WXGust := 0;
-          APRSMessageObject.WXTemperature := 0;
-          APRSMessageObject.WXRainFall1h := 0;
-          APRSMessageObject.WXRainFall24h := 0;
-          APRSMessageObject.WXRainFallToday := 0;
-          APRSMessageObject.WXHumidity := 0;
-          APRSMessageObject.WXPressure := 0;
-          APRSMessageObject.WXLum := 0;
-          APRSMessageObject.WXSnowFall := 0;
-          APRSMessageObject.WXRainCount := 0;
-
-          if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
-          begin
-            APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
-            APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
-            APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
-            APRSMessageObject.WXTemperature := Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9);
-            APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
-            APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
-            APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
-            APRSMessageObject.WXHumidity := StrToInt(GetWX(APRSMessageObject.Message,'h'));
-            APRSMessageObject.WXPressure := Round(StrToInt(GetWX(APRSMessageObject.Message,'b'))/10);
-            APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
-            APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
-            APRSMessageObject.WXRainCount := StrToInt(GetWX(APRSMessageObject.Message,'#'));
-          end;
-
-          APRSMessageObject.Time := now();
-          APRSMessageObject.Track := False;
-        end;
-      end;
-
-      // text, bulletins, announcement and some telemetry messages
-      // shares the same datatype
-      if (Pos(DataType, Messages) > 0) then
-      begin
-        // check telemetry message
-        Regex.Expression := '^.*((UNIT|PARM|EQNS|BITS))(.*)$';
-        Regex.ModifierI := False;
-        if Regex.Exec(DataMessage) then
-        begin
-          // todo telemetry messages
-          APRSMessageObject.Message := APRSMessageObject.Message + Data;
-        end;
-
-        // check bulletin message
-        Regex.Expression := '^.*:(BLN)(\d{1})(\w{5}):(.*)$';
-        Regex.ModifierI := False;
-        if Regex.Exec(DataMessage) then
-        begin
-          // todo bulletin message
-          {$IFDEF UNIX}
-          writeln(data);
-          {$ENDIF}
-          APRSMessageObject.Message := APRSMessageObject.Message + Data;
-        end;
-
-        // check National Weather Service bulletin
-        Regex.Expression := '^.*:(NWS)-(\w{5}):(.*)$';
-        Regex.ModifierI := False;
-        if Regex.Exec(DataMessage) then
-        begin
-          // todo nws message
-          APRSMessageObject.Message := APRSMessageObject.Message + Data;
-        end
-      end;
-
-      // check status report
-      if (Pos(DataType, StatusReport) > 0) then
-      begin
-        APRSMessageObject.Message := APRSMessageObject.Message + Data;
-      end;
-
-      // check telemetry
-      if (Pos(DataType, Telemetry) > 0) then
+      if Regex.Exec(DataMessage) then
       begin
         // todo telemetry messages
         APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
-      Result := APRSMessageObject;
+
+      // check bulletin message
+      Regex.Expression := '^.*:(BLN)(\d{1})(\w{5}):(.*)$';
+      Regex.ModifierI := False;
+      if Regex.Exec(DataMessage) then
+      begin
+        // todo bulletin message
+        {$IFDEF UNIX}
+        writeln(data);
+        {$ENDIF}
+        APRSMessageObject.Message := APRSMessageObject.Message + Data;
+      end;
+
+      // check National Weather Service bulletin
+      Regex.Expression := '^.*:(NWS)-(\w{5}):(.*)$';
+      Regex.ModifierI := False;
+      if Regex.Exec(DataMessage) then
+      begin
+        // todo nws message
+        APRSMessageObject.Message := APRSMessageObject.Message + Data;
+      end
+    end;
+
+    // check status report
+    if (Pos(DataType, StatusReport) > 0) then
+    begin
+      APRSMessageObject.Message := APRSMessageObject.Message + Data;
+    end;
+
+    // check telemetry
+    if (Pos(DataType, Telemetry) > 0) then
+    begin
+      // todo telemetry messages
+      APRSMessageObject.Message := APRSMessageObject.Message + Data;
+    end;
+    Result := APRSMessageObject;
   finally
     Regex.Free;
   end;

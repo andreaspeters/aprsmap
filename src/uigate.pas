@@ -252,19 +252,28 @@ end;
 
 function TIGateThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
-    DataType, DataMessage: String;
+    NormData, DataType, DataMessage: String;
 begin
   Regex := TRegExpr.Create;
   try
     // check type
-    Regex.Expression := '^(?:\S+)>(?:\S+),(?:TCPIP*)?.*:([!=\/@;#*)_:>]{1})(.*)';
+    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP*)?(.*):([!=\/@;#*)_:>]{1})(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
+
+      if Regex.SubExprMatchCount < 5 then
+        Exit;
+
       // check if type is a position type
-      DataType := Regex.Match[1];
-      DataMessage := Regex.Match[2];
-      Result := GetAPRSMessageObject(Data, DataType, DataMessage, '^(\S+)>(\S+),(?:TCPIP)?.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$');
+      DataType := Regex.Match[4];
+      DataMessage := Regex.Match[5];
+      NormData := Regex.Match[1]+'|'+Regex.Match[3]+'|'+Regex.Match[2]+'| '+Regex.Match[4]+Regex.Match[5];
+      {$IFDEF UNIX}
+      writeln(NormData);
+      {$ENDIF}
+      //, DataMessage, '^(\S+)>(\S+),(?:TCPIP)?.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
+      Result := GetAPRSMessageObject(NormData, DataType, DataMessage);
     end;
   except
     on E: Exception do
