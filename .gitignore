@@ -5,8 +5,12 @@ cache/**/*
 **/*/lib/**/*
 **/*/.~*
 **/src/cache/*
-**/appimage/*
 **/*.res
 **/*.exe
 **/*.bat
 **/*.dbg
+appimage/*/usr
+*.AppImage
+*.deb
+
+
