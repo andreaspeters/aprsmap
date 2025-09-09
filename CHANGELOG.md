@@ -1,9 +1,10 @@
 # Changelog
 
-## master
+## v0.4.0
 
 - ADD: Support for local OSM Tiles
 - FIX: Show APRS Messages piped from FlexPacket
+- FIX: PoI Update
 
 ## v0.3.0
 
