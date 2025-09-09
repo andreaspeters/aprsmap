@@ -142,6 +142,9 @@ begin
       // check if type is a position type
       DataType := Regex.Match[1];
       DataMessage := Regex.Match[2];
+      {$IFDEF UNIX}
+      writeln(Data);
+      {$ENDIF}
       Result := GetAPRSMessageObject(Data, DataType, DataMessage);
     end;
   finally

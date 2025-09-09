@@ -357,11 +357,6 @@ begin
         poiGPS := FindGPSItem(PoiLayer, call);
         if poiGPS <> nil then
           MVMap.CenterOnObj(poiGPS)
-        else
-        begin
-          DeleteCombobox(msg^.FromCall);
-          ShowMessage('Could not find PoI in Map.');
-        end;
       end;
     end;
   except
@@ -438,7 +433,7 @@ end;
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
-    newMSG: PAPRSMessage;
+    newMSG, oldMSG: PAPRSMessage;
 begin
   DelPoIByAge;
 
@@ -454,22 +449,23 @@ begin
         New(newMSG);
         newMSG^ := msg;
 
-        if APRSMessageList.Find(msg.FromCall) = nil then
+        oldMSG := APRSMessageList.Find(msg.FromCall);
+        if oldMSG = nil then
         begin
           // create a new poi
           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-          AddCombobox(msg);
+          AddCombobox(newMsg^);
           MVMap.Refresh;
         end
         else
         begin
           // update poi data
-          if (newMsg^.Latitude <= 0) and (newMsg^.Longitude <= 0) then
+          if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
           begin
-            newMsg^.Latitude := msg.Latitude;
-            newMsg^.Longitude := msg.Longitude;
+            newMsg^.Latitude := oldMSG^.Latitude;
+            newMsg^.Longitude := oldMSG^.Longitude;
           end;
-          DelPoI(PoILayer, msg.FromCall);
+
           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
           MVMap.Refresh;
         end;
@@ -491,23 +487,23 @@ begin
       New(newMSG);
       newMSG^ := msg;
 
-      if APRSMessageList.Find(msg.FromCall) = nil then
+      oldMSG := APRSMessageList.Find(msg.FromCall);
+      if oldMSG = nil then
       begin
         // create a new poi
         SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-        AddCombobox(msg);
+        AddCombobox(newMsg^);
         MVMap.Refresh;
       end
       else
       begin
         // update poi data
-        if (newMsg^.Latitude <= 0) and (newMsg^.Longitude <= 0) then
+        if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
         begin
-          newMsg^.Latitude := msg.Latitude;
-          newMsg^.Longitude := msg.Longitude;
+          newMsg^.Latitude := oldMSG^.Latitude;
+          newMsg^.Longitude := oldMSG^.Longitude;
         end;
 
-        DelPoI(PoILayer, msg.FromCall);
         SetPoi(PoILayer, newMsg, MVMap.GPSItems);
         MVMap.Refresh;
       end;

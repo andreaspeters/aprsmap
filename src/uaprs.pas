@@ -113,7 +113,26 @@ end;
 
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
 var poi: TMapPointOfInterest;
+    i: Integer;
 begin
+  // Search Call
+  for i := 1 to Layer.PointsOfInterest.Count - 1 do
+  begin
+    poi := Layer.PointsOfInterest[i] as TMapPointOfInterest;
+    if poi.Caption = Message^.FromCall then
+    begin
+      // update PoI and exit
+      poi.Latitude := Message^.Latitude;
+      poi.Longitude := Message^.Longitude;
+      poi.Caption := Message^.FromCall;
+      poi.ImageIndex := GetImageIndex(Message^.Icon, Message^.IconPrimary);
+      APRSMessageList.Remove(Message);
+      APRSMessageList.Add(Message^.FromCall, Message);
+      Exit;
+    end;
+  end;
+
+  // If call does not exist, create a new on
   poi := Layer.PointsOfInterest.Add as TMapPointOfInterest;
   poi.Longitude := Message^.Longitude;
   poi.Latitude := Message^.Latitude;
@@ -131,6 +150,7 @@ begin
   poi.Caption := Text;
   poi.ImageIndex := ImageIndex;
 end;
+
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 var i: Integer;
