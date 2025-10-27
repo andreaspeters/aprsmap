@@ -4,14 +4,13 @@ object FMain: TFMain
   Top = 675
   Width = 1568
   Caption = 'APRS Map'
-  ClientHeight = 206
-  ClientWidth = 320
+  ClientHeight = 916
+  ClientWidth = 1568
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
   ParentDoubleBuffered = False
   Position = poDesktopCenter
-  LCLVersion = '4.1.0.0'
   Scaled = False
   OnCreate = FMainInit
   OnDestroy = FormDestroy
@@ -47,8 +46,8 @@ object FMain: TFMain
     Anchors = [akTop, akRight]
     BorderSpacing.Right = 8
     Caption = 'Map'
-    ClientHeight = 114
-    ClientWidth = 587
+    ClientHeight = 93
+    ClientWidth = 595
     Color = clForm
     ParentBackground = False
     ParentColor = False
@@ -131,8 +130,8 @@ object FMain: TFMain
     BorderSpacing.Right = 8
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
-    ClientHeight = 745
-    ClientWidth = 587
+    ClientHeight = 724
+    ClientWidth = 595
     ParentBackground = False
     TabOrder = 3
     object Label2: TLabel

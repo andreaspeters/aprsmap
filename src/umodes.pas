@@ -69,9 +69,10 @@ var Response: String;
 begin
   // Simuliere das Empfangen einer JSON-Zeichenkette (in der Realität würde
   // diese Zeichenkette von einem Netzwerk kommen)
-  Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
 
   Response := TFPHTTPClient.SimpleGet('http://localhost:8888/data.json');
+
+  //Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
 
   if Length(Response) > 0 then
   begin
@@ -106,8 +107,7 @@ begin
         if Obj.Find('track') <> nil then
           AirCraft^.Track := Obj.Integers['track'];
 
-        tmp := ModeSMessageList.Find(AirCraft^.Flight);
-        if (not Assigned(tmp)) and (Length(AirCraft^.Flight) > 0) then
+        if Length(AirCraft^.Flight) > 0 then
           ModeSMessageList.Add(AirCraft^.Flight, Aircraft)
       end;
     except

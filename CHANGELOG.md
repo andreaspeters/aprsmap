@@ -1,5 +1,10 @@
 # Changelog
 
+## master
+
+- ADD: ModeS (Airplane Tracking) support via dump1090
+- CHANGE: Improve PoI update
+
 ## v0.4.0
 
 - ADD: Support for local OSM Tiles

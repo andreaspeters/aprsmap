@@ -160,6 +160,7 @@ var
   MyPositionGPS: TGPSPoint;
   PoILayer, myPoILayer: TMapLayer;
   ModeSCount: Integer;
+  TrackID: Integer;
 
 implementation
 
@@ -460,7 +461,17 @@ begin
         SetPoi(PoILayer, newMsg, MVMap.GPSItems);
 
         if oldMSG = nil then
+        begin
           AddCombobox(newMsg^);
+          inc(TrackID);
+          newMsg^.TrackID := TrackID;
+          MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
+        end
+        else
+          newMsg^.Track := oldMsg^.Track;
+
+        if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
+          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
         MVMap.Refresh;
       end;
@@ -519,8 +530,24 @@ begin
            newMsg^.Speed     := Aircraft^.Speed;
            newMsg^.Altitude  := Round(Aircraft^.Altitude);
            newMsg^.Icon      := '^';
+           newMsg^.Track      := TGPSTrack.Create;
+
+           oldMSG := APRSMessageList.Find(msg.FromCall);
 
            SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+
+           if oldMSG = nil then
+           begin
+             inc(TrackID);
+             newMsg^.TrackID := TrackID;
+             MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
+           end
+           else
+             newMsg^.Track := oldMsg^.Track;
+
+           if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
+             newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
+
          end;
          MVMap.Refresh;
        end;

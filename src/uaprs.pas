@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
-  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math;
+  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math,
+  FPImage, IntfGraphics, GraphType;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
@@ -473,6 +474,8 @@ begin
       // Time: String
       APRSMessageObject.FromCall := Trim(Message[0]);
       APRSMessageObject.ToCall := Trim(Message[1]);
+      APRSMessageObject.EnableTrack := True;
+      APRSMessageObject.Track := TGPSTrack.Create;
 
       if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
       begin
@@ -527,7 +530,6 @@ begin
         end;
 
         APRSMessageObject.Time := now();
-        APRSMessageObject.Track := False;
       end;
     end;
 
@@ -582,6 +584,24 @@ begin
   finally
     Regex.Free;
   end;
+end;
+
+function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;
+var
+  dLon, y, x: Double;
+begin
+  // Umrechnung in Radiant
+  Lat1 := DegToRad(Lat1);
+  Lat2 := DegToRad(Lat2);
+  dLon := DegToRad(Lon2 - Lon1);
+
+  y := Sin(dLon) * Cos(Lat2);
+  x := Cos(Lat1) * Sin(Lat2) - Sin(Lat1) * Cos(Lat2) * Cos(dLon);
+
+  // Winkel in Grad (0–360)
+  Result := RadToDeg(ArcTan2(y, x));
+  if Result < 0 then
+    Result := Result + 360;
 end;
 
 

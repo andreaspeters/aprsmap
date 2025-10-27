@@ -5,7 +5,7 @@ unit utypes;
 interface
 
 uses
-  Classes, SysUtils, Process;
+  Classes, SysUtils, Process, mvGpsObj;
 
 type
   { Icon Primary meaning
@@ -54,7 +54,9 @@ type
     Message: String;
     ID: Integer;
     Time: TTime;
-    Track: Boolean;
+    Track: TGPSTrack;
+    TrackID: Integer;
+    EnableTrack: Boolean;
   end;
 
   TAPRSConfig = record
