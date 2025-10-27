@@ -9,7 +9,7 @@ uses
   mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
-procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
+procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;

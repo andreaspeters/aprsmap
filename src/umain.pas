@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  FileCtrl, uinfo, mvMapProvider;
+  FileCtrl, uinfo, mvMapProvider, umodes;
 
 type
 
@@ -154,10 +154,12 @@ var
   ReadPipe: TReadPipeThread;
   APRSConfig: TAPRSConfig;
   IGate: TIGateThread;
+  ModeS: TModeSThread;
   LastZoom: Byte;
   MyPosition: TGPSObj;
   MyPositionGPS: TGPSPoint;
   PoILayer, myPoILayer: TMapLayer;
+  ModeSCount: Integer;
 
 implementation
 
@@ -174,6 +176,7 @@ begin
   Height := 915;
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
+  ModeSCount := 0; // counter for Aircraft objects
 
   LoadConfigFromFile(@APRSConfig);
 
@@ -208,6 +211,8 @@ begin
       ChangeMapProvider(Sender);
     end;
   end;
+
+  ModeS := TModeSThread.Create(@APRSConfig);
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);
@@ -229,7 +234,8 @@ procedure TFMain.FormDestroy(Sender: TObject);
 begin
   SaveConfigToFile(@APRSConfig);
   try
-    ReadPipe.Terminate;
+    if Assigned(ReadPipe) then
+      ReadPipe.Terminate;
   except
   end;
 end;
@@ -434,6 +440,7 @@ procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
     newMSG, oldMSG: PAPRSMessage;
+    Aircraft: PTAircraftData;
 begin
   DelPoIByAge;
 
@@ -516,6 +523,57 @@ begin
       {$ENDIF}
     end;
   end;
+
+  if Assigned(ModeS.ModeSMessageList) then
+    if ModeS.ModeSMessageList.Count > 0 then
+    begin
+      try
+       if Assigned(ModeS.ModeSMessageList.Items[0]) then
+       begin
+         if ModeSCount > ModeS.ModeSMessageList.Count then
+           ModeSCount := 0;
+
+         Aircraft := PTAircraftData(ModeS.ModeSMessageList.Items[ModeSCount]);
+         if Assigned(Aircraft) and (Length(Aircraft^.Flight) > 0) then
+         begin
+           inc(ModeSCount);
+           New(newMSG);
+           newMSG^.FromCall  := Aircraft^.Flight;
+           newMsg^.Longitude := Aircraft^.Longitude;
+           newMsg^.Latitude  := Aircraft^.Latitude;
+           newMsg^.Speed     := Aircraft^.Speed;
+           newMsg^.Altitude  := Round(Aircraft^.Altitude);
+           newMsg^.Icon      := '^';
+
+           oldMSG := APRSMessageList.Find(Aircraft^.Flight);
+           if oldMSG = nil then
+           begin
+             SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+             MVMap.Refresh;
+           end
+           else
+           begin
+             // update poi data
+             if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
+             begin
+               newMsg^.Latitude := oldMSG^.Latitude;
+               newMsg^.Longitude := oldMSG^.Longitude;
+             end;
+             SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+             MVMap.Refresh;
+           end;
+         end;
+         MVMap.Refresh;
+       end;
+      except
+        on E: Exception do
+        begin
+          {$IFDEF UNIX}
+          writeln('MODES Error: ', E.Message);
+          {$ENDIF}
+        end;
+      end;
+    end;
 end;
 
 procedure TFMain.DeleteCombobox(const Call: String);
