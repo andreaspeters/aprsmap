@@ -435,14 +435,13 @@ begin
   end;
 end;
 
-
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
     newMSG, oldMSG: PAPRSMessage;
     Aircraft: PTAircraftData;
 begin
-  DelPoIByAge;
+  //DelPoIByAge;
 
   if APRSConfig.IGateEnabled then
   begin
@@ -457,25 +456,13 @@ begin
         newMSG^ := msg;
 
         oldMSG := APRSMessageList.Find(msg.FromCall);
-        if oldMSG = nil then
-        begin
-          // create a new poi
-          SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-          AddCombobox(newMsg^);
-          MVMap.Refresh;
-        end
-        else
-        begin
-          // update poi data
-          if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
-          begin
-            newMsg^.Latitude := oldMSG^.Latitude;
-            newMsg^.Longitude := oldMSG^.Longitude;
-          end;
 
-          SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-          MVMap.Refresh;
-        end;
+        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+
+        if oldMSG = nil then
+          AddCombobox(newMsg^);
+
+        MVMap.Refresh;
       end;
     except
       on E: Exception do
@@ -495,25 +482,13 @@ begin
       newMSG^ := msg;
 
       oldMSG := APRSMessageList.Find(msg.FromCall);
-      if oldMSG = nil then
-      begin
-        // create a new poi
-        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-        AddCombobox(newMsg^);
-        MVMap.Refresh;
-      end
-      else
-      begin
-        // update poi data
-        if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
-        begin
-          newMsg^.Latitude := oldMSG^.Latitude;
-          newMsg^.Longitude := oldMSG^.Longitude;
-        end;
 
-        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-        MVMap.Refresh;
-      end;
+      SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+
+      if oldMSG = nil then
+        AddCombobox(newMsg^);
+
+      MVMap.Refresh;
     end;
   except
     on E: Exception do
@@ -530,7 +505,7 @@ begin
       try
        if Assigned(ModeS.ModeSMessageList.Items[0]) then
        begin
-         if ModeSCount > ModeS.ModeSMessageList.Count then
+         if ModeSCount >= ModeS.ModeSMessageList.Count then
            ModeSCount := 0;
 
          Aircraft := PTAircraftData(ModeS.ModeSMessageList.Items[ModeSCount]);
@@ -545,23 +520,7 @@ begin
            newMsg^.Altitude  := Round(Aircraft^.Altitude);
            newMsg^.Icon      := '^';
 
-           oldMSG := APRSMessageList.Find(Aircraft^.Flight);
-           if oldMSG = nil then
-           begin
-             SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-             MVMap.Refresh;
-           end
-           else
-           begin
-             // update poi data
-             if (newMsg^.Latitude <= 0) or (newMsg^.Longitude <= 0) then
-             begin
-               newMsg^.Latitude := oldMSG^.Latitude;
-               newMsg^.Longitude := oldMSG^.Longitude;
-             end;
-             SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-             MVMap.Refresh;
-           end;
+           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
          end;
          MVMap.Refresh;
        end;

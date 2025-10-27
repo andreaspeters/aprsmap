@@ -64,7 +64,6 @@ var Response: String;
     Obj: TJSONObject;
     Items: TJSONArray;
     Aircraft, tmp: PTAircraftData;
-    JSONString: String;
     i: Integer;
 
 begin
@@ -73,13 +72,14 @@ begin
   Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
 
   Response := TFPHTTPClient.SimpleGet('http://localhost:8888/data.json');
-  writeln('Server Response:');
-  writeln(Response);
 
   if Length(Response) > 0 then
   begin
     try
       Items := TJSONArray(GetJSON(Response));
+      if Items.Count <= 0 then
+        Exit;
+
       for i := 0 to Items.Count - 1 do
       begin
         Obj := Items.Objects[i];
@@ -89,7 +89,7 @@ begin
           AirCraft^.Hex := Obj.Strings['hex'];
 
         if Obj.Find('flight') <> nil then
-          AirCraft^.Flight := Obj.Strings['flight'];
+          AirCraft^.Flight := StringReplace(Obj.Strings['flight'], ' ', '', [rfReplaceAll]);
 
         if Obj.Find('lat') <> nil then
           AirCraft^.Latitude := Obj.Floats['lat'];

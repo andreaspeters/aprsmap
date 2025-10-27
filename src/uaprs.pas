@@ -16,6 +16,7 @@ function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
+function FindPoI(Layer: TMapLayer; const Call: String): TMapPointOfInterest;
 function GetAltitude(const Text: String):Integer;
 function GetCourse(const Text: String):Integer;
 function GetSpeed(const Text: String):Integer;
@@ -111,28 +112,18 @@ begin
 end;
 
 
+
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
 var poi: TMapPointOfInterest;
-    i: Integer;
 begin
-  // Search Call
-  for i := 1 to Layer.PointsOfInterest.Count - 1 do
-  begin
-    poi := Layer.PointsOfInterest[i] as TMapPointOfInterest;
-    if poi.Caption = Message^.FromCall then
-    begin
-      // update PoI and exit
-      poi.Latitude := Message^.Latitude;
-      poi.Longitude := Message^.Longitude;
-      poi.Caption := Message^.FromCall;
-      poi.ImageIndex := GetImageIndex(Message^.Icon, Message^.IconPrimary);
-      APRSMessageList.Remove(Message);
-      APRSMessageList.Add(Message^.FromCall, Message);
-      Exit;
-    end;
-  end;
+  if (Message^.Longitude <= 0) or (Message^.Latitude <= 0) then
+    Exit;
 
-  // If call does not exist, create a new on
+  poi := FindPoI(Layer, Message^.FromCall);
+
+  if poi <> nil then
+    DelPoI(Layer, Message^.FromCall);
+
   poi := Layer.PointsOfInterest.Add as TMapPointOfInterest;
   poi.Longitude := Message^.Longitude;
   poi.Latitude := Message^.Latitude;
@@ -140,6 +131,7 @@ begin
   poi.ImageIndex := GetImageIndex(Message^.Icon, Message^.IconPrimary);
   APRSMessageList.Add(Message^.FromCall, Message);
 end;
+
 
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 var poi: TMapPointOfInterest;
@@ -151,24 +143,41 @@ begin
   poi.ImageIndex := ImageIndex;
 end;
 
-
-procedure DelPoI(Layer: TMapLayer; const Call: String);
+function FindPoI(Layer: TMapLayer; const Call: String): TMapPointOfInterest;
 var i: Integer;
     msg: PAPRSMessage;
 begin
+  Result := nil;
   // Do not check position 0 because it's ourself.
   for i := 1 to Layer.PointsOfInterest.Count - 1 do
   begin
     msg := APRSMessageList.Find(Call);
     if msg <> nil then
     begin
-      APRSMessageList.Remove(msg);
-      try
-        Layer.PointsOfInterest.Delete(i);
-      except
-      end;
-      Exit;
+       Result := Layer.PointsOfInterest[i];
     end;
+  end;
+end;
+
+
+procedure DelPoI(Layer: TMapLayer; const Call: String);
+var i: Integer;
+begin
+  if Layer.PointsOfInterest.Count <= 0 then
+    Exit;
+
+  // Do not check position 0 because it's ourself.
+  i := 1;
+  while i < Layer.PointsOfInterest.Count do
+  begin
+    if SameText(Layer.PointsOfInterest[i].Caption, Call) then
+    begin
+      Layer.PointsOfInterest.Delete(i);
+      i := i - 1;
+      if i <= 1 then
+        Exit;
+    end;
+    inc(i);
   end;
 end;
 
