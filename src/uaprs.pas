@@ -474,8 +474,10 @@ begin
       // Time: String
       APRSMessageObject.FromCall := Trim(Message[0]);
       APRSMessageObject.ToCall := Trim(Message[1]);
-      APRSMessageObject.EnableTrack := True;
+      APRSMessageObject.EnableTrack := False;
       APRSMessageObject.Track := TGPSTrack.Create;
+      APRSMessageObject.Track.Visible := False;
+      APRSMessageObject.Track.LineWidth := 1;
 
       if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
       begin

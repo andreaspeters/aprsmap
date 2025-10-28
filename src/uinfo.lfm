@@ -2604,17 +2604,17 @@ object FInfo: TFInfo
   end
   object Label2: TLabel
     Left = 224
-    Height = 21
+    Height = 22
     Top = 112
-    Width = 188
+    Width = 201
     Caption = 'by Andreas Peters (DC6AP)'
   end
   object Label3: TLabel
     Left = 408
-    Height = 21
+    Height = 22
     Top = 72
-    Width = 42
-    Caption = 'v0.4.0'
+    Width = 45
+    Caption = 'v0.5.0'
   end
   object IGithubDonation: TImage
     Left = 168
@@ -2678,9 +2678,9 @@ object FInfo: TFInfo
   end
   object LGithubDonation: TLabel
     Left = 224
-    Height = 21
+    Height = 22
     Top = 192
-    Width = 215
+    Width = 228
     Caption = 'Please Donate a small amount'
     Font.Color = clBlue
     ParentFont = False
@@ -2688,9 +2688,9 @@ object FInfo: TFInfo
   end
   object LFPSourceCode: TLabel
     Left = 224
-    Height = 21
+    Height = 22
     Top = 240
-    Width = 164
+    Width = 175
     Caption = 'APRS Map Source Code'
     Font.Color = clBlue
     ParentFont = False
@@ -2698,8 +2698,8 @@ object FInfo: TFInfo
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 40
-    Top = 429
+    Height = 41
+    Top = 428
     Width = 523
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True

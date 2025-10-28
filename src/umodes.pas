@@ -9,26 +9,10 @@ uses
   mvGpsObj, Process;
 
 type
-  PTAPRSConfig = ^TAPRSConfig;
-
-  TAircraftData = record
-    // {"hex":"3c55c3", "flight":"", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}
-
-    Hex: String;
-    Altitude: Double;
-    Latitude: Double;
-    Longitude: Double;
-    Track: Integer;
-    Speed: Integer;
-    Flight: String;
-  end;
-  PTAircraftData = ^TAircraftData;
-
-
   { TModeSThread }
   TModeSThread = class(TThread)
   private
-    FConfig: PTAPRSConfig;
+    FConfig: PAPRSConfig;
     Dump1090: TProcess;
     procedure RunDump190Server;
   protected
@@ -37,7 +21,7 @@ type
     ModeSMessageList: TFPHashList;
     procedure LoadAircraftsFromDump1090;
     procedure Stop;
-    constructor Create(Config: PTAPRSConfig);
+    constructor Create(Config: PAPRSConfig);
   end;
 
 implementation
@@ -51,10 +35,9 @@ begin
     if Dump1090.Running then
       Dump1090.Terminate(1);
   end;
-  inherited Destroy;
 end;
 
-constructor TModeSThread.Create(Config: PTAPRSConfig);
+constructor TModeSThread.Create(Config: PAPRSConfig);
 begin
   inherited Create(True);
   FConfig := Config;
@@ -162,8 +145,9 @@ begin
           if Obj.Find('speed') <> nil then
             APRSMessageObject^.Speed := Obj.Integers['speed'];
 
-          APRSMessageObject^.EnableTrack := True;
           APRSMessageObject^.Track := TGPSTrack.Create;
+          APRSMessageObject^.Track.Visible := True;
+          APRSMessageObject^.Track.LineWidth := 1;
           APRSMessageObject^.Time := now();
           APRSMessageObject^.Icon := '^';
 

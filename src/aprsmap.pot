@@ -15,7 +15,7 @@ msgid "by Andreas Peters (DC6AP)"
 msgstr ""
 
 #: tfinfo.label3.caption
-msgid "v0.4.0"
+msgid "v0.5.0"
 msgstr ""
 
 #: tfinfo.lfpsourcecode.caption
@@ -212,12 +212,20 @@ msgctxt "tfmain.miinfo.caption"
 msgid "Info"
 msgstr ""
 
+#: tfmain.mikofi.caption
+msgid "Support me on Ko-fi"
+msgstr ""
+
 #: tfmain.mntdonate.caption
 msgid "Donate"
 msgstr ""
 
 #: tfmain.settings.caption
 msgid "&Settings"
+msgstr ""
+
+#: tfmain.sptrack.hint
+msgid "Enable Tracking"
 msgstr ""
 
 #: tfmain.stmapcopyright.caption

@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  FileCtrl, uinfo, mvMapProvider, umodes;
+  FileCtrl, Buttons, uinfo, mvMapProvider, umodes;
 
 type
 
@@ -63,6 +63,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
+    MIKofi: TMenuItem;
     mntDonate: TMenuItem;
     MIInfo: TMenuItem;
     MenuItem4: TMenuItem;
@@ -88,6 +89,7 @@ type
     MVMap: TMapView;
     SBMain: TStatusBar;
     Settings1: TMenuItem;
+    SPTrack: TSpeedButton;
     STAltitude: TStaticText;
     STMapCopyright: TStaticText;
     STCallsign: TStaticText;
@@ -124,8 +126,9 @@ type
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
+    procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MIFileExitClick(Sender: TObject);
@@ -137,11 +140,13 @@ type
     procedure SettingsClick(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
+    procedure SPTrackClick(Sender: TObject);
     procedure TBZoomMapChange(Sender: TObject);
     procedure TMainLoopTimer(Sender: TObject);
     procedure AddCombobox(const msg: TAPRSMessage);
     procedure DeleteCombobox(const Call: String);
     procedure DelPoiByAge;
+    function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
 
@@ -216,6 +221,21 @@ begin
   ModeS := TModeSThread.Create(@APRSConfig);
 end;
 
+procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  SaveConfigToFile(@APRSConfig);
+  try
+    if Assigned(ModeS) then
+    begin
+      ModeS.Stop;
+      ModeS.Terminate;
+    end;
+    if Assigned(ReadPipe) then
+      ReadPipe.Terminate;
+  except
+  end;
+end;
+
 procedure TFMain.ChangeMapProvider(Sender: TObject);
 begin
   MVMap.MapProvider := CBEMapProvider.ItemsEx.Items[CBEMapProvider.ItemIndex].Caption;
@@ -229,18 +249,6 @@ procedure TFMain.btnBuymeacoffeeClick(Sender: TObject);
 begin
   if not OpenURL('https://buymeacoffee.com/hamradiotech') then
     ShowMessage('Could not open URL: https://buymeacoffee.com/hamradiotech');
-end;
-
-procedure TFMain.FormDestroy(Sender: TObject);
-begin
-  SaveConfigToFile(@APRSConfig);
-  try
-  if Assigned(ModeS) then
-     ModeS.Stop;
-    if Assigned(ReadPipe) then
-      ReadPipe.Terminate;
-  except
-  end;
 end;
 
 procedure TFMain.FormResize(Sender: TObject);
@@ -257,6 +265,12 @@ begin
 
   MVMap.Width := FMain.Width - GroupBox1.Width - 25;
   MVMap.Refresh;
+end;
+
+procedure TFMain.MIKofiClick(Sender: TObject);
+begin
+  if not OpenURL('https://ko-fi.com/andreaspeters') then
+    ShowMessage('Could not open URL: https://ko-fi.com/andreaspeters');
 end;
 
 procedure TFMain.MIInfoClick(Sender: TObject);
@@ -367,6 +381,11 @@ begin
         if poiGPS <> nil then
           MVMap.CenterOnObj(poiGPS)
       end;
+
+      if msg^.Track.Visible then
+        SPTrack.Down := True
+      else
+        SPTrack.Down := False;
     end;
   except
     on E: Exception do
@@ -393,6 +412,18 @@ begin
   SBMain.Panels[2].Text := 'Locator: ' + LatLonToLocator(p.Lat, p.Lon);
   SBMain.Panels[1].Text := 'Longitude: ' + LonToStr(p.Lon, False);
   SBMain.Panels[0].Text := 'Latitude: ' + LatToStr(p.Lat, False);
+end;
+
+procedure TFMain.SPTrackClick(Sender: TObject);
+var msg: PAPRSMessage;
+begin
+  msg := APRSMessageList.Find(STCallsign.Caption);
+
+  if SPTrack.Down then
+    msg^.Track.Visible := True
+  else
+    msg^.Track.Visible := False;
+
 end;
 
 procedure TFMain.TBZoomMapChange(Sender: TObject);
@@ -429,6 +460,19 @@ begin
       begin
         DelPoI(PoILayer, call);
         DeleteCombobox(call);
+        if Assigned(msg^.Track) then
+        begin
+          try
+            if Assigned(MVMap.GPSItems) and (MVMap.GPSItems.Count > 0) then
+              MVMap.GPSItems.DeleteByID(msg^.TrackID);
+            msg^.Track := TGPSTrack.Create;
+            ModeS.ModeSMessageList.Remove(msg);
+          except
+            {$IFDEF UNIX}
+            writeln('Error Delete GPS Track')
+            {$ENDIF}
+          end;
+        end;
       end;
     except
       {$IFDEF UNIX}
@@ -443,7 +487,7 @@ var msg: TAPRSMessage;
     buffer: String;
     newMSG, oldMSG: PAPRSMessage;
 begin
-  //DelPoIByAge;
+  DelPoIByAge;
 
   if APRSConfig.IGateEnabled then
   begin
@@ -472,7 +516,8 @@ begin
           newMsg^.Track := oldMsg^.Track;
 
         if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
-          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
+          if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
+            newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
         MVMap.Refresh;
       end;
@@ -508,7 +553,8 @@ begin
         newMsg^.Track := oldMsg^.Track;
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
-        newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
+        if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
+          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
       MVMap.Refresh;
     end;
@@ -552,7 +598,8 @@ begin
              newMsg^.Track := oldMsg^.Track;
 
            if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
-             newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
+             if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
+               newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
          end;
          MVMap.Refresh;
@@ -566,6 +613,23 @@ begin
         end;
       end;
     end;
+end;
+
+function TFMain.TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
+var i: Integer;
+    P: TGPSPoint;
+begin
+  Result := False;
+
+  if not Assigned(Track) or (Track.Count <= 0) then
+    Exit;
+
+  for i := 0 to Track.Count - 1 do
+  begin
+    P := Track[i];
+    if (P.Lat = Lat) and (P.Lon = Lon) then
+      Result := True;
+  end;
 end;
 
 procedure TFMain.DeleteCombobox(const Call: String);

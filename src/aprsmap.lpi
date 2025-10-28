@@ -20,7 +20,7 @@
     </i18n>
     <VersionInfo>
       <UseVersionInfo Value="True"/>
-      <MinorVersionNr Value="4"/>
+      <MinorVersionNr Value="5"/>
       <Language Value="040B"/>
       <StringTable ProductName="APRS Map"/>
     </VersionInfo>
