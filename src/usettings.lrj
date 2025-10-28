@@ -13,5 +13,9 @@
 {"hash":28217295,"name":"tfsettings.groupbox3.caption","sourcebytes":[83,116,97,116,105,111,110,32,73,110,102,111],"value":"Station Info"},
 {"hash":159003536,"name":"tfsettings.lecallsign.editlabel.caption","sourcebytes":[67,97,108,108,115,105,103,110,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Callsign                      "},
 {"hash":164289280,"name":"tfsettings.lelatitude.editlabel.caption","sourcebytes":[76,97,116,105,116,117,100,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Latitude                     "},
-{"hash":63097568,"name":"tfsettings.lelongitude.editlabel.caption","sourcebytes":[76,111,110,103,105,116,117,100,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Longitude                  "}
+{"hash":63097568,"name":"tfsettings.lelongitude.editlabel.caption","sourcebytes":[76,111,110,103,105,116,117,100,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Longitude                  "},
+{"hash":205735792,"name":"tfsettings.groupbox4.caption","sourcebytes":[68,117,109,112,49,48,57,48],"value":"Dump1090"},
+{"hash":60595392,"name":"tfsettings.lemodesserver.editlabel.caption","sourcebytes":[83,101,114,118,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Server                        "},
+{"hash":110503760,"name":"tfsettings.lemodesport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Port                            "},
+{"hash":127790224,"name":"tfsettings.lemodesexecutable.editlabel.caption","sourcebytes":[69,120,101,99,117,116,97,98,108,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Executable                "}
 ]}

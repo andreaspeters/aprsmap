@@ -235,6 +235,8 @@ procedure TFMain.FormDestroy(Sender: TObject);
 begin
   SaveConfigToFile(@APRSConfig);
   try
+  if Assigned(ModeS) then
+     ModeS.Stop;
     if Assigned(ReadPipe) then
       ReadPipe.Terminate;
   except
@@ -440,7 +442,6 @@ procedure TFMain.TMainLoopTimer(Sender: TObject);
 var msg: TAPRSMessage;
     buffer: String;
     newMSG, oldMSG: PAPRSMessage;
-    Aircraft: PTAircraftData;
 begin
   //DelPoIByAge;
 
@@ -497,7 +498,17 @@ begin
       SetPoi(PoILayer, newMsg, MVMap.GPSItems);
 
       if oldMSG = nil then
+      begin
         AddCombobox(newMsg^);
+        inc(TrackID);
+        newMsg^.TrackID := TrackID;
+        MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
+      end
+      else
+        newMsg^.Track := oldMsg^.Track;
+
+      if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
+        newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
       MVMap.Refresh;
     end;
@@ -519,18 +530,12 @@ begin
          if ModeSCount >= ModeS.ModeSMessageList.Count then
            ModeSCount := 0;
 
-         Aircraft := PTAircraftData(ModeS.ModeSMessageList.Items[ModeSCount]);
-         if Assigned(Aircraft) and (Length(Aircraft^.Flight) > 0) then
+         msg := PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount])^;
+         if Length(msg.FromCall) > 0 then
          begin
            inc(ModeSCount);
            New(newMSG);
-           newMSG^.FromCall  := Aircraft^.Flight;
-           newMsg^.Longitude := Aircraft^.Longitude;
-           newMsg^.Latitude  := Aircraft^.Latitude;
-           newMsg^.Speed     := Aircraft^.Speed;
-           newMsg^.Altitude  := Round(Aircraft^.Altitude);
-           newMsg^.Icon      := '^';
-           newMsg^.Track      := TGPSTrack.Create;
+           newMSG^ := msg;
 
            oldMSG := APRSMessageList.Find(msg.FromCall);
 
@@ -538,6 +543,7 @@ begin
 
            if oldMSG = nil then
            begin
+             //AddCombobox(newMsg^);
              inc(TrackID);
              newMsg^.TrackID := TrackID;
              MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);

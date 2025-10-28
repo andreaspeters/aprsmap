@@ -72,6 +72,9 @@ type
     Latitude: Double;
     Longitude: Double;
     CleanupTime: Integer;
+    ModeSServer: String;
+    ModeSPort: Integer;
+    ModeSExecutable: String;
   end;
 
   TAPRSSymbol = record

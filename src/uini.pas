@@ -44,6 +44,9 @@ begin
   ini.WriteInteger('IGATE', 'port', Config^.IGatePort);
   ini.WriteString('IGATE', 'password', Config^.IGatePassword);
   ini.WriteString('IGATE', 'filter', Config^.IGateFilter);
+  ini.WriteString('MODES', 'server', Config^.ModeSServer);
+  ini.WriteInteger('MODES', 'port', Config^.ModeSPort);
+  ini.WriteString('MODES', 'executable', Config^.ModeSExecutable);
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -80,6 +83,9 @@ begin
   Config^.IGatePort := ini.ReadInteger('IGATE', 'port', 14580);
   Config^.IGatePassword := ini.ReadString('IGATE', 'password', '');
   Config^.IGateFilter := ini.ReadString('IGATE', 'filter', 'r/<LAT>/<LON>/200');
+  Config^.ModeSServer := ini.ReadString('MODES', 'server', 'localhost');
+  Config^.ModeSPort := ini.ReadInteger('MODES', 'port', 8080);
+  Config^.ModeSExecutable := ini.ReadString('MODES', 'executable', '');
 end;
 
 

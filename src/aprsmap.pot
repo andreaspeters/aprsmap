@@ -242,6 +242,10 @@ msgstr ""
 msgid "Station Info"
 msgstr ""
 
+#: tfsettings.groupbox4.caption
+msgid "Dump1090"
+msgstr ""
+
 #: tfsettings.label3.caption
 msgid "The password will be stored in plaintext."
 msgstr ""
@@ -263,10 +267,12 @@ msgid "Password                  "
 msgstr ""
 
 #: tfsettings.leigateport.editlabel.caption
+msgctxt "tfsettings.leigateport.editlabel.caption"
 msgid "Port                            "
 msgstr ""
 
 #: tfsettings.leigateserver.editlabel.caption
+msgctxt "tfsettings.leigateserver.editlabel.caption"
 msgid "Server                        "
 msgstr ""
 
@@ -284,5 +290,19 @@ msgstr ""
 
 #: tfsettings.lemaplocaldirectory.editlabel.caption
 msgid "Local Tiles                   "
+msgstr ""
+
+#: tfsettings.lemodesexecutable.editlabel.caption
+msgid "Executable                "
+msgstr ""
+
+#: tfsettings.lemodesport.editlabel.caption
+msgctxt "tfsettings.lemodesport.editlabel.caption"
+msgid "Port                            "
+msgstr ""
+
+#: tfsettings.lemodesserver.editlabel.caption
+msgctxt "tfsettings.lemodesserver.editlabel.caption"
+msgid "Server                        "
 msgstr ""
 

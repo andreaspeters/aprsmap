@@ -17,23 +17,30 @@ type
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
     ImageList1: TImageList;
     Label3: TLabel;
     LECleanupTime: TLabeledEdit;
     LECallsign: TLabeledEdit;
     LEIgatePassword: TLabeledEdit;
     LEIgateFilter: TLabeledEdit;
+    LEModeSExecutable: TLabeledEdit;
+    LEModeSPort: TLabeledEdit;
     LEIGateServer: TLabeledEdit;
     LEIGatePort: TLabeledEdit;
+    LEModeSServer: TLabeledEdit;
     LELatitude: TLabeledEdit;
     LELongitude: TLabeledEdit;
     LEMapCache: TLabeledEdit;
     LEMapLocalDirectory: TLabeledEdit;
+    ODSelectFile: TOpenDialog;
     SDDCacheDirectory: TSelectDirectoryDialog;
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
     procedure BBOSMMapCacheClick(Sender: TObject);
     procedure BBOSMLocalTilesClick(Sender: TObject);
+    procedure BBSetDump1090(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
   private
@@ -64,6 +71,12 @@ begin
     LEMapLocalDirectory.Caption := SDDCacheDirectory.FileName;
 end;
 
+procedure TFSettings.BBSetDump1090(Sender: TObject);
+begin
+  if ODSelectFile.Execute then
+    LEModeSExecutable.Caption := ODSelectFile.FileName;
+end;
+
 procedure TFSettings.CancelButtonClick(Sender: TObject);
 begin
   Close;
@@ -81,6 +94,10 @@ begin
   FConfig^.IGateFilter := LEIGateFilter.Caption;
   FConfig^.CleanupTime := StrToInt(LECleanupTime.Caption);
   FConfig^.LocalTilesDirectory := LEMapLocalDirectory.Caption;
+
+  FConfig^.ModeSServer := LEModeSServer.Caption;
+  FConfig^.ModeSPort := StrToInt(LEModeSPort.Caption);
+  FConfig^.ModeSExecutable := LEModeSExecutable.Caption;
 
   if Length(FConfig^.IGatePassword) > 0 then
     FConfig^.IGateEnabled := True;
@@ -105,6 +122,9 @@ begin
   LEIGateFilter.Caption := FConfig^.IGateFilter;
   LECleanupTime.Caption := IntToStr(FConfig^.CleanupTime);
   LEMapLocalDirectory.Caption := FConfig^.LocalTilesDirectory;
+  LEModeSServer.Caption := FConfig^.ModeSServer;
+  LEModeSPort.Caption := IntToStr(FConfig^.ModeSPort);
+  LEModeSExecutable.Caption := FConfig^.ModeSExecutable;
 end;
 
 end.

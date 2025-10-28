@@ -10,6 +10,7 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 
 - Receive APRS Messages via Radio through FlexPacket.
 - Receive APRS Messages via IGate
+- Receive ADS-B Messages via [dump1090](https://github.com/antirez/dump1090)
 - Support for Local (Offline) OSM Tiles
 
 ## Download
@@ -50,5 +51,5 @@ to find more examples for filters.
 # Screenshots
 
 ![APRSMap](vx_images/image.png)
-
+![Track](vx_images/clipboard_20251028114057.bmp)
 
