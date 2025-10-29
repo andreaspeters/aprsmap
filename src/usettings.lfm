@@ -121,8 +121,8 @@ object FSettings: TFSettings
       Top = 48
       Width = 152
       EditLabel.Height = 36
-      EditLabel.Width = 157
-      EditLabel.Caption = 'Cleanup Time (m)      '
+      EditLabel.Width = 161
+      EditLabel.Caption = 'PoI Cleanup Time (m)'
       LabelPosition = lpLeft
       TabOrder = 1
     end
@@ -142,8 +142,8 @@ object FSettings: TFSettings
       Top = 96
       Width = 296
       EditLabel.Height = 36
-      EditLabel.Width = 156
-      EditLabel.Caption = 'Local Tiles                   '
+      EditLabel.Width = 160
+      EditLabel.Caption = 'Local Tiles                    '
       LabelPosition = lpLeft
       TabOrder = 2
     end
@@ -257,8 +257,8 @@ object FSettings: TFSettings
   object ImageList1: TImageList
     Height = 30
     Width = 30
-    Left = 504
-    Top = 128
+    Left = 488
+    Top = 448
     Bitmap = {
       4C7A010000001E0000001E000000AD0400000000000078DAED965B5094751887
       05453904236365C885E8D4644E396A8A39288A4A698156E68507C0532A5264A9
@@ -302,11 +302,11 @@ object FSettings: TFSettings
     }
   end
   object SDDCacheDirectory: TSelectDirectoryDialog
-    Left = 504
-    Top = 64
+    Left = 448
+    Top = 448
   end
   object ODSelectFile: TOpenDialog
-    Left = 513
-    Top = 23
+    Left = 528
+    Top = 448
   end
 end

@@ -441,7 +441,11 @@ begin
 
       msg := APRSMessageList.Find(call);
       if msg = nil then
+      begin
+        // delete PoI that has not message object anymore
+        DelPoI(PoILayer, call);
         Continue;
+      end;
 
       if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
       begin
@@ -467,6 +471,7 @@ begin
       {$ENDIF}
     end;
   end;
+  MVMap.Refresh;
 end;
 
 // Add APRS message as PoI

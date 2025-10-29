@@ -263,7 +263,7 @@ msgid "Callsign                      "
 msgstr ""
 
 #: tfsettings.lecleanuptime.editlabel.caption
-msgid "Cleanup Time (m)      "
+msgid "PoI Cleanup Time (m)"
 msgstr ""
 
 #: tfsettings.leigatefilter.editlabel.caption
@@ -297,7 +297,7 @@ msgid "MAP Cache Directory"
 msgstr ""
 
 #: tfsettings.lemaplocaldirectory.editlabel.caption
-msgid "Local Tiles                   "
+msgid "Local Tiles                    "
 msgstr ""
 
 #: tfsettings.lemodesexecutable.editlabel.caption

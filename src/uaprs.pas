@@ -169,13 +169,13 @@ begin
 
   // Do not check position 0 because it's ourself.
   i := 1;
-  while i < Layer.PointsOfInterest.Count do
+  while i <= Layer.PointsOfInterest.Count - 1 do
   begin
     if SameText(Layer.PointsOfInterest[i].Caption, Call) then
     begin
       Layer.PointsOfInterest.Delete(i);
       i := i - 1;
-      if i <= 1 then
+      if i < 1 then
         Exit;
     end;
     inc(i);
