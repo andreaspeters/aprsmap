@@ -93,9 +93,7 @@ var Response: String;
     Client: TFPHTTPClient;
 
 begin
-  // Simuliere das Empfangen einer JSON-Zeichenkette (in der Realität würde
-  // diese Zeichenkette von einem Netzwerk kommen)
-
+  APRSMessageObject := Default(PAPRSMessage);
   try
     Client := TFPHTTPClient.Create(nil);
 
@@ -115,7 +113,8 @@ begin
     if Client.ResponseStatusCode <> 200 then
       Exit;
 
-    //Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
+    // Test Daten
+    // Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
 
     if Length(Response) > 0 then
     begin

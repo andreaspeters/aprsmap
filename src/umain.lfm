@@ -69,7 +69,6 @@ object FMain: TFMain
     end
     object TBZoomMap: TTrackBar
       AnchorSideRight.Control = GroupBox1
-      AnchorSideRight.Side = asrBottom
       Left = 8
       Height = 57
       Top = 24
@@ -84,12 +83,15 @@ object FMain: TFMain
       TabOrder = 0
     end
     object CBEMapProvider: TComboBoxEx
+      AnchorSideLeft.Control = TBZoomMap
+      AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
-      Left = 306
+      Left = 302
       Height = 36
       Top = 32
       Width = 286
+      Anchors = [akLeft, akRight]
       BorderSpacing.Right = 5
       ItemHeight = 16
       ItemsEx = <>
@@ -263,12 +265,16 @@ object FMain: TFMain
       TabOrder = 5
     end
     object CBEPOIList: TComboBoxEx
+      AnchorSideLeft.Control = MAPRSMessage
+      AnchorSideLeft.Side = asrBottom
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
       Left = 304
       Height = 36
       Top = 40
-      Width = 286
+      Width = 287
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 8
       BorderSpacing.Right = 5
       Images = ImageList1
       ItemHeight = 16
@@ -342,7 +348,8 @@ object FMain: TFMain
       Left = 304
       Height = 1
       Top = 240
-      Width = 285
+      Width = 287
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       TabOrder = 9
     end
@@ -417,7 +424,8 @@ object FMain: TFMain
       Left = 304
       Height = 1
       Top = 360
-      Width = 288
+      Width = 287
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       TabOrder = 14
     end
@@ -528,7 +536,8 @@ object FMain: TFMain
       Left = 304
       Height = 1
       Top = 160
-      Width = 285
+      Width = 287
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       TabOrder = 20
     end
@@ -560,7 +569,8 @@ object FMain: TFMain
       Left = 9
       Height = 1
       Top = 448
-      Width = 583
+      Width = 582
+      Anchors = [akTop, akLeft, akRight]
       BorderSpacing.Right = 5
       TabOrder = 21
     end

@@ -146,6 +146,7 @@ type
     procedure AddCombobox(const msg: TAPRSMessage);
     procedure DeleteCombobox(const Call: String);
     procedure DelPoiByAge;
+    procedure AddPoI(msg: TAPRSMessage);
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
@@ -330,6 +331,7 @@ begin
     LastZoom := i;
 end;
 
+// User select one PoI
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
@@ -432,6 +434,7 @@ begin
 end;
 
 
+// Cleanup old PoIs
 procedure TFMain.DelPoiByAge;
 var i: Integer;
     curTime: TTime;
@@ -463,8 +466,8 @@ begin
         if Assigned(msg^.Track) then
         begin
           try
-            if Assigned(MVMap.GPSItems) and (MVMap.GPSItems.Count > 0) then
-              MVMap.GPSItems.DeleteByID(msg^.TrackID);
+            if Assigned(MVMap.GPSItems) then
+              MVMap.GPSItems.Delete(msg^.Track);
             msg^.Track := TGPSTrack.Create;
             ModeS.ModeSMessageList.Remove(msg);
           except
@@ -482,57 +485,11 @@ begin
   end;
 end;
 
-procedure TFMain.TMainLoopTimer(Sender: TObject);
-var msg: TAPRSMessage;
-    buffer: String;
-    newMSG, oldMSG: PAPRSMessage;
+// Add APRS message as PoI
+procedure TFMain.AddPoI(msg: TAPRSMessage);
+var newMSG, oldMSG: PAPRSMessage;
 begin
-  DelPoIByAge;
-
-  if APRSConfig.IGateEnabled then
-  begin
-    try
-      buffer := IGate.APRSBuffer;
-      IGate.APRSBuffer := '';
-      msg := IGate.DecodeAPRSMessage(buffer);
-
-      if Length(msg.FromCall) > 0 then
-      begin
-        New(newMSG);
-        newMSG^ := msg;
-
-        oldMSG := APRSMessageList.Find(msg.FromCall);
-
-        SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-
-        if oldMSG = nil then
-        begin
-          AddCombobox(newMsg^);
-          inc(TrackID);
-          newMsg^.TrackID := TrackID;
-          MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
-        end
-        else
-          newMsg^.Track := oldMsg^.Track;
-
-        if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
-          if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
-            newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
-
-        MVMap.Refresh;
-      end;
-    except
-      on E: Exception do
-      begin
-        {$IFDEF UNIX}
-        writeln('Main Loop IGate Error: ', E.Message);
-        {$ENDIF}
-      end;
-    end;
-  end;
-
   try
-    msg := ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData);
     if Length(msg.FromCall) > 0 then
     begin
       New(newMSG);
@@ -560,61 +517,65 @@ begin
     end;
   except
     on E: Exception do
-    begin
       {$IFDEF UNIX}
-      writeln('Receive Data Pipe Error: ', E.Message);
+      writeln('Error AddPoi: ', E.Message);
       {$ENDIF}
+  end;
+end;
+
+procedure TFMain.TMainLoopTimer(Sender: TObject);
+var buffer: String;
+begin
+  DelPoIByAge;
+
+  if APRSConfig.IGateEnabled then
+  begin
+    try
+      buffer := IGate.APRSBuffer;
+      IGate.APRSBuffer := '';
+      AddPoI(IGate.DecodeAPRSMessage(buffer));
+    except
+      on E: Exception do
+      begin
+        {$IFDEF UNIX}
+        writeln('Error Main Loop IGate: ', E.Message);
+        {$ENDIF}
+      end;
     end;
+  end;
+
+  try
+    AddPoI(ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData));
+  except
+    on E: Exception do
+      {$IFDEF UNIX}
+      writeln('Error Main Loop Receive Data Pipe: ', E.Message);
+      {$ENDIF}
   end;
 
   if Assigned(ModeS.ModeSMessageList) then
     if ModeS.ModeSMessageList.Count > 0 then
     begin
       try
-       if Assigned(ModeS.ModeSMessageList.Items[0]) then
-       begin
-         if ModeSCount >= ModeS.ModeSMessageList.Count then
-           ModeSCount := 0;
+        if Assigned(ModeS.ModeSMessageList.Items[ModeSCount]) then
+        begin
+          if ModeSCount >= ModeS.ModeSMessageList.Count then
+            ModeSCount := 0;
 
-         msg := PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount])^;
-         if Length(msg.FromCall) > 0 then
-         begin
-           inc(ModeSCount);
-           New(newMSG);
-           newMSG^ := msg;
-
-           oldMSG := APRSMessageList.Find(msg.FromCall);
-
-           SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-
-           if oldMSG = nil then
-           begin
-             //AddCombobox(newMsg^);
-             inc(TrackID);
-             newMsg^.TrackID := TrackID;
-             MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
-           end
-           else
-             newMsg^.Track := oldMsg^.Track;
-
-           if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
-             if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
-               newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
-
-         end;
-         MVMap.Refresh;
-       end;
+          AddPoI(PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount])^);
+        end;
       except
         on E: Exception do
         begin
           {$IFDEF UNIX}
-          writeln('MODES Error: ', E.Message);
+          writeln('Error Main Loop ModeS: ', E.Message);
           {$ENDIF}
         end;
       end;
     end;
 end;
 
+// Check if track with given Points already exist
 function TFMain.TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
 var i: Integer;
     P: TGPSPoint;
@@ -632,6 +593,7 @@ begin
   end;
 end;
 
+// Delete callsign from Combobox
 procedure TFMain.DeleteCombobox(const Call: String);
 var i: Integer;
 begin
@@ -646,6 +608,7 @@ begin
   end;
 end;
 
+// Add callsign into Combobox
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
 var poi, me: TGpsPoint;
     km: Double;

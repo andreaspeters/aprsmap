@@ -130,6 +130,7 @@ function TReadPipeThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     DataType, DataMessage: String;
 begin
+  Result := Default(TAPRSMessage);
   Regex := TRegExpr.Create;
   try
     // check type
