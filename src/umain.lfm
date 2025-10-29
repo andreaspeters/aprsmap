@@ -2,10 +2,10 @@ object FMain: TFMain
   Left = 800
   Height = 990
   Top = 675
-  Width = 1568
+  Width = 1495
   Caption = 'APRS Map'
   ClientHeight = 956
-  ClientWidth = 1568
+  ClientWidth = 1495
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
@@ -16,13 +16,14 @@ object FMain: TFMain
   OnCreate = FMainInit
   OnResize = FormResize
   object MVMap: TMapView
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
     AnchorSideBottom.Control = SBMain
     Cursor = crHandPoint
-    Left = 8
+    Left = 0
     Height = 922
     Top = 0
-    Width = 952
+    Width = 880
     Active = True
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Bottom = 7
@@ -40,17 +41,21 @@ object FMain: TFMain
     OnMouseMove = ShowMapMousePosition
   end
   object GroupBox1: TGroupBox
+    AnchorSideLeft.Control = MVMap
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
-    Left = 968
+    Left = 888
     Height = 126
     Top = 0
-    Width = 592
-    Anchors = [akTop, akRight]
+    Width = 599
+    Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 8
     BorderSpacing.Right = 8
     Caption = 'Map'
     ClientHeight = 93
-    ClientWidth = 588
+    ClientWidth = 595
     Color = clForm
     ParentBackground = False
     ParentColor = False
@@ -103,7 +108,7 @@ object FMain: TFMain
     Left = 0
     Height = 27
     Top = 929
-    Width = 1568
+    Width = 1495
     Panels = <    
       item
         Width = 250
@@ -121,19 +126,21 @@ object FMain: TFMain
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = GroupBox1
     AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = SBMain
-    Left = 968
+    Left = 888
     Height = 794
     Top = 129
-    Width = 591
-    Anchors = [akTop, akLeft, akBottom]
+    Width = 600
+    Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 8
     BorderSpacing.Top = 3
-    BorderSpacing.Right = 8
+    BorderSpacing.Right = 7
     BorderSpacing.Bottom = 6
     Caption = 'PoI Details'
     ClientHeight = 761
-    ClientWidth = 587
+    ClientWidth = 596
     ParentBackground = False
     TabOrder = 3
     object Label2: TLabel
@@ -827,7 +834,7 @@ object FMain: TFMain
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = MVMap
     AnchorSideBottom.Side = asrBottom
-    Left = 8
+    Left = 0
     Height = 16
     Top = 906
     Width = 170
