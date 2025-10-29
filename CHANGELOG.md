@@ -2,8 +2,10 @@
 
 ## master
 
-- ADD: ModeS (Airplane Tracking) support via dump1090
-- CHANGE: Improve PoI update
+- ADD: ModeS (Airplane Tracking) support via dump1090.
+- CHANGE: Improve PoI update.
+- ADD: Tracking for APRS Objects (has to be enabled per Object).
+- ADD: Splitter to resize Map and PoI details.
 
 ## v0.4.0
 

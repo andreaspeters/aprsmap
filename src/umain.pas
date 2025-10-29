@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  FileCtrl, Buttons, uinfo, mvMapProvider, umodes;
+  FileCtrl, Buttons, PairSplitter, uinfo, mvMapProvider, umodes;
 
 type
 
@@ -78,6 +78,9 @@ type
     MVDEFPC1: TMVDEFPC;
     MVDEFPC2: TMVDEFPC;
     MvRGBGraphicsDrawingEngine1: TMvRGBGraphicsDrawingEngine;
+    PairSplitter1: TPairSplitter;
+    PairSplitterSide1: TPairSplitterSide;
+    PairSplitterSide2: TPairSplitterSide;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
@@ -127,7 +130,6 @@ type
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure FormResize(Sender: TObject);
     procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -179,8 +181,6 @@ var Providers: TStringList;
     i, CountProvider: Byte;
 begin
   FormatSettings.DecimalSeparator := '.';
-  Width := 1438;
-  Height := 915;
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
   ModeSCount := 0; // counter for Aircraft objects
@@ -250,22 +250,6 @@ procedure TFMain.btnBuymeacoffeeClick(Sender: TObject);
 begin
   if not OpenURL('https://buymeacoffee.com/hamradiotech') then
     ShowMessage('Could not open URL: https://buymeacoffee.com/hamradiotech');
-end;
-
-procedure TFMain.FormResize(Sender: TObject);
-var
-  scaleFactorWidth, scaleFactorHeight, scaleFactor: Double;
-  i: Integer;
-begin
-  scaleFactorWidth := Width / OrigWidth;
-  scaleFactorHeight := Height / OrigHeight;
-  scaleFactor := Min(scaleFactorWidth, scaleFactorHeight);
-
-  for i := 0 to ControlCount - 1 do
-    ResizeControl(Controls[i], scaleFactorWidth, scaleFactorHeight, scaleFactor);
-
-  MVMap.Width := FMain.Width - GroupBox1.Width - 25;
-  MVMap.Refresh;
 end;
 
 procedure TFMain.MIKofiClick(Sender: TObject);

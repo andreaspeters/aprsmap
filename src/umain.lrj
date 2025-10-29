@@ -1,5 +1,6 @@
 {"version":1,"strings":[
 {"hash":91576288,"name":"tfmain.caption","sourcebytes":[65,80,82,83,32,77,97,112],"value":"APRS Map"},
+{"hash":73500672,"name":"tfmain.stmapcopyright.caption","sourcebytes":[77,65,80,32,67,111,112,121,114,105,103,104,116,32,79,112,101,110,83,116,114,101,101,116,77,97,112],"value":"MAP Copyright OpenStreetMap"},
 {"hash":21376,"name":"tfmain.groupbox1.caption","sourcebytes":[77,97,112],"value":"Map"},
 {"hash":398941,"name":"tfmain.label1.caption","sourcebytes":[90,111,111,109],"value":"Zoom"},
 {"hash":158138290,"name":"tfmain.label35.caption","sourcebytes":[80,114,111,118,105,100,101,114],"value":"Provider"},
@@ -38,7 +39,6 @@
 {"hash":216741593,"name":"tfmain.label27.caption","sourcebytes":[82,97,105,110,102,97,108,108,32,108,97,115,116,32,50,52,104,32,40,109,109,41],"value":"Rainfall last 24h (mm)"},
 {"hash":137599822,"name":"tfmain.label34.caption","sourcebytes":[67,97,108,108,115,105,103,110],"value":"Callsign"},
 {"hash":267134903,"name":"tfmain.sptrack.hint","sourcebytes":[69,110,97,98,108,101,32,84,114,97,99,107,105,110,103],"value":"Enable Tracking"},
-{"hash":73500672,"name":"tfmain.stmapcopyright.caption","sourcebytes":[77,65,80,32,67,111,112,121,114,105,103,104,116,32,79,112,101,110,83,116,114,101,101,116,77,97,112],"value":"MAP Copyright OpenStreetMap"},
 {"hash":2805797,"name":"tfmain.menuitem1.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":4710148,"name":"tfmain.mifileexit.caption","sourcebytes":[69,38,120,105,116],"value":"E&xit"},
 {"hash":213577587,"name":"tfmain.settings.caption","sourcebytes":[38,83,101,116,116,105,110,103,115],"value":"&Settings"},
