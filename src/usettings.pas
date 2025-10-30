@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, PopupNotifier, utypes, uini;
+  Buttons, StdCtrls, utypes, uini;
 
 type
 

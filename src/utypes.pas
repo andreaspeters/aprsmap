@@ -58,6 +58,7 @@ type
     TrackID: Integer;
     EnableTrack: Boolean;
     ImageIndex: Integer;
+    ModeS: Boolean;
   end;
 
   TAPRSConfig = record

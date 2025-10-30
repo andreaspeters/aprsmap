@@ -9,7 +9,8 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  FileCtrl, Buttons, PairSplitter, uinfo, mvMapProvider, umodes;
+  Buttons, PairSplitter,
+  uinfo, mvMapProvider, umodes;
 
 type
 
@@ -18,6 +19,7 @@ type
   TFMain = class(TForm)
     CBEPOIList: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
+    CBEFilter: TComboBoxEx;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     ICallsignIcon: TImage;
@@ -51,6 +53,7 @@ type
     Label33: TLabel;
     Label34: TLabel;
     Label35: TLabel;
+    Label36: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -127,6 +130,7 @@ type
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
     procedure btnBuymeacoffeeClick(Sender: TObject);
+    procedure CBEFilterSelect(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -150,10 +154,11 @@ type
     procedure DeleteCombobox(const Call: String);
     procedure DelPoiByAge;
     procedure AddPoI(msg: TAPRSMessage);
+    procedure SetupFilterCombo;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
-
+    Debug: Boolean;
   end;
 
 var
@@ -181,6 +186,11 @@ procedure TFMain.FMainInit(Sender: TObject);
 var Providers: TStringList;
     i, CountProvider: Byte;
 begin
+  Debug := False;
+  if ParamCount > 0 then
+    if ParamStr(1) = '-d' then
+      Debug := True;
+
   FormatSettings.DecimalSeparator := '.';
   OrigWidth := Self.Width;
   OrigHeight := Self.Height;
@@ -221,6 +231,17 @@ begin
   end;
 
   ModeS := TModeSThread.Create(@APRSConfig);
+  SetupFilterCombo;
+end;
+
+procedure TFMain.SetupFilterCombo;
+var i, count: Byte;
+begin
+  count := Length(APRSPrimarySymbolTable);
+
+  CBEFilter.ItemsEx.AddItem('All', 0, 0, 0, 0, nil);
+  for i := 1 to count do
+    CBEFilter.ItemsEx.AddItem(APRSPrimarySymbolTable[i].Description, i, 0, 0, 0, nil);
 end;
 
 procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -256,6 +277,44 @@ procedure TFMain.btnBuymeacoffeeClick(Sender: TObject);
 begin
   if not OpenURL('https://buymeacoffee.com/hamradiotech') then
     ShowMessage('Could not open URL: https://buymeacoffee.com/hamradiotech');
+end;
+
+procedure TFMain.CBEFilterSelect(Sender: TObject);
+var description, symbol: String;
+    i, count: Byte;
+    msg: PAPRSMessage;
+begin
+  symbol := 'All';
+
+  description := CBEFilter.ItemsEx.Items[CBEFilter.ItemIndex].Caption;
+
+  if Length(description) > 0 then
+  begin
+    count := Length(APRSPrimarySymbolTable);
+
+    for i := 1 to count do
+    begin
+      if SameText(APRSPrimarySymbolTable[i].Description, description) then
+      begin
+        symbol := APRSPrimarySymbolTable[i].SymbolChar;
+        break;
+      end;
+    end;
+
+    if Length(symbol) > 0 then
+    begin
+      for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
+      begin
+        msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
+
+        if Assigned(msg) then
+          if (SameText(msg^.Icon, symbol)) or (SameText(description, 'All')) then
+            PoiLayer.PointsOfInterest[i].Visible := True
+          else
+            PoiLayer.PointsOfInterest[i].Visible := False
+      end;
+    end;
+  end;
 end;
 
 procedure TFMain.MIKofiClick(Sender: TObject);
@@ -512,6 +571,7 @@ end;
 // Add APRS message as PoI
 procedure TFMain.AddPoI(msg: TAPRSMessage);
 var newMSG, oldMSG: PAPRSMessage;
+    visibility: Boolean;
 begin
   try
     if Length(msg.FromCall) > 0 then
@@ -538,7 +598,13 @@ begin
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
           newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
-      SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+      // Filter is set
+      visibility := True;
+      if (FMain.CBEFilter.ItemIndex > 0) and not (newMsg^.ModeS) then
+        if not SameText(FMain.CBEFilter.ItemsEx.Items[FMain.CBEFilter.ItemIndex].Caption, GetImageDescription(newMsg^.Icon)) then
+          visibility := False;
+
+      SetPoi(PoILayer, newMsg, visibility);
 
       // add callsign to Combobox
       if oldMSG = nil then
@@ -563,6 +629,7 @@ end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var buffer: String;
+    msg: PAPRSMessage;
 begin
   DelPoIByAge;
 
@@ -599,7 +666,11 @@ begin
 
       try
         if Assigned(ModeS.ModeSMessageList.Items[ModeSCount]) then
-          AddPoI(PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount])^);
+        begin
+          msg := PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount]);
+          msg^.ModeS := True;
+          AddPoI(msg^);
+        end;
       except
         on E: Exception do
         begin
@@ -647,7 +718,7 @@ end;
 
 // Add callsign into Combobox
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
-var poi, me: TGpsPoint;
+var poi: TGpsPoint;
     km: Double;
 begin
   poi := TGpsPoint(FindGPSItem(PoILayer, msg.FromCall));

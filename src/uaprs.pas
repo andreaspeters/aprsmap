@@ -10,10 +10,11 @@ uses
   FPImage, IntfGraphics, GraphType;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
-procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
+procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
+function GetImageDescription(const Symbol: String):String;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
@@ -115,7 +116,7 @@ end;
 
 
 
-procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; List: TGPSObjectList);
+procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
 var poi: TMapPointOfInterest;
 begin
   if (Message^.Longitude <= 0) or (Message^.Latitude <= 0) then
@@ -131,6 +132,7 @@ begin
   poi.Latitude := Message^.Latitude;
   poi.Caption := Message^.FromCall;
   poi.ImageIndex := Message^.ImageIndex;
+  poi.Visible := visibility;
   APRSMessageList.Add(Message^.FromCall, Message);
 end;
 
@@ -143,6 +145,10 @@ begin
   poi.Latitude := Latitude;
   poi.Caption := Text;
   poi.ImageIndex := ImageIndex;
+  poi.Visible := visibility;
+
+  if FMain.CBEFilter.ItemIndex > 0 then
+    poi.Visible := False;
 end;
 
 function FindPoI(Layer: TMapLayer; const Call: String): TMapPointOfInterest;
@@ -180,6 +186,26 @@ begin
         Exit;
     end;
     inc(i);
+  end;
+end;
+
+function GetImageDescription(const Symbol: String):String;
+var i: Byte;
+    count: Integer;
+begin
+  Result := '';
+  if (Length(Symbol) <> 1) then
+    Exit;
+
+  count := Length(APRSPrimarySymbolTable);
+
+  for i := 1 to count do
+  begin
+    if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
+    begin
+      Result := APRSPrimarySymbolTable[i].Description;
+      Exit;
+    end;
   end;
 end;
 
@@ -479,7 +505,7 @@ const
     WXRaw = '!#$*';
     ItemObject = ');';
     // without position
-    WXPositionless = '_';
+    // WXPositionless = '_';
     Messages = ':';
     StatusReport = '>';
     Telemetry = 'T#';
@@ -514,6 +540,7 @@ begin
       APRSMessageObject.Track := TGPSTrack.Create;
       APRSMessageObject.Track.Visible := False;
       APRSMessageObject.Track.LineWidth := 1;
+      APRSMessageObject.ModeS := False;
 
       if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
       begin

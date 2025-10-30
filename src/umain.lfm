@@ -1,10 +1,10 @@
 object FMain: TFMain
   Left = 800
-  Height = 990
+  Height = 1035
   Top = 675
   Width = 1574
   Caption = 'APRS Map'
-  ClientHeight = 956
+  ClientHeight = 1001
   ClientWidth = 1574
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
@@ -18,7 +18,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 929
+    Top = 974
     Width = 1574
     Panels = <    
       item
@@ -34,7 +34,7 @@ object FMain: TFMain
   end
   object PairSplitter1: TPairSplitter
     Left = 0
-    Height = 929
+    Height = 974
     Top = 0
     Width = 1574
     Align = alClient
@@ -42,15 +42,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 929
+      Height = 974
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 929
+      ClientHeight = 974
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 922
+        Height = 967
         Top = 0
         Width = 950
         Active = True
@@ -79,7 +79,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 906
+        Top = 951
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -96,24 +96,20 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 929
+      Height = 974
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 929
+      ClientHeight = 974
       object GroupBox1: TGroupBox
-        AnchorSideLeft.Control = PairSplitterSide2
-        AnchorSideTop.Control = Owner
-        AnchorSideRight.Control = PairSplitterSide2
-        AnchorSideRight.Side = asrBottom
         Left = 0
-        Height = 126
+        Height = 184
         Top = 0
         Width = 615
-        Anchors = [akTop, akLeft, akRight]
+        Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 93
+        ClientHeight = 151
         ClientWidth = 611
         Color = clForm
         ParentBackground = False
@@ -127,10 +123,11 @@ object FMain: TFMain
           Caption = 'Zoom'
         end
         object TBZoomMap: TTrackBar
+          AnchorSideTop.Control = GroupBox1
           AnchorSideRight.Control = GroupBox1
           Left = 8
           Height = 57
-          Top = 24
+          Top = 23
           Width = 286
           Max = 19
           Position = 0
@@ -138,19 +135,22 @@ object FMain: TFMain
           TickMarks = tmBoth
           TickStyle = tsManual
           OnChange = TBZoomMapChange
+          BorderSpacing.Top = 23
           BorderSpacing.Right = 8
           TabOrder = 0
         end
         object CBEMapProvider: TComboBoxEx
           AnchorSideLeft.Control = TBZoomMap
           AnchorSideLeft.Side = asrBottom
+          AnchorSideTop.Control = GroupBox1
           AnchorSideRight.Control = GroupBox2
           AnchorSideRight.Side = asrBottom
           Left = 302
           Height = 36
-          Top = 32
-          Width = 302
-          Anchors = [akLeft, akRight]
+          Top = 33
+          Width = 304
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Top = 33
           BorderSpacing.Right = 5
           ItemHeight = 16
           ItemsEx = <>
@@ -164,24 +164,46 @@ object FMain: TFMain
           Width = 63
           Caption = 'Provider'
         end
+        object CBEFilter: TComboBoxEx
+          AnchorSideLeft.Control = MAPRSMessage
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideRight.Control = GroupBox2
+          AnchorSideRight.Side = asrBottom
+          Left = 304
+          Height = 36
+          Top = 104
+          Width = 302
+          Anchors = [akTop, akLeft, akRight]
+          BorderSpacing.Left = 8
+          BorderSpacing.Right = 5
+          Images = ImageList1
+          ItemHeight = 16
+          ItemsEx = <>
+          TabOrder = 2
+          OnSelect = CBEFilterSelect
+        end
+        object Label36: TLabel
+          Left = 304
+          Height = 22
+          Top = 80
+          Width = 38
+          Caption = 'Filter'
+        end
       end
       object GroupBox2: TGroupBox
-        AnchorSideLeft.Control = PairSplitterSide2
         AnchorSideTop.Control = GroupBox1
         AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = PairSplitterSide2
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = SBMain
         Left = 0
-        Height = 794
-        Top = 129
+        Height = 781
+        Top = 187
         Width = 615
+        Align = alBottom
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 3
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 6
         Caption = 'PoI Details'
-        ClientHeight = 761
+        ClientHeight = 748
         ClientWidth = 611
         ParentBackground = False
         TabOrder = 1
@@ -865,7 +887,7 @@ object FMain: TFMain
           Left = 8
           Height = 31
           Hint = 'Enable Tracking'
-          Top = 728
+          Top = 715
           Width = 29
           AllowAllUp = True
           Anchors = [akLeft, akBottom]
@@ -883,22 +905,18 @@ object FMain: TFMain
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 984
-    Top = 24
   end
   object MVDEFPC1: TMVDEFPC
     ProxyPort = 0
     Left = 952
-    Top = 24
   end
   object TMainLoop: TTimer
     OnTimer = TMainLoopTimer
     Left = 1016
-    Top = 24
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
     Left = 1080
-    Top = 24
     object MenuItem1: TMenuItem
       Caption = '&File'
       object MIFileExit: TMenuItem
@@ -942,7 +960,6 @@ object FMain: TFMain
   object ImageList1: TImageList
     DrawingStyle = dsTransparent
     Left = 1048
-    Top = 24
     Bitmap = {
       4C7AE70000001000000010000000753500000000000078DAED7D0F8C6E4775DF
       7D7EFFDF33E49160A397DAD86B6C8747E3D61B15C5796D026CD57FAB4AC0CAAE
@@ -1377,6 +1394,5 @@ object FMain: TFMain
   end
   object MvRGBGraphicsDrawingEngine1: TMvRGBGraphicsDrawingEngine
     Left = 920
-    Top = 24
   end
 end

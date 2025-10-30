@@ -24,6 +24,9 @@ var
 
 implementation
 
+uses
+  UMain;
+
 { TReadPipeThread }
 
 constructor TReadPipeThread.Create(const PipeName: string);
@@ -144,7 +147,8 @@ begin
       DataType := Regex.Match[1];
       DataMessage := Regex.Match[2];
       {$IFDEF UNIX}
-      writeln(Data);
+      if FMain.Debug then
+        writeln(Data);
       {$ENDIF}
       Result := GetAPRSMessageObject(Data, DataType, DataMessage);
     end;

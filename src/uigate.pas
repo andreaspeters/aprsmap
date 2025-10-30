@@ -32,6 +32,9 @@ var
 
 implementation
 
+uses
+  umain;
+
 { TIGateThread }
 
 constructor TIGateThread.Create(Config: PTAPRSConfig);
@@ -270,7 +273,8 @@ begin
       DataMessage := Regex.Match[5];
       NormData := Regex.Match[1]+'|'+Regex.Match[3]+'|'+Regex.Match[2]+'| '+Regex.Match[4]+Regex.Match[5];
       {$IFDEF UNIX}
-      writeln(NormData);
+      if FMain.Debug then
+        writeln(NormData);
       {$ENDIF}
       //, DataMessage, '^(\S+)>(\S+),(?:TCPIP)?.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
       Result := GetAPRSMessageObject(NormData, DataType, DataMessage);

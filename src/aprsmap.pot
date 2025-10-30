@@ -167,6 +167,10 @@ msgstr ""
 msgid "Provider"
 msgstr ""
 
+#: tfmain.label36.caption
+msgid "Filter"
+msgstr ""
+
 #: tfmain.label4.caption
 msgid "Latitude"
 msgstr ""
