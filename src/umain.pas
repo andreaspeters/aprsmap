@@ -97,6 +97,7 @@ type
     Settings1: TMenuItem;
     SPTrack: TSpeedButton;
     STAltitude: TStaticText;
+    STIconDescription: TStaticText;
     STMapCopyright: TStaticText;
     STCallsign: TStaticText;
     STWXLum: TStaticText;
@@ -396,6 +397,7 @@ begin
       ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
+      STIconDescription.Caption := GetImageDescription(msg^.Icon);
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);

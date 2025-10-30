@@ -239,7 +239,7 @@ begin
       // Alternate Symbols
       if IconPrimary = '\' then
       begin
-        Result := Result+94;
+        Result := Result+96;
         Exit;
       end;
 
