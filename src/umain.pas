@@ -238,11 +238,17 @@ end;
 procedure TFMain.SetupFilterCombo;
 var i, count: Byte;
 begin
-  count := Length(APRSPrimarySymbolTable);
-
   CBEFilter.ItemsEx.AddItem('All', 0, 0, 0, 0, nil);
+
+  // Primary Icons
+  count := Length(APRSPrimarySymbolTable);
   for i := 1 to count do
     CBEFilter.ItemsEx.AddItem(APRSPrimarySymbolTable[i].Description, i, 0, 0, 0, nil);
+
+  // Alternate Icons
+  count := Length(APRSAlternateSymbolTable);
+  for i := 1 to count do
+    CBEFilter.ItemsEx.AddItem(APRSAlternateSymbolTable[i].Description, i+96, 0, 0, 0, nil);
 end;
 
 procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -291,29 +297,15 @@ begin
 
   if Length(description) > 0 then
   begin
-    count := Length(APRSPrimarySymbolTable);
-
-    for i := 1 to count do
+    for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
     begin
-      if SameText(APRSPrimarySymbolTable[i].Description, description) then
-      begin
-        symbol := APRSPrimarySymbolTable[i].SymbolChar;
-        break;
-      end;
-    end;
+      msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
 
-    if Length(symbol) > 0 then
-    begin
-      for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
-      begin
-        msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
-
-        if Assigned(msg) then
-          if (SameText(msg^.Icon, symbol)) or (SameText(description, 'All')) then
-            PoiLayer.PointsOfInterest[i].Visible := True
-          else
-            PoiLayer.PointsOfInterest[i].Visible := False
-      end;
+      if Assigned(msg) then
+        if (SameText(msg^.ImageDescription, description)) or (SameText(description, 'All')) then
+          PoiLayer.PointsOfInterest[i].Visible := True
+        else
+          PoiLayer.PointsOfInterest[i].Visible := False
     end;
   end;
 end;
@@ -397,7 +389,7 @@ begin
       ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
-      STIconDescription.Caption := GetImageDescription(msg^.Icon);
+      STIconDescription.Caption := msg^.ImageDescription;
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
@@ -603,7 +595,7 @@ begin
       // Filter is set
       visibility := True;
       if (FMain.CBEFilter.ItemIndex > 0) and not (newMsg^.ModeS) then
-        if not SameText(FMain.CBEFilter.ItemsEx.Items[FMain.CBEFilter.ItemIndex].Caption, GetImageDescription(newMsg^.Icon)) then
+        if not SameText(FMain.CBEFilter.ItemsEx.Items[FMain.CBEFilter.ItemIndex].Caption, newMsg^.ImageDescription) then
           visibility := False;
 
       SetPoi(PoILayer, newMsg, visibility);

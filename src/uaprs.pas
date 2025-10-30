@@ -14,7 +14,7 @@ procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Bool
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
-function GetImageDescription(const Symbol: String):String;
+function GetImageDescription(const Symbol, IconPrimary: String):String;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
@@ -189,22 +189,41 @@ begin
   end;
 end;
 
-function GetImageDescription(const Symbol: String):String;
+function GetImageDescription(const Symbol, IconPrimary: String):String;
 var i: Byte;
     count: Integer;
 begin
   Result := '';
-  if (Length(Symbol) <> 1) then
+  if (Length(Symbol) <= 0) or (Length(IconPrimary) <= 0) then
     Exit;
 
-  count := Length(APRSPrimarySymbolTable);
-
-  for i := 1 to count do
+  // Primary Symbols
+  if IconPrimary = '/' then
   begin
-    if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
+    count := Length(APRSPrimarySymbolTable);
+
+    for i := 1 to count do
     begin
-      Result := APRSPrimarySymbolTable[i].Description;
-      Exit;
+      if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
+      begin
+        Result := APRSPrimarySymbolTable[i].Description;
+        Exit;
+      end;
+    end;
+  end;
+
+  // Alternate Symbols
+  if IconPrimary = '\' then
+  begin
+    count := Length(APRSAlternateSymbolTable);
+
+    for i := 1 to count do
+    begin
+      if APRSAlternateSymbolTable[i].SymbolChar = Symbol then
+      begin
+        Result := APRSAlternateSymbolTable[i].Description;
+        Exit;
+      end;
     end;
   end;
 end;
@@ -246,17 +265,17 @@ begin
       if Length(IconPrimary) > 0 then
       begin
         try
-          Overlay := 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          Overlay := 'ABCEFGHIJKLMNOPQRSTUVWXYZ';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+195);
 
           Overlay := 'abcdefghij';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+221);
 
           overlay := '0123456789';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+221);
         except
           on E: Exception do
           begin
@@ -552,6 +571,7 @@ begin
         APRSMessageObject.IconPrimary := Regex.Match[3];
         APRSMessageObject.Icon := Regex.Match[5];
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
+        APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.Message := Regex.Match[6];
         APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
         APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
@@ -679,7 +699,7 @@ begin
   bmpMerged := TBitmap.Create;
   try
     // set Size
-    bmpMerged.SetSize(ImageList.Width * 2, ImageList.Height);
+    bmpMerged.SetSize(ImageList.Width, ImageList.Height);
 
     ImageList.GetBitmap(IndexBase, bmpBase);
     ImageList.GetBitmap(IndexOverlay, bmpOverlay);
@@ -689,7 +709,7 @@ begin
     bmpMerged.TransparentColor := clWhite;
 
     bmpMerged.Canvas.Draw(0, 0, bmpBase);
-    bmpMerged.Canvas.Draw(16, 0, bmpOverlay);
+    bmpMerged.Canvas.Draw(0, 0, bmpOverlay);
 
     // add new image to imagelist
     Result := ImageList.Add(bmpMerged, nil);
