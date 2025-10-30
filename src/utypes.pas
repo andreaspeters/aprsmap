@@ -57,6 +57,7 @@ type
     Track: TGPSTrack;
     TrackID: Integer;
     EnableTrack: Boolean;
+    ImageIndex: Integer;
   end;
 
   TAPRSConfig = record

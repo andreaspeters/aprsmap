@@ -328,7 +328,7 @@ begin
     msg := APRSMessageList.Find(call);
     if msg <> nil then
     begin
-      ICallSignIcon.ImageIndex := GetImageIndex(msg^.Icon, msg^.IconPrimary);
+      ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
@@ -428,49 +428,78 @@ var i: Integer;
 begin
   curTime := now();
   // Do not check position 0 because it's ourself.
-  for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
+  i := 1;
+  while i < PoiLayer.PointsOfInterest.Count do
   begin
     try
       poi := PoILayer.PointsOfInterest.Items[i];
       if poi = nil then
+      begin
+        inc(i);
         Continue;
+      end;
 
       call := PoILayer.PointsOfInterest.Items[i].caption;
       if Length(call) <= 0 then
+      begin
+        PoILayer.PointsOfInterest.Delete(i);
         Continue;
+      end;
 
       msg := APRSMessageList.Find(call);
       if msg = nil then
       begin
-        // delete PoI that has not message object anymore
+        DeleteCombobox(call);
         DelPoI(PoILayer, call);
         Continue;
       end;
 
       if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
       begin
-        DelPoI(PoILayer, call);
-        DeleteCombobox(call);
         if Assigned(msg^.Track) then
         begin
           try
             if Assigned(MVMap.GPSItems) then
               MVMap.GPSItems.Delete(msg^.Track);
             msg^.Track := TGPSTrack.Create;
-            ModeS.ModeSMessageList.Remove(msg);
           except
             {$IFDEF UNIX}
             writeln('Error Delete GPS Track')
             {$ENDIF}
           end;
         end;
+        ModeS.ModeSMessageList.Remove(msg);
+        DeleteCombobox(call);
+        DelPoI(PoILayer, call);
+        Continue;
       end;
     except
       {$IFDEF UNIX}
-      writeln('Error Find PoI on Layer')
+      writeln('Error Cleanup Old PoI')
       {$ENDIF}
     end;
+    inc(i);
   end;
+
+  // cleanup modes
+  i := 0;
+  while i < ModeS.ModeSMessageList.Count do
+  begin
+    try
+      msg := ModeS.ModeSMessageList.Items[i];
+      if not Assigned(APRSMessageList.Find(msg^.FromCall)) then
+      begin
+        ModeS.ModeSMessageList.Delete(i);
+        Continue;
+      end;
+    except
+      {$IFDEF UNIX}
+      writeln('Error Cleanup Old ModeS PoI')
+      {$ENDIF}
+    end;
+    inc(i);
+  end;
+
   MVMap.Refresh;
 end;
 
@@ -486,29 +515,43 @@ begin
 
       oldMSG := APRSMessageList.Find(msg.FromCall);
 
-      SetPoi(PoILayer, newMsg, MVMap.GPSItems);
-
+      // if not already exist, create TrackID, else reuse old TrackID and ImageIndex
       if oldMSG = nil then
       begin
-        AddCombobox(newMsg^);
         inc(TrackID);
         newMsg^.TrackID := TrackID;
         MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
       end
       else
+      begin
         newMsg^.Track := oldMsg^.Track;
+        newMsg^.ImageIndex := oldMsg^.ImageIndex;
+      end;
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
           newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
 
+      SetPoi(PoILayer, newMsg, MVMap.GPSItems);
+
+      // add callsign to Combobox
+      if oldMSG = nil then
+        AddCombobox(newMsg^);
+
       MVMap.Refresh;
     end;
   except
     on E: Exception do
+    begin
       {$IFDEF UNIX}
       writeln('Error AddPoi: ', E.Message);
       {$ENDIF}
+      if Assigned(newMsg) and (Length(newMsg^.FromCall) > 0) then
+        DelPoI(PoILayer, newMsg^.FromCall);
+
+      if Assigned(oldMsg) and (Length(newMsg^.FromCall) > 0) then
+        DelPoI(PoILayer, oldMsg^.FromCall);
+    end;
   end;
 end;
 
@@ -545,14 +588,12 @@ begin
   if Assigned(ModeS.ModeSMessageList) then
     if ModeS.ModeSMessageList.Count > 0 then
     begin
+      if ModeSCount >= ModeS.ModeSMessageList.Count then
+        ModeSCount := 0;
+
       try
         if Assigned(ModeS.ModeSMessageList.Items[ModeSCount]) then
-        begin
-          if ModeSCount >= ModeS.ModeSMessageList.Count then
-            ModeSCount := 0;
-
           AddPoI(PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount])^);
-        end;
       except
         on E: Exception do
         begin
@@ -561,6 +602,7 @@ begin
           {$ENDIF}
         end;
       end;
+      inc(ModeSCount);
     end;
 end;
 
@@ -601,7 +643,6 @@ end;
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
 var poi, me: TGpsPoint;
     km: Double;
-    imageIndex: Byte;
 begin
   poi := TGpsPoint(FindGPSItem(PoILayer, msg.FromCall));
 
@@ -610,8 +651,7 @@ begin
 
   try
     km := poi.DistanceInKmFrom(MyPositionGPS,False);
-    imageIndex := GetImageIndex(msg.Icon, msg.IconPrimary);
-    CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , imageIndex, 0, 0, 0, nil);
+    CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil);
   except
     on E: Exception do
     begin

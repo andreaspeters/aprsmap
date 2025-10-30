@@ -6,6 +6,7 @@
 - CHANGE: Improve PoI update.
 - ADD: Tracking for APRS Objects (has to be enabled per Object).
 - ADD: Splitter to resize Map and PoI details.
+- ADD: support for overlay image.
 
 ## v0.4.0
 

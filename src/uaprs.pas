@@ -33,6 +33,7 @@ function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte
 function GetRNG(const Text: String):Integer;
 function GetWX(const Text, Search: String):String;
 function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
+function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer): Integer;
 
 var
   APRSMessageList: TFPHashList;
@@ -129,7 +130,7 @@ begin
   poi.Longitude := Message^.Longitude;
   poi.Latitude := Message^.Latitude;
   poi.Caption := Message^.FromCall;
-  poi.ImageIndex := GetImageIndex(Message^.Icon, Message^.IconPrimary);
+  poi.ImageIndex := Message^.ImageIndex;
   APRSMessageList.Add(Message^.FromCall, Message);
 end;
 
@@ -174,7 +175,7 @@ begin
     if SameText(Layer.PointsOfInterest[i].Caption, Call) then
     begin
       Layer.PointsOfInterest.Delete(i);
-      i := i - 1;
+      dec(i);
       if i < 1 then
         Exit;
     end;
@@ -185,9 +186,14 @@ end;
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
 var i: Byte;
     count: Integer;
+    overlay: String;
 begin
-  count := Length(APRSPrimarySymbolTable);
   Result := 0;
+  if (Length(Symbol) <> 1) or (Length(IconPrimary) <> 1) then
+    Exit;
+
+  count := Length(APRSPrimarySymbolTable);
+
   for i := 1 to count do
   begin
     if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
@@ -200,11 +206,41 @@ begin
          /       Primary   symbol Table  (Mostly stations)
          \       Alternate symbol table  (Mostly Objects)
          0-9     Alternate OVERLAY symbols with 0-9 overlayed
+         a-j     Alternate OVERLAY symbols with 0-9 overlayed
          A-Z     Alternate OVERLAY symbols with A-Z overlayed
       }
 
+      // Alternate Symbols
       if IconPrimary = '\' then
+      begin
         Result := Result+94;
+        Exit;
+      end;
+
+      if Length(IconPrimary) > 0 then
+      begin
+        try
+          Overlay := 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+          if Pos(IconPrimary[1], Overlay) > 0 then
+            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+
+          Overlay := 'abcdefghij';
+          if Pos(IconPrimary[1], Overlay) > 0 then
+            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+
+          overlay := '0123456789';
+          if Pos(IconPrimary[1], Overlay) > 0 then
+            Result := CreateOverlay(FMain.ImageList1, i, Pos(IconPrimary[1], Overlay));
+        except
+          on E: Exception do
+          begin
+            {$IFDEF UNIX}
+            writeln('Error Create Overlay Image: ', E.Message);
+            {$ENDIF}
+            Result := i;
+          end;
+        end;
+      end;
       Exit;
     end;
   end;
@@ -488,6 +524,7 @@ begin
         APRSMessageObject.Longitude := Lon;
         APRSMessageObject.IconPrimary := Regex.Match[3];
         APRSMessageObject.Icon := Regex.Match[5];
+        APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.Message := Regex.Match[6];
         APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
         APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
@@ -589,8 +626,7 @@ begin
 end;
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;
-var
-  dLon, y, x: Double;
+var dLon, y, x: Double;
 begin
   // Umrechnung in Radiant
   Lat1 := DegToRad(Lat1);
@@ -606,6 +642,36 @@ begin
     Result := Result + 360;
 end;
 
+function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer): Integer;
+var bmpBase, bmpOverlay, bmpMerged: TBitmap;
+begin
+  Result := 0;
+
+  bmpBase := TBitmap.Create;
+  bmpOverlay := TBitmap.Create;
+  bmpMerged := TBitmap.Create;
+  try
+    // set Size
+    bmpMerged.SetSize(ImageList.Width * 2, ImageList.Height);
+
+    ImageList.GetBitmap(IndexBase, bmpBase);
+    ImageList.GetBitmap(IndexOverlay, bmpOverlay);
+
+    bmpMerged.PixelFormat := bmpBase.PixelFormat;
+    bmpMerged.Transparent := True;
+    bmpMerged.TransparentColor := clWhite;
+
+    bmpMerged.Canvas.Draw(0, 0, bmpBase);
+    bmpMerged.Canvas.Draw(16, 0, bmpOverlay);
+
+    // add new image to imagelist
+    Result := ImageList.Add(bmpMerged, nil);
+  finally
+    bmpBase.Free;
+    bmpOverlay.Free;
+    bmpMerged.Free;
+  end;
+end;
 
 end.
 

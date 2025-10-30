@@ -93,7 +93,6 @@ var Response: String;
     Client: TFPHTTPClient;
 
 begin
-  APRSMessageObject := Default(PAPRSMessage);
   try
     Client := TFPHTTPClient.Create(nil);
 
@@ -139,16 +138,16 @@ begin
             APRSMessageObject^.Longitude := Obj.Floats['lon'];
 
           if Obj.Find('altitude') <> nil then
-            APRSMessageObject^.Altitude := Obj.Integers['altitude'];
+            APRSMessageObject^.Altitude := Round(Obj.Integers['altitude']*0.3048);
 
           if Obj.Find('speed') <> nil then
-            APRSMessageObject^.Speed := Obj.Integers['speed'];
+            APRSMessageObject^.Speed := Round(Obj.Integers['speed']*1.85);
 
           APRSMessageObject^.Track := TGPSTrack.Create;
           APRSMessageObject^.Track.Visible := True;
           APRSMessageObject^.Track.LineWidth := 1;
           APRSMessageObject^.Time := now();
-          APRSMessageObject^.Icon := '^';
+          APRSMessageObject^.ImageIndex := 7;
 
           if Length(APRSMessageObject^.FromCall) > 0 then
             ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject)
@@ -161,7 +160,9 @@ begin
         {$ENDIF}
         end;
       end;
-    end;
+    end
+    else
+      ModeSMessageList := TFPHashList.Create;
   finally
     Client.Free;
   end;
