@@ -130,6 +130,7 @@ type
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormResize(Sender: TObject);
     procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -235,6 +236,11 @@ begin
       ReadPipe.Terminate;
   except
   end;
+end;
+
+procedure TFMain.FormResize(Sender: TObject);
+begin
+  PairSplitter1.Position := Width - 619;
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);

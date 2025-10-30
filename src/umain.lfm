@@ -14,6 +14,7 @@ object FMain: TFMain
   Scaled = False
   OnClose = FormClose
   OnCreate = FMainInit
+  OnResize = FormResize
   object SBMain: TStatusBar
     Left = 0
     Height = 27
