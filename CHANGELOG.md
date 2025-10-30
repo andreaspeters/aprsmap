@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## v0.5.0
 
 - ADD: ModeS (Airplane Tracking) support via dump1090.
 - CHANGE: Improve PoI update.
