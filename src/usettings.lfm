@@ -10,7 +10,7 @@ object FSettings: TFSettings
   ClientWidth = 1095
   DefaultMonitor = dmDesktop
   Position = poDesktopCenter
-  LCLVersion = '4.1.0.0'
+  OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6
     Height = 41
@@ -35,14 +35,14 @@ object FSettings: TFSettings
     Top = 200
     Width = 537
     Caption = 'IGate'
-    ClientHeight = 228
-    ClientWidth = 525
+    ClientHeight = 207
+    ClientWidth = 533
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 184
       Height = 36
       Top = 104
-      Width = 304
+      Width = 330
       EchoMode = emPassword
       EditLabel.Height = 36
       EditLabel.Width = 148
@@ -55,7 +55,7 @@ object FSettings: TFSettings
       Left = 184
       Height = 36
       Top = 8
-      Width = 296
+      Width = 330
       EditLabel.Height = 36
       EditLabel.Width = 148
       EditLabel.Caption = 'Server                        '
@@ -88,7 +88,7 @@ object FSettings: TFSettings
       Left = 184
       Height = 36
       Top = 160
-      Width = 296
+      Width = 330
       EditLabel.Height = 36
       EditLabel.Width = 146
       EditLabel.Caption = 'Filter                          '
@@ -102,8 +102,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 172
-    ClientWidth = 525
+    ClientHeight = 151
+    ClientWidth = 533
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
@@ -160,19 +160,19 @@ object FSettings: TFSettings
     end
   end
   object GroupBox3: TGroupBox
-    Left = 6
+    Left = 8
     Height = 184
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 172
-    ClientWidth = 525
+    ClientHeight = 151
+    ClientWidth = 533
     TabOrder = 3
     object LECallsign: TLabeledEdit
-      Left = 184
+      Left = 182
       Height = 36
       Top = 0
-      Width = 296
+      Width = 154
       EditLabel.Height = 36
       EditLabel.Width = 151
       EditLabel.Caption = 'Callsign                      '
@@ -180,10 +180,10 @@ object FSettings: TFSettings
       TabOrder = 0
     end
     object LELatitude: TLabeledEdit
-      Left = 184
+      Left = 182
       Height = 36
       Top = 48
-      Width = 296
+      Width = 330
       EditLabel.Height = 36
       EditLabel.Width = 149
       EditLabel.Caption = 'Latitude                     '
@@ -191,15 +191,35 @@ object FSettings: TFSettings
       TabOrder = 1
     end
     object LELongitude: TLabeledEdit
-      Left = 184
+      Left = 182
       Height = 36
       Top = 96
-      Width = 296
+      Width = 330
       EditLabel.Height = 36
       EditLabel.Width = 152
       EditLabel.Caption = 'Longitude                  '
       LabelPosition = lpLeft
       TabOrder = 2
+    end
+    object CBESymbol: TComboBoxEx
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = GroupBox2
+      AnchorSideRight.Side = asrBottom
+      Left = 344
+      Height = 36
+      Top = 0
+      Width = 170
+      Anchors = [akTop, akLeft, akRight]
+      AutoComplete = True
+      AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend, acoSearch, acoUseTab]
+      AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactRetainPrefixCase, cbactSearchAscending]
+      BorderSpacing.Left = 8
+      BorderSpacing.Right = 5
+      DropDownCount = 20
+      Images = FMain.ImageList1
+      ItemHeight = 16
+      ItemsEx = <>
+      TabOrder = 3
     end
   end
   object GroupBox4: TGroupBox
@@ -208,8 +228,8 @@ object FSettings: TFSettings
     Top = 200
     Width = 537
     Caption = 'Dump1090'
-    ClientHeight = 229
-    ClientWidth = 525
+    ClientHeight = 208
+    ClientWidth = 533
     TabOrder = 4
     object LEModeSServer: TLabeledEdit
       Left = 184

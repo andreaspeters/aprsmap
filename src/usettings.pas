@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, utypes, uini;
+  Buttons, StdCtrls, ComboEx, utypes, uini;
 
 type
 
@@ -14,6 +14,7 @@ type
 
   TFSettings = class(TForm)
     BPDefaultButtons: TButtonPanel;
+    CBESymbol: TComboBoxEx;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
@@ -42,6 +43,7 @@ type
     procedure BBOSMLocalTilesClick(Sender: TObject);
     procedure BBSetDump1090(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
   private
 
@@ -82,6 +84,24 @@ begin
   Close;
 end;
 
+procedure TFSettings.FormShow(Sender: TObject);
+var i, count: Byte;
+begin
+  CBESymbol.Clear;
+
+  // Primary Icons
+  count := Length(APRSPrimarySymbolTable);
+  for i := 1 to count do
+    CBESymbol.ItemsEx.AddItem(APRSPrimarySymbolTable[i].Description, i, 0, 0, 0, nil);
+
+  // Alternate Icons
+  count := Length(APRSAlternateSymbolTable);
+  for i := 1 to count do
+    CBESymbol.ItemsEx.AddItem(APRSAlternateSymbolTable[i].Description, i+96, 0, 0, 0, nil);
+
+  CBESymbol.ItemIndex := FConfig^.AprsSymbol;
+end;
+
 procedure TFSettings.OKButtonClick(Sender: TObject);
 begin
   FConfig^.MAPCache := LEMapCache.Caption;
@@ -98,6 +118,7 @@ begin
   FConfig^.ModeSServer := LEModeSServer.Caption;
   FConfig^.ModeSPort := StrToInt(LEModeSPort.Caption);
   FConfig^.ModeSExecutable := LEModeSExecutable.Caption;
+  FConfig^.AprsSymbol := CBESymbol.ItemIndex;
 
   if Length(FConfig^.IGatePassword) > 0 then
     FConfig^.IGateEnabled := True;

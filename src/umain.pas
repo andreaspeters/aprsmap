@@ -211,7 +211,7 @@ begin
   IGate := TIGateThread.Create(@APRSConfig);
 
   PoILayer := (MVMap.Layers.Add as TMapLayer);
-  SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, GetImageIndex('y', '/'), MVMap.GPSItems);
+  SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, APRSConfig.AprsSymbol+1, MVMap.GPSItems);
   MyPosition := FindGPSItem(PoILayer, APRSConfig.Callsign);
   if MyPosition <> nil then
     MyPositionGPS := TGpsPoint(MyPosition);

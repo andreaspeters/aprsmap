@@ -8,6 +8,7 @@
 - ADD: Splitter to resize Map and PoI details.
 - ADD: support for overlay image.
 - ADD: Simple PoI filter.
+- ADD: Configure own APRS symbol.
 
 ## v0.4.0
 

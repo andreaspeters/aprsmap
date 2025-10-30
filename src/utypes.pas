@@ -72,6 +72,7 @@ type
     IGatePassword: String;
     IGateFilter: String;
     Callsign: String;
+    AprsSymbol: Integer;
     Latitude: Double;
     Longitude: Double;
     CleanupTime: Integer;

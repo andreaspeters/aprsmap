@@ -52,7 +52,8 @@ to find more examples for filters.
 
 # Screenshots
 
-![APRSMap](vx_images/image.png)
+![clipboard_20251030235800.bmp](vx_images/clipboard_20251030235800.bmp)
+![clipboard_20251030235939.bmp](vx_images/clipboard_20251030235939.bmp)
 ![Track](vx_images/clipboard_20251029091932.bmp)
 ![Track](vx_images/clipboard_20251028114057.bmp)
 
