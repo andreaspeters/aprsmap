@@ -48,6 +48,10 @@ begin
   ini.WriteString('MODES', 'server', Config^.ModeSServer);
   ini.WriteInteger('MODES', 'port', Config^.ModeSPort);
   ini.WriteString('MODES', 'executable', Config^.ModeSExecutable);
+  ini.WriteInteger('MAIN', 'posx', Config^.MainPosX);
+  ini.WriteInteger('MAIN', 'posy', Config^.MainPosY);
+  ini.WriteInteger('MAIN', 'width', Config^.MainWidth);
+  ini.WriteInteger('MAIN', 'height', Config^.MainHeight);
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -88,6 +92,10 @@ begin
   Config^.ModeSServer := ini.ReadString('MODES', 'server', 'localhost');
   Config^.ModeSPort := ini.ReadInteger('MODES', 'port', 8080);
   Config^.ModeSExecutable := ini.ReadString('MODES', 'executable', '');
+  Config^.MainPosX := ini.ReadInteger('MAIN', 'posx', 0);
+  Config^.MainPosY := ini.ReadInteger('MAIN', 'posy', 0);
+  Config^.MainWidth := ini.ReadInteger('MAIN', 'width', 1574);
+  Config^.MainHeight := ini.ReadInteger('MAIN', 'height', 1035);
 end;
 
 

@@ -79,6 +79,10 @@ type
     ModeSServer: String;
     ModeSPort: Integer;
     ModeSExecutable: String;
+    MainPosX: Integer;
+    MainPosY: Integer;
+    MainWidth: Integer;
+    MainHeight: Integer;
   end;
 
   TAPRSSymbol = record

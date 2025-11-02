@@ -26,6 +26,10 @@ msgstr ""
 msgid "Please Donate a small amount"
 msgstr ""
 
+#: tfmain.actshowhide.caption
+msgid "Show/Hide"
+msgstr ""
+
 #: tfmain.btnbuymeacoffee.caption
 msgid "Buy me a coffee"
 msgstr ""

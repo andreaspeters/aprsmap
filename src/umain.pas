@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  Buttons, PairSplitter,
+  Buttons, PairSplitter, ActnList,
   uinfo, mvMapProvider, umodes;
 
 type
@@ -17,6 +17,8 @@ type
   { TFMain }
 
   TFMain = class(TForm)
+    actShowHide: TAction;
+    ActionList1: TActionList;
     CBEPOIList: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEFilter: TComboBoxEx;
@@ -66,6 +68,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
+    MenuItem3: TMenuItem;
     MIKofi: TMenuItem;
     mntDonate: TMenuItem;
     MIInfo: TMenuItem;
@@ -88,6 +91,7 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     Panel4: TPanel;
+    pmTray: TPopupMenu;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -130,11 +134,14 @@ type
     TBZoomMap: TTrackBar;
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
+    TrayIcon1: TTrayIcon;
+    procedure actShowHideExecute(Sender: TObject);
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure CBEFilterSelect(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormHide(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
@@ -176,6 +183,7 @@ var
   PoILayer, myPoILayer: TMapLayer;
   ModeSCount: Integer;
   TrackID: Integer;
+  IsClosing: Boolean;
 
 implementation
 
@@ -188,16 +196,28 @@ var Providers: TStringList;
     i, CountProvider: Byte;
 begin
   Debug := False;
+  isClosing := False;
+
   if ParamCount > 0 then
     if ParamStr(1) = '-d' then
       Debug := True;
 
   FormatSettings.DecimalSeparator := '.';
-  OrigWidth := Self.Width;
-  OrigHeight := Self.Height;
   ModeSCount := 0; // counter for Aircraft objects
 
   LoadConfigFromFile(@APRSConfig);
+
+  OrigWidth := APRSConfig.MainWidth;
+  OrigHeight := APRSConfig.MainHeight;
+
+  Width := APRSConfig.MainWidth;
+  Height := APRSConfig.MainHeight;
+
+  if (APRSConfig.MainPosX > 0) and (APRSConfig.MainPosY > 0) then
+  begin
+    Top := APRSConfig.MainPosY;
+    Left := APRSConfig.MainPosX;
+  end;
 
   MVMap.Engine.AddMapProvider('OpenStreetMap Local Tiles', ptEPSG3857, 'file:///'+APRSConfig.LocalTilesDirectory+'/%z%/%x%/%y%.png', 0, 19, 3,Nil);
 
@@ -253,6 +273,13 @@ end;
 
 procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  IsClosing := True;
+
+  APRSConfig.MainPosY := Top;
+  APRSConfig.MainPosX := Left;
+  APRSConfig.MainWidth := Width;
+  APRSConfig.MainHeight := Height;
+
   SaveConfigToFile(@APRSConfig);
   try
     if Assigned(ModeS) then
@@ -263,6 +290,15 @@ begin
     if Assigned(ReadPipe) then
       ReadPipe.Terminate;
   except
+  end;
+end;
+
+procedure TFMain.FormHide(Sender: TObject);
+begin
+  if not IsClosing then
+  begin
+    APRSConfig.MainPosX := FMain.Left;
+    APRSConfig.MainPosY := FMain.Top;
   end;
 end;
 
@@ -284,6 +320,20 @@ procedure TFMain.btnBuymeacoffeeClick(Sender: TObject);
 begin
   if not OpenURL('https://buymeacoffee.com/hamradiotech') then
     ShowMessage('Could not open URL: https://buymeacoffee.com/hamradiotech');
+end;
+
+procedure TFMain.actShowHideExecute(Sender: TObject);
+begin
+  if FMain.WindowState = wsMinimized then
+  begin
+    FMain.WindowState := wsNormal;
+    FMain.Show
+  end
+  else
+  begin
+    FMain.WindowState := wsMinimized;
+    FMain.Hide;
+  end;
 end;
 
 procedure TFMain.CBEFilterSelect(Sender: TObject);
