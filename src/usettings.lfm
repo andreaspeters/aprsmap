@@ -9,7 +9,7 @@ object FSettings: TFSettings
   ClientHeight = 493
   ClientWidth = 1095
   DefaultMonitor = dmDesktop
-  Position = poDesktopCenter
+  Position = poMainFormCenter
   OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6

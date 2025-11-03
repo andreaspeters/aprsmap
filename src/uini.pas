@@ -52,6 +52,12 @@ begin
   ini.WriteInteger('MAIN', 'posy', Config^.MainPosY);
   ini.WriteInteger('MAIN', 'width', Config^.MainWidth);
   ini.WriteInteger('MAIN', 'height', Config^.MainHeight);
+  ini.WriteInteger('LASTSEEN', 'posx', Config^.LastseenPosX);
+  ini.WriteInteger('LASTSEEN', 'posy', Config^.LastseenPosY);
+  ini.WriteInteger('LASTSEEN', 'width', Config^.LastseenWidth);
+  ini.WriteInteger('LASTSEEN', 'height', Config^.LastseenHeight);
+  ini.WriteBool('LASTSEEN', 'visible', Config^.LastseenVisible);
+
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -96,6 +102,11 @@ begin
   Config^.MainPosY := ini.ReadInteger('MAIN', 'posy', 0);
   Config^.MainWidth := ini.ReadInteger('MAIN', 'width', 1574);
   Config^.MainHeight := ini.ReadInteger('MAIN', 'height', 1035);
+  Config^.LastseenPosX := ini.ReadInteger('LASTSEEN', 'posx', 0);
+  Config^.LastseenPosY := ini.ReadInteger('LASTSEEN', 'posy', 0);
+  Config^.LastseenWidth := ini.ReadInteger('LASTSEEN', 'width', 1574);
+  Config^.LastseenHeight := ini.ReadInteger('LASTSEEN', 'height', 1035);
+  Config^.LastseenVisible := ini.ReadBool('LASTSEEN', 'visible', False);
 end;
 
 

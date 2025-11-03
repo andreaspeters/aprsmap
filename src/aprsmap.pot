@@ -26,6 +26,31 @@ msgstr ""
 msgid "Please Donate a small amount"
 msgstr ""
 
+#: tflastseen.actclosewindow.caption
+msgid "Close"
+msgstr ""
+
+#: tflastseen.caption
+msgid "APRSMap - LastSeen"
+msgstr ""
+
+#: tflastseen.lvcallsigns.columns[0].caption
+msgctxt "tflastseen.lvcallsigns.columns[0].caption"
+msgid "Callsign"
+msgstr ""
+
+#: tflastseen.lvcallsigns.columns[1].caption
+msgid "Distance (km)"
+msgstr ""
+
+#: tflastseen.menuitem2.caption
+msgid "MenuItem2"
+msgstr ""
+
+#: tfmain.actopenlastseen.caption
+msgid "Lastseen"
+msgstr ""
+
 #: tfmain.actshowhide.caption
 msgid "Show/Hide"
 msgstr ""
@@ -209,6 +234,10 @@ msgstr ""
 
 #: tfmain.menuitem4.caption
 msgid "Get Flexpacket"
+msgstr ""
+
+#: tfmain.menuitem5.caption
+msgid "View"
 msgstr ""
 
 #: tfmain.mifileexit.caption

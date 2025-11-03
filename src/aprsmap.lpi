@@ -117,6 +117,15 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="Cody"/>
+      </Item>
+      <Item>
+        <PackageName Value="uniqueinstance_package"/>
+      </Item>
+      <Item>
+        <PackageName Value="FCL"/>
+      </Item>
+      <Item>
         <PackageName Value="LazControls"/>
       </Item>
       <Item>
@@ -194,6 +203,13 @@
       <Unit>
         <Filename Value="umodes.pas"/>
         <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ulastseen.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FLastSeen"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>
   </ProjectOptions>

@@ -60,6 +60,7 @@ type
     ImageIndex: Integer;
     ImageDescription: String;
     ModeS: Boolean;
+    Distance: Double;
   end;
 
   TAPRSConfig = record
@@ -83,7 +84,14 @@ type
     MainPosY: Integer;
     MainWidth: Integer;
     MainHeight: Integer;
+    LastSeenPosX: Integer;
+    LastSeenPosY: Integer;
+    LastSeenWidth: Integer;
+    LastSeenHeight: Integer;
+    LastSeenVisible: Boolean;
   end;
+
+  PTAPRSConfig = ^TAPRSConfig;
 
   TAPRSSymbol = record
     SymbolChar: Char;      // Zeichen des Symbols

@@ -14,6 +14,7 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 - Receive ADS-B Messages via [dump1090](https://github.com/antirez/dump1090)
 - Track all APRS objects
 - Filter to show only a specific kind of PoI.
+- Window of the last seen APRS objects.
 
 ## Download
 

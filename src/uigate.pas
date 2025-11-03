@@ -8,8 +8,6 @@ uses
   Classes, SysUtils, Sockets, utypes,{$IFDEF UNIX}netdb{$ELSE}WinSock, Windows{$ENDIF}, RegExpr, uaprs;
 
 type
-  PTAPRSConfig = ^TAPRSConfig;
-
   { TIGateThread }
   TIGateThread = class(TThread)
   private

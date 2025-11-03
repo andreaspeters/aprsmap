@@ -1,0 +1,56 @@
+object FLastSeen: TFLastSeen
+  Left = 1203
+  Height = 1184
+  Top = 34
+  Width = 244
+  HorzScrollBar.Visible = False
+  VertScrollBar.Visible = False
+  Caption = 'APRSMap - LastSeen'
+  ClientHeight = 1150
+  ClientWidth = 244
+  Menu = MainMenu1
+  Position = poDefault
+  Visible = True
+  OnHide = FormHide
+  object lvCallsigns: TListView
+    Left = 0
+    Height = 1150
+    Top = 0
+    Width = 244
+    Align = alClient
+    Columns = <    
+      item
+        AutoSize = True
+        Caption = 'Callsign'
+        Width = 100
+      end    
+      item
+        Alignment = taRightJustify
+        AutoSize = True
+        Caption = 'Distance (km)'
+        Width = 100
+      end>
+    SmallImages = FMain.ImageList1
+    TabOrder = 0
+    ViewStyle = vsReport
+    OnDblClick = lvCallsignsDblClick
+  end
+  object MainMenu1: TMainMenu
+    Left = 134
+    Top = 11
+    object MenuItem1: TMenuItem
+      Action = actCloseWindow
+      object MenuItem2: TMenuItem
+        Caption = 'MenuItem2'
+      end
+    end
+  end
+  object ActionList1: TActionList
+    Left = 176
+    Top = 11
+    object actCloseWindow: TAction
+      Caption = 'Close'
+      OnExecute = actCloseWindowExecute
+    end
+  end
+end

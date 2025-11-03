@@ -16,6 +16,7 @@ object FMain: TFMain
   OnCreate = FMainInit
   OnHide = FormHide
   OnResize = FormResize
+  OnShow = FormShow
   object SBMain: TStatusBar
     Left = 0
     Height = 27
@@ -945,6 +946,12 @@ object FMain: TFMain
     object Settings: TMenuItem
       Caption = '&Settings'
       OnClick = SettingsClick
+    end
+    object MenuItem5: TMenuItem
+      Caption = 'View'
+      object MenuItem6: TMenuItem
+        Action = actOpenLastseen
+      end
     end
     object MenuItem2: TMenuItem
       Caption = '&Help'
@@ -3396,6 +3403,11 @@ object FMain: TFMain
       Caption = 'Show/Hide'
       OnExecute = actShowHideExecute
     end
+    object actOpenLastseen: TAction
+      Category = 'view'
+      Caption = 'Lastseen'
+      OnExecute = actOpenLastseenExecute
+    end
   end
   object pmTray: TPopupMenu
     Left = 1496
@@ -3403,5 +3415,10 @@ object FMain: TFMain
     object MenuItem3: TMenuItem
       Action = actShowHide
     end
+  end
+  object UniqueInstance1: TUniqueInstance
+    Enabled = True
+    Left = 1152
+    Top = 952
   end
 end

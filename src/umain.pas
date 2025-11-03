@@ -10,13 +10,14 @@ uses
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList,
-  uinfo, mvMapProvider, umodes;
+  uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen;
 
 type
 
   { TFMain }
 
   TFMain = class(TForm)
+    actOpenLastseen: TAction;
     actShowHide: TAction;
     ActionList1: TActionList;
     CBEPOIList: TComboBoxEx;
@@ -135,6 +136,8 @@ type
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
     TrayIcon1: TTrayIcon;
+    UniqueInstance1: TUniqueInstance;
+    procedure actOpenLastseenExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure CBEFilterSelect(Sender: TObject);
@@ -143,6 +146,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormHide(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
@@ -280,6 +284,12 @@ begin
   APRSConfig.MainWidth := Width;
   APRSConfig.MainHeight := Height;
 
+  APRSConfig.LastSeenPosY := FLastSeen.Top;
+  APRSConfig.LastSeenPosX := FLastSeen.Left;
+  APRSConfig.LastSeenWidth := FLastSeen.Width;
+  APRSConfig.LastSeenHeight := FLastSeen.Height;
+  APRSConfig.LastSeenVisible := FLastSeen.Visible;
+
   SaveConfigToFile(@APRSConfig);
   try
     if Assigned(ModeS) then
@@ -305,6 +315,12 @@ end;
 procedure TFMain.FormResize(Sender: TObject);
 begin
   PairSplitter1.Position := Width - 619;
+end;
+
+procedure TFMain.FormShow(Sender: TObject);
+begin
+  FLastSeen.SetConfig(@APRSConfig);
+  FLastSeen.Visible := APRSConfig.LastSeenVisible;
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);
@@ -336,13 +352,16 @@ begin
   end;
 end;
 
+procedure TFMain.actOpenLastseenExecute(Sender: TObject);
+begin
+  FLastSeen.Show;
+end;
+
 procedure TFMain.CBEFilterSelect(Sender: TObject);
-var description, symbol: String;
-    i, count: Byte;
+var description: String;
+    i: Byte;
     msg: PAPRSMessage;
 begin
-  symbol := 'All';
-
   description := CBEFilter.ItemsEx.Items[CBEFilter.ItemIndex].Caption;
 
   if Length(description) > 0 then
@@ -432,7 +451,12 @@ begin
   try
     MAPRSMessage.Lines.Clear;
 
-    call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+    if Sender is TComboBoxEx then
+      call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+
+    if Sender is TListView then
+      call := (Sender as TListView).Selected.Caption;
+
     msg := APRSMessageList.Find(call);
     if msg <> nil then
     begin
@@ -470,7 +494,7 @@ begin
       STWXLum.Caption := IntToStr(msg^.WXLum);
 
       MVMap.Zoom := 28;
-      if (Sender is TComboBoxEx) then
+      if (Sender is TComboBoxEx) or (Sender is TListView) then
       begin
         poiGPS := FindGPSItem(PoiLayer, call);
         if poiGPS <> nil then
@@ -615,6 +639,7 @@ end;
 // Add APRS message as PoI
 procedure TFMain.AddPoI(msg: TAPRSMessage);
 var newMSG, oldMSG: PAPRSMessage;
+    poi: TGpsPoint;
     visibility: Boolean;
 begin
   try
@@ -650,9 +675,17 @@ begin
 
       SetPoi(PoILayer, newMsg, visibility);
 
+      poi := TGpsPoint(FindGPSItem(PoILayer, newMsg^.FromCall));
+      if Assigned(MyPositionGPS) and Assigned(poi) then
+        newMsg^.Distance := poi.DistanceInKmFrom(MyPositionGPS,False);
+
+      FLastSeen.AddCallsign(newMsg);
+
       // add callsign to Combobox
       if oldMSG = nil then
         AddCombobox(newMsg^);
+
+
 
       MVMap.Refresh;
     end;
@@ -762,16 +795,10 @@ end;
 
 // Add callsign into Combobox
 procedure TFMain.AddCombobox(const msg: TAPRSMessage);
-var poi: TGpsPoint;
-    km: Double;
+var km: Double;
 begin
-  poi := TGpsPoint(FindGPSItem(PoILayer, msg.FromCall));
-
-  if (poi = nil) or (MyPositionGPS = nil) then
-    Exit;
-
   try
-    km := poi.DistanceInKmFrom(MyPositionGPS,False);
+    km := msg.Distance;
     CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil);
   except
     on E: Exception do
