@@ -1,5 +1,10 @@
 # Changelog
 
+## master
+
+- ADD: [last] Window of the last seen APRS objects.
+- ADD: [raw] Show RAW Messages from a APRS object.
+
 ## v0.5.0
 
 - ADD: ModeS (Airplane Tracking) support via dump1090.

@@ -15,6 +15,7 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 - Track all APRS objects
 - Filter to show only a specific kind of PoI.
 - Window of the last seen APRS objects.
+- Show RAW Messages from a APRS object.
 
 ## Download
 

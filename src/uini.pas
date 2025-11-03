@@ -57,6 +57,11 @@ begin
   ini.WriteInteger('LASTSEEN', 'width', Config^.LastseenWidth);
   ini.WriteInteger('LASTSEEN', 'height', Config^.LastseenHeight);
   ini.WriteBool('LASTSEEN', 'visible', Config^.LastseenVisible);
+  ini.WriteInteger('RAWMESSAGE', 'posx', Config^.RawMessagePosX);
+  ini.WriteInteger('RAWMESSAGE', 'posy', Config^.RawMessagePosY);
+  ini.WriteInteger('RAWMESSAGE', 'width', Config^.RawMessageWidth);
+  ini.WriteInteger('RAWMESSAGE', 'height', Config^.RawMessageHeight);
+  ini.WriteBool('RAWMESSAGE', 'visible', Config^.RawMessageVisible);
 
 end;
 
@@ -107,6 +112,11 @@ begin
   Config^.LastseenWidth := ini.ReadInteger('LASTSEEN', 'width', 1574);
   Config^.LastseenHeight := ini.ReadInteger('LASTSEEN', 'height', 1035);
   Config^.LastseenVisible := ini.ReadBool('LASTSEEN', 'visible', False);
+  Config^.RawMessagePosX := ini.ReadInteger('RAWMESSAGE', 'posx', 0);
+  Config^.RawMessagePosY := ini.ReadInteger('RAWMESSAGE', 'posy', 0);
+  Config^.RawMessageWidth := ini.ReadInteger('RAWMESSAGE', 'width', 1574);
+  Config^.RawMessageHeight := ini.ReadInteger('RAWMESSAGE', 'height', 1035);
+  Config^.RawMessageVisible := ini.ReadBool('RAWMESSAGE', 'visible', False);
 end;
 
 

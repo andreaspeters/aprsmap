@@ -61,6 +61,8 @@ type
     ImageDescription: String;
     ModeS: Boolean;
     Distance: Double;
+    RAWMessages: TStringList;
+    Count: Integer;
   end;
 
   TAPRSConfig = record
@@ -89,6 +91,11 @@ type
     LastSeenWidth: Integer;
     LastSeenHeight: Integer;
     LastSeenVisible: Boolean;
+    RawMessagePosX: Integer;
+    RawMessagePosY: Integer;
+    RawMessageWidth: Integer;
+    RawMessageHeight: Integer;
+    RawMessageVisible: Boolean;
   end;
 
   PTAPRSConfig = ^TAPRSConfig;

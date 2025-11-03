@@ -1,0 +1,43 @@
+object FRawMessage: TFRawMessage
+  Left = 1154
+  Height = 504
+  Top = 34
+  Width = 994
+  Caption = 'ARPSMap - RAW Message'
+  ClientHeight = 476
+  ClientWidth = 994
+  Menu = MainMenu1
+  OnHide = FormHide
+  OnShow = FormShow
+  object mRawMessage: TMemo
+    Left = 0
+    Height = 476
+    Top = 0
+    Width = 994
+    Align = alClient
+    Font.Color = clNavy
+    Font.Height = -16
+    Font.Name = 'Monospace'
+    ParentFont = False
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object MainMenu1: TMainMenu
+    Images = FMain.ImageList1
+    Left = 167
+    Top = 80
+    object MenuItem1: TMenuItem
+      Action = actClose
+    end
+  end
+  object ActionList1: TActionList
+    Images = FMain.ImageList1
+    Left = 240
+    Top = 80
+    object actClose: TAction
+      Caption = 'Close'
+      ImageIndex = 235
+      OnExecute = actCloseExecute
+    end
+  end
+end

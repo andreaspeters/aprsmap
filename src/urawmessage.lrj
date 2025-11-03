@@ -1,0 +1,4 @@
+{"version":1,"strings":[
+{"hash":153041653,"name":"tfrawmessage.caption","sourcebytes":[65,82,80,83,77,97,112,32,45,32,82,65,87,32,77,101,115,115,97,103,101],"value":"ARPSMap - RAW Message"},
+{"hash":4863637,"name":"tfrawmessage.actclose.caption","sourcebytes":[67,108,111,115,101],"value":"Close"}
+]}

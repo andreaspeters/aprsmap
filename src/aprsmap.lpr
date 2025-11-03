@@ -13,7 +13,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, umain, uresize, ureadpipe, utypes, uaprs, uini, uigate,
-  usettings, uinfo, umodes, ulastseen
+  usettings, uinfo, umodes, ulastseen, urawmessage
   { you can add units after this };
 
 {$R *.res}
@@ -27,6 +27,7 @@ begin
   Application.CreateForm(TFSettings, FSettings);
   Application.CreateForm(TFInfo, FInfo);
   Application.CreateForm(TFLastSeen, FLastSeen);
+  Application.CreateForm(TFRawMessage, FRawMessage);
   Application.Run;
 end.
 

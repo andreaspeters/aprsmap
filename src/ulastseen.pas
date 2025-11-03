@@ -20,15 +20,13 @@ type
     ActionList1: TActionList;
     lvCallsigns: TListView;
     MainMenu1: TMainMenu;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
     procedure actCloseWindowExecute(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure lvCallsignsDblClick(Sender: TObject);
   private
     FConfig: PTAPRSConfig;
     IsClosing: Boolean;
-    function IsInList(Callsign: AnsiString): Boolean;
   public
     procedure AddCallsign(const msg: PAPRSMessage);
     procedure SetConfig(Config: PTAPRSConfig);
@@ -73,17 +71,17 @@ begin
     Exit;
 
   if Length(msg^.FromCall) > 0 then
-    if not IsInList(msg^.FromCall) then
-    begin
-      item := lvCallsigns.Items.Insert(0);
-      item.ImageIndex := msg^.ImageIndex;
-      item.Caption := msg^.FromCall;
-      item.SubItems.Add(IntToStr(Round(msg^.Distance)));
+  begin
+    item := lvCallsigns.Items.Insert(0);
+    item.ImageIndex := msg^.ImageIndex;
+    item.Caption := msg^.FromCall;
+    item.SubItems.Add(IntToStr(Round(msg^.Distance)));
+    item.SubItems.Add(IntToStr(msg^.Count));
 
-      // maxx 100 callsigns
-      while lvCallsigns.Items.Count > MAX_ITEMS do
-        lvCallsigns.Items.Delete(lvCallsigns.Items.Count - 1);
-    end;
+    // max 100 callsigns
+    while lvCallsigns.Items.Count > MAX_ITEMS do
+      lvCallsigns.Items.Delete(lvCallsigns.Items.Count - 1);
+  end;
 end;
 
 procedure TFLastSeen.lvCallsignsDblClick(Sender: TObject);
@@ -107,19 +105,6 @@ begin
     FConfig^.LastSeenPosX := Left;
     FConfig^.LastSeenPosY := Top;
   end;
-end;
-
-
-function TFLastSeen.IsInList(Callsign: AnsiString): Boolean;
-var i: Integer;
-begin
-  Result := False;
-  for i:= 0 to lvCallsigns.Items.Count - 1 do
-    if Pos(lvCallsigns.Items[i].Caption, Callsign) > 0 then
-    begin
-      Result := True;
-      Exit;
-    end;
 end;
 
 end.

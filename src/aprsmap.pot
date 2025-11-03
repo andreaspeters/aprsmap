@@ -27,6 +27,7 @@ msgid "Please Donate a small amount"
 msgstr ""
 
 #: tflastseen.actclosewindow.caption
+msgctxt "tflastseen.actclosewindow.caption"
 msgid "Close"
 msgstr ""
 
@@ -36,19 +37,27 @@ msgstr ""
 
 #: tflastseen.lvcallsigns.columns[0].caption
 msgctxt "tflastseen.lvcallsigns.columns[0].caption"
-msgid "Callsign"
+msgid "    Callsign"
 msgstr ""
 
 #: tflastseen.lvcallsigns.columns[1].caption
 msgid "Distance (km)"
 msgstr ""
 
-#: tflastseen.menuitem2.caption
-msgid "MenuItem2"
+#: tflastseen.lvcallsigns.columns[2].caption
+msgid "#"
+msgstr ""
+
+#: tfmain.actexit.caption
+msgid "Exit"
 msgstr ""
 
 #: tfmain.actopenlastseen.caption
 msgid "Lastseen"
+msgstr ""
+
+#: tfmain.actsettings.caption
+msgid "Settings"
 msgstr ""
 
 #: tfmain.actshowhide.caption
@@ -57,6 +66,10 @@ msgstr ""
 
 #: tfmain.btnbuymeacoffee.caption
 msgid "Buy me a coffee"
+msgstr ""
+
+#: tfmain.button2.caption
+msgid "Button2"
 msgstr ""
 
 #: tfmain.caption
@@ -240,10 +253,6 @@ msgstr ""
 msgid "View"
 msgstr ""
 
-#: tfmain.mifileexit.caption
-msgid "E&xit"
-msgstr ""
-
 #: tfmain.miinfo.caption
 msgctxt "tfmain.miinfo.caption"
 msgid "Info"
@@ -257,8 +266,8 @@ msgstr ""
 msgid "Donate"
 msgstr ""
 
-#: tfmain.settings.caption
-msgid "&Settings"
+#: tfmain.sbshowrawmessages.hint
+msgid "Show Raw Messages"
 msgstr ""
 
 #: tfmain.sptrack.hint
@@ -268,6 +277,15 @@ msgstr ""
 #: tfmain.stmapcopyright.caption
 msgctxt "tfmain.stmapcopyright.caption"
 msgid "MAP Copyright OpenStreetMap"
+msgstr ""
+
+#: tfrawmessage.actclose.caption
+msgctxt "tfrawmessage.actclose.caption"
+msgid "Close"
+msgstr ""
+
+#: tfrawmessage.caption
+msgid "ARPSMap - RAW Message"
 msgstr ""
 
 #: tfsettings.caption

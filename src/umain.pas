@@ -10,16 +10,19 @@ uses
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList,
-  uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen;
+  uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage;
 
 type
 
   { TFMain }
 
   TFMain = class(TForm)
+    actExit: TAction;
+    actSettings: TAction;
     actOpenLastseen: TAction;
     actShowHide: TAction;
     ActionList1: TActionList;
+    Button2: TButton;
     CBEPOIList: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEFilter: TComboBoxEx;
@@ -93,6 +96,7 @@ type
     Panel3: TPanel;
     Panel4: TPanel;
     pmTray: TPopupMenu;
+    sbShowRawMessages: TSpeedButton;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -137,7 +141,9 @@ type
     TMainLoop1: TTimer;
     TrayIcon1: TTrayIcon;
     UniqueInstance1: TUniqueInstance;
+    procedure actExitExecute(Sender: TObject);
     procedure actOpenLastseenExecute(Sender: TObject);
+    procedure actSettingsExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure CBEFilterSelect(Sender: TObject);
@@ -150,13 +156,12 @@ type
     procedure MIKofiClick(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
-    procedure MIFileExitClick(Sender: TObject);
     procedure mntDonateClick(Sender: TObject);
     procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
+    procedure sbShowRawMessagesClick(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
-    procedure SettingsClick(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SPTrackClick(Sender: TObject);
@@ -321,6 +326,9 @@ procedure TFMain.FormShow(Sender: TObject);
 begin
   FLastSeen.SetConfig(@APRSConfig);
   FLastSeen.Visible := APRSConfig.LastSeenVisible;
+
+  FRAWMessage.SetConfig(@APRSConfig);
+  FRAWMessage.Visible := APRSConfig.RawMessageVisible;
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);
@@ -354,7 +362,24 @@ end;
 
 procedure TFMain.actOpenLastseenExecute(Sender: TObject);
 begin
-  FLastSeen.Show;
+  if FLastSeen.Visible then
+  begin
+    FLastSeen.Visible := False;
+    FLastSeen.Hide;
+  end
+  else
+    FLastSeen.Show;
+end;
+
+procedure TFMain.actSettingsExecute(Sender: TObject);
+begin
+  FSettings.SetConfig(@APRSConfig);
+  FSettings.Show;
+end;
+
+procedure TFMain.actExitExecute(Sender: TObject);
+begin
+  close;
 end;
 
 procedure TFMain.CBEFilterSelect(Sender: TObject);
@@ -396,11 +421,6 @@ begin
     ShowMessage('Could not open URL: https://github.com/andreaspeters/flexpacket');
 end;
 
-procedure TFMain.MIFileExitClick(Sender: TObject);
-begin
-  Close;
-end;
-
 procedure TFMain.mntDonateClick(Sender: TObject);
 begin
   if not OpenURL('https://www.paypal.com/donate/?hosted_button_id=ZDB5ZSNJNK9XQ') then
@@ -440,6 +460,19 @@ begin
   TBZoomMap.Position := i;
   if i <> LastZoom then
     LastZoom := i;
+end;
+
+procedure TFMain.sbShowRawMessagesClick(Sender: TObject);
+var msg: PAPRSMessage;
+begin
+  msg := APRSMessageList.Find(STCallsign.Caption);
+  if Assigned(msg) then
+    FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
+
+  if sbShowRawMessages.Down then
+    FRawMessage.Show
+  else
+    FRawMessage.Close;
 end;
 
 // User select one PoI
@@ -516,12 +549,6 @@ begin
   end;
 end;
 
-procedure TFMain.SettingsClick(Sender: TObject);
-begin
-  FSettings.SetConfig(@APRSConfig);
-  FSettings.Show;
-end;
-
 procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 var
@@ -537,6 +564,9 @@ procedure TFMain.SPTrackClick(Sender: TObject);
 var msg: PAPRSMessage;
 begin
   msg := APRSMessageList.Find(STCallsign.Caption);
+
+  if not Assigned(msg) then
+    Exit;
 
   if SPTrack.Down then
     msg^.Track.Visible := True
@@ -661,6 +691,15 @@ begin
       begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
+        newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
+
+        // how often we saw that call
+        newMsg^.Count := oldMsg^.Count;
+        inc(newMsg^.Count);
+
+        // update Raw Message window
+        if FRawMessage.Visible then
+          FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
       end;
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then

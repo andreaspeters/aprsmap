@@ -211,6 +211,12 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="urawmessage.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FRawMessage"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
