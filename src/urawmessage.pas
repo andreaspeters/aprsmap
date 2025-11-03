@@ -33,6 +33,9 @@ var
 
 implementation
 
+uses
+  umain;
+
 {$R *.lfm}
 
 { TFRawMessage }
@@ -76,6 +79,7 @@ end;
 procedure TFRawMessage.actCloseExecute(Sender: TObject);
 begin
   IsClosing := True;
+  FMain.sbShowRawMessages.Down := False;
   close;
 end;
 

@@ -469,13 +469,15 @@ begin
   if not Assigned(msg) then
     Exit;
 
-
-  FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
-
   if sbShowRawMessages.Down then
-    FRawMessage.Show
+  begin
+    FRawMessage.Show;
+    FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages)
+  end
   else
     FRawMessage.Close;
+
+
 end;
 
 // User select one PoI
