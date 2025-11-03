@@ -466,8 +466,11 @@ procedure TFMain.sbShowRawMessagesClick(Sender: TObject);
 var msg: PAPRSMessage;
 begin
   msg := APRSMessageList.Find(STCallsign.Caption);
-  if Assigned(msg) then
-    FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
+  if not Assigned(msg) then
+    Exit;
+
+
+  FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
 
   if sbShowRawMessages.Down then
     FRawMessage.Show
@@ -538,6 +541,13 @@ begin
         SPTrack.Down := True
       else
         SPTrack.Down := False;
+
+      FRawMessage.mRawMessage.Clear;
+
+      // update Raw Message window
+      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(msg^.FromCall)) then
+        FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
+
     end;
   except
     on E: Exception do
@@ -691,16 +701,16 @@ begin
       begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
-        newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
-
-        // how often we saw that call
         newMsg^.Count := oldMsg^.Count;
-        inc(newMsg^.Count);
-
-        // update Raw Message window
-        if FRawMessage.Visible then
-          FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
+        newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
       end;
+
+      // how often we saw that call
+      inc(newMsg^.Count);
+
+      // update Raw Message window
+      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) then
+        FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then

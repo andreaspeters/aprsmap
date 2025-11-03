@@ -561,8 +561,9 @@ begin
       APRSMessageObject.Track.LineWidth := 1;
       APRSMessageObject.ModeS := False;
       APRSMessageObject.RAWMessages := TStringList.Create;
-      APRSMessageObject.RAWMessages.Add(Message[3]);
+      APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Message[3]]));
       APRSMessageObject.Count := 0;
+
 
       if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
       begin
