@@ -40,7 +40,6 @@
 {"hash":216741593,"name":"tfmain.label27.caption","sourcebytes":[82,97,105,110,102,97,108,108,32,108,97,115,116,32,50,52,104,32,40,109,109,41],"value":"Rainfall last 24h (mm)"},
 {"hash":137599822,"name":"tfmain.label34.caption","sourcebytes":[67,97,108,108,115,105,103,110],"value":"Callsign"},
 {"hash":267134903,"name":"tfmain.sptrack.hint","sourcebytes":[69,110,97,98,108,101,32,84,114,97,99,107,105,110,103],"value":"Enable Tracking"},
-{"hash":164345426,"name":"tfmain.button2.caption","sourcebytes":[66,117,116,116,111,110,50],"value":"Button2"},
 {"hash":158867043,"name":"tfmain.sbshowrawmessages.hint","sourcebytes":[83,104,111,119,32,82,97,119,32,77,101,115,115,97,103,101,115],"value":"Show Raw Messages"},
 {"hash":2805797,"name":"tfmain.menuitem1.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":380871,"name":"tfmain.menuitem5.caption","sourcebytes":[86,105,101,119],"value":"View"},

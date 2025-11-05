@@ -68,10 +68,6 @@ msgstr ""
 msgid "Buy me a coffee"
 msgstr ""
 
-#: tfmain.button2.caption
-msgid "Button2"
-msgstr ""
-
 #: tfmain.caption
 msgctxt "tfmain.caption"
 msgid "APRS Map"

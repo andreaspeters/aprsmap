@@ -17,10 +17,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="441"/>
-        <CursorPos X="63" Y="475"/>
+        <TopLine Value="384"/>
+        <CursorPos X="9" Y="402"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -121,7 +120,21 @@
         <EditorIndex Value="4"/>
         <TopLine Value="2"/>
         <CursorPos X="28" Y="28"/>
-        <UsageCount Value="107"/>
+        <UsageCount Value="198"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="urawmessage.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FRawMessage"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="7"/>
+        <TopLine Value="18"/>
+        <CursorPos X="121" Y="49"/>
+        <UsageCount Value="115"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -131,7 +144,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1356"/>
         <CursorPos Y="1561"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="20"/>
       </Unit>
       <Unit>
         <Filename Value="../use/LazMapViewer/source/mvgpsobj.pas"/>
@@ -139,50 +152,10 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1011"/>
         <CursorPos Y="1040"/>
-        <UsageCount Value="10"/>
-      </Unit>
-      <Unit>
-        <Filename Value="urawmessage.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="FRawMessage"/>
-        <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="7"/>
-        <TopLine Value="20"/>
-        <CursorPos X="121" Y="49"/>
-        <UsageCount Value="23"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="1"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="445" Column="18" TopLine="394"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="551" Column="26" TopLine="516"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="564" Column="102" TopLine="523"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="551" Column="11" TopLine="479"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="471" Column="3" TopLine="465"/>
-      </Position>
-      <Position>
-        <Filename Value="utypes.pas"/>
-        <Caret Line="64" Column="30" TopLine="19"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="478" Column="3" TopLine="444"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="477" TopLine="444"/>
@@ -274,6 +247,30 @@
       <Position>
         <Filename Value="umodes.pas"/>
         <Caret Line="102" Column="37" TopLine="92"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="450" Column="58" TopLine="442"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="442" Column="36" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="445" Column="18" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="529" Column="145" TopLine="477"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="528" Column="145" TopLine="476"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="389" TopLine="384"/>
       </Position>
     </JumpHistory>
     <RunParams>

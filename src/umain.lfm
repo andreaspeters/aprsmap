@@ -1,16 +1,17 @@
 object FMain: TFMain
   Left = 800
-  Height = 1035
+  Height = 1074
   Top = 675
   Width = 1574
   Caption = 'APRS Map'
-  ClientHeight = 1001
-  ClientWidth = 1574
+  ClientHeight = 206
+  ClientWidth = 320
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
   ParentDoubleBuffered = False
   Position = poDesktopCenter
+  LCLVersion = '4.1.0.0'
   Scaled = False
   OnClose = FormClose
   OnCreate = FMainInit
@@ -20,7 +21,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 974
+    Top = 1013
     Width = 1574
     Panels = <    
       item
@@ -35,8 +36,9 @@ object FMain: TFMain
     SimplePanel = False
   end
   object PairSplitter1: TPairSplitter
+    Cursor = crDefault
     Left = 0
-    Height = 974
+    Height = 1013
     Top = 0
     Width = 1574
     Align = alClient
@@ -44,15 +46,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 974
+      Height = 1013
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 974
+      ClientHeight = 1013
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 967
+        Height = 1006
         Top = 0
         Width = 950
         Active = True
@@ -81,7 +83,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 951
+        Top = 990
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -98,11 +100,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 974
+      Height = 1013
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 974
+      ClientHeight = 1013
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -111,8 +113,8 @@ object FMain: TFMain
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 151
-        ClientWidth = 611
+        ClientHeight = 172
+        ClientWidth = 603
         Color = clForm
         ParentBackground = False
         ParentColor = False
@@ -197,7 +199,7 @@ object FMain: TFMain
         AnchorSideTop.Control = GroupBox1
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 781
+        Height = 820
         Top = 187
         Width = 615
         Align = alBottom
@@ -206,8 +208,8 @@ object FMain: TFMain
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 6
         Caption = 'PoI Details'
-        ClientHeight = 748
-        ClientWidth = 611
+        ClientHeight = 808
+        ClientWidth = 603
         ParentBackground = False
         TabOrder = 1
         object Label2: TLabel
@@ -891,7 +893,7 @@ object FMain: TFMain
           Left = 8
           Height = 31
           Hint = 'Enable Tracking'
-          Top = 715
+          Top = 754
           Width = 31
           AllowAllUp = True
           Anchors = [akLeft, akBottom]
@@ -915,14 +917,6 @@ object FMain: TFMain
           ParentFont = False
           TabOrder = 35
         end
-        object Button2: TButton
-          Left = 60
-          Height = 9
-          Top = 734
-          Width = 4
-          Caption = 'Button2'
-          TabOrder = 36
-        end
         object sbShowRawMessages: TSpeedButton
           AnchorSideLeft.Control = SPTrack
           AnchorSideLeft.Side = asrBottom
@@ -931,7 +925,7 @@ object FMain: TFMain
           Left = 47
           Height = 31
           Hint = 'Show Raw Messages'
-          Top = 715
+          Top = 754
           Width = 31
           AllowAllUp = True
           Anchors = [akLeft, akBottom]

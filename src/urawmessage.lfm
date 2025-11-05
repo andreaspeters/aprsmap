@@ -16,7 +16,7 @@ object FRawMessage: TFRawMessage
     Width = 994
     Align = alClient
     Font.Color = clNavy
-    Font.Height = -16
+    Font.Height = -13
     Font.Name = 'Monospace'
     ParentFont = False
     ReadOnly = True

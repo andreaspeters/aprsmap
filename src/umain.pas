@@ -22,7 +22,6 @@ type
     actOpenLastseen: TAction;
     actShowHide: TAction;
     ActionList1: TActionList;
-    Button2: TButton;
     CBEPOIList: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEFilter: TComboBoxEx;
@@ -467,12 +466,15 @@ var msg: PAPRSMessage;
 begin
   msg := APRSMessageList.Find(STCallsign.Caption);
   if not Assigned(msg) then
+  begin
+    sbShowRawMessages.Down := False;
     Exit;
+  end;
 
   if sbShowRawMessages.Down then
   begin
     FRawMessage.Show;
-    FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages)
+    FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
   end
   else
     FRawMessage.Close;
@@ -489,8 +491,7 @@ begin
   try
     MAPRSMessage.Lines.Clear;
 
-    if Sender is TComboBoxEx then
-      call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+    call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
 
     if Sender is TListView then
       call := (Sender as TListView).Selected.Caption;
