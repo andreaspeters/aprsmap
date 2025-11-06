@@ -117,6 +117,7 @@
         <ComponentName Value="FLastSeen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="2"/>
         <CursorPos X="28" Y="28"/>
@@ -130,7 +131,6 @@
         <ComponentName Value="FRawMessage"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
         <TopLine Value="18"/>
         <CursorPos X="121" Y="49"/>

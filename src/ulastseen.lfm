@@ -2,12 +2,12 @@ object FLastSeen: TFLastSeen
   Left = 1203
   Height = 1184
   Top = 34
-  Width = 277
+  Width = 304
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
   Caption = 'APRSMap - LastSeen'
   ClientHeight = 1156
-  ClientWidth = 277
+  ClientWidth = 304
   Menu = MainMenu1
   Position = poDefault
   Visible = True
@@ -16,7 +16,7 @@ object FLastSeen: TFLastSeen
     Left = 0
     Height = 1156
     Top = 0
-    Width = 277
+    Width = 304
     Align = alClient
     Columns = <    
       item
