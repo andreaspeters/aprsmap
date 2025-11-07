@@ -117,6 +117,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="TAChartLazarusPkg"/>
+      </Item>
+      <Item>
         <PackageName Value="Cody"/>
       </Item>
       <Item>
@@ -215,6 +218,7 @@
         <Filename Value="urawmessage.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FRawMessage"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
     </Units>

@@ -12,8 +12,8 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, lazcontrols, umain, uresize, ureadpipe, utypes, uaprs, uini, uigate,
-  usettings, uinfo, umodes, ulastseen, urawmessage
+  Forms, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe, utypes,
+  uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage
   { you can add units after this };
 
 {$R *.res}

@@ -1,17 +1,16 @@
 object FMain: TFMain
   Left = 800
-  Height = 1074
+  Height = 1317
   Top = 675
   Width = 1574
   Caption = 'APRS Map'
-  ClientHeight = 206
-  ClientWidth = 320
+  ClientHeight = 1283
+  ClientWidth = 1574
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
   ParentDoubleBuffered = False
   Position = poDesktopCenter
-  LCLVersion = '4.1.0.0'
   Scaled = False
   OnClose = FormClose
   OnCreate = FMainInit
@@ -21,7 +20,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 1013
+    Top = 1256
     Width = 1574
     Panels = <    
       item
@@ -38,7 +37,7 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1013
+    Height = 1256
     Top = 0
     Width = 1574
     Align = alClient
@@ -46,15 +45,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1013
+      Height = 1256
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1013
+      ClientHeight = 1256
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1006
+        Height = 1249
         Top = 0
         Width = 950
         Active = True
@@ -83,7 +82,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 990
+        Top = 1233
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -100,11 +99,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1013
+      Height = 1256
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 1013
+      ClientHeight = 1256
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -113,8 +112,8 @@ object FMain: TFMain
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 172
-        ClientWidth = 603
+        ClientHeight = 151
+        ClientWidth = 611
         Color = clForm
         ParentBackground = False
         ParentColor = False
@@ -152,7 +151,7 @@ object FMain: TFMain
           Left = 302
           Height = 36
           Top = 33
-          Width = 304
+          Width = 312
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 33
           BorderSpacing.Right = 5
@@ -176,7 +175,7 @@ object FMain: TFMain
           Left = 304
           Height = 36
           Top = 104
-          Width = 302
+          Width = 310
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
@@ -199,7 +198,7 @@ object FMain: TFMain
         AnchorSideTop.Control = GroupBox1
         AnchorSideTop.Side = asrBottom
         Left = 0
-        Height = 820
+        Height = 1063
         Top = 187
         Width = 615
         Align = alBottom
@@ -208,8 +207,8 @@ object FMain: TFMain
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 6
         Caption = 'PoI Details'
-        ClientHeight = 808
-        ClientWidth = 603
+        ClientHeight = 1030
+        ClientWidth = 611
         ParentBackground = False
         TabOrder = 1
         object Label2: TLabel
@@ -893,7 +892,7 @@ object FMain: TFMain
           Left = 8
           Height = 31
           Hint = 'Enable Tracking'
-          Top = 754
+          Top = 997
           Width = 31
           AllowAllUp = True
           Anchors = [akLeft, akBottom]
@@ -925,7 +924,7 @@ object FMain: TFMain
           Left = 47
           Height = 31
           Hint = 'Show Raw Messages'
-          Top = 754
+          Top = 997
           Width = 31
           AllowAllUp = True
           Anchors = [akLeft, akBottom]
@@ -937,6 +936,30 @@ object FMain: TFMain
           ShowHint = True
           ParentShowHint = False
           OnClick = sbShowRawMessagesClick
+        end
+        object cTracking: TChart
+          Left = 15
+          Height = 200
+          Top = 720
+          Width = 576
+          AxisList = <          
+            item
+              Marks.LabelBrush.Style = bsClear
+              Minors = <>
+              Title.LabelFont.Orientation = 900
+              Title.LabelBrush.Style = bsClear
+            end          
+            item
+              Alignment = calBottom
+              Marks.LabelBrush.Style = bsClear
+              Minors = <>
+              Title.LabelBrush.Style = bsClear
+            end>
+          Title.Text.Strings = (
+            'TAChart'
+          )
+          Color = clDefault
+          Visible = False
         end
       end
     end
@@ -3522,6 +3545,11 @@ object FMain: TFMain
   object UniqueInstance1: TUniqueInstance
     Enabled = True
     Left = 1152
+    Top = 952
+  end
+  object tRefresh: TTimer
+    OnTimer = tRefreshTimer
+    Left = 1120
     Top = 952
   end
 end

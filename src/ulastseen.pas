@@ -23,7 +23,7 @@ type
     MenuItem3: TMenuItem;
     procedure actCloseWindowExecute(Sender: TObject);
     procedure FormHide(Sender: TObject);
-    procedure lvCallsignsDblClick(Sender: TObject);
+    procedure lvCallsignClick(Sender: TObject);
   private
     FConfig: PTAPRSConfig;
     IsClosing: Boolean;
@@ -84,7 +84,7 @@ begin
   end;
 end;
 
-procedure TFLastSeen.lvCallsignsDblClick(Sender: TObject);
+procedure TFLastSeen.lvCallsignClick(Sender: TObject);
 begin
   FMain.SelectPOI(Sender);
 end;

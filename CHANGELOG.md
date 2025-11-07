@@ -4,6 +4,7 @@
 
 - ADD: [last] Window of the last seen APRS objects.
 - ADD: [raw] Show RAW Messages from a APRS object.
+- ADD: Altitude chart for tracking objects.
 
 ## v0.5.0
 

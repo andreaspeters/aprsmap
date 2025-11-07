@@ -13,11 +13,14 @@ object FLastSeen: TFLastSeen
   Visible = True
   OnHide = FormHide
   object lvCallsigns: TListView
+    AnchorSideLeft.Control = Owner
+    AnchorSideRight.Control = Owner
     Left = 0
     Height = 1156
     Top = 0
-    Width = 277
+    Width = 276
     Align = alClient
+    BorderSpacing.Right = 1
     Columns = <    
       item
         AutoSize = True
@@ -33,11 +36,12 @@ object FLastSeen: TFLastSeen
       item
         Alignment = taRightJustify
         Caption = '#'
+        Width = 55
       end>
     SmallImages = FMain.ImageList1
     TabOrder = 0
     ViewStyle = vsReport
-    OnClick = lvCallsignsDblClick
+    OnClick = lvCallsignClick
   end
   object ActionList1: TActionList
     Images = FMain.ImageList1

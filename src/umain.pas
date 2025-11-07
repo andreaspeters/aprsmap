@@ -9,8 +9,9 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  Buttons, PairSplitter, ActnList,
-  uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage;
+  Buttons, PairSplitter, ActnList, TAGraph, TAStyles,
+  uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
+  TASeries, TATools;
 
 type
 
@@ -25,6 +26,7 @@ type
     CBEPOIList: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEFilter: TComboBoxEx;
+    cTracking: TChart;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     ICallsignIcon: TImage;
@@ -136,6 +138,7 @@ type
     STLongitude: TStaticText;
     STLongitudeDMS: TStaticText;
     TBZoomMap: TTrackBar;
+    tRefresh: TTimer;
     TMainLoop: TTimer;
     TMainLoop1: TTimer;
     TrayIcon1: TTrayIcon;
@@ -172,6 +175,7 @@ type
     procedure AddPoI(msg: TAPRSMessage);
     procedure SetupFilterCombo;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
+    procedure tRefreshTimer(Sender: TObject);
   private
   public
     Debug: Boolean;
@@ -487,17 +491,22 @@ procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
     poiGPS: TGPSObj;
+    AltitudePoint: TLineSeries;
+    i: Integer;
+    Distance: Double;
 begin
   try
     MAPRSMessage.Lines.Clear;
+    cTracking.Visible := False;
 
-    call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
+    if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
+      call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
 
     if Sender is TListView then
       call := (Sender as TListView).Selected.Caption;
 
     msg := APRSMessageList.Find(call);
-    if msg <> nil then
+    if Assigned(msg) then
     begin
       ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
@@ -532,18 +541,43 @@ begin
       STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
       STWXLum.Caption := IntToStr(msg^.WXLum);
 
-      MVMap.Zoom := 28;
-      if (Sender is TComboBoxEx) or (Sender is TListView) then
+      if not (Sender is TTimer) then
       begin
-        poiGPS := FindGPSItem(PoiLayer, call);
-        if poiGPS <> nil then
-          MVMap.CenterOnObj(poiGPS)
+        MVMap.Zoom := 28;
+        if (Sender is TComboBoxEx) or (Sender is TListView) then
+        begin
+          poiGPS := FindGPSItem(PoiLayer, call);
+          if Assigned(poiGPS) then
+            MVMap.CenterOnObj(poiGPS)
+        end;
       end;
 
       if msg^.Track.Visible then
         SPTrack.Down := True
       else
         SPTrack.Down := False;
+
+      if Assigned(msg^.Track) and (msg^.Track.Points.Count > 1) then
+      begin
+        cTracking.ClearSeries;
+        cTracking.Visible := True;
+
+        AltitudePoint := TLineSeries.Create(cTracking);
+        AltitudePoint.Title := 'Altitude (m)';
+        AltitudePoint.LinePen.Width := 2;
+        AltitudePoint.SeriesColor := clRed;
+
+        cTracking.AddSeries(AltitudePoint);
+
+
+        for i := 0 to msg^.Track.Points.Count - 1 do
+        begin
+          Distance := msg^.Track.Points[i].DistanceInKmFrom(TGPSPoint.Create(msg^.Track.Points[0].Lon,msg^.Track.Points[0].Lat),False);
+          AltitudePoint.AddXY(Distance, msg^.Track.Points[i].Elevation);  // (x = km, y = Altitute)
+        end;
+
+        cTracking.Refresh;
+      end;
 
       FRawMessage.mRawMessage.Clear;
 
@@ -705,7 +739,8 @@ begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
         newMsg^.Count := oldMsg^.Count;
-        newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
+        if not newMsg^.ModeS then
+          newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
       end;
 
       // how often we saw that call
@@ -736,7 +771,6 @@ begin
       // add callsign to Combobox
       if oldMSG = nil then
         AddCombobox(newMsg^);
-
 
 
       MVMap.Refresh;
@@ -779,7 +813,8 @@ begin
   end;
 
   try
-    AddPoI(ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData));
+    if not ReadPipe.Error then
+      AddPoI(ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData));
   except
     on E: Exception do
       {$IFDEF UNIX}
@@ -795,11 +830,12 @@ begin
 
       try
         if Assigned(ModeS.ModeSMessageList.Items[ModeSCount]) then
-        begin
           msg := PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount]);
-          msg^.ModeS := True;
-          AddPoI(msg^);
-        end;
+          if Assigned(msg) then
+          begin
+            msg^.ModeS := True;
+            AddPoI(msg^);
+          end;
       except
         on E: Exception do
         begin
@@ -828,6 +864,11 @@ begin
     if (P.Lat = Lat) and (P.Lon = Lon) then
       Result := True;
   end;
+end;
+
+procedure TFMain.tRefreshTimer(Sender: TObject);
+begin
+  SelectPoI(Sender);
 end;
 
 // Delete callsign from Combobox

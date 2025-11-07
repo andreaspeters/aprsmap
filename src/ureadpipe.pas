@@ -15,6 +15,7 @@ type
     procedure Execute; override;
   public
     PipeData: String;
+    Error: Boolean;
     function DecodeAPRSMessage(const Data: String): TAPRSMessage;
     constructor Create(const PipeName: string);
   end;
@@ -34,6 +35,7 @@ begin
   inherited Create(True);
   FPipeName := PipeName;
   FreeOnTerminate := True;
+  Error := False;
   Start;
 end;
 
@@ -49,6 +51,7 @@ begin
   if Pipe < 0 then
   begin
     Writeln('Could not open Pipe to read: ', FPipeName);
+    Error := True;
     Exit;
   end;
 
@@ -92,6 +95,7 @@ begin
     {$IFDEF UNIX}
     Writeln('Could not create Pipe to read: ', FPipeName);
     {$ENDIF}
+    Error := True;
     Exit;
   end;
 

@@ -113,7 +113,7 @@ begin
       Exit;
 
     // Test Daten
-    // Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
+    //Response := '[{"hex":"3c55c3", "flight":"TESTFLUG", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201},{"hex":"3c55c3", "flight":"HALLO", "lat":53.589772, "lon":9.904902, "altitude":6850, "track":219, "speed":201}]';
 
     if Length(Response) > 0 then
     begin
@@ -126,7 +126,7 @@ begin
         begin
           Obj := Items.Objects[i];
 
-          New(APRSMessageObject);
+          new(APRSMessageObject);
 
           if Obj.Find('flight') <> nil then
             APRSMessageObject^.FromCall := StringReplace(Obj.Strings['flight'], ' ', '', [rfReplaceAll]);
@@ -150,7 +150,8 @@ begin
           APRSMessageObject^.ImageIndex := 7;
 
           if Length(APRSMessageObject^.FromCall) > 0 then
-            ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject)
+            ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject);
+
         end;
       except
         on E: Exception do
