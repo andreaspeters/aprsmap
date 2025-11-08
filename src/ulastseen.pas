@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ShellCtrls,
-  ComCtrls, Menus, ActnList, utypes;
+  ComCtrls, Menus, ActnList, ExtCtrls, utypes;
 
 const
   MAX_ITEMS = 100;
@@ -21,6 +21,7 @@ type
     lvCallsigns: TListView;
     MainMenu1: TMainMenu;
     MenuItem3: TMenuItem;
+    StatusBar1: TStatusBar;
     procedure actCloseWindowExecute(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure lvCallsignClick(Sender: TObject);

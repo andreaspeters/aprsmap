@@ -2,25 +2,26 @@ object FLastSeen: TFLastSeen
   Left = 1203
   Height = 1184
   Top = 34
-  Width = 277
+  Width = 261
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
   Caption = 'APRSMap - LastSeen'
-  ClientHeight = 206
-  ClientWidth = 320
+  ClientHeight = 1156
+  ClientWidth = 261
   Menu = MainMenu1
   Position = poDefault
-  LCLVersion = '4.1.0.0'
   Visible = True
   OnHide = FormHide
   object lvCallsigns: TListView
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     Left = 0
-    Height = 1156
-    Top = 0
-    Width = 276
+    Height = 1126
+    Top = 5
+    Width = 260
     Align = alClient
+    AutoWidthLastColumn = True
+    BorderSpacing.Top = 5
     BorderSpacing.Right = 1
     Columns = <    
       item
@@ -36,13 +37,23 @@ object FLastSeen: TFLastSeen
       end    
       item
         Alignment = taRightJustify
+        AutoSize = True
         Caption = '#'
-        Width = 55
+        Width = 100
+      end    
+      item
       end>
     SmallImages = FMain.ImageList1
     TabOrder = 0
     ViewStyle = vsReport
     OnClick = lvCallsignClick
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 25
+    Top = 1131
+    Width = 261
+    Panels = <>
   end
   object ActionList1: TActionList
     Images = FMain.ImageList1
@@ -50,6 +61,7 @@ object FLastSeen: TFLastSeen
     Top = 11
     object actCloseWindow: TAction
       Caption = 'Close'
+      Enabled = False
       ImageIndex = 235
       OnExecute = actCloseWindowExecute
     end
