@@ -19,8 +19,8 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="544"/>
-        <CursorPos X="61" Y="568"/>
+        <TopLine Value="289"/>
+        <CursorPos X="57" Y="310"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -46,8 +46,8 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="7"/>
-        <CursorPos X="22" Y="57"/>
+        <TopLine Value="40"/>
+        <CursorPos X="22" Y="66"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -55,8 +55,8 @@
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="627"/>
-        <CursorPos X="35" Y="532"/>
+        <TopLine Value="538"/>
+        <CursorPos X="41" Y="566"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -86,7 +86,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="11"/>
         <TopLine Value="72"/>
-        <CursorPos X="58" Y="112"/>
+        <CursorPos X="55" Y="112"/>
         <UsageCount Value="243"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -133,8 +133,8 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="8"/>
         <TopLine Value="18"/>
-        <CursorPos X="121" Y="49"/>
-        <UsageCount Value="122"/>
+        <CursorPos X="73" Y="49"/>
+        <UsageCount Value="124"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -177,38 +177,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="28" Column="21" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="29" Column="14" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="504" TopLine="476"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="565" Column="18" TopLine="383"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="828" TopLine="806"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="809" Column="49" TopLine="792"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="358" Column="3" TopLine="356"/>
-      </Position>
-      <Position>
-        <Filename Value="ulastseen.pas"/>
-        <Caret Line="89" Column="16" TopLine="44"/>
-      </Position>
       <Position>
         <Filename Value="ulastseen.pas"/>
         <Caret Line="90" Column="16" TopLine="45"/>
@@ -296,6 +264,38 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="576" TopLine="557"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="568" Column="61" TopLine="545"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="398" Column="3" TopLine="392"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="882" Column="9" TopLine="877"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="170" Column="15" TopLine="170"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="557" Column="49" TopLine="534"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="413" Column="11" TopLine="392"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="412" Column="12" TopLine="397"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="413" Column="13" TopLine="396"/>
       </Position>
     </JumpHistory>
     <RunParams>

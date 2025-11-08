@@ -63,6 +63,7 @@ type
     Distance: Double;
     RAWMessages: TStringList;
     Count: Integer;
+    Visible: Boolean;
   end;
 
   TAPRSConfig = record

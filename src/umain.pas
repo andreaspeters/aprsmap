@@ -404,10 +404,14 @@ begin
       msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
 
       if Assigned(msg) then
+      begin
         if (SameText(msg^.ImageDescription, description)) or (SameText(description, 'All')) then
           PoiLayer.PointsOfInterest[i].Visible := True
         else
-          PoiLayer.PointsOfInterest[i].Visible := False
+          PoiLayer.PointsOfInterest[i].Visible := False;
+
+        msg^.Visible := PoiLayer.PointsOfInterest[i].Visible
+      end;
     end;
   end;
 end;
