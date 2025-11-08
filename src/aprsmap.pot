@@ -276,17 +276,18 @@ msgctxt "tfmain.stmapcopyright.caption"
 msgid "MAP Copyright OpenStreetMap"
 msgstr ""
 
-#: tfmain.tabsheet1.caption
-msgctxt "tfmain.tabsheet1.caption"
+#: tfmain.tsmain.caption
+msgctxt "tfmain.tsmain.caption"
 msgid "PoI"
 msgstr ""
 
-#: tfmain.tabsheet2.caption
+#: tfmain.tstracking.caption
+msgctxt "tfmain.tstracking.caption"
 msgid "Tracking"
 msgstr ""
 
-#: tfmain.tabsheet3.caption
-msgctxt "tfmain.tabsheet3.caption"
+#: tfmain.tswx.caption
+msgctxt "tfmain.tswx.caption"
 msgid "WX"
 msgstr ""
 

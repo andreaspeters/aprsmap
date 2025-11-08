@@ -138,9 +138,9 @@ type
     STWXSnowFall24h: TStaticText;
     STWXSpeed: TStaticText;
     STWXTemperature: TStaticText;
-    TabSheet1: TTabSheet;
-    TabSheet2: TTabSheet;
-    TabSheet3: TTabSheet;
+    tsMain: TTabSheet;
+    tsTracking: TTabSheet;
+    tsWX: TTabSheet;
     TBZoomMap: TTrackBar;
     tRefresh: TTimer;
     TMainLoop: TTimer;
@@ -336,6 +336,7 @@ begin
 
   FRAWMessage.SetConfig(@APRSConfig);
   FRAWMessage.Visible := APRSConfig.RawMessageVisible;
+  tsTracking.TabVisible := False;
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);
@@ -501,12 +502,16 @@ var msg: PAPRSMessage;
 begin
   try
     MAPRSMessage.Lines.Clear;
+    tsTracking.TabVisible := False;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
 
     if Sender is TListView then
       call := (Sender as TListView).Selected.Caption;
+
+    if Sender is TTimer then
+      call := STCallsign.Caption;
 
     msg := APRSMessageList.Find(call);
     if Assigned(msg) then
@@ -563,7 +568,7 @@ begin
       if Assigned(msg^.Track) and (msg^.Track.Points.Count > 1) then
       begin
         cTracking.ClearSeries;
-        cTracking.Visible := True;
+        tsTracking.TabVisible := True;
 
         AltitudePoint := TLineSeries.Create(cTracking);
         AltitudePoint.Title := 'Altitude (m)';
