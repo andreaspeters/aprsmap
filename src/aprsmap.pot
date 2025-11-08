@@ -77,8 +77,9 @@ msgstr ""
 msgid "Map"
 msgstr ""
 
-#: tfmain.groupbox2.caption
-msgid "PoI Details"
+#: tfmain.groupbox3.caption
+msgctxt "tfmain.groupbox3.caption"
+msgid "PoI"
 msgstr ""
 
 #: tfmain.label1.caption
@@ -145,7 +146,7 @@ msgid "RNG"
 msgstr ""
 
 #: tfmain.label22.caption
-msgid "WX"
+msgid "Altitude"
 msgstr ""
 
 #: tfmain.label23.caption
@@ -273,6 +274,20 @@ msgstr ""
 #: tfmain.stmapcopyright.caption
 msgctxt "tfmain.stmapcopyright.caption"
 msgid "MAP Copyright OpenStreetMap"
+msgstr ""
+
+#: tfmain.tabsheet1.caption
+msgctxt "tfmain.tabsheet1.caption"
+msgid "PoI"
+msgstr ""
+
+#: tfmain.tabsheet2.caption
+msgid "Tracking"
+msgstr ""
+
+#: tfmain.tabsheet3.caption
+msgctxt "tfmain.tabsheet3.caption"
+msgid "WX"
 msgstr ""
 
 #: tfrawmessage.actclose.caption

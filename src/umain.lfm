@@ -1,10 +1,10 @@
 object FMain: TFMain
   Left = 800
-  Height = 1317
+  Height = 1163
   Top = 675
   Width = 1574
   Caption = 'APRS Map'
-  ClientHeight = 1283
+  ClientHeight = 1129
   ClientWidth = 1574
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
@@ -20,7 +20,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 27
-    Top = 1256
+    Top = 1102
     Width = 1574
     Panels = <    
       item
@@ -37,7 +37,7 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1256
+    Height = 1102
     Top = 0
     Width = 1574
     Align = alClient
@@ -45,15 +45,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1256
+      Height = 1102
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1256
+      ClientHeight = 1102
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1249
+        Height = 1095
         Top = 0
         Width = 950
         Active = True
@@ -82,7 +82,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 1233
+        Top = 1079
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -99,11 +99,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1256
+      Height = 1102
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 1256
+      ClientHeight = 1102
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -168,7 +168,6 @@ object FMain: TFMain
           Caption = 'Provider'
         end
         object CBEFilter: TComboBoxEx
-          AnchorSideLeft.Control = MAPRSMessage
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Control = GroupBox2
           AnchorSideRight.Side = asrBottom
@@ -194,36 +193,729 @@ object FMain: TFMain
           Caption = 'Filter'
         end
       end
-      object GroupBox2: TGroupBox
+      object PageControl1: TPageControl
+        AnchorSideLeft.Control = PairSplitterSide2
+        AnchorSideTop.Control = GroupBox3
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = PairSplitterSide2
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = PairSplitterSide2
+        AnchorSideBottom.Side = asrBottom
+        Left = 0
+        Height = 690
+        Top = 412
+        Width = 615
+        ActivePage = TabSheet2
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Top = 2
+        BorderSpacing.Right = 4
+        TabIndex = 1
+        TabOrder = 1
+        object TabSheet1: TTabSheet
+          Caption = 'PoI'
+          ClientHeight = 655
+          ClientWidth = 609
+          object GroupBox2: TGroupBox
+            Left = 0
+            Height = 646
+            Top = 3
+            Width = 605
+            Align = alClient
+            BorderSpacing.Top = 3
+            BorderSpacing.Right = 4
+            BorderSpacing.Bottom = 6
+            ClientHeight = 643
+            ClientWidth = 601
+            ParentBackground = False
+            TabOrder = 0
+            object Label4: TLabel
+              Left = 9
+              Height = 22
+              Top = 24
+              Width = 62
+              Caption = 'Latitude'
+            end
+            object Label5: TLabel
+              Left = 156
+              Height = 22
+              Top = 24
+              Width = 77
+              Caption = 'Longitude'
+            end
+            object STLatitude: TStaticText
+              AnchorSideTop.Side = asrBottom
+              Left = 10
+              Height = 25
+              Top = 64
+              Width = 131
+              BorderSpacing.Top = 7
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 0
+            end
+            object STLongitude: TStaticText
+              AnchorSideTop.Side = asrBottom
+              Left = 156
+              Height = 25
+              Top = 64
+              Width = 139
+              BorderSpacing.Top = 7
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 1
+            end
+            object STLongitudeDMS: TStaticText
+              AnchorSideTop.Side = asrBottom
+              Left = 156
+              Height = 25
+              Top = 104
+              Width = 139
+              BorderSpacing.Top = 8
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 2
+            end
+            object STLatitudeDMS: TStaticText
+              AnchorSideTop.Side = asrBottom
+              Left = 9
+              Height = 25
+              Top = 104
+              Width = 131
+              BorderSpacing.Top = 2
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 3
+            end
+            object Label6: TLabel
+              Left = 305
+              Height = 22
+              Top = 24
+              Width = 88
+              Caption = 'Altitude (m)'
+            end
+            object STAltitude: TStaticText
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 451
+              Height = 24
+              Top = 25
+              Width = 139
+              BorderSpacing.Right = 5
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 4
+            end
+            object Label7: TLabel
+              Left = 304
+              Height = 22
+              Top = 65
+              Width = 128
+              Caption = 'Course/Direction'
+            end
+            object Label8: TLabel
+              Left = 304
+              Height = 22
+              Top = 105
+              Width = 100
+              Caption = 'Speed (km/h)'
+            end
+            object STCourse: TStaticText
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 451
+              Height = 20
+              Top = 65
+              Width = 139
+              BorderSpacing.Right = 5
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 5
+            end
+            object STSpeed: TStaticText
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 451
+              Height = 24
+              Top = 105
+              Width = 139
+              BorderSpacing.Right = 5
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 6
+            end
+            object Label9: TLabel
+              Left = 10
+              Height = 22
+              Top = 280
+              Width = 74
+              Caption = 'Power (w)'
+            end
+            object Label10: TLabel
+              Left = 10
+              Height = 22
+              Top = 240
+              Width = 34
+              Caption = 'PHG'
+              Font.Height = -16
+              Font.Name = 'Sans'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Panel1: TPanel
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 306
+              Height = 1
+              Top = 184
+              Width = 290
+              Anchors = [akTop, akLeft, akRight]
+              BorderSpacing.Right = 5
+              TabOrder = 7
+            end
+            object Label11: TLabel
+              Left = 157
+              Height = 22
+              Top = 280
+              Width = 80
+              Caption = 'Height (m)'
+            end
+            object Label12: TLabel
+              Left = 10
+              Height = 22
+              Top = 320
+              Width = 69
+              Caption = 'Gain (dB)'
+            end
+            object Label13: TLabel
+              Left = 157
+              Height = 22
+              Top = 320
+              Width = 89
+              Caption = 'Direction (°)'
+            end
+            object STPower: TStaticText
+              Left = 111
+              Height = 25
+              Top = 280
+              Width = 38
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 8
+            end
+            object STHeight: TStaticText
+              Left = 266
+              Height = 25
+              Top = 280
+              Width = 32
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 9
+            end
+            object STGain: TStaticText
+              Left = 111
+              Height = 24
+              Top = 322
+              Width = 38
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 10
+            end
+            object STDirectivity: TStaticText
+              Left = 266
+              Height = 22
+              Top = 322
+              Width = 32
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 11
+            end
+            object Panel2: TPanel
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 9
+              Height = 1
+              Top = 184
+              Width = 288
+              BorderSpacing.Right = 5
+              TabOrder = 12
+            end
+            object Label14: TLabel
+              Left = 306
+              Height = 22
+              Top = 160
+              Width = 30
+              Caption = 'DFS'
+              Font.Height = -16
+              Font.Name = 'Sans'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object Label15: TLabel
+              Left = 306
+              Height = 22
+              Top = 200
+              Width = 66
+              Caption = 'Strength'
+            end
+            object Label17: TLabel
+              Left = 306
+              Height = 22
+              Top = 240
+              Width = 69
+              Caption = 'Gain (dB)'
+            end
+            object Label18: TLabel
+              Left = 453
+              Height = 22
+              Top = 200
+              Width = 80
+              Caption = 'Height (m)'
+            end
+            object Label19: TLabel
+              Left = 453
+              Height = 22
+              Top = 240
+              Width = 89
+              Caption = 'Direction (°)'
+            end
+            object STStrength: TStaticText
+              Left = 394
+              Height = 22
+              Top = 199
+              Width = 38
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 13
+            end
+            object STDFSGain: TStaticText
+              Left = 407
+              Height = 25
+              Top = 240
+              Width = 38
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 14
+            end
+            object STDFSHeight: TStaticText
+              Left = 562
+              Height = 25
+              Top = 200
+              Width = 30
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 15
+            end
+            object STDFSDirectivity: TStaticText
+              Left = 559
+              Height = 25
+              Top = 240
+              Width = 32
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 16
+            end
+            object STRNGRange: TStaticText
+              Left = 111
+              Height = 21
+              Top = 200
+              Width = 38
+              Font.Color = clHighlight
+              Font.Height = -15
+              Font.Name = 'Sans'
+              ParentFont = False
+              TabOrder = 17
+            end
+            object Label20: TLabel
+              Left = 10
+              Height = 22
+              Top = 200
+              Width = 85
+              Caption = 'Range (km)'
+            end
+            object Panel3: TPanel
+              AnchorSideRight.Control = GroupBox2
+              AnchorSideRight.Side = asrBottom
+              Left = 9
+              Height = 1
+              Top = 264
+              Width = 286
+              BorderSpacing.Right = 5
+              TabOrder = 18
+            end
+            object Label21: TLabel
+              Left = 10
+              Height = 22
+              Top = 160
+              Width = 36
+              Caption = 'RNG'
+              Font.Height = -16
+              Font.Name = 'Sans'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object SPTrack: TSpeedButton
+              AnchorSideLeft.Control = GroupBox2
+              AnchorSideBottom.Control = GroupBox2
+              AnchorSideBottom.Side = asrBottom
+              Left = 8
+              Height = 31
+              Hint = 'Enable Tracking'
+              Top = 610
+              Width = 31
+              AllowAllUp = True
+              Anchors = [akLeft, akBottom]
+              BorderSpacing.Left = 8
+              BorderSpacing.Bottom = 2
+              GroupIndex = 1
+              Images = ImageList1
+              ImageIndex = 194
+              ShowHint = True
+              ParentShowHint = False
+              OnClick = SPTrackClick
+            end
+            object sbShowRawMessages: TSpeedButton
+              AnchorSideLeft.Control = SPTrack
+              AnchorSideLeft.Side = asrBottom
+              AnchorSideBottom.Control = GroupBox2
+              AnchorSideBottom.Side = asrBottom
+              Left = 47
+              Height = 31
+              Hint = 'Show Raw Messages'
+              Top = 610
+              Width = 31
+              AllowAllUp = True
+              Anchors = [akLeft, akBottom]
+              BorderSpacing.Left = 8
+              BorderSpacing.Bottom = 2
+              GroupIndex = 2
+              Images = ImageList1
+              ImageIndex = 236
+              ShowHint = True
+              ParentShowHint = False
+              OnClick = sbShowRawMessagesClick
+            end
+          end
+        end
+        object TabSheet2: TTabSheet
+          Caption = 'Tracking'
+          ClientHeight = 655
+          ClientWidth = 609
+          object cTracking: TChart
+            Left = 16
+            Height = 200
+            Top = 56
+            Width = 576
+            AxisList = <            
+              item
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Title.LabelFont.Orientation = 900
+                Title.LabelBrush.Style = bsClear
+              end            
+              item
+                Alignment = calBottom
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Title.LabelBrush.Style = bsClear
+              end>
+            Title.Text.Strings = (
+              'TAChart'
+            )
+            Color = clDefault
+          end
+          object Label22: TLabel
+            Left = 16
+            Height = 22
+            Top = 24
+            Width = 65
+            Caption = 'Altitude'
+            Font.Height = -16
+            Font.Name = 'Noto Sans'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+        end
+        object TabSheet3: TTabSheet
+          Caption = 'WX'
+          ClientHeight = 655
+          ClientWidth = 609
+          object Label23: TLabel
+            Left = 8
+            Height = 22
+            Top = 32
+            Width = 132
+            Caption = 'Wind Direction (°)'
+          end
+          object Label24: TLabel
+            Left = 8
+            Height = 22
+            Top = 72
+            Width = 143
+            Caption = 'Wind Speed (km/h)'
+          end
+          object Label25: TLabel
+            Left = 8
+            Height = 22
+            Top = 112
+            Width = 131
+            Caption = 'Wind Gust (km/h)'
+          end
+          object Label16: TLabel
+            Left = 8
+            Height = 22
+            Top = 152
+            Width = 119
+            Caption = 'Temperatur (°C)'
+          end
+          object Label26: TLabel
+            Left = 304
+            Height = 22
+            Top = 32
+            Width = 154
+            Caption = 'Rainfall last 1h (mm)'
+          end
+          object Label28: TLabel
+            Left = 304
+            Height = 22
+            Top = 112
+            Width = 146
+            Caption = 'Rainfall today (mm)'
+          end
+          object Label29: TLabel
+            Left = 304
+            Height = 22
+            Top = 192
+            Width = 96
+            Caption = 'Humidity (%)'
+          end
+          object Label30: TLabel
+            Left = 8
+            Height = 22
+            Top = 192
+            Width = 104
+            Caption = 'Pressure (mb)'
+          end
+          object Label31: TLabel
+            Left = 304
+            Height = 22
+            Top = 232
+            Width = 107
+            Caption = 'Lum (watt/m²)'
+          end
+          object Label33: TLabel
+            Left = 304
+            Height = 22
+            Top = 152
+            Width = 134
+            Caption = 'Raw Rain Counter'
+          end
+          object STWXDirection: TStaticText
+            Left = 208
+            Height = 25
+            Top = 32
+            Width = 86
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 0
+          end
+          object STWXSpeed: TStaticText
+            Left = 208
+            Height = 25
+            Top = 72
+            Width = 86
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 1
+          end
+          object STWXGust: TStaticText
+            Left = 208
+            Height = 25
+            Top = 112
+            Width = 88
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 2
+          end
+          object STWXTemperature: TStaticText
+            Left = 208
+            Height = 25
+            Top = 152
+            Width = 86
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 3
+          end
+          object STWXPressure: TStaticText
+            Left = 208
+            Height = 25
+            Top = 192
+            Width = 86
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 4
+          end
+          object STWXRainFall1h: TStaticText
+            Left = 512
+            Height = 25
+            Top = 32
+            Width = 78
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 5
+          end
+          object Label32: TLabel
+            Left = 8
+            Height = 22
+            Top = 232
+            Width = 170
+            Caption = 'Snowfall last 24h (mm)'
+          end
+          object STWXSnowFall24h: TStaticText
+            Left = 208
+            Height = 25
+            Top = 232
+            Width = 86
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 6
+          end
+          object STWXRainFallToday: TStaticText
+            Left = 512
+            Height = 25
+            Top = 112
+            Width = 78
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 7
+          end
+          object STWXRainCount: TStaticText
+            Left = 512
+            Height = 25
+            Top = 152
+            Width = 77
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 8
+          end
+          object STWXHumidity: TStaticText
+            Left = 512
+            Height = 25
+            Top = 192
+            Width = 77
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 9
+          end
+          object STWXLum: TStaticText
+            Left = 512
+            Height = 25
+            Top = 232
+            Width = 77
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 10
+          end
+          object Label27: TLabel
+            Left = 304
+            Height = 22
+            Top = 72
+            Width = 163
+            Caption = 'Rainfall last 24h (mm)'
+          end
+          object STWXRainFall24h: TStaticText
+            Left = 512
+            Height = 25
+            Top = 72
+            Width = 79
+            Font.Color = clHighlight
+            Font.Height = -15
+            Font.Name = 'Sans'
+            ParentFont = False
+            TabOrder = 11
+          end
+        end
+      end
+      object GroupBox3: TGroupBox
         AnchorSideTop.Control = GroupBox1
         AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = PairSplitterSide2
+        AnchorSideRight.Side = asrBottom
         Left = 0
-        Height = 1063
-        Top = 187
+        Height = 224
+        Top = 186
         Width = 615
-        Align = alBottom
-        Anchors = [akTop, akLeft, akRight, akBottom]
-        BorderSpacing.Top = 3
+        Anchors = [akTop, akLeft, akRight]
+        BorderSpacing.Top = 2
         BorderSpacing.Right = 4
-        BorderSpacing.Bottom = 6
-        Caption = 'PoI Details'
-        ClientHeight = 1030
+        Caption = 'PoI'
+        ClientHeight = 191
         ClientWidth = 611
-        ParentBackground = False
-        TabOrder = 1
-        object Label2: TLabel
-          Left = 304
-          Height = 22
-          Top = 8
-          Width = 108
-          Caption = 'Select Callsign'
-        end
+        TabOrder = 2
         object Label3: TLabel
           Left = 8
           Height = 22
           Top = 8
           Width = 110
           Caption = 'APRS Message'
+        end
+        object Label2: TLabel
+          Left = 304
+          Height = 22
+          Top = 8
+          Width = 108
+          Caption = 'Select Callsign'
         end
         object MAPRSMessage: TMemo
           AnchorSideRight.Control = GroupBox2
@@ -243,93 +935,6 @@ object FMain: TFMain
           ScrollBars = ssAutoVertical
           TabOrder = 0
         end
-        object Label4: TLabel
-          Left = 8
-          Height = 22
-          Top = 176
-          Width = 62
-          Caption = 'Latitude'
-        end
-        object Label5: TLabel
-          Left = 155
-          Height = 22
-          Top = 176
-          Width = 77
-          Caption = 'Longitude'
-        end
-        object STLatitude: TStaticText
-          AnchorSideTop.Side = asrBottom
-          Left = 9
-          Height = 25
-          Top = 216
-          Width = 131
-          BorderSpacing.Top = 7
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 1
-        end
-        object STLongitude: TStaticText
-          AnchorSideTop.Side = asrBottom
-          Left = 155
-          Height = 25
-          Top = 216
-          Width = 139
-          BorderSpacing.Top = 7
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 2
-        end
-        object STLongitudeDMS: TStaticText
-          AnchorSideTop.Side = asrBottom
-          Left = 155
-          Height = 25
-          Top = 256
-          Width = 139
-          BorderSpacing.Top = 8
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 3
-        end
-        object STLatitudeDMS: TStaticText
-          AnchorSideTop.Side = asrBottom
-          Left = 8
-          Height = 25
-          Top = 256
-          Width = 131
-          BorderSpacing.Top = 2
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 4
-        end
-        object Label6: TLabel
-          Left = 8
-          Height = 22
-          Top = 296
-          Width = 88
-          Caption = 'Altitude (m)'
-        end
-        object STAltitude: TStaticText
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 155
-          Height = 24
-          Top = 296
-          Width = 139
-          BorderSpacing.Right = 5
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 5
-        end
         object CBEPOIList: TComboBoxEx
           AnchorSideLeft.Control = MAPRSMessage
           AnchorSideLeft.Side = asrBottom
@@ -338,7 +943,7 @@ object FMain: TFMain
           Left = 304
           Height = 36
           Top = 40
-          Width = 302
+          Width = 292
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
@@ -346,516 +951,8 @@ object FMain: TFMain
           Images = ImageList1
           ItemHeight = 16
           ItemsEx = <>
-          TabOrder = 6
+          TabOrder = 1
           OnSelect = SelectPOI
-        end
-        object Label7: TLabel
-          Left = 8
-          Height = 22
-          Top = 336
-          Width = 128
-          Caption = 'Course/Direction'
-        end
-        object Label8: TLabel
-          Left = 8
-          Height = 22
-          Top = 376
-          Width = 100
-          Caption = 'Speed (km/h)'
-        end
-        object STCourse: TStaticText
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 155
-          Height = 20
-          Top = 336
-          Width = 139
-          BorderSpacing.Right = 5
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 7
-        end
-        object STSpeed: TStaticText
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 155
-          Height = 24
-          Top = 376
-          Width = 139
-          BorderSpacing.Right = 5
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 8
-        end
-        object Label9: TLabel
-          Left = 304
-          Height = 22
-          Top = 256
-          Width = 74
-          Caption = 'Power (w)'
-        end
-        object Label10: TLabel
-          Left = 304
-          Height = 22
-          Top = 216
-          Width = 34
-          Caption = 'PHG'
-          Font.Height = -16
-          Font.Name = 'Sans'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object Panel1: TPanel
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 304
-          Height = 1
-          Top = 240
-          Width = 302
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 5
-          TabOrder = 9
-        end
-        object Label11: TLabel
-          Left = 451
-          Height = 22
-          Top = 256
-          Width = 80
-          Caption = 'Height (m)'
-        end
-        object Label12: TLabel
-          Left = 304
-          Height = 22
-          Top = 296
-          Width = 69
-          Caption = 'Gain (dB)'
-        end
-        object Label13: TLabel
-          Left = 451
-          Height = 22
-          Top = 296
-          Width = 89
-          Caption = 'Direction (°)'
-        end
-        object STPower: TStaticText
-          Left = 405
-          Height = 25
-          Top = 256
-          Width = 38
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 10
-        end
-        object STHeight: TStaticText
-          Left = 560
-          Height = 25
-          Top = 256
-          Width = 32
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 11
-        end
-        object STGain: TStaticText
-          Left = 405
-          Height = 24
-          Top = 298
-          Width = 38
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 12
-        end
-        object STDirectivity: TStaticText
-          Left = 560
-          Height = 22
-          Top = 298
-          Width = 32
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 13
-        end
-        object Panel2: TPanel
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 304
-          Height = 1
-          Top = 360
-          Width = 302
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 5
-          TabOrder = 14
-        end
-        object Label14: TLabel
-          Left = 304
-          Height = 22
-          Top = 336
-          Width = 30
-          Caption = 'DFS'
-          Font.Height = -16
-          Font.Name = 'Sans'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object Label15: TLabel
-          Left = 304
-          Height = 22
-          Top = 376
-          Width = 66
-          Caption = 'Strength'
-        end
-        object Label17: TLabel
-          Left = 304
-          Height = 22
-          Top = 416
-          Width = 69
-          Caption = 'Gain (dB)'
-        end
-        object Label18: TLabel
-          Left = 451
-          Height = 22
-          Top = 376
-          Width = 80
-          Caption = 'Height (m)'
-        end
-        object Label19: TLabel
-          Left = 451
-          Height = 22
-          Top = 416
-          Width = 89
-          Caption = 'Direction (°)'
-        end
-        object STStrength: TStaticText
-          Left = 405
-          Height = 22
-          Top = 376
-          Width = 38
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 15
-        end
-        object STDFSGain: TStaticText
-          Left = 405
-          Height = 25
-          Top = 416
-          Width = 38
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 16
-        end
-        object STDFSHeight: TStaticText
-          Left = 560
-          Height = 25
-          Top = 376
-          Width = 30
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 17
-        end
-        object STDFSDirectivity: TStaticText
-          Left = 557
-          Height = 25
-          Top = 416
-          Width = 32
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 18
-        end
-        object STRNGRange: TStaticText
-          Left = 405
-          Height = 21
-          Top = 176
-          Width = 38
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 19
-        end
-        object Label20: TLabel
-          Left = 304
-          Height = 22
-          Top = 176
-          Width = 85
-          Caption = 'Range (km)'
-        end
-        object Panel3: TPanel
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 304
-          Height = 1
-          Top = 160
-          Width = 302
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 5
-          TabOrder = 20
-        end
-        object Label21: TLabel
-          Left = 304
-          Height = 22
-          Top = 136
-          Width = 36
-          Caption = 'RNG'
-          Font.Height = -16
-          Font.Name = 'Sans'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object Label22: TLabel
-          Left = 8
-          Height = 22
-          Top = 418
-          Width = 27
-          Caption = 'WX'
-          Font.Height = -16
-          Font.Name = 'Sans'
-          Font.Style = [fsBold]
-          ParentFont = False
-        end
-        object Panel4: TPanel
-          AnchorSideRight.Control = GroupBox2
-          AnchorSideRight.Side = asrBottom
-          Left = 9
-          Height = 1
-          Top = 448
-          Width = 597
-          Anchors = [akTop, akLeft, akRight]
-          BorderSpacing.Right = 5
-          TabOrder = 21
-        end
-        object Label23: TLabel
-          Left = 8
-          Height = 22
-          Top = 464
-          Width = 132
-          Caption = 'Wind Direction (°)'
-        end
-        object Label24: TLabel
-          Left = 8
-          Height = 22
-          Top = 504
-          Width = 143
-          Caption = 'Wind Speed (km/h)'
-        end
-        object Label25: TLabel
-          Left = 8
-          Height = 22
-          Top = 544
-          Width = 131
-          Caption = 'Wind Gust (km/h)'
-        end
-        object Label16: TLabel
-          Left = 8
-          Height = 22
-          Top = 584
-          Width = 119
-          Caption = 'Temperatur (°C)'
-        end
-        object Label26: TLabel
-          Left = 304
-          Height = 22
-          Top = 464
-          Width = 154
-          Caption = 'Rainfall last 1h (mm)'
-        end
-        object Label28: TLabel
-          Left = 304
-          Height = 22
-          Top = 544
-          Width = 146
-          Caption = 'Rainfall today (mm)'
-        end
-        object Label29: TLabel
-          Left = 304
-          Height = 22
-          Top = 624
-          Width = 96
-          Caption = 'Humidity (%)'
-        end
-        object Label30: TLabel
-          Left = 8
-          Height = 22
-          Top = 624
-          Width = 104
-          Caption = 'Pressure (mb)'
-        end
-        object Label31: TLabel
-          Left = 304
-          Height = 22
-          Top = 664
-          Width = 107
-          Caption = 'Lum (watt/m²)'
-        end
-        object Label33: TLabel
-          Left = 304
-          Height = 22
-          Top = 584
-          Width = 134
-          Caption = 'Raw Rain Counter'
-        end
-        object STWXDirection: TStaticText
-          Left = 208
-          Height = 25
-          Top = 464
-          Width = 86
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 22
-        end
-        object STWXSpeed: TStaticText
-          Left = 208
-          Height = 25
-          Top = 504
-          Width = 86
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 23
-        end
-        object STWXGust: TStaticText
-          Left = 208
-          Height = 25
-          Top = 544
-          Width = 88
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 24
-        end
-        object STWXTemperature: TStaticText
-          Left = 208
-          Height = 25
-          Top = 584
-          Width = 86
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 25
-        end
-        object STWXPressure: TStaticText
-          Left = 208
-          Height = 25
-          Top = 624
-          Width = 86
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 26
-        end
-        object STWXRainFall1h: TStaticText
-          Left = 512
-          Height = 25
-          Top = 464
-          Width = 78
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 27
-        end
-        object Label32: TLabel
-          Left = 8
-          Height = 22
-          Top = 664
-          Width = 170
-          Caption = 'Snowfall last 24h (mm)'
-        end
-        object STWXSnowFall24h: TStaticText
-          Left = 208
-          Height = 25
-          Top = 664
-          Width = 86
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 28
-        end
-        object STWXRainFallToday: TStaticText
-          Left = 512
-          Height = 25
-          Top = 544
-          Width = 78
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 29
-        end
-        object STWXRainCount: TStaticText
-          Left = 512
-          Height = 25
-          Top = 584
-          Width = 77
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 30
-        end
-        object STWXHumidity: TStaticText
-          Left = 512
-          Height = 25
-          Top = 624
-          Width = 77
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 31
-        end
-        object STWXLum: TStaticText
-          Left = 512
-          Height = 25
-          Top = 664
-          Width = 77
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 32
-        end
-        object Label27: TLabel
-          Left = 304
-          Height = 22
-          Top = 504
-          Width = 163
-          Caption = 'Rainfall last 24h (mm)'
-        end
-        object STWXRainFall24h: TStaticText
-          Left = 512
-          Height = 25
-          Top = 504
-          Width = 79
-          Font.Color = clHighlight
-          Font.Height = -15
-          Font.Name = 'Sans'
-          ParentFont = False
-          TabOrder = 33
         end
         object STCallsign: TStaticText
           Left = 432
@@ -866,14 +963,7 @@ object FMain: TFMain
           Font.Height = -15
           Font.Name = 'Sans'
           ParentFont = False
-          TabOrder = 34
-        end
-        object Label34: TLabel
-          Left = 304
-          Height = 22
-          Top = 88
-          Width = 59
-          Caption = 'Callsign'
+          TabOrder = 2
         end
         object ICallsignIcon: TImage
           Left = 405
@@ -885,25 +975,12 @@ object FMain: TFMain
           Proportional = True
           Stretch = True
         end
-        object SPTrack: TSpeedButton
-          AnchorSideLeft.Control = GroupBox2
-          AnchorSideBottom.Control = GroupBox2
-          AnchorSideBottom.Side = asrBottom
-          Left = 8
-          Height = 31
-          Hint = 'Enable Tracking'
-          Top = 997
-          Width = 31
-          AllowAllUp = True
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Left = 8
-          BorderSpacing.Bottom = 2
-          GroupIndex = 1
-          Images = ImageList1
-          ImageIndex = 194
-          ShowHint = True
-          ParentShowHint = False
-          OnClick = SPTrackClick
+        object Label34: TLabel
+          Left = 304
+          Height = 22
+          Top = 88
+          Width = 59
+          Caption = 'Callsign'
         end
         object STIconDescription: TStaticText
           Left = 432
@@ -914,74 +991,29 @@ object FMain: TFMain
           Font.Height = -12
           Font.Name = 'Sans'
           ParentFont = False
-          TabOrder = 35
-        end
-        object sbShowRawMessages: TSpeedButton
-          AnchorSideLeft.Control = SPTrack
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideBottom.Control = GroupBox2
-          AnchorSideBottom.Side = asrBottom
-          Left = 47
-          Height = 31
-          Hint = 'Show Raw Messages'
-          Top = 997
-          Width = 31
-          AllowAllUp = True
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Left = 8
-          BorderSpacing.Bottom = 2
-          GroupIndex = 2
-          Images = ImageList1
-          ImageIndex = 236
-          ShowHint = True
-          ParentShowHint = False
-          OnClick = sbShowRawMessagesClick
-        end
-        object cTracking: TChart
-          Left = 15
-          Height = 200
-          Top = 720
-          Width = 576
-          AxisList = <          
-            item
-              Marks.LabelBrush.Style = bsClear
-              Minors = <>
-              Title.LabelFont.Orientation = 900
-              Title.LabelBrush.Style = bsClear
-            end          
-            item
-              Alignment = calBottom
-              Marks.LabelBrush.Style = bsClear
-              Minors = <>
-              Title.LabelBrush.Style = bsClear
-            end>
-          Title.Text.Strings = (
-            'TAChart'
-          )
-          Color = clDefault
-          Visible = False
+          TabOrder = 3
         end
       end
     end
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
-    Left = 1248
-    Top = 952
+    Left = 1224
+    Top = 1176
   end
   object MVDEFPC1: TMVDEFPC
     ProxyPort = 0
-    Left = 1216
-    Top = 952
+    Left = 1192
+    Top = 1176
   end
   object TMainLoop: TTimer
     OnTimer = TMainLoopTimer
-    Left = 1280
-    Top = 952
+    Left = 1256
+    Top = 1176
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 1344
-    Top = 952
+    Left = 1320
+    Top = 1176
     object MenuItem1: TMenuItem
       Caption = '&File'
       object MIFileExit: TMenuItem
@@ -1028,8 +1060,8 @@ object FMain: TFMain
   end
   object ImageList1: TImageList
     DrawingStyle = dsTransparent
-    Left = 1312
-    Top = 952
+    Left = 1288
+    Top = 1176
     Bitmap = {
       4C7AED0000001000000010000000193B00000000000078DAED9D09785CC595A8
       AFE4553660B399317893C1609390582CC128332C62C210933C88B003080821CD
@@ -1508,8 +1540,8 @@ object FMain: TFMain
     }
   end
   object MvRGBGraphicsDrawingEngine1: TMvRGBGraphicsDrawingEngine
-    Left = 1184
-    Top = 952
+    Left = 1160
+    Top = 1176
   end
   object TrayIcon1: TTrayIcon
     PopUpMenu = pmTray
@@ -3504,13 +3536,13 @@ object FMain: TFMain
     }
     Visible = True
     OnClick = actShowHideExecute
-    Left = 1464
-    Top = 952
+    Left = 1440
+    Top = 1176
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 1376
-    Top = 952
+    Left = 1352
+    Top = 1176
     object actShowHide: TAction
       Caption = 'Show/Hide'
       OnExecute = actShowHideExecute
@@ -3533,8 +3565,8 @@ object FMain: TFMain
   end
   object pmTray: TPopupMenu
     Images = ImageList1
-    Left = 1496
-    Top = 952
+    Left = 1472
+    Top = 1176
     object MenuItem3: TMenuItem
       Action = actShowHide
     end
@@ -3544,12 +3576,12 @@ object FMain: TFMain
   end
   object UniqueInstance1: TUniqueInstance
     Enabled = True
-    Left = 1152
-    Top = 952
+    Left = 1128
+    Top = 1176
   end
   object tRefresh: TTimer
     OnTimer = tRefreshTimer
-    Left = 1120
-    Top = 952
+    Left = 1096
+    Top = 1176
   end
 end
