@@ -19,6 +19,7 @@ type
     procedure Execute; override;
   public
     ModeSMessageList: TFPHashList;
+    Error: Boolean;
     procedure LoadAircraftsFromDump1090;
     procedure Stop;
     constructor Create(Config: PAPRSConfig);
@@ -44,6 +45,7 @@ begin
   FreeOnTerminate := True;
   ModeSMessageList := TFPHashList.Create;
   RunDump190Server;
+  Error := False;
   Start;
 end;
 
@@ -102,6 +104,7 @@ begin
     except
       on E: Exception do
       begin
+        Error := True;
         {$IFDEF UNIX}
         writeln('HTTP connection failed: ', E.Message);
         {$ENDIF}

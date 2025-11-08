@@ -501,7 +501,6 @@ var msg: PAPRSMessage;
 begin
   try
     MAPRSMessage.Lines.Clear;
-    cTracking.Visible := False;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
@@ -803,9 +802,12 @@ begin
   if APRSConfig.IGateEnabled then
   begin
     try
-      buffer := IGate.APRSBuffer;
-      IGate.APRSBuffer := '';
-      AddPoI(IGate.DecodeAPRSMessage(buffer));
+      if not IGate.Error then
+      begin
+        buffer := IGate.APRSBuffer;
+        IGate.APRSBuffer := '';
+        AddPoI(IGate.DecodeAPRSMessage(buffer));
+      end;
     except
       on E: Exception do
       begin
@@ -826,7 +828,7 @@ begin
       {$ENDIF}
   end;
 
-  if Assigned(ModeS.ModeSMessageList) then
+  if not ModeS.Error and Assigned(ModeS.ModeSMessageList) then
     if ModeS.ModeSMessageList.Count > 0 then
     begin
       if ModeSCount >= ModeS.ModeSMessageList.Count then

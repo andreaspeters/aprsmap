@@ -55,6 +55,9 @@ begin
     Exit;
   end;
 
+  for i := 0 to High(Buffer) do
+      Buffer[i] := #0;
+
   while not Terminated do
   begin
     BytesRead := FpRead(Pipe, Buffer, SizeOf(Buffer) - 1);
@@ -67,6 +70,7 @@ begin
       end;
       PipeData := Text;
     end;
+    sleep(100);
   end;
   FpClose(Pipe);
 end;

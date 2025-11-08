@@ -18,6 +18,7 @@ type
     procedure Execute; override;
   public
     APRSBuffer: String;
+    Error: Boolean;
     procedure Disconnect;
     function DecodeAPRSMessage(const Data: String): TAPRSMessage;
     constructor Create(Config: PTAPRSConfig);
@@ -40,6 +41,7 @@ begin
   inherited Create(True);
   FConfig := Config;
   FreeOnTerminate := True;
+  Error := False;
   Start;
 end;
 
@@ -84,6 +86,7 @@ begin
       if i = 0 then
       begin
         writeln('Cannot Resolve '+FConfig^.IGateServer);
+        Error := False;
         Exit;
       end;
       Addr.sin_addr := Host[1];
@@ -93,11 +96,12 @@ begin
     if SockState < 0 then
     begin
       fpShutdown(FSocket,  SHUT_RDWR);
-      write('Failed to connect to AGWPE server: ' + IntToStr(SockState));
+      write('Failed to connect to IGate server: ' + IntToStr(SockState));
+      Error := False;
       Exit;
     end;
 
-    LoginString := Format('user %s pass %s vers aprsmap/flexpacket v0.1.0 filter %s'#10,
+    LoginString := Format('user %s pass %s vers aprsmap v0.5.0 filter %s'#10,
       [FConfig^.Callsign, FConfig^.IGatePassword, FConfig^.IGateFilter]);
 
     LoginString := StringReplace(LoginString, '<LAT>', Format('%.2f',[FConfig^.Latitude]), []);
@@ -125,7 +129,7 @@ begin
       finally
         Lines.Free;
       end;
-      sleep(10);
+      sleep(100);
     end;
   finally
     Disconnect;
