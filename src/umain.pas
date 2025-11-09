@@ -166,6 +166,7 @@ type
     procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
+    procedure PageControl1Change(Sender: TObject);
     procedure sbShowRawMessagesClick(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
@@ -226,15 +227,6 @@ begin
   OrigWidth := APRSConfig.MainWidth;
   OrigHeight := APRSConfig.MainHeight;
 
-  Width := APRSConfig.MainWidth;
-  Height := APRSConfig.MainHeight;
-
-  if (APRSConfig.MainPosX > 0) and (APRSConfig.MainPosY > 0) then
-  begin
-    Top := APRSConfig.MainPosY;
-    Left := APRSConfig.MainPosX;
-  end;
-
   MVMap.Engine.AddMapProvider('OpenStreetMap Local Tiles', ptEPSG3857, 'file:///'+APRSConfig.LocalTilesDirectory+'/%z%/%x%/%y%.png', 0, 19, 3,Nil);
 
   TBZoomMap.Position := MVMap.Zoom;
@@ -291,8 +283,8 @@ procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   IsClosing := True;
 
-  APRSConfig.MainPosY := Top;
-  APRSConfig.MainPosX := Left;
+  APRSConfig.MainPosY := FMain.Top;
+  APRSConfig.MainPosX := FMain.Left;
   APRSConfig.MainWidth := Width;
   APRSConfig.MainHeight := Height;
 
@@ -336,7 +328,15 @@ begin
 
   FRAWMessage.SetConfig(@APRSConfig);
   FRAWMessage.Visible := APRSConfig.RawMessageVisible;
-  tsTracking.TabVisible := False;
+
+  Width := APRSConfig.MainWidth;
+  Height := APRSConfig.MainHeight;
+
+  if (APRSConfig.MainPosX > 0) and (APRSConfig.MainPosY > 0) then
+  begin
+    Top := APRSConfig.MainPosY;
+    Left := APRSConfig.MainPosX;
+  end;
 end;
 
 procedure TFMain.ChangeMapProvider(Sender: TObject);
@@ -399,6 +399,7 @@ begin
 
   if Length(description) > 0 then
   begin
+    // Show/Hide POIs on Map
     for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
     begin
       msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
@@ -474,6 +475,16 @@ begin
     LastZoom := i;
 end;
 
+procedure TFMain.PageControl1Change(Sender: TObject);
+var msg: PAPRSMessage;
+begin
+  msg := APRSMessageList.Find(STCallsign.Caption);
+  if not Assigned(msg) then
+    Exit;
+
+  msg^.ActiveTabSheet := (Sender as TPageControl).ActivePage;
+end;
+
 procedure TFMain.sbShowRawMessagesClick(Sender: TObject);
 var msg: PAPRSMessage;
 begin
@@ -506,7 +517,6 @@ var msg: PAPRSMessage;
 begin
   try
     MAPRSMessage.Lines.Clear;
-    tsTracking.TabVisible := False;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
@@ -572,7 +582,6 @@ begin
       if Assigned(msg^.Track) and (msg^.Track.Points.Count > 1) then
       begin
         cTracking.ClearSeries;
-        tsTracking.TabVisible := True;
 
         AltitudePoint := TLineSeries.Create(cTracking);
         AltitudePoint.Title := 'Altitude (m)';
@@ -884,6 +893,7 @@ end;
 procedure TFMain.tRefreshTimer(Sender: TObject);
 begin
   SelectPoI(Sender);
+
 end;
 
 // Delete callsign from Combobox

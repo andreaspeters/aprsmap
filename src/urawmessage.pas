@@ -19,6 +19,7 @@ type
     MenuItem1: TMenuItem;
     mRawMessage: TMemo;
     procedure actCloseExecute(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
   private
@@ -78,9 +79,14 @@ end;
 
 procedure TFRawMessage.actCloseExecute(Sender: TObject);
 begin
+  close;
+end;
+
+procedure TFRawMessage.FormClose(Sender: TObject; var CloseAction: TCloseAction
+  );
+begin
   IsClosing := True;
   FMain.sbShowRawMessages.Down := False;
-  close;
 end;
 
 end.

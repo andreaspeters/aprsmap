@@ -5,7 +5,7 @@ unit utypes;
 interface
 
 uses
-  Classes, SysUtils, Process, mvGpsObj;
+  Classes, SysUtils, Process, mvGpsObj, Forms, Controls, ComCtrls;
 
 type
   { Icon Primary meaning
@@ -64,6 +64,7 @@ type
     RAWMessages: TStringList;
     Count: Integer;
     Visible: Boolean;
+    ActiveTabSheet: TTabSheet;
   end;
 
   TAPRSConfig = record

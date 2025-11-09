@@ -69,7 +69,7 @@ object FMain: TFMain
         POIImages = ImageList1
         POIImagesWidth = 16
         POITextBgColor = clWhite
-        Zoom = 16
+        Zoom = 14
         OnZoomChange = MVMapZoomChange
         OnMouseDown = MVMapMouseDown
         OnMouseMove = ShowMapMousePosition
@@ -212,6 +212,7 @@ object FMain: TFMain
         BorderSpacing.Right = 4
         TabIndex = 0
         TabOrder = 1
+        OnChange = PageControl1Change
         object tsMain: TTabSheet
           Caption = 'PoI'
           ClientHeight = 695
