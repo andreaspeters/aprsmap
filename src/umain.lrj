@@ -38,6 +38,8 @@
 {"hash":216741593,"name":"tfmain.label27.caption","sourcebytes":[82,97,105,110,102,97,108,108,32,108,97,115,116,32,50,52,104,32,40,109,109,41],"value":"Rainfall last 24h (mm)"},
 {"hash":49935321,"name":"tfmain.cwxtemperatur.axislist[0].title.caption","sourcebytes":[84,101,109,112,101,114,97,116,117,114,32,40,194,176,67,41],"value":"Temperatur (\u00B0C)"},
 {"hash":372789,"name":"tfmain.cwxtemperatur.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},
+{"hash":268327385,"name":"tfmain.cwxpressure.axislist[0].title.caption","sourcebytes":[80,114,101,115,115,117,114,101,32,40,109,98,41],"value":"Pressure (mb)"},
+{"hash":372789,"name":"tfmain.cwxpressure.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},
 {"hash":142220279,"name":"tfmain.tstracking.caption","sourcebytes":[84,114,97,99,107,105,110,103],"value":"Tracking"},
 {"hash":254058057,"name":"tfmain.ctracking.axislist[0].title.caption","sourcebytes":[65,108,116,105,116,117,100,101,32,40,109,41],"value":"Altitude (m)"},
 {"hash":372789,"name":"tfmain.ctracking.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},

@@ -1,10 +1,10 @@
 object FMain: TFMain
   Left = 800
-  Height = 1163
+  Height = 1197
   Top = 675
   Width = 1574
   Caption = 'APRS Map'
-  ClientHeight = 1163
+  ClientHeight = 1197
   ClientWidth = 1574
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
@@ -21,7 +21,7 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 25
-    Top = 1138
+    Top = 1172
     Width = 1574
     Panels = <    
       item
@@ -38,7 +38,7 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1138
+    Height = 1172
     Top = 0
     Width = 1574
     Align = alClient
@@ -46,15 +46,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1138
+      Height = 1172
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1138
+      ClientHeight = 1172
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1131
+        Height = 1165
         Top = 0
         Width = 950
         Active = True
@@ -83,7 +83,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 1115
+        Top = 1149
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -100,11 +100,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1138
+      Height = 1172
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 1138
+      ClientHeight = 1172
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -200,7 +200,7 @@ object FMain: TFMain
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = Panel4
         Left = 0
-        Height = 684
+        Height = 718
         Top = 412
         Width = 615
         ActivePage = tsWX
@@ -213,7 +213,7 @@ object FMain: TFMain
         OnChange = PageControl1Change
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 647
+          ClientHeight = 681
           ClientWidth = 605
           object Label4: TLabel
             Left = 10
@@ -567,7 +567,7 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 647
+          ClientHeight = 681
           ClientWidth = 605
           object Label23: TLabel
             Left = 8
@@ -790,8 +790,8 @@ object FMain: TFMain
             AnchorSideRight.Control = tsWX
             AnchorSideRight.Side = asrBottom
             Left = 0
-            Height = 192
-            Top = 312
+            Height = 200
+            Top = 280
             Width = 605
             AxisList = <            
               item
@@ -813,6 +813,7 @@ object FMain: TFMain
                 Range.Max = 10
                 Range.UseMax = True
                 Range.UseMin = True
+                Title.Visible = True
                 Title.Caption = 'Time'
                 Title.LabelBrush.Style = bsClear
               end>
@@ -823,10 +824,50 @@ object FMain: TFMain
             Anchors = [akTop, akLeft, akRight]
             Color = clBackground
           end
+          object cWXPressure: TChart
+            AnchorSideLeft.Control = tsWX
+            AnchorSideRight.Control = tsWX
+            AnchorSideRight.Side = asrBottom
+            Left = 0
+            Height = 200
+            Top = 488
+            Width = 605
+            AxisList = <            
+              item
+                Marks.LabelBrush.Style = bsClear
+                Minors = <>
+                Range.Max = 10
+                Range.UseMin = True
+                Title.LabelFont.Orientation = 900
+                Title.Visible = True
+                Title.Caption = 'Pressure (mb)'
+                Title.LabelBrush.Style = bsClear
+              end            
+              item
+                Intervals.MaxLength = 100
+                Intervals.MinLength = 20
+                Alignment = calBottom
+                Marks.Format = '%.0f'
+                Marks.LabelBrush.Style = bsClear
+                Marks.Style = smsCustom
+                Minors = <>
+                Range.Max = 10
+                Range.UseMax = True
+                Range.UseMin = True
+                Title.Visible = True
+                Title.Caption = 'Time'
+                Title.LabelBrush.Style = bsClear
+              end>
+            Title.Text.Strings = (
+              'Pressure'
+            )
+            Title.Visible = True
+            Anchors = [akTop, akLeft, akRight]
+          end
         end
         object tsTracking: TTabSheet
           Caption = 'Tracking'
-          ClientHeight = 647
+          ClientHeight = 681
           ClientWidth = 605
           object cTracking: TChart
             AnchorSideLeft.Control = tsTracking
@@ -1001,7 +1042,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 33
-        Top = 1105
+        Top = 1139
         Width = 619
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = True

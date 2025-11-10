@@ -45,7 +45,7 @@ type
     WXSpeed: Integer;
     WXGust: Integer;
     WXTemperature: TIntegerList;
-    WXPressure: Double;
+    WXPressure: TIntegerList;
     WXLum: Integer;
     WXSnowFall: Integer;
     WXRainCount: Integer;

@@ -26,6 +26,7 @@ type
     CBEFilter: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEPOIList: TComboBoxEx;
+    cWXPressure: TChart;
     cWXTemperatur: TChart;
     cTracking: TChart;
     GroupBox1: TGroupBox;
@@ -559,7 +560,7 @@ begin
       STWXDirection.Caption := IntToStr(msg^.WXDirection);
       STWXSpeed.Caption := IntToStr(msg^.WXSpeed);
       STWXGust.Caption := IntToStr(msg^.WXGust);
-      STWXPressure.Caption := FloatToStr(msg^.WXPressure);
+
       STWXRainFall1h.Caption := IntToStr(msg^.WXRainFall1h);
       STWXRainFall24h.Caption := IntToStr(msg^.WXRainFall24h);
       STWXRainFallToday.Caption := IntToStr(msg^.WXRainFallToday);
@@ -571,6 +572,9 @@ begin
 
       if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
         STWXTemperature.Caption := IntToStr(msg^.WXTemperature[msg^.WXTemperature.Count-1]);
+
+      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
+        STWXPressure.Caption := FloatToStr(msg^.WXPressure[msg^.WXPressure.Count-1]);
 
       if not (Sender is TTimer) then
       begin
@@ -611,6 +615,9 @@ begin
       if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count >= 1) then
         WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
 
+      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count >= 1) then
+        WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
+
 
       FRawMessage.mRawMessage.Clear;
 
@@ -633,31 +640,35 @@ end;
 procedure TFMain.WriteChart(X: TIntegerList; Title: String; AOwner: TComponent);
 var ChartPoint: TLineSeries;
     i: Integer;
+    wxChart: TChart;
 begin
-  if not Assigned(X) or (X.count <= 0) then
+  if not Assigned(X) or (X.count <= 0) or not (AOwner is TChart) then
     Exit;
+
 
   ChartPoint := TLineSeries.Create(AOwner);
   ChartPoint.LinePen.Width := 2;
   ChartPoint.SeriesColor := clRed;
 
-  cWXTemperatur.AddSeries(ChartPoint);
+  wxChart := TChart(AOwner);
+  wxChart.AddSeries(ChartPoint);
 
-  cWXTemperatur.BottomAxis.Intervals.MaxLength := 100;
-  cWXTemperatur.BottomAxis.Intervals.MinLength := 20;
-  cWXTemperatur.BottomAxis.Marks.Format := '%0.f';
+  wxChart.BottomAxis.Intervals.MaxLength := 100;
+  wxChart.BottomAxis.Intervals.MinLength := 20;
+  wxChart.BottomAxis.Marks.Format := '%0.f';
 
   // Keep the Chart X clean
   if X.Count > 10 then
-    cWXTemperatur.BottomAxis.Range.Max := X.Count
+    wxChart.BottomAxis.Range.Max := X.Count
   else
-    cWXTemperatur.BottomAxis.Range.Max := 10;
+    wxChart.BottomAxis.Range.Max := 10;
 
-  cWXTemperatur.BottomAxis.Range.Min := 0;
-  cWXTemperatur.BottomAxis.Range.UseMin := True;
-  cWXTemperatur.BottomAxis.Range.UseMax := True;
-  cWXTemperatur.BottomAxis.Title.Caption := 'Time';
-  cWXTemperatur.LeftAxis.Title.Caption := Title;
+  wxChart.BottomAxis.Range.Min := 0;
+  wxChart.BottomAxis.Range.UseMin := True;
+  wxChart.BottomAxis.Range.UseMax := True;
+  wxChart.BottomAxis.Title.Caption := 'Time';
+  wxChart.BottomAxis.Title.Visible := True;
+  wxChart.LeftAxis.Title.Caption := Title;
 
   for i := 0 to X.Count - 1 do
     ChartPoint.AddXY(i, X[i]);

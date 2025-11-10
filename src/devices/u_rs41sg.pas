@@ -9,6 +9,8 @@ uses
 
 procedure RS41SGP(msg: PAPRSMessage);
 function GetTemperature(const Text: String):Integer;
+function GetHumidity(const Text: String):Integer;
+function GetPressure(const Text: String):Integer;
 
 implementation
 
@@ -18,7 +20,7 @@ begin
   begin
     msg^.WXTemperature.Add(GetTemperature(msg^.Message));
     msg^.WXHumidity := GetTemperature(msg^.Message);
-    msg^.WXPressure := GetTemperature(msg^.Message);
+    msg^.WXPressure.Add(GetPressure(msg^.Message));
   end;
 end;
 

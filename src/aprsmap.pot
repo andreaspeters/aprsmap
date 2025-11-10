@@ -84,6 +84,16 @@ msgctxt "tfmain.ctracking.axislist[1].title.caption"
 msgid "Time"
 msgstr ""
 
+#: tfmain.cwxpressure.axislist[0].title.caption
+msgctxt "tfmain.cwxpressure.axislist[0].title.caption"
+msgid "Pressure (mb)"
+msgstr ""
+
+#: tfmain.cwxpressure.axislist[1].title.caption
+msgctxt "tfmain.cwxpressure.axislist[1].title.caption"
+msgid "Time"
+msgstr ""
+
 #: tfmain.cwxtemperatur.axislist[0].title.caption
 msgctxt "tfmain.cwxtemperatur.axislist[0].title.caption"
 msgid "Temperatur (°C)"
@@ -205,6 +215,7 @@ msgid "APRS Message"
 msgstr ""
 
 #: tfmain.label30.caption
+msgctxt "tfmain.label30.caption"
 msgid "Pressure (mb)"
 msgstr ""
 
