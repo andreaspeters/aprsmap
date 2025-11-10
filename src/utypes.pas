@@ -5,7 +5,7 @@ unit utypes;
 interface
 
 uses
-  Classes, SysUtils, Process, mvGpsObj, Forms, Controls, ComCtrls;
+  Classes, SysUtils, Process, mvGpsObj, Forms, Controls, ComCtrls, Generics.Collections;
 
 type
   { Icon Primary meaning
@@ -17,6 +17,8 @@ type
      0-9     Alternate OVERLAY symbols with 0-9 overlayed
      A-Z     Alternate OVERLAY symbols with A-Z overlayed
   }
+
+  TIntegerList = specialize TList<Integer>;
 
   TAPRSMessage = record
     FromCall: String;
@@ -42,7 +44,7 @@ type
     WXDirection: Integer;
     WXSpeed: Integer;
     WXGust: Integer;
-    WXTemperature: Integer;
+    WXTemperature: TIntegerList;
     WXPressure: Double;
     WXLum: Integer;
     WXSnowFall: Integer;

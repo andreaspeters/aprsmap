@@ -93,7 +93,7 @@ var Response: String;
     APRSMessageObject: PAPRSMessage;
     i: Integer;
     Client: TFPHTTPClient;
-
+    Root: TJSONData;
 begin
   try
     Client := TFPHTTPClient.Create(nil);
@@ -121,13 +121,20 @@ begin
     if Length(Response) > 0 then
     begin
       try
-        Items := TJSONArray(GetJSON(Response));
+        Root := GetJSON(Response);
+        if Root.JSONType = jtArray then
+          Items := TJSONArray(Root)
+        else
+          Exit;
+
         if Items.Count <= 0 then
           Exit;
 
         for i := 0 to Items.Count - 1 do
         begin
           Obj := Items.Objects[i];
+          if Obj.JSONType <> jtObject then
+            Continue;
 
           new(APRSMessageObject);
 

@@ -71,6 +71,9 @@ begin
   if (Length(msg^.FromCall) <= 0) then
     Exit;
 
+  if msg^.ModeS then
+    Exit;
+
   if Length(msg^.FromCall) > 0 then
   begin
     item := lvCallsigns.Items.Insert(0);

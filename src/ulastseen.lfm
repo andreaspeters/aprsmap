@@ -6,10 +6,11 @@ object FLastSeen: TFLastSeen
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
   Caption = 'APRSMap - LastSeen'
-  ClientHeight = 1156
+  ClientHeight = 1184
   ClientWidth = 261
   Menu = MainMenu1
   Position = poDefault
+  LCLVersion = '4.4.0.0'
   Visible = True
   OnHide = FormHide
   object lvCallsigns: TListView

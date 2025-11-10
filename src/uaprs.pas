@@ -7,7 +7,9 @@ interface
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
   mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math,
-  FPImage, IntfGraphics, GraphType;
+  FPImage, IntfGraphics, GraphType,
+  u_rs41sg
+  ;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
@@ -591,10 +593,11 @@ begin
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
 
+        APRSMessageObject.WXTemperature := TIntegerList.Create;
+        APRSMessageObject.WXTemperature.Add(0);
         APRSMessageObject.WXDirection := 0;
         APRSMessageObject.WXSpeed := 0;
         APRSMessageObject.WXGust := 0;
-        APRSMessageObject.WXTemperature := 0;
         APRSMessageObject.WXRainFall1h := 0;
         APRSMessageObject.WXRainFall24h := 0;
         APRSMessageObject.WXRainFallToday := 0;
@@ -609,7 +612,7 @@ begin
           APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
           APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
           APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
-          APRSMessageObject.WXTemperature := Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9);
+          APRSMessageObject.WXTemperature.Add(Round((StrToInt(GetWX(APRSMessageObject.Message,'t')) - 32)*5/9));
           APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
           APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
           APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
@@ -622,6 +625,9 @@ begin
 
         APRSMessageObject.Time := now();
       end;
+
+
+      RS41SGP(@APRSMessageObject);
     end;
 
     // text, bulletins, announcement and some telemetry messages

@@ -41,6 +41,7 @@ msgid "    Callsign"
 msgstr ""
 
 #: tflastseen.lvcallsigns.columns[1].caption
+msgctxt "tflastseen.lvcallsigns.columns[1].caption"
 msgid "Distance (km)"
 msgstr ""
 
@@ -71,6 +72,26 @@ msgstr ""
 #: tfmain.caption
 msgctxt "tfmain.caption"
 msgid "APRS Map"
+msgstr ""
+
+#: tfmain.ctracking.axislist[0].title.caption
+msgctxt "tfmain.ctracking.axislist[0].title.caption"
+msgid "Altitude (m)"
+msgstr ""
+
+#: tfmain.ctracking.axislist[1].title.caption
+msgctxt "tfmain.ctracking.axislist[1].title.caption"
+msgid "Time"
+msgstr ""
+
+#: tfmain.cwxtemperatur.axislist[0].title.caption
+msgctxt "tfmain.cwxtemperatur.axislist[0].title.caption"
+msgid "Temperatur (°C)"
+msgstr ""
+
+#: tfmain.cwxtemperatur.axislist[1].title.caption
+msgctxt "tfmain.cwxtemperatur.axislist[1].title.caption"
+msgid "Time"
 msgstr ""
 
 #: tfmain.groupbox1.caption
@@ -114,6 +135,7 @@ msgid "Strength"
 msgstr ""
 
 #: tfmain.label16.caption
+msgctxt "tfmain.label16.caption"
 msgid "Temperatur (°C)"
 msgstr ""
 
@@ -143,10 +165,6 @@ msgstr ""
 
 #: tfmain.label21.caption
 msgid "RNG"
-msgstr ""
-
-#: tfmain.label22.caption
-msgid "Altitude"
 msgstr ""
 
 #: tfmain.label23.caption
@@ -219,6 +237,7 @@ msgid "Longitude"
 msgstr ""
 
 #: tfmain.label6.caption
+msgctxt "tfmain.label6.caption"
 msgid "Altitude (m)"
 msgstr ""
 

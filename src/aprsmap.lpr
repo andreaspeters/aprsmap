@@ -13,8 +13,8 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe, utypes,
-  uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage
-  { you can add units after this };
+  uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage,
+  u_rs41sg;
 
 {$R *.res}
 

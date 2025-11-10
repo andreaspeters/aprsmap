@@ -26,6 +26,7 @@ type
     CBEFilter: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEPOIList: TComboBoxEx;
+    cWXTemperatur: TChart;
     cTracking: TChart;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -46,7 +47,6 @@ type
     Label2: TLabel;
     Label20: TLabel;
     Label21: TLabel;
-    Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
@@ -98,6 +98,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
+    Panel4: TPanel;
     pmTray: TPopupMenu;
     sbShowRawMessages: TSpeedButton;
     Separator1: TMenuItem;
@@ -179,8 +180,9 @@ type
     procedure DelPoiByAge;
     procedure AddPoI(msg: TAPRSMessage);
     procedure SetupFilterCombo;
-    function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
     procedure tRefreshTimer(Sender: TObject);
+    procedure WriteChart(X: TIntegerList; Title: String; AOwner: TComponent);
+    function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
     Debug: Boolean;
@@ -511,12 +513,13 @@ procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
     poiGPS: TGPSObj;
-    AltitudePoint: TLineSeries;
+    ChartPoint: TLineSeries;
     i: Integer;
-    Distance: Double;
 begin
   try
     MAPRSMessage.Lines.Clear;
+    cTracking.ClearSeries;
+    cWXTemperatur.ClearSeries;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
@@ -553,7 +556,6 @@ begin
       STWXDirection.Caption := IntToStr(msg^.WXDirection);
       STWXSpeed.Caption := IntToStr(msg^.WXSpeed);
       STWXGust.Caption := IntToStr(msg^.WXGust);
-      STWXTemperature.Caption := IntToStr(msg^.WXTemperature);
       STWXPressure.Caption := FloatToStr(msg^.WXPressure);
       STWXRainFall1h.Caption := IntToStr(msg^.WXRainFall1h);
       STWXRainFall24h.Caption := IntToStr(msg^.WXRainFall24h);
@@ -562,6 +564,9 @@ begin
       STWXHumidity.Caption := IntToStr(msg^.WXHumidity);
       STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
       STWXLum.Caption := IntToStr(msg^.WXLum);
+
+      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
+        STWXTemperature.Caption := IntToStr(msg^.WXTemperature[msg^.WXTemperature.Count-1]);
 
       if not (Sender is TTimer) then
       begin
@@ -579,26 +584,29 @@ begin
       else
         SPTrack.Down := False;
 
-      if Assigned(msg^.Track) and (msg^.Track.Points.Count > 1) then
+      // update tracking information and chart
+      if Assigned(msg^.Track) and (msg^.Track.Points.Count >= 1) then
       begin
-        cTracking.ClearSeries;
+        ChartPoint := TLineSeries.Create(cTracking);
+        ChartPoint.LinePen.Width := 2;
+        ChartPoint.SeriesColor := clRed;
 
-        AltitudePoint := TLineSeries.Create(cTracking);
-        AltitudePoint.Title := 'Altitude (m)';
-        AltitudePoint.LinePen.Width := 2;
-        AltitudePoint.SeriesColor := clRed;
+        // Keep the Chart X clean
+        if msg^.Track.Points.Count > 10 then
+          cTracking.BottomAxis.Range.Max := msg^.Track.Points.Count
+        else
+          cTracking.BottomAxis.Range.Max := 10;
 
-        cTracking.AddSeries(AltitudePoint);
-
+        cTracking.AddSeries(ChartPoint);
 
         for i := 0 to msg^.Track.Points.Count - 1 do
-        begin
-          Distance := msg^.Track.Points[i].DistanceInKmFrom(TGPSPoint.Create(msg^.Track.Points[0].Lon,msg^.Track.Points[0].Lat),False);
-          AltitudePoint.AddXY(Distance, msg^.Track.Points[i].Elevation);  // (x = km, y = Altitute)
-        end;
+          ChartPoint.AddXY(i, msg^.Track.Points[i].Elevation);
 
-        cTracking.Refresh;
       end;
+
+      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count >= 1) then
+        WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
+
 
       FRawMessage.mRawMessage.Clear;
 
@@ -615,6 +623,40 @@ begin
       {$ENDIF}
     end;
   end;
+end;
+
+// create simple charts
+procedure TFMain.WriteChart(X: TIntegerList; Title: String; AOwner: TComponent);
+var ChartPoint: TLineSeries;
+    i: Integer;
+begin
+  if not Assigned(X) or (X.count <= 0) then
+    Exit;
+
+  ChartPoint := TLineSeries.Create(AOwner);
+  ChartPoint.LinePen.Width := 2;
+  ChartPoint.SeriesColor := clRed;
+
+  cWXTemperatur.AddSeries(ChartPoint);
+
+  cWXTemperatur.BottomAxis.Intervals.MaxLength := 100;
+  cWXTemperatur.BottomAxis.Intervals.MinLength := 20;
+  cWXTemperatur.BottomAxis.Marks.Format := '%0.f';
+
+  // Keep the Chart X clean
+  if X.Count > 10 then
+    cWXTemperatur.BottomAxis.Range.Max := X.Count
+  else
+    cWXTemperatur.BottomAxis.Range.Max := 10;
+
+  cWXTemperatur.BottomAxis.Range.Min := 0;
+  cWXTemperatur.BottomAxis.Range.UseMin := True;
+  cWXTemperatur.BottomAxis.Range.UseMax := True;
+  cWXTemperatur.BottomAxis.Title.Caption := 'Time';
+  cWXTemperatur.LeftAxis.Title.Caption := Title;
+
+  for i := 0 to X.Count - 1 do
+    ChartPoint.AddXY(i, X[i]);
 end;
 
 procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
