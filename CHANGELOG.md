@@ -6,6 +6,8 @@
 - ADD: [raw] Show RAW Messages from a APRS object.
 - ADD: Altitude chart for tracking objects.
 - CHANGE: PoI data move into seperate tab sheets.
+- FIX: ModeS airplace visibility.
+- ADD: Support for RS42-SG Ballon sond.
 
 ## v0.5.0
 

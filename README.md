@@ -16,6 +16,8 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 - Filter to show only a specific kind of PoI.
 - Window of the last seen APRS objects.
 - Show RAW Messages from a APRS object.
+- Show Weather and Tracking Chars.
+- Support for RS41-SG and DFM Weather probe.
 
 ## Download
 

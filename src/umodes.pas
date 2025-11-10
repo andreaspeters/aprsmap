@@ -90,7 +90,7 @@ procedure TModeSThread.LoadAircraftsFromDump1090;
 var Response: String;
     Obj: TJSONObject;
     Items: TJSONArray;
-    APRSMessageObject: PAPRSMessage;
+    oldMsg, APRSMessageObject: PAPRSMessage;
     i: Integer;
     Client: TFPHTTPClient;
     Root: TJSONData;
@@ -160,8 +160,9 @@ begin
           APRSMessageObject^.ImageIndex := 7;
 
           if Length(APRSMessageObject^.FromCall) > 0 then
+          begin
             ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject);
-
+          end;
         end;
       except
         on E: Exception do

@@ -167,6 +167,11 @@ msgstr ""
 msgid "RNG"
 msgstr ""
 
+#: tfmain.label22.caption
+msgctxt "tfmain.label22.caption"
+msgid "Last Update"
+msgstr ""
+
 #: tfmain.label23.caption
 msgid "Wind Direction (°)"
 msgstr ""
@@ -226,6 +231,11 @@ msgstr ""
 
 #: tfmain.label36.caption
 msgid "Filter"
+msgstr ""
+
+#: tfmain.label37.caption
+msgctxt "tfmain.label37.caption"
+msgid "Last Update"
 msgstr ""
 
 #: tfmain.label4.caption

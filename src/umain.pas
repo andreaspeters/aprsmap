@@ -47,6 +47,7 @@ type
     Label2: TLabel;
     Label20: TLabel;
     Label21: TLabel;
+    Label22: TLabel;
     Label23: TLabel;
     Label24: TLabel;
     Label25: TLabel;
@@ -62,6 +63,7 @@ type
     Label34: TLabel;
     Label35: TLabel;
     Label36: TLabel;
+    Label37: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
@@ -118,6 +120,7 @@ type
     STGain: TStaticText;
     STHeight: TStaticText;
     STIconDescription: TStaticText;
+    stLastUpdate: TStaticText;
     STLatitude: TStaticText;
     STLatitudeDMS: TStaticText;
     STLongitude: TStaticText;
@@ -564,6 +567,7 @@ begin
       STWXHumidity.Caption := IntToStr(msg^.WXHumidity);
       STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
       STWXLum.Caption := IntToStr(msg^.WXLum);
+      STLastUpdate.Caption := FormatDateTime('dd.mm.yyyy - hh:nn:ss', msg^.Time);
 
       if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
         STWXTemperature.Caption := IntToStr(msg^.WXTemperature[msg^.WXTemperature.Count-1]);
@@ -760,7 +764,7 @@ begin
   begin
     try
       msg := ModeS.ModeSMessageList.Items[i];
-      if not Assigned(APRSMessageList.Find(msg^.FromCall)) then
+      if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
       begin
         ModeS.ModeSMessageList.Delete(i);
         Continue;
@@ -889,6 +893,7 @@ begin
   end;
 
   if not ModeS.Error and Assigned(ModeS.ModeSMessageList) then
+  begin
     if ModeS.ModeSMessageList.Count > 0 then
     begin
       if ModeSCount >= ModeS.ModeSMessageList.Count then
@@ -912,6 +917,7 @@ begin
       end;
       inc(ModeSCount);
     end;
+  end;
 end;
 
 // Check if track with given Points already exist
