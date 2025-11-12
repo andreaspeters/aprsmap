@@ -52,7 +52,7 @@ type
     WXRainFall1h: Integer;
     WXRainFall24h: Integer;
     WXRainFallToday: Integer;
-    WXHumidity: Byte;
+    WXHumidity: TIntegerList;
     Message: String;
     ID: Integer;
     Time: TTime;

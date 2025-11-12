@@ -40,6 +40,8 @@
 {"hash":372789,"name":"tfmain.cwxtemperatur.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},
 {"hash":268327385,"name":"tfmain.cwxpressure.axislist[0].title.caption","sourcebytes":[80,114,101,115,115,117,114,101,32,40,109,98,41],"value":"Pressure (mb)"},
 {"hash":372789,"name":"tfmain.cwxpressure.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},
+{"hash":71767497,"name":"tfmain.cwxhumidity.axislist[0].title.caption","sourcebytes":[72,117,109,105,100,105,116,121,32,40,37,41],"value":"Humidity (%)"},
+{"hash":372789,"name":"tfmain.cwxhumidity.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},
 {"hash":142220279,"name":"tfmain.tstracking.caption","sourcebytes":[84,114,97,99,107,105,110,103],"value":"Tracking"},
 {"hash":254058057,"name":"tfmain.ctracking.axislist[0].title.caption","sourcebytes":[65,108,116,105,116,117,100,101,32,40,109,41],"value":"Altitude (m)"},
 {"hash":372789,"name":"tfmain.ctracking.axislist[1].title.caption","sourcebytes":[84,105,109,101],"value":"Time"},

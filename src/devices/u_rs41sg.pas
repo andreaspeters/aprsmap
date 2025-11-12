@@ -19,7 +19,7 @@ begin
   if (Pos('Type=RS41-SGP', msg^.Message) > 0) or (Pos('Type=DFM', msg^.Message) > 0) then
   begin
     msg^.WXTemperature.Add(GetTemperature(msg^.Message));
-    msg^.WXHumidity := GetTemperature(msg^.Message);
+    msg^.WXHumidity.Add(GetTemperature(msg^.Message));
     msg^.WXPressure.Add(GetPressure(msg^.Message));
   end;
 end;

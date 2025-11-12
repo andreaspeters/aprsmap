@@ -29,6 +29,8 @@ type
     cWXPressure: TChart;
     cWXTemperatur: TChart;
     cTracking: TChart;
+    cWXHumidity: TChart;
+    FlowPanel1: TFlowPanel;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
@@ -104,6 +106,8 @@ type
     Panel4: TPanel;
     pmTray: TPopupMenu;
     sbShowRawMessages: TSpeedButton;
+    ScrollBox1: TScrollBox;
+    ScrollBox2: TScrollBox;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -524,6 +528,8 @@ begin
     MAPRSMessage.Lines.Clear;
     cTracking.ClearSeries;
     cWXTemperatur.ClearSeries;
+    cWXPressure.ClearSeries;
+    cWXHumidity.ClearSeries;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
@@ -565,7 +571,6 @@ begin
       STWXRainFall24h.Caption := IntToStr(msg^.WXRainFall24h);
       STWXRainFallToday.Caption := IntToStr(msg^.WXRainFallToday);
       STWXRainCount.Caption := IntToStr(msg^.WXRainCount);
-      STWXHumidity.Caption := IntToStr(msg^.WXHumidity);
       STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
       STWXLum.Caption := IntToStr(msg^.WXLum);
       STLastUpdate.Caption := FormatDateTime('dd.mm.yyyy - hh:nn:ss', msg^.Time);
@@ -575,6 +580,9 @@ begin
 
       if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
         STWXPressure.Caption := FloatToStr(msg^.WXPressure[msg^.WXPressure.Count-1]);
+
+      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
+        STWXHumidity.Caption := FloatToStr(msg^.WXHumidity[msg^.WXHumidity.Count-1]);
 
       if not (Sender is TTimer) then
       begin
@@ -617,6 +625,9 @@ begin
 
       if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count >= 1) then
         WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
+
+      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count >= 1) then
+        WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
 
 
       FRawMessage.mRawMessage.Clear;

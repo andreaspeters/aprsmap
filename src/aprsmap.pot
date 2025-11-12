@@ -84,6 +84,16 @@ msgctxt "tfmain.ctracking.axislist[1].title.caption"
 msgid "Time"
 msgstr ""
 
+#: tfmain.cwxhumidity.axislist[0].title.caption
+msgctxt "tfmain.cwxhumidity.axislist[0].title.caption"
+msgid "Humidity (%)"
+msgstr ""
+
+#: tfmain.cwxhumidity.axislist[1].title.caption
+msgctxt "tfmain.cwxhumidity.axislist[1].title.caption"
+msgid "Time"
+msgstr ""
+
 #: tfmain.cwxpressure.axislist[0].title.caption
 msgctxt "tfmain.cwxpressure.axislist[0].title.caption"
 msgid "Pressure (mb)"
@@ -207,6 +217,7 @@ msgid "Rainfall today (mm)"
 msgstr ""
 
 #: tfmain.label29.caption
+msgctxt "tfmain.label29.caption"
 msgid "Humidity (%)"
 msgstr ""
 

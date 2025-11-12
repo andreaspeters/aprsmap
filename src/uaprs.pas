@@ -597,6 +597,9 @@ begin
         APRSMessageObject.WXTemperature.Add(0);
         APRSMessageObject.WXPressure := TIntegerList.Create;
         APRSMessageObject.WXPressure.Add(0);
+        APRSMessageObject.WXHumidity := TIntegerList.Create;
+        APRSMessageObject.WXHumidity.Add(0);
+
 
         APRSMessageObject.WXDirection := 0;
         APRSMessageObject.WXSpeed := 0;
@@ -604,7 +607,6 @@ begin
         APRSMessageObject.WXRainFall1h := 0;
         APRSMessageObject.WXRainFall24h := 0;
         APRSMessageObject.WXRainFallToday := 0;
-        APRSMessageObject.WXHumidity := 0;
         APRSMessageObject.WXLum := 0;
         APRSMessageObject.WXSnowFall := 0;
         APRSMessageObject.WXRainCount := 0;
@@ -618,7 +620,7 @@ begin
           APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
           APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
           APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
-          APRSMessageObject.WXHumidity := StrToInt(GetWX(APRSMessageObject.Message,'h'));
+          APRSMessageObject.WXHumidity.Add(StrToInt(GetWX(APRSMessageObject.Message,'h')));
           APRSMessageObject.WXPressure.Add(Round(StrToInt(GetWX(APRSMessageObject.Message, 'b')) / 10));
           APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
           APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
