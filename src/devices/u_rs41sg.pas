@@ -32,7 +32,7 @@ begin
   try
     Regex.Expression := 't=(-?\d+(?:\.\d+))(\S)';
 
-    Regex.ModifierI := True;
+    Regex.ModifierI := false;
     if Regex.Exec(Text) then
     begin
        if Regex.SubExprMatchCount >= 2 then
@@ -57,7 +57,7 @@ begin
   try
     Regex.Expression := 'h=(\d+(?:\.\d+))%';
 
-    Regex.ModifierI := True;
+    Regex.ModifierI := false;
     if Regex.Exec(Text) then
     begin
       if Regex.SubExprMatchCount >= 1 then
@@ -78,7 +78,7 @@ begin
   try
     Regex.Expression := 'p=(\d+(?:\.\d+))hPa';
 
-    Regex.ModifierI := True;
+    Regex.ModifierI := false;
     if Regex.Exec(Text) then
     begin
       if Regex.SubExprMatchCount >= 1 then

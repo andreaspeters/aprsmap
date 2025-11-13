@@ -191,6 +191,7 @@ type
     procedure tRefreshTimer(Sender: TObject);
     procedure WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
     procedure UpdateWXCaption(msg: TAPRSMessage);
+    function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
@@ -660,19 +661,30 @@ end;
 
 procedure TFMain.UpdateWXCaption(msg: TAPRSMessage);
 begin
-  STWXGust.Caption := GetWXCaption(msg.WXGust);
-  STWXSpeed.Caption := GetWXCaption(msg.WXSpeed);
-  STWXDirection.Caption := GetWXCaption(msg.WXDirection);
-  STWXLum.Caption := GetWXCaption(msg.WXLum);
-  STWXSnowFall24h.Caption := GetWXCaption(msg.WXSnowFall);
-  STWXRainCount.Caption := GetWXCaption(msg.WXRainCount);
-  STWXRainFallToday.Caption := GetWXCaption(msg.WXRainFallToday);
-  STWXRainFall24h.Caption := GetWXCaption(msg.WXRainFall24h);
-  STWXRainFall1h.Caption := GetWXCaption(msg.WXRainFall1h);
+  try
+    STWXGust.Caption := GetWXCaption(msg.WXGust, '*1.85');
+    STWXSpeed.Caption := GetWXCaption(msg.WXSpeed, '*1.85');
+    STWXDirection.Caption := GetWXCaption(msg.WXDirection);
+    STWXLum.Caption := GetWXCaption(msg.WXLum);
+    STWXSnowFall24h.Caption := GetWXCaption(msg.WXSnowFall);
+    STWXRainCount.Caption := GetWXCaption(msg.WXRainCount);
+    STWXRainFallToday.Caption := GetWXCaption(msg.WXRainFallToday, '*25.4');
+    STWXRainFall24h.Caption := GetWXCaption(msg.WXRainFall24h, '*25.4');
+    STWXRainFall1h.Caption := GetWXCaption(msg.WXRainFall1h, '*25.4');
 
-  STWXTemperature.Caption := GetWXCaption(msg.WXTemperature);
-  STWXPressure.Caption := GetWXCaption(msg.WXPressure);
-  STWXHumidity.Caption := GetWXCaption(msg.WXHumidity);
+    if Length(GetWXCaption(msg.WXTemperature)) > 0 then
+      STWXTemperature.Caption := FahrenheitToCelsius(GetWXCaption(msg.WXTemperature));
+
+    STWXPressure.Caption := GetWXCaption(msg.WXPressure, ' / 10');
+    STWXHumidity.Caption := GetWXCaption(msg.WXHumidity);
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln(Format('UpdateWXCaption %s Error: %s', [msg.FromCall, E.Message]));
+      {$ENDIF}
+    end;
+  end;
 end;
 
 function TFMain.GetWXCaption(wx: TDoubleList): String;
@@ -681,6 +693,31 @@ begin
   if Assigned(wx) and (wx.Count > 0) and (wx[wx.Count-1] <> -999999) then
     Result := FloatToStr(wx[wx.Count-1]);
 end;
+
+function TFMain.GetWXCaption(wx: TDoubleList; calc: String): String;
+var expr: TFPExpressionParser;
+begin
+  Result := '';
+
+  if not Assigned(wx) or (wx.Count = 0) or (wx[wx.Count-1] = -999999) then
+    Exit;
+
+  expr := TFPExpressionParser.Create(Self);
+  try
+    expr.Builtins := [bcMath];
+    expr.Expression := FloatToStr(wx[wx.Count-1]) + Trim(calc);
+
+    Result := FloatToStr(expr.Evaluate.ResFloat);
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('GetWXCaption Error: ', E.Message);
+      {$ENDIF}
+    end;
+  end;
+end;
+
 
 // create simple charts
 procedure TFMain.WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
@@ -880,6 +917,7 @@ begin
       // update Raw Message window
       if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) then
         FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
+
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then

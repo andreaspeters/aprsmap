@@ -380,6 +380,8 @@ const
 
 procedure RestartApplication;
 procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
+function FahrenheitToCelsius(F: Double): Double;
+function FahrenheitToCelsius(F: String): String;
 
 implementation
 
@@ -407,6 +409,22 @@ begin
 
   for i := Src.Count - 1 downto 0 do
     Dest.Insert(0, Src[i]);
+end;
+
+function FahrenheitToCelsius(F: Double): Double;
+begin
+  Result := (F - 32.0) * 5.0 / 9.0;
+end;
+
+function FahrenheitToCelsius(F: String): String;
+begin
+  Result := '';
+
+  try
+    Result := FloatToStr((StrToFloat(F) - 32.0) * 5.0 / 9.0);
+  except
+    Result := '';
+  end;
 end;
 
 end.
