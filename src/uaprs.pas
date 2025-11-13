@@ -443,11 +443,11 @@ begin
   try
     Regex.Expression := '^.*'+Search+'(\d{3}).*$';
     if Search = 'h' then
-      Regex.Expression := '^.*'+Search+'(\d{2}).*$';
+      Regex.Expression := '^.*'+Search+'(\d{2,3}).*$';
     if Search = 'b' then
       Regex.Expression := '^.*'+Search+'(\d{5}).*$';
 
-    Regex.ModifierI := True;
+    Regex.ModifierI := False;
     if Regex.Exec(Text) then
     begin
        Result := Regex.Match[1];

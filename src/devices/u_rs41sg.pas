@@ -16,7 +16,7 @@ implementation
 
 procedure RS41SGP(msg: PAPRSMessage);
 begin
-  if (Pos('Type=RS41-SGP', msg^.Message) > 0) or (Pos('Type=DFM', msg^.Message) > 0) then
+  if (Pos('Type=RS41', msg^.Message) > 0) or (Pos('Type=DFM', msg^.Message) > 0) then
   begin
     msg^.WXTemperature.Add(GetTemperature(msg^.Message));
     msg^.WXHumidity.Add(GetTemperature(msg^.Message));
@@ -53,7 +53,7 @@ begin
   Result := 0;
   Regex := TRegExpr.Create;
   try
-    Regex.Expression := 't=(\d+(?:\.\d+))%';
+    Regex.Expression := 'h=(\d+(?:\.\d+))%';
 
     Regex.ModifierI := True;
     if Regex.Exec(Text) then

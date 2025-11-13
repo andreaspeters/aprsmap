@@ -9,7 +9,7 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  Buttons, PairSplitter, ActnList, TAGraph, TAStyles,
+  Buttons, PairSplitter, ActnList, TAGraph, TAStyles, fpexprpars,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
   TASeries, TATools;
 

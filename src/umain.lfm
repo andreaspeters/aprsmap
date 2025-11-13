@@ -964,8 +964,8 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 679
-            ClientWidth = 603
+            ClientHeight = 677
+            ClientWidth = 601
             TabOrder = 0
             object cTracking: TChart
               AnchorSideLeft.Control = ScrollBox2
@@ -975,7 +975,7 @@ object FMain: TFMain
               Left = 0
               Height = 208
               Top = 0
-              Width = 603
+              Width = 601
               AxisList = <              
                 item
                   Marks.LabelBrush.Style = bsClear
