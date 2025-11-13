@@ -35,11 +35,13 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-       Result := StrToInt(Regex.Match[1]);
+       if Regex.SubExprMatchCount >= 2 then
+       begin
+         Result := StrToInt(Regex.Match[1]);
 
-       if Regex.Match[2] = 'F' then
-         Result := Round((Result - 32)*5/9);
-
+         if Regex.Match[2] = 'F' then
+           Result := Round((Result - 32)*5/9);
+       end;
        Exit;
     end;
   finally
@@ -58,6 +60,7 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
+      if Regex.SubExprMatchCount >= 1 then
        Result := StrToInt(Regex.Match[1]);
 
        Exit;
@@ -78,9 +81,10 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-       Result := StrToInt(Regex.Match[1]);
+      if Regex.SubExprMatchCount >= 1 then
+        Result := StrToInt(Regex.Match[1]);
 
-       Exit;
+      Exit;
     end;
   finally
     Regex.Free;

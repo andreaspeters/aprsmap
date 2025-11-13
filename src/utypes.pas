@@ -18,7 +18,7 @@ type
      A-Z     Alternate OVERLAY symbols with A-Z overlayed
   }
 
-  TIntegerList = specialize TList<Integer>;
+  TDoubleList = specialize TList<Double>;
 
   TAPRSMessage = record
     FromCall: String;
@@ -29,30 +29,30 @@ type
     Icon: String;
     Longitude: Double;
     Latitude: Double;
-    Altitude: Integer;
-    Course: Integer;
-    Speed: Integer;
-    PHGPower: Byte;
-    PHGHeight: Integer;
-    PHGGain: Byte;
+    Altitude: Double;
+    Course: Double;
+    Speed: Double;
+    PHGPower: Double;
+    PHGHeight: Double;
+    PHGGain: Double;
     PHGDirectivity: String;
-    DFSStrength: Byte;
-    DFSHeight: Integer;
-    DFSGain: Byte;
+    DFSStrength: Double;
+    DFSHeight: Double;
+    DFSGain: Double;
     DFSDirectivity: String;
-    RNGRange: Integer;
-    WXDirection: Integer;
-    WXSpeed: Integer;
-    WXGust: Integer;
-    WXTemperature: TIntegerList;
-    WXPressure: TIntegerList;
-    WXLum: Integer;
-    WXSnowFall: Integer;
-    WXRainCount: Integer;
-    WXRainFall1h: Integer;
-    WXRainFall24h: Integer;
-    WXRainFallToday: Integer;
-    WXHumidity: TIntegerList;
+    RNGRange: Double;
+    WXDirection: TDoubleList;
+    WXSpeed: TDoubleList;
+    WXGust: TDoubleList;
+    WXTemperature: TDoubleList;
+    WXPressure: TDoubleList;
+    WXLum: TDoubleList;
+    WXSnowFall: TDoubleList;
+    WXRainCount: TDoubleList;
+    WXRainFall1h: TDoubleList;
+    WXRainFall24h: TDoubleList;
+    WXRainFallToday: TDoubleList;
+    WXHumidity: TDoubleList;
     Message: String;
     ID: Integer;
     Time: TTime;
@@ -379,6 +379,7 @@ const
   );
 
 procedure RestartApplication;
+procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
 
 implementation
 
@@ -394,6 +395,18 @@ begin
   finally
     Process.Free;
   end;
+end;
+
+
+procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
+var
+  i: Integer;
+begin
+  if not Assigned(Dest) or not Assigned(Src) then
+    Exit;
+
+  for i := Src.Count - 1 downto 0 do
+    Dest.Insert(0, Src[i]);
 end;
 
 end.

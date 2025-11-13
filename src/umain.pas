@@ -189,7 +189,9 @@ type
     procedure AddPoI(msg: TAPRSMessage);
     procedure SetupFilterCombo;
     procedure tRefreshTimer(Sender: TObject);
-    procedure WriteChart(X: TIntegerList; Title: String; AOwner: TComponent);
+    procedure WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
+    procedure UpdateWXCaption(msg: TAPRSMessage);
+    function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
@@ -404,24 +406,52 @@ procedure TFMain.CBEFilterSelect(Sender: TObject);
 var description: String;
     i: Byte;
     msg: PAPRSMessage;
+    poi: TMapPointOfInterest;
+    count: Integer;
 begin
   description := CBEFilter.ItemsEx.Items[CBEFilter.ItemIndex].Caption;
 
   if Length(description) > 0 then
   begin
-    // Show/Hide POIs on Map
-    for i := 1 to PoiLayer.PointsOfInterest.Count - 1 do
+    if not Assigned(PoiLayer) or not Assigned(PoiLayer.PointsOfInterest) then
+      Exit;
+
+    count := PoiLayer.PointsOfInterest.Count;
+    if count = 0 then
+      Exit;
+
+    // Hide All
+    for i := 0 to count - 1 do
     begin
-      msg := APRSMessageList.Find(PoiLayer.PointsOfInterest[i].Caption);
+      poi := PoiLayer.PointsOfInterest[i];
+      if not Assigned(poi) then
+        Continue;
+      poi.Visible := False;
+    end;
 
-      if Assigned(msg) then
-      begin
-        if (SameText(msg^.ImageDescription, description)) or (SameText(description, 'All')) then
-          PoiLayer.PointsOfInterest[i].Visible := True
-        else
-          PoiLayer.PointsOfInterest[i].Visible := False;
+    // Show PoI's by filter
+    for i := 0 to count - 1 do
+    begin
+      poi := PoiLayer.PointsOfInterest[i];
+      if not Assigned(poi) then
+        Continue;
+      try
+        msg := APRSMessageList.Find(poi.Caption);
 
-        msg^.Visible := PoiLayer.PointsOfInterest[i].Visible
+        if Assigned(msg) then
+        begin
+          // Sichtbarkeit filtern
+          if SameText(msg^.ImageDescription, description) or SameText(description, 'All') then
+            poi.Visible := True;
+
+        end;
+      except
+        on E: Exception do
+        begin
+          {$IFDEF UNIX}
+          writeln('Filter PoI Error bei Index ', i, ': ', E.Message);
+          {$ENDIF}
+        end;
       end;
     end;
   end;
@@ -551,38 +581,19 @@ begin
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
       STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
-      STAltitude.Caption := IntToStr(msg^.Altitude);
-      STCourse.Caption := IntToStr(msg^.Course);
-      STSpeed.Caption := IntToStr(msg^.Speed);
-      STPower.Caption := IntToStr(msg^.PHGPower);
-      STHeight.Caption := IntToStr(msg^.PHGHeight);
-      STGain.Caption := IntToStr(msg^.PHGGain);
+      STAltitude.Caption := FloatToStr(msg^.Altitude);
+      STCourse.Caption := FloatToStr(msg^.Course);
+      STSpeed.Caption := FloatToStr(msg^.Speed);
+      STPower.Caption := FloatToStr(msg^.PHGPower);
+      STHeight.Caption := FloatToStr(msg^.PHGHeight);
+      STGain.Caption := FloatToStr(msg^.PHGGain);
       STDirectivity.Caption := msg^.PHGDirectivity;
-      STStrength.Caption := IntToStr(msg^.DFSStrength);
-      STDFSHeight.Caption := IntToStr(msg^.DFSHeight);
-      STDFSGain.Caption := IntToStr(msg^.DFSGain);
+      STStrength.Caption := FloatToStr(msg^.DFSStrength);
+      STDFSHeight.Caption := FloatToStr(msg^.DFSHeight);
+      STDFSGain.Caption := FloatToStr(msg^.DFSGain);
       STDFSDirectivity.Caption := msg^.DFSDirectivity;
-      STRNGRange.Caption := IntToStr(msg^.RNGRange);
-      STWXDirection.Caption := IntToStr(msg^.WXDirection);
-      STWXSpeed.Caption := IntToStr(msg^.WXSpeed);
-      STWXGust.Caption := IntToStr(msg^.WXGust);
-
-      STWXRainFall1h.Caption := IntToStr(msg^.WXRainFall1h);
-      STWXRainFall24h.Caption := IntToStr(msg^.WXRainFall24h);
-      STWXRainFallToday.Caption := IntToStr(msg^.WXRainFallToday);
-      STWXRainCount.Caption := IntToStr(msg^.WXRainCount);
-      STWXSnowFall24h.Caption := IntToStr(msg^.WXSnowFall);
-      STWXLum.Caption := IntToStr(msg^.WXLum);
+      STRNGRange.Caption := FloatToStr(msg^.RNGRange);
       STLastUpdate.Caption := FormatDateTime('dd.mm.yyyy - hh:nn:ss', msg^.Time);
-
-      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
-        STWXTemperature.Caption := IntToStr(msg^.WXTemperature[msg^.WXTemperature.Count-1]);
-
-      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
-        STWXPressure.Caption := FloatToStr(msg^.WXPressure[msg^.WXPressure.Count-1]);
-
-      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
-        STWXHumidity.Caption := FloatToStr(msg^.WXHumidity[msg^.WXHumidity.Count-1]);
 
       if not (Sender is TTimer) then
       begin
@@ -617,18 +628,18 @@ begin
 
         for i := 0 to msg^.Track.Points.Count - 1 do
           ChartPoint.AddXY(i, msg^.Track.Points[i].Elevation);
-
       end;
 
-      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count >= 1) then
+      UpdateWXCaption(msg^);
+
+      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 1) then
         WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
 
-      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count >= 1) then
+      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 1) then
         WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
 
-      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count >= 1) then
+      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 1) then
         WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
-
 
       FRawMessage.mRawMessage.Clear;
 
@@ -647,8 +658,32 @@ begin
   end;
 end;
 
+procedure TFMain.UpdateWXCaption(msg: TAPRSMessage);
+begin
+  STWXGust.Caption := GetWXCaption(msg.WXGust);
+  STWXSpeed.Caption := GetWXCaption(msg.WXSpeed);
+  STWXDirection.Caption := GetWXCaption(msg.WXDirection);
+  STWXLum.Caption := GetWXCaption(msg.WXLum);
+  STWXSnowFall24h.Caption := GetWXCaption(msg.WXSnowFall);
+  STWXRainCount.Caption := GetWXCaption(msg.WXRainCount);
+  STWXRainFallToday.Caption := GetWXCaption(msg.WXRainFallToday);
+  STWXRainFall24h.Caption := GetWXCaption(msg.WXRainFall24h);
+  STWXRainFall1h.Caption := GetWXCaption(msg.WXRainFall1h);
+
+  STWXTemperature.Caption := GetWXCaption(msg.WXTemperature);
+  STWXPressure.Caption := GetWXCaption(msg.WXPressure);
+  STWXHumidity.Caption := GetWXCaption(msg.WXHumidity);
+end;
+
+function TFMain.GetWXCaption(wx: TDoubleList): String;
+begin
+  Result := '';
+  if Assigned(wx) and (wx.Count > 0) and (wx[wx.Count-1] <> -999999) then
+    Result := FloatToStr(wx[wx.Count-1]);
+end;
+
 // create simple charts
-procedure TFMain.WriteChart(X: TIntegerList; Title: String; AOwner: TComponent);
+procedure TFMain.WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
 var ChartPoint: TLineSeries;
     i: Integer;
     wxChart: TChart;
@@ -807,6 +842,7 @@ procedure TFMain.AddPoI(msg: TAPRSMessage);
 var newMSG, oldMSG: PAPRSMessage;
     poi: TGpsPoint;
     visibility: Boolean;
+    wxTemperature, wxHumidity, wxPressure: Double;
 begin
   try
     if Length(msg.FromCall) > 0 then
@@ -825,9 +861,15 @@ begin
       end
       else
       begin
+        // Preserve old Data
         newMsg^.Track := oldMsg^.Track;
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
         newMsg^.Count := oldMsg^.Count;
+
+        PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
+        PrependDoubleList(newMsg^.WXHumidity, oldMsg^.WXHumidity);
+        PrependDoubleList(newMsg^.WXPressure, oldMsg^.WXPressure);
+
         if not newMsg^.ModeS then
           newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
       end;
@@ -963,7 +1005,6 @@ end;
 procedure TFMain.tRefreshTimer(Sender: TObject);
 begin
   SelectPoI(Sender);
-
 end;
 
 // Delete callsign from Combobox

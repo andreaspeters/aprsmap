@@ -21,20 +21,20 @@ function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
 function FindGPSItem(Layer: TMapLayer; const x, y: Integer):TMapPointOfInterest;
 function FindPoI(Layer: TMapLayer; const Call: String): TMapPointOfInterest;
-function GetAltitude(const Text: String):Integer;
-function GetCourse(const Text: String):Integer;
-function GetSpeed(const Text: String):Integer;
-function GetDFSStrength(const Text: String):Integer;
-function GetDFSHeight(const Text: String):Integer;
-function GetDFSGain(const Text: String):Integer;
+function GetAltitude(const Text: String):Double;
+function GetCourse(const Text: String):Double;
+function GetSpeed(const Text: String):Double;
+function GetDFSStrength(const Text: String):Double;
+function GetDFSHeight(const Text: String):Double;
+function GetDFSGain(const Text: String):Double;
 function GetDFSDirectivity(const Text: String):String;
-function GetPHGPower(const Text: String):Integer;
-function GetPHGHeight(const Text: String):Integer;
-function GetPHGGain(const Text: String):Integer;
+function GetPHGPower(const Text: String):Double;
+function GetPHGHeight(const Text: String):Double;
+function GetPHGGain(const Text: String):Double;
 function GetPHGDirectivity(const Text: String):String;
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
-function GetRNG(const Text: String):Integer;
-function GetWX(const Text, Search: String):String;
+function GetRNG(const Text: String):Double;
+function GetWX(const Text, Search: String):Double;
 function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
 function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer): Integer;
 
@@ -61,7 +61,7 @@ begin
   SubLon := Chr(Ord('a') + Trunc(((Longitude + 180) mod 2) * 12));
   SubLat := Chr(Ord('a') + Trunc(((Latitude + 90) mod 1) * 24));
 
-  Result := FieldLon + FieldLat + IntToStr(SquareLat) + IntToStr(SquareLon) + SubLon + SubLat;
+  Result := FieldLon + FieldLat + FloatToStr(SquareLat) + FloatToStr(SquareLon) + SubLon + SubLat;
 end;
 
 
@@ -293,7 +293,7 @@ begin
   end;
 end;
 
-function GetAltitude(const Text: String):Integer;
+function GetAltitude(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Regex := TRegExpr.Create;
@@ -302,7 +302,7 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-      Result := Round(StrToInt(Regex.Match[1])*0.3048);
+      Result := Round(StrToFloat(Regex.Match[1])*0.3048);
       Exit;
     end;
   except
@@ -310,7 +310,7 @@ begin
   Result := 0;
 end;
 
-function GetCourse(const Text: String):Integer;
+function GetCourse(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Regex := TRegExpr.Create;
@@ -319,7 +319,7 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-      Result := StrToInt(Regex.Match[1]);
+      Result := StrToFloat(Regex.Match[1]);
       Exit;
     end;
   finally
@@ -328,7 +328,7 @@ begin
   Result := 0;
 end;
 
-function GetSpeed(const Text: String):Integer;
+function GetSpeed(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Regex := TRegExpr.Create;
@@ -337,7 +337,7 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-      Result := Round(StrToInt(Regex.Match[2])*1.85);
+      Result := Round(StrToFloat(Regex.Match[2])*1.85);
       Exit;
     end;
   finally
@@ -346,31 +346,31 @@ begin
   Result := 0;
 end;
 
-function GetDFSStrength(const Text: String):Integer;
+function GetDFSStrength(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'DFS', 1, PHGPowerCodeTable);
   if Length(res) > 0 then
-    Result := StrToInt(res);
+    Result := StrToFloat(res);
 end;
 
-function GetDFSHeight(const Text: String):Integer;
+function GetDFSHeight(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'DFS', 2, PHGHeightCodeTable);
   if Length(res) > 0 then
-    Result := Round(StrToInt(res)*0.3048);
+    Result := Round(StrToFloat(res)*0.3048);
 end;
 
-function GetDFSGain(const Text: String):Integer;
+function GetDFSGain(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'DFS', 3, PHGGainCodeTable);
   if Length(res) > 0 then
-    Result := StrToInt(res);
+    Result := StrToFloat(res);
 end;
 
 function GetDFSDirectivity(const Text: String):String;
@@ -382,31 +382,31 @@ begin
     Result := res;
 end;
 
-function GetPHGPower(const Text: String):Integer;
+function GetPHGPower(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'PHG', 1, PHGPowerCodeTable);
   if Length(res) > 0 then
-    Result := StrToInt(res);
+    Result := StrToFloat(res);
 end;
 
-function GetPHGHeight(const Text: String):Integer;
+function GetPHGHeight(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'PHG', 2, PHGHeightCodeTable);
   if Length(res) > 0 then
-    Result := Round(StrToInt(res)*0.3048);
+    Result := Round(StrToFloat(res)*0.3048);
 end;
 
-function GetPHGGain(const Text: String):Integer;
+function GetPHGGain(const Text: String):Double;
 var res: String;
 begin
   Result := 0;
   res := GetAPRSDataExtension(Text, 'PHG', 3, PHGGainCodeTable);
   if Length(res) > 0 then
-    Result := StrToInt(res);
+    Result := StrToFloat(res);
 end;
 
 function GetPHGDirectivity(const Text: String):String;
@@ -418,7 +418,7 @@ begin
     Result := res;
 end;
 
-function GetRNG(const Text: String):Integer;
+function GetRNG(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Result := 0;
@@ -428,29 +428,29 @@ begin
     Regex.ModifierI := True;
     if Regex.Exec(Text) then
     begin
-       Result := Round(StrToInt(Regex.Match[1])*1.85);
+       Result := Round(StrToFloat(Regex.Match[1])*1.85);
        Exit;
     end;
   except
   end;
 end;
 
-function GetWX(const Text, Search: String):String;
+function GetWX(const Text, Search: String):Double;
 var Regex: TRegExpr;
 begin
-  Result := '0';
+  Result := -999999;
   Regex := TRegExpr.Create;
   try
     Regex.Expression := '^.*'+Search+'(\d{3}).*$';
     if Search = 'h' then
       Regex.Expression := '^.*'+Search+'(\d{2,3}).*$';
     if Search = 'b' then
-      Regex.Expression := '^.*'+Search+'(\d{5}).*$';
+      Regex.Expression := '^.*'+Search+'(\d{4,5}).*$';
 
     Regex.ModifierI := False;
     if Regex.Exec(Text) then
     begin
-       Result := Regex.Match[1];
+       Result := StrToFloat(Regex.Match[1]);
        Exit;
     end;
   finally
@@ -593,38 +593,45 @@ begin
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
 
-        APRSMessageObject.WXTemperature := TIntegerList.Create;
-        APRSMessageObject.WXTemperature.Add(0);
-        APRSMessageObject.WXPressure := TIntegerList.Create;
-        APRSMessageObject.WXPressure.Add(0);
-        APRSMessageObject.WXHumidity := TIntegerList.Create;
-        APRSMessageObject.WXHumidity.Add(0);
+        APRSMessageObject.WXTemperature := TDoubleList.Create;
+        APRSMessageObject.WXPressure := TDoubleList.Create;
+        APRSMessageObject.WXHumidity := TDoubleList.Create;
+        APRSMessageObject.WXDirection := TDoubleList.Create;
+        APRSMessageObject.WXSpeed := TDoubleList.Create;
+        APRSMessageObject.WXGust := TDoubleList.Create;
+        APRSMessageObject.WXRainFall1h := TDoubleList.Create;
+        APRSMessageObject.WXRainFall24h := TDoubleList.Create;
+        APRSMessageObject.WXRainFallToday := TDoubleList.Create;
+        APRSMessageObject.WXLum := TDoubleList.Create;
+        APRSMessageObject.WXSnowFall := TDoubleList.Create;
+        APRSMessageObject.WXRainCount := TDoubleList.Create;
 
-
-        APRSMessageObject.WXDirection := 0;
-        APRSMessageObject.WXSpeed := 0;
-        APRSMessageObject.WXGust := 0;
-        APRSMessageObject.WXRainFall1h := 0;
-        APRSMessageObject.WXRainFall24h := 0;
-        APRSMessageObject.WXRainFallToday := 0;
-        APRSMessageObject.WXLum := 0;
-        APRSMessageObject.WXSnowFall := 0;
-        APRSMessageObject.WXRainCount := 0;
-
-        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') or (APRSMessageObject.Icon = 'O') then
         begin
-          APRSMessageObject.WXDirection := StrToInt(GetWX(APRSMessageObject.Message,'c'));
-          APRSMessageObject.WXSpeed := Round(StrToInt(GetWX(APRSMessageObject.Message,'s'))*1.85);
-          APRSMessageObject.WXGust := Round(StrToInt(GetWX(APRSMessageObject.Message,'g'))*1.85);
-          APRSMessageObject.WXTemperature.Add(Round((StrToFloat(GetWX(APRSMessageObject.Message, 't')) - 32) * 5 / 9));
-          APRSMessageObject.WXRainFall1h := Round(StrToInt(GetWX(APRSMessageObject.Message,'r'))*25.4);
-          APRSMessageObject.WXRainFall24h := Round(StrToInt(GetWX(APRSMessageObject.Message,'p'))*25.4);
-          APRSMessageObject.WXRainFallToday := Round(StrToInt(GetWX(APRSMessageObject.Message,'P'))*25.4);
-          APRSMessageObject.WXHumidity.Add(StrToInt(GetWX(APRSMessageObject.Message,'h')));
-          APRSMessageObject.WXPressure.Add(Round(StrToInt(GetWX(APRSMessageObject.Message, 'b')) / 10));
-          APRSMessageObject.WXLum := StrToInt(GetWX(APRSMessageObject.Message,'L'));
-          APRSMessageObject.WXSnowFall := StrToInt(GetWX(APRSMessageObject.Message,'s'));
-          APRSMessageObject.WXRainCount := StrToInt(GetWX(APRSMessageObject.Message,'#'));
+          if GetWX(APRSMessageObject.Message,'c') <> -999999 then
+            APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
+          if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+            APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s'));
+          if GetWX(APRSMessageObject.Message,'g') <> -999999 then
+            APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g'));
+          if GetWX(APRSMessageObject.Message,'r') <> -999999 then
+            APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r'));
+          if GetWX(APRSMessageObject.Message,'p') <> -999999 then
+            APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p'));
+          if GetWX(APRSMessageObject.Message,'P') <> -999999 then
+            APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P'));
+          if GetWX(APRSMessageObject.Message, 't') <> -999999 then
+            APRSMessageObject.WXTemperature.Add(GetWX(APRSMessageObject.Message, 't'));
+          if GetWX(APRSMessageObject.Message,'h') <> -999999 then
+            APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
+          if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
+            APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b'));
+          if GetWX(APRSMessageObject.Message,'L') <> -999999 then
+            APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
+          if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+            APRSMessageObject.WXSnowFall.Add(GetWX(APRSMessageObject.Message,'s'));
+          if GetWX(APRSMessageObject.Message,'#') <> -999999 then
+            APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
         end;
 
         APRSMessageObject.Time := now();
