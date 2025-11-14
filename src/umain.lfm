@@ -69,7 +69,7 @@ object FMain: TFMain
         POIImages = ImageList1
         POIImagesWidth = 16
         POITextBgColor = clWhite
-        Zoom = 14
+        Zoom = 13
         OnZoomChange = MVMapZoomChange
         OnMouseDown = MVMapMouseDown
         OnMouseMove = ShowMapMousePosition
@@ -1125,11 +1125,21 @@ object FMain: TFMain
           Left = 405
           Height = 23
           Top = 152
-          Width = 182
+          Width = 155
           Font.Color = clHighlight
           Font.Height = -15
           ParentFont = False
           TabOrder = 4
+        end
+        object stCount: TStaticText
+          Left = 560
+          Height = 24
+          Top = 152
+          Width = 41
+          Font.Color = clHighlight
+          Font.Height = -12
+          ParentFont = False
+          TabOrder = 5
         end
       end
       object Panel4: TPanel

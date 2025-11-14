@@ -46,6 +46,7 @@ msgid "Distance (km)"
 msgstr ""
 
 #: tflastseen.lvcallsigns.columns[2].caption
+msgctxt "tflastseen.lvcallsigns.columns[2].caption"
 msgid "#"
 msgstr ""
 

@@ -17,7 +17,7 @@ object FLastSeen: TFLastSeen
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     Left = 0
-    Height = 1126
+    Height = 1154
     Top = 5
     Width = 260
     Align = alClient
@@ -28,21 +28,22 @@ object FLastSeen: TFLastSeen
       item
         AutoSize = True
         Caption = '    Callsign'
-        Width = 100
+        Width = 95
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = 'Distance (km)'
-        Width = 100
+        Width = 126
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = '#'
-        Width = 100
+        Width = 26
       end    
       item
+        Width = 257
       end>
     SmallImages = FMain.ImageList1
     TabOrder = 0
@@ -52,17 +53,17 @@ object FLastSeen: TFLastSeen
   object StatusBar1: TStatusBar
     Left = 0
     Height = 25
-    Top = 1131
+    Top = 1159
     Width = 261
     Panels = <>
   end
   object ActionList1: TActionList
     Images = FMain.ImageList1
     Left = 176
-    Top = 11
+    Top = 48
     object actCloseWindow: TAction
       Caption = 'Close'
-      Enabled = False
+      DisableIfNoHandler = False
       ImageIndex = 235
       OnExecute = actCloseWindowExecute
     end

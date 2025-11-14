@@ -116,6 +116,7 @@ type
     Settings1: TMenuItem;
     SPTrack: TSpeedButton;
     STAltitude: TStaticText;
+    stCount: TStaticText;
     STCallsign: TStaticText;
     STCourse: TStaticText;
     STDFSDirectivity: TStaticText;
@@ -596,7 +597,8 @@ begin
       STDFSGain.Caption := FloatToStr(msg^.DFSGain);
       STDFSDirectivity.Caption := msg^.DFSDirectivity;
       STRNGRange.Caption := FloatToStr(msg^.RNGRange);
-      STLastUpdate.Caption := FormatDateTime('dd.mm.yyyy - hh:nn:ss', msg^.Time);
+      stLastUpdate.Caption := FormatDateTime('dd.mm.yyyy - hh:nn:ss', msg^.Time);
+      stCount.Caption := '#'+IntToStr(msg^.Count);
 
       if not (Sender is TTimer) then
       begin
@@ -633,23 +635,25 @@ begin
           ChartPoint.AddXY(i, msg^.Track.Points[i].Elevation);
       end;
 
-      UpdateWXCaption(msg^);
+      if not (msg^.ModeS) then
+      begin
+        UpdateWXCaption(msg^);
 
-      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
-        WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
+        if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
+          WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
 
-      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
-        WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
+        if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
+          WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
 
-      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
-        WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
+        if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
+          WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
 
-      FRawMessage.mRawMessage.Clear;
+        FRawMessage.mRawMessage.Clear;
 
-      // update Raw Message window
-      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(msg^.FromCall)) then
-        FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
-
+        // update Raw Message window
+        if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(msg^.FromCall)) then
+          FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
+      end;
     end;
   except
     on E: Exception do
@@ -791,7 +795,7 @@ end;
 
 // Cleanup old PoIs
 procedure TFMain.DelPoiByAge;
-var i: Integer;
+var i, x: Integer;
     curTime: TTime;
     poi: TMapPointOfInterest;
     msg: PAPRSMessage;
@@ -821,7 +825,7 @@ begin
       if msg = nil then
       begin
         DeleteCombobox(call);
-        DelPoI(PoILayer, call);
+        PoILayer.PointsOfInterest.Delete(i);
         Continue;
       end;
 
@@ -839,15 +843,27 @@ begin
             {$ENDIF}
           end;
         end;
-        ModeS.ModeSMessageList.Remove(msg);
         DeleteCombobox(call);
-        DelPoI(PoILayer, call);
+        PoILayer.PointsOfInterest.Delete(i);
+        ModeS.ModeSMessageList.Remove(msg);
+        // cleanup als call copies in the APRSMessage list
+        x := 1;
+        repeat
+          msg := APRSMessageList.Items[x];
+          if Assigned(msg) and (SameText(Trim(msg^.FromCall), Trim(call))) then
+            APRSMessageList.Delete(x)
+          else
+            inc(x)
+        until not Assigned(msg) or (x >= APRSMessageList.Count);
         Continue;
       end;
     except
-      {$IFDEF UNIX}
-      writeln('Error Cleanup Old PoI')
-      {$ENDIF}
+      on E: Exception do
+      begin
+        {$IFDEF UNIX}
+        writeln('Error DelPoiByAge: ', E.Message);
+        {$ENDIF}
+      end;
     end;
     inc(i);
   end;
@@ -879,7 +895,6 @@ procedure TFMain.AddPoI(msg: TAPRSMessage);
 var newMSG, oldMSG: PAPRSMessage;
     poi: TGpsPoint;
     visibility: Boolean;
-    wxTemperature, wxHumidity, wxPressure: Double;
 begin
   try
     if Length(msg.FromCall) > 0 then
@@ -948,8 +963,9 @@ begin
     on E: Exception do
     begin
       {$IFDEF UNIX}
-      writeln('Error AddPoi: ', E.Message);
+      writeln(Format('Error AddPoi (%s): %s', [newMsg^.FromCall, E.Message]));
       {$ENDIF}
+      // Cleanup broken PoIs
       if Assigned(newMsg) and (Length(newMsg^.FromCall) > 0) then
         DelPoI(PoILayer, newMsg^.FromCall);
 
@@ -1049,13 +1065,22 @@ end;
 procedure TFMain.DeleteCombobox(const Call: String);
 var i: Integer;
 begin
-  for i:= 0 to CBEPOIList.ItemsEx.Count - 1 do
-  begin
-    if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = Trim(Call) then
+  try
+    for i:= 0 to CBEPOIList.ItemsEx.Count - 1 do
     begin
-      CBEPOIList.ItemsEx.Delete(i);
-      CBEPOIList.Refresh;
-      Exit;
+      if Trim(SplitString(CBEPOIList.ItemsEx.Items[i].Caption, '>')[0]) = Trim(Call) then
+      begin
+        CBEPOIList.ItemsEx.Delete(i);
+        CBEPOIList.Refresh;
+        Exit;
+      end;
+    end;
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Error DeleteCombobox: ', E.Message);
+      {$ENDIF}
     end;
   end;
 end;

@@ -176,18 +176,27 @@ begin
   if Layer.PointsOfInterest.Count <= 0 then
     Exit;
 
-  // Do not check position 0 because it's ourself.
-  i := 1;
-  while i <= Layer.PointsOfInterest.Count - 1 do
-  begin
-    if SameText(Layer.PointsOfInterest[i].Caption, Call) then
+  try
+   // Do not check position 0 because it's ourself.
+   i := 1;
+   while i <= Layer.PointsOfInterest.Count - 1 do
+   begin
+     if SameText(Layer.PointsOfInterest[i].Caption, Call) then
+     begin
+       Layer.PointsOfInterest.Delete(i);
+       dec(i);
+       if i < 1 then
+         Exit;
+     end;
+     inc(i);
+   end;
+  except
+    on E: Exception do
     begin
-      Layer.PointsOfInterest.Delete(i);
-      dec(i);
-      if i < 1 then
-        Exit;
+      {$IFDEF UNIX}
+      writeln('Error DelPoi: ', E.Message);
+      {$ENDIF}
     end;
-    inc(i);
   end;
 end;
 
@@ -258,36 +267,51 @@ begin
          A-Z     Alternate OVERLAY symbols with A-Z overlayed
       }
 
-      // Alternate Symbols
-      if IconPrimary = '\' then
-        Result := i+96;
-
       // Primary Symbols
       if IconPrimary = '/' then
+      begin
         Result := i;
+        Exit;
+      end;
 
-      // Primary Symbols with Overlay
-      if IconPrimary = '&' then
-        x := 0;
+      // Alternate Symbols
+      if IconPrimary = '\' then
+      begin
+        Result := i+96;
+        Exit;
+      end;
 
       if Length(IconPrimary) > 0 then
       begin
         try
+          // Primary Symbols with Overlay
+          if IconPrimary = '&' then
+            x := 0;
+
           // Alternate Symbols with Overlay
           if (IconPrimary[1] in ['A'..'Z', 'a'..'z', '0'..'9']) then
             x := 96;
 
           Overlay := 'ABCEFGHIJKLMNOPQRSTUVWXYZ';
           if Pos(IconPrimary[1], Overlay) > 0 then
+          begin
             Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+195+1);
+            Exit;
+          end;
 
           Overlay := 'abcdefghij';
           if Pos(IconPrimary[1], Overlay) > 0 then
+          begin
             Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+221+1);
+            Exit;
+          end;
 
           overlay := '0123456789';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+221+1);
+          begin
+            Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+221);
+            Exit;
+          end;
         except
           on E: Exception do
           begin
@@ -699,9 +723,15 @@ begin
       APRSMessageObject.Message := APRSMessageObject.Message + Data;
     end;
     Result := APRSMessageObject;
-  finally
-    Regex.Free;
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Error GetAPRSMessageObject: ', E.Message)
+      {$ENDIF}
+    end;
   end;
+  Regex.Free;
 end;
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;

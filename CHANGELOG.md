@@ -10,6 +10,7 @@
 - ADD: Support for RS41 Ballon probes.
 - FIX: Wrong APRS overlay images.
 - ADD: More wather charts.
+- FIX: Delete old PoIs
 
 ## v0.5.0
 

@@ -8,9 +8,9 @@ uses
   Classes, SysUtils, utypes, RegExpr;
 
 procedure RS41SGP(msg: PAPRSMessage);
-function GetTemperature(const Text: String):Integer;
-function GetHumidity(const Text: String):Integer;
-function GetPressure(const Text: String):Integer;
+function GetTemperature(const Text: String):Double;
+function GetHumidity(const Text: String):Double;
+function GetPressure(const Text: String):Double;
 
 implementation
 
@@ -24,7 +24,7 @@ begin
   end;
 end;
 
-function GetTemperature(const Text: String):Integer;
+function GetTemperature(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Result := 0;
@@ -37,7 +37,7 @@ begin
     begin
        if Regex.SubExprMatchCount >= 2 then
        begin
-         Result := StrToInt(Regex.Match[1]);
+         Result := StrToFloat(Regex.Match[1]);
 
          if Regex.Match[2] = 'F' then
            Result := Round((Result - 32)*5/9);
@@ -49,7 +49,7 @@ begin
   end;
 end;
 
-function GetHumidity(const Text: String):Integer;
+function GetHumidity(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Result := 0;
@@ -61,7 +61,7 @@ begin
     if Regex.Exec(Text) then
     begin
       if Regex.SubExprMatchCount >= 1 then
-       Result := StrToInt(Regex.Match[1]);
+       Result := StrToFloat(Regex.Match[1]);
 
        Exit;
     end;
@@ -70,7 +70,7 @@ begin
   end;
 end;
 
-function GetPressure(const Text: String):Integer;
+function GetPressure(const Text: String):Double;
 var Regex: TRegExpr;
 begin
   Result := 0;
@@ -82,7 +82,7 @@ begin
     if Regex.Exec(Text) then
     begin
       if Regex.SubExprMatchCount >= 1 then
-        Result := StrToInt(Regex.Match[1]);
+        Result := StrToFloat(Regex.Match[1]);
 
       Exit;
     end;
