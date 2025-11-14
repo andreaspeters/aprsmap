@@ -45,8 +45,8 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="179"/>
-        <CursorPos X="41" Y="237"/>
+        <TopLine Value="173"/>
+        <CursorPos X="19" Y="231"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -55,8 +55,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="247"/>
-        <CursorPos X="104" Y="280"/>
+        <TopLine Value="245"/>
+        <CursorPos Y="279"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -143,7 +143,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
         <CursorPos X="29" Y="81"/>
-        <UsageCount Value="188"/>
+        <UsageCount Value="189"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -163,10 +163,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="utypes.pas"/>
-        <Caret Line="420" Column="26" TopLine="385"/>
-      </Position>
       <Position>
         <Filename Value="utypes.pas"/>
         <Caret Line="422" Column="13" TopLine="384"/>
@@ -282,6 +278,10 @@
       <Position>
         <Filename Value="uaprs.pas"/>
         <Caret Line="278" Column="49" TopLine="244"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="279" Column="76" TopLine="247"/>
       </Position>
     </JumpHistory>
     <RunParams>

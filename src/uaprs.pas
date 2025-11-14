@@ -246,7 +246,7 @@ begin
     if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
     begin
       Result := i;
-      x := 96;
+      x := 0;
       { Icon Primary meaning
         --------------------
         TABLE    RESULT
@@ -262,17 +262,21 @@ begin
       if IconPrimary = '\' then
         Result := i+96;
 
-      // Alternate Symbols
+      // Primary Symbols
       if IconPrimary = '/' then
         Result := i;
 
-      // Alternate Symbols
+      // Primary Symbols with Overlay
       if IconPrimary = '&' then
         x := 0;
 
       if Length(IconPrimary) > 0 then
       begin
         try
+          // Alternate Symbols with Overlay
+          if (IconPrimary[1] in ['A'..'Z', 'a'..'z', '0'..'9']) then
+            x := 96;
+
           Overlay := 'ABCEFGHIJKLMNOPQRSTUVWXYZ';
           if Pos(IconPrimary[1], Overlay) > 0 then
             Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+195+1);
