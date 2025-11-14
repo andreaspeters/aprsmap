@@ -611,21 +611,21 @@ begin
           if GetWX(APRSMessageObject.Message,'c') <> -999999 then
             APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
           if GetWX(APRSMessageObject.Message,'s') <> -999999 then
-            APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s'));
+            APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s')*1.85);
           if GetWX(APRSMessageObject.Message,'g') <> -999999 then
-            APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g'));
+            APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g')*1.85);
           if GetWX(APRSMessageObject.Message,'r') <> -999999 then
-            APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r'));
+            APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r')*25.4);
           if GetWX(APRSMessageObject.Message,'p') <> -999999 then
-            APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p'));
+            APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p')*25.4);
           if GetWX(APRSMessageObject.Message,'P') <> -999999 then
-            APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P'));
+            APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P')*25.4);
           if GetWX(APRSMessageObject.Message, 't') <> -999999 then
-            APRSMessageObject.WXTemperature.Add(GetWX(APRSMessageObject.Message, 't'));
+            APRSMessageObject.WXTemperature.Add(FahrenheitToCelsius(GetWX(APRSMessageObject.Message, 't')));
           if GetWX(APRSMessageObject.Message,'h') <> -999999 then
             APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
           if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
-            APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b'));
+            APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b')/ 10);
           if GetWX(APRSMessageObject.Message,'L') <> -999999 then
             APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
           if GetWX(APRSMessageObject.Message,'s') <> -999999 then

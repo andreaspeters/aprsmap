@@ -413,7 +413,7 @@ end;
 
 function FahrenheitToCelsius(F: Double): Double;
 begin
-  Result := (F - 32.0) * 5.0 / 9.0;
+  Result := Round((F - 32.0) * 5.0 / 9.0);
 end;
 
 function FahrenheitToCelsius(F: String): String;
@@ -421,7 +421,7 @@ begin
   Result := '';
 
   try
-    Result := FloatToStr((StrToFloat(F) - 32.0) * 5.0 / 9.0);
+    Result := FloatToStrF((StrToFloat(F) - 32.0) * 5.0 / 9.0, ffFixed, 8, 0);
   except
     Result := '';
   end;

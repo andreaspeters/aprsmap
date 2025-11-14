@@ -662,20 +662,19 @@ end;
 procedure TFMain.UpdateWXCaption(msg: TAPRSMessage);
 begin
   try
-    STWXGust.Caption := GetWXCaption(msg.WXGust, '*1.85');
-    STWXSpeed.Caption := GetWXCaption(msg.WXSpeed, '*1.85');
+    STWXGust.Caption := GetWXCaption(msg.WXGust);
+    STWXSpeed.Caption := GetWXCaption(msg.WXSpeed);
     STWXDirection.Caption := GetWXCaption(msg.WXDirection);
     STWXLum.Caption := GetWXCaption(msg.WXLum);
     STWXSnowFall24h.Caption := GetWXCaption(msg.WXSnowFall);
     STWXRainCount.Caption := GetWXCaption(msg.WXRainCount);
-    STWXRainFallToday.Caption := GetWXCaption(msg.WXRainFallToday, '*25.4');
-    STWXRainFall24h.Caption := GetWXCaption(msg.WXRainFall24h, '*25.4');
-    STWXRainFall1h.Caption := GetWXCaption(msg.WXRainFall1h, '*25.4');
+    STWXRainFallToday.Caption := GetWXCaption(msg.WXRainFallToday);
+    STWXRainFall24h.Caption := GetWXCaption(msg.WXRainFall24h);
+    STWXRainFall1h.Caption := GetWXCaption(msg.WXRainFall1h);
 
-    if Length(GetWXCaption(msg.WXTemperature)) > 0 then
-      STWXTemperature.Caption := FahrenheitToCelsius(GetWXCaption(msg.WXTemperature));
+    STWXTemperature.Caption := GetWXCaption(msg.WXTemperature);
 
-    STWXPressure.Caption := GetWXCaption(msg.WXPressure, ' / 10');
+    STWXPressure.Caption := GetWXCaption(msg.WXPressure);
     STWXHumidity.Caption := GetWXCaption(msg.WXHumidity);
   except
     on E: Exception do
