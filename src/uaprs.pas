@@ -231,7 +231,7 @@ begin
 end;
 
 function GetImageIndex(const Symbol, IconPrimary: String):Byte;
-var i: Byte;
+var i, x: Byte;
     count: Integer;
     overlay: String;
 begin
@@ -246,6 +246,7 @@ begin
     if APRSPrimarySymbolTable[i].SymbolChar = Symbol then
     begin
       Result := i;
+      x := 96;
       { Icon Primary meaning
         --------------------
         TABLE    RESULT
@@ -259,25 +260,30 @@ begin
 
       // Alternate Symbols
       if IconPrimary = '\' then
-      begin
-        Result := Result+96;
-        Exit;
-      end;
+        Result := i+96;
+
+      // Alternate Symbols
+      if IconPrimary = '/' then
+        Result := i;
+
+      // Alternate Symbols
+      if IconPrimary = '&' then
+        x := 0;
 
       if Length(IconPrimary) > 0 then
       begin
         try
           Overlay := 'ABCEFGHIJKLMNOPQRSTUVWXYZ';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+195);
+            Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+195+1);
 
           Overlay := 'abcdefghij';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+221);
+            Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+221+1);
 
           overlay := '0123456789';
           if Pos(IconPrimary[1], Overlay) > 0 then
-            Result := CreateOverlay(FMain.ImageList1, i+96, Pos(IconPrimary[1], Overlay)+221);
+            Result := CreateOverlay(FMain.ImageList1, i + x, Pos(IconPrimary[1], Overlay)+221+1);
         except
           on E: Exception do
           begin

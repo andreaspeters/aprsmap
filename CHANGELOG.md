@@ -7,7 +7,9 @@
 - ADD: Altitude chart for tracking objects.
 - CHANGE: PoI data move into seperate tab sheets.
 - FIX: ModeS airplace visibility.
-- ADD: Support for RS42-SG Ballon sond.
+- ADD: Support for RS41 Ballon probes.
+- FIX: Wrong APRS overlay images.
+- ADD: More wather charts.
 
 ## v0.5.0
 

@@ -96,7 +96,7 @@ type
     MVDEFPC2: TMVDEFPC;
     MVMap: TMapView;
     MvRGBGraphicsDrawingEngine1: TMvRGBGraphicsDrawingEngine;
-    PageControl1: TPageControl;
+    pcPoITab: TPageControl;
     PairSplitter1: TPairSplitter;
     PairSplitterSide1: TPairSplitterSide;
     PairSplitterSide2: TPairSplitterSide;
@@ -175,7 +175,7 @@ type
     procedure MVMapMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
-    procedure PageControl1Change(Sender: TObject);
+    procedure pcPoITabChange(Sender: TObject);
     procedure sbShowRawMessagesClick(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
@@ -274,6 +274,8 @@ begin
 
   ModeS := TModeSThread.Create(@APRSConfig);
   SetupFilterCombo;
+
+  pcPoITab.ActivePage := tsMain;
 end;
 
 procedure TFMain.SetupFilterCombo;
@@ -516,7 +518,7 @@ begin
     LastZoom := i;
 end;
 
-procedure TFMain.PageControl1Change(Sender: TObject);
+procedure TFMain.pcPoITabChange(Sender: TObject);
 var msg: PAPRSMessage;
 begin
   msg := APRSMessageList.Find(STCallsign.Caption);
@@ -633,13 +635,13 @@ begin
 
       UpdateWXCaption(msg^);
 
-      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 1) then
+      if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
         WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
 
-      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 1) then
+      if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
         WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
 
-      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 1) then
+      if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
         WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
 
       FRawMessage.mRawMessage.Clear;
@@ -786,7 +788,6 @@ procedure TFMain.TBZoomMapChange(Sender: TObject);
 begin
   MVMap.Zoom := TBZoomMap.Position;
 end;
-
 
 // Cleanup old PoIs
 procedure TFMain.DelPoiByAge;

@@ -192,7 +192,7 @@ object FMain: TFMain
           Caption = 'Filter'
         end
       end
-      object PageControl1: TPageControl
+      object pcPoITab: TPageControl
         AnchorSideLeft.Control = PairSplitterSide2
         AnchorSideTop.Control = GroupBox3
         AnchorSideTop.Side = asrBottom
@@ -203,14 +203,14 @@ object FMain: TFMain
         Height = 718
         Top = 412
         Width = 615
-        ActivePage = tsWX
+        ActivePage = tsMain
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 9
-        TabIndex = 1
+        TabIndex = 0
         TabOrder = 1
-        OnChange = PageControl1Change
+        OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
           ClientHeight = 681
@@ -1134,7 +1134,7 @@ object FMain: TFMain
       end
       object Panel4: TPanel
         AnchorSideLeft.Control = PairSplitterSide2
-        AnchorSideTop.Control = PageControl1
+        AnchorSideTop.Control = pcPoITab
         AnchorSideTop.Side = asrBottom
         AnchorSideRight.Control = PairSplitterSide2
         AnchorSideRight.Side = asrBottom
