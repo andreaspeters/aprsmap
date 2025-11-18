@@ -426,11 +426,20 @@ procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
 var
   i: Integer;
 begin
-  if not Assigned(Dest) or not Assigned(Src) then
-    Exit;
+  try
+    if not Assigned(Dest) or not Assigned(Src) then
+      Exit;
 
-  for i := Src.Count - 1 downto 0 do
-    Dest.Insert(0, Src[i]);
+    for i := Src.Count - 1 downto 0 do
+      Dest.Insert(0, Src[i]);
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln(Format('PrependDoubleList Error: %s', [E.Message]));
+      {$ENDIF}
+    end;
+  end;
 end;
 
 function FahrenheitToCelsius(F: Double): Double;
@@ -445,7 +454,12 @@ begin
   try
     Result := FloatToStrF((StrToFloat(F) - 32.0) * 5.0 / 9.0, ffFixed, 8, 0);
   except
-    Result := '';
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln(Format('FahrenheitToCelsius Error: %s', [E.Message]));
+      {$ENDIF}
+    end;
   end;
 end;
 

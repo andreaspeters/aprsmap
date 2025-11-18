@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, TAStyles, fpexprpars,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg;
+  TASeries, TATools, TANavigation, u_rs41sg;
 
 type
 
@@ -584,6 +584,7 @@ begin
     msg := APRSMessageList.Find(call);
     if Assigned(msg) then
     begin
+
       ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
@@ -592,7 +593,12 @@ begin
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
       STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
-      STAltitude.Caption := FloatToStr(msg^.Altitude.Last);
+
+      if msg^.Altitude.Count > 0 then
+        STAltitude.Caption := FloatToStr(msg^.Altitude.Last)
+      else
+        STAltitude.Caption := '';
+
       STCourse.Caption := FloatToStr(msg^.Course);
       STPower.Caption := FloatToStr(msg^.PHGPower);
       STHeight.Caption := FloatToStr(msg^.PHGHeight);
@@ -946,6 +952,7 @@ procedure TFMain.AddPoI(msg: TAPRSMessage);
 var newMSG, oldMSG: PAPRSMessage;
     poi: TGpsPoint;
     visibility: Boolean;
+    Alt: Double;
 begin
   try
     if Length(msg.FromCall) > 0 then
@@ -956,7 +963,7 @@ begin
       oldMSG := APRSMessageList.Find(msg.FromCall);
 
       // if not already exist, create TrackID, else reuse old TrackID and ImageIndex
-      if oldMSG = nil then
+      if not Assigned(oldMSG) then
       begin
         inc(TrackID);
         newMsg^.TrackID := TrackID;
@@ -978,7 +985,7 @@ begin
         // PrependDoubleList for all Devices
         UpdateDevices(newMsg, oldMsg);
 
-        if not newMsg^.ModeS then
+        if not newMsg^.ModeS and Assigned(newMsg^.RAWMessages) then
           newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
       end;
 
@@ -986,13 +993,17 @@ begin
       inc(newMsg^.Count);
 
       // update Raw Message window
-      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) then
+      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) and Assigned(FRawMessage.mRawMessage) then
         FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
 
+      if Assigned(newMsg^.Altitude) and (newMsg^.Altitude.Count > 0) then
+        Alt := newMsg^.Altitude.Last
+      else
+        Alt := 0;
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
-          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude.Last));
+          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, Alt));
 
       // Filter is set
       visibility := True;
@@ -1009,7 +1020,7 @@ begin
       FLastSeen.AddCallsign(newMsg);
 
       // add callsign to Combobox
-      if oldMSG = nil then
+      if not Assigned(oldMSG) then
         AddCombobox(newMsg^);
 
       MVMap.Refresh;
