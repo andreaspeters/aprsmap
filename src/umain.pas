@@ -406,7 +406,7 @@ end;
 
 procedure TFMain.CBEFilterSelect(Sender: TObject);
 var description: String;
-    i: Byte;
+    i: Integer;
     msg: PAPRSMessage;
     poi: TMapPointOfInterest;
     count: Integer;
@@ -423,7 +423,7 @@ begin
       Exit;
 
     // Hide All
-    for i := 0 to count - 1 do
+    for i := 1 to count - 1 do
     begin
       poi := PoiLayer.PointsOfInterest[i];
       if not Assigned(poi) then
@@ -432,7 +432,7 @@ begin
     end;
 
     // Show PoI's by filter
-    for i := 0 to count - 1 do
+    for i := 1 to count - 1 do
     begin
       poi := PoiLayer.PointsOfInterest[i];
       if not Assigned(poi) then

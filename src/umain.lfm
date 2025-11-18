@@ -213,7 +213,7 @@ object FMain: TFMain
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 678
+          ClientHeight = 681
           ClientWidth = 605
           object Label4: TLabel
             Left = 10
@@ -567,7 +567,7 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 678
+          ClientHeight = 681
           ClientWidth = 605
           object scWX: TScrollBox
             Left = 0
@@ -581,8 +581,8 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 679
-            ClientWidth = 603
+            ClientHeight = 677
+            ClientWidth = 601
             TabOrder = 0
             object Label23: TLabel
               Left = 8
@@ -808,9 +808,9 @@ object FMain: TFMain
               AnchorSideBottom.Control = scWX
               AnchorSideBottom.Side = asrBottom
               Left = 0
-              Height = 447
+              Height = 445
               Top = 232
-              Width = 603
+              Width = 601
               Anchors = [akTop, akLeft, akRight, akBottom]
               BevelOuter = bvNone
               ControlList = <>
@@ -822,7 +822,7 @@ object FMain: TFMain
         end
         object tsCharts: TTabSheet
           Caption = 'Charts'
-          ClientHeight = 678
+          ClientHeight = 681
           ClientWidth = 605
           object scCharts: TScrollBox
             Left = 0
