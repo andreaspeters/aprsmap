@@ -330,6 +330,7 @@ end;
 function GetAltitude(const Text: String):Double;
 var Regex: TRegExpr;
 begin
+  Result := -999999;
   Regex := TRegExpr.Create;
   try
     Regex.Expression := '^.*A=(\d{6}).*$';
@@ -341,7 +342,6 @@ begin
     end;
   except
   end;
-  Result := 0;
 end;
 
 function GetCourse(const Text: String):Double;
@@ -365,6 +365,7 @@ end;
 function GetSpeed(const Text: String):Double;
 var Regex: TRegExpr;
 begin
+  Result := -999999;
   Regex := TRegExpr.Create;
   try
     Regex.Expression := '^(\d{3})\/(\d{3}).*$';
@@ -377,7 +378,6 @@ begin
   finally
     Regex.Free;
   end;
-  Result := 0;
 end;
 
 function GetDFSStrength(const Text: String):Double;
@@ -614,9 +614,7 @@ begin
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.Message := Regex.Match[6];
-        APRSMessageObject.Altitude := GetAltitude(APRSMessageObject.Message);
         APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
-        APRSMessageObject.Speed := GetSpeed(APRSMessageObject.Message);
         APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
         APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
         APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
@@ -626,6 +624,14 @@ begin
         APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
+
+        APRSMessageObject.Altitude := TDoubleList.Create;
+        APRSMessageObject.Speed := TDoubleList.Create;
+
+        if GetAltitude(APRSMessageObject.Message) <> -999999 then
+          APRSMessageObject.Altitude.Add(GetAltitude(APRSMessageObject.Message));
+        if GetSpeed(APRSMessageObject.Message) <> -999999 then
+          APRSMessageObject.Speed.Add(GetSpeed(APRSMessageObject.Message));
 
         APRSMessageObject.WXTemperature := TDoubleList.Create;
         APRSMessageObject.WXPressure := TDoubleList.Create;
@@ -640,7 +646,7 @@ begin
         APRSMessageObject.WXSnowFall := TDoubleList.Create;
         APRSMessageObject.WXRainCount := TDoubleList.Create;
 
-        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') or (APRSMessageObject.Icon = 'O') then
+        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
         begin
           if GetWX(APRSMessageObject.Message,'c') <> -999999 then
             APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));

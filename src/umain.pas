@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, TAStyles, fpexprpars,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools;
+  TASeries, TATools, u_rs41sg;
 
 type
 
@@ -26,11 +26,8 @@ type
     CBEFilter: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEPOIList: TComboBoxEx;
-    cWXPressure: TChart;
-    cWXTemperatur: TChart;
-    cTracking: TChart;
-    cWXHumidity: TChart;
-    FlowPanel1: TFlowPanel;
+    fpWX: TFlowPanel;
+    fpCharts: TFlowPanel;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
@@ -106,8 +103,8 @@ type
     Panel4: TPanel;
     pmTray: TPopupMenu;
     sbShowRawMessages: TSpeedButton;
-    ScrollBox1: TScrollBox;
-    ScrollBox2: TScrollBox;
+    scWX: TScrollBox;
+    scCharts: TScrollBox;
     Separator1: TMenuItem;
     Separator2: TMenuItem;
     Settings: TMenuItem;
@@ -149,7 +146,7 @@ type
     STWXSpeed: TStaticText;
     STWXTemperature: TStaticText;
     tsMain: TTabSheet;
-    tsTracking: TTabSheet;
+    tsCharts: TTabSheet;
     tsWX: TTabSheet;
     TBZoomMap: TTrackBar;
     tRefresh: TTimer;
@@ -190,8 +187,9 @@ type
     procedure AddPoI(msg: TAPRSMessage);
     procedure SetupFilterCombo;
     procedure tRefreshTimer(Sender: TObject);
-    procedure WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
+    procedure WriteChart(X: TDoubleList; Title, TitleX, TitleY: String; ParentCtrl: TWinControl);
     procedure UpdateWXCaption(msg: TAPRSMessage);
+    procedure UpdateDevices(newMsg, oldMsg: PAPRSMessage);
     function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
@@ -555,15 +553,24 @@ procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
     poiGPS: TGPSObj;
-    ChartPoint: TLineSeries;
-    i: Integer;
+    i, chartScroll, wxScroll: Integer;
 begin
   try
     MAPRSMessage.Lines.Clear;
-    cTracking.ClearSeries;
-    cWXTemperatur.ClearSeries;
-    cWXPressure.ClearSeries;
-    cWXHumidity.ClearSeries;
+
+    // Cleanup all Charts.
+    chartScroll := scCharts.VertScrollBar.Position;
+    wxScroll := scWX.VertScrollBar.Position;
+    for i := 0 to fpCharts.ControlCount - 1 do
+    begin
+      if (fpCharts.Controls[i] is TChart) then
+        TChart(fpCharts.Controls[i]).Visible := False;
+    end;
+    for i := 0 to fpWX.ControlCount - 1 do
+    begin
+      if (fpWX.Controls[i] is TChart) then
+        TChart(fpWX.Controls[i]).Visible := False;
+    end;
 
     if (CBEPOIList.ItemIndex >= 0) and (CBEPOIList.ItemsEx.Count >= 0) then
       call := Trim(SplitString(CBEPOIList.ItemsEx.Items[CBEPOIList.ItemIndex].Caption, '>')[0]);
@@ -585,9 +592,8 @@ begin
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
       STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
-      STAltitude.Caption := FloatToStr(msg^.Altitude);
+      STAltitude.Caption := FloatToStr(msg^.Altitude.Last);
       STCourse.Caption := FloatToStr(msg^.Course);
-      STSpeed.Caption := FloatToStr(msg^.Speed);
       STPower.Caption := FloatToStr(msg^.PHGPower);
       STHeight.Caption := FloatToStr(msg^.PHGHeight);
       STGain.Caption := FloatToStr(msg^.PHGGain);
@@ -616,37 +622,22 @@ begin
       else
         SPTrack.Down := False;
 
-      // update tracking information and chart
-      if Assigned(msg^.Track) and (msg^.Track.Points.Count >= 1) then
+      if Assigned(msg^.Speed) and (msg^.Speed.Count > 0) then
       begin
-        ChartPoint := TLineSeries.Create(cTracking);
-        ChartPoint.LinePen.Width := 2;
-        ChartPoint.SeriesColor := clRed;
+        WriteChart(msg^.Speed, 'Speed', 'Time', 'Speed (km/h)', fpCharts);
+        STSpeed.Caption := FloatToStr(msg^.Speed.Last);
+      end;
 
-        // Keep the Chart X clean
-        if msg^.Track.Points.Count > 10 then
-          cTracking.BottomAxis.Range.Max := msg^.Track.Points.Count
-        else
-          cTracking.BottomAxis.Range.Max := 10;
 
-        cTracking.AddSeries(ChartPoint);
-
-        for i := 0 to msg^.Track.Points.Count - 1 do
-          ChartPoint.AddXY(i, msg^.Track.Points[i].Elevation);
+      if Assigned(msg^.Altitude) and (msg^.Altitude.Count > 0) then
+      begin
+        WriteChart(msg^.Altitude, 'Altitude', 'Time', 'Altitude (m)', fpCharts);
+        STAltitude.Caption := FloatToStr(msg^.Altitude.Last);
       end;
 
       if not (msg^.ModeS) then
       begin
         UpdateWXCaption(msg^);
-
-        if Assigned(msg^.WXTemperature) and (msg^.WXTemperature.Count > 0) then
-          WriteChart(msg^.WXTemperature, 'Temperature (°C)', cWXTemperatur);
-
-        if Assigned(msg^.WXPressure) and (msg^.WXPressure.Count > 0) then
-          WriteChart(msg^.WXPressure, 'Pressure (mb)', cWXPressure);
-
-        if Assigned(msg^.WXHumidity) and (msg^.WXHumidity.Count > 0) then
-          WriteChart(msg^.WXHumidity, 'Humidity (%)', cWXHumidity);
 
         FRawMessage.mRawMessage.Clear;
 
@@ -654,6 +645,15 @@ begin
         if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(msg^.FromCall)) then
           FRawMessage.mRawMessage.Lines.AddStrings(msg^.RAWMessages);
       end;
+
+      with msg^.Devices do
+      begin
+        if RS41.Enabled then
+          RS41SGPChart(msg, fpCharts);
+      end;
+
+      scCharts.VertScrollBar.Position := chartScroll;
+      scWX.VertScrollBar.Position := wxScroll;
     end;
   except
     on E: Exception do
@@ -682,6 +682,17 @@ begin
 
     STWXPressure.Caption := GetWXCaption(msg.WXPressure);
     STWXHumidity.Caption := GetWXCaption(msg.WXHumidity);
+
+
+    if Assigned(msg.WXTemperature) and (msg.WXTemperature.Count > 0) then
+      WriteChart(msg.WXTemperature, 'Temperature', 'Time', 'Temperature (°C)', fpWX);
+
+    if Assigned(msg.WXPressure) and (msg.WXPressure.Count > 0) then
+      WriteChart(msg.WXPressure, 'Pressure', 'Time', 'Pressure (mb)', fpWX);
+
+    if Assigned(msg.WXHumidity) and (msg.WXHumidity.Count > 0) then
+      WriteChart(msg.WXHumidity, 'Humidity', 'Time', 'Humidity (%)', fpWX);
+
   except
     on E: Exception do
     begin
@@ -725,42 +736,82 @@ end;
 
 
 // create simple charts
-procedure TFMain.WriteChart(X: TDoubleList; Title: String; AOwner: TComponent);
-var ChartPoint: TLineSeries;
+procedure TFMain.WriteChart(X: TDoubleList; Title, TitleX, TitleY: String; ParentCtrl: TWinControl);
+var Chart: TChart;
+    ChartPoint: TLineSeries;
     i: Integer;
-    wxChart: TChart;
+    ChartName: String;
 begin
-  if not Assigned(X) or (X.count <= 0) or not (AOwner is TChart) then
+  if (not Assigned(X)) or (X.Count = 0) or (ParentCtrl = nil) then
     Exit;
 
+  try
+    ChartName := 'AutoGen_' + StringReplace(Title, ' ', '_', [rfReplaceAll]);
 
-  ChartPoint := TLineSeries.Create(AOwner);
-  ChartPoint.LinePen.Width := 2;
-  ChartPoint.SeriesColor := clRed;
+    // Check if chart with this name already exist.
+    Chart := nil;
+    for i := 0 to ParentCtrl.ControlCount - 1 do
+    begin
+      if (ParentCtrl.Controls[i] is TChart) and (TChart(ParentCtrl.Controls[i]).Name = ChartName) then
+      begin
+        Chart := TChart(ParentCtrl.Controls[i]);
+        Chart.ClearSeries;
+        Chart.Visible := True;;
+        Break;
+      end;
+    end;
 
-  wxChart := TChart(AOwner);
-  wxChart.AddSeries(ChartPoint);
+    // Create Chart
+    if not Assigned(Chart) then
+    begin
+      Chart := TChart.Create(ParentCtrl);
+      Chart.Parent := ParentCtrl;
+      Chart.Align := alClient;
+      Chart.Name := ChartName;
+      Chart.Title.Text.Clear;
+      Chart.Title.Text.Add(Title);
+      Chart.Title.Visible := True;
+    end;
 
-  wxChart.BottomAxis.Intervals.MaxLength := 100;
-  wxChart.BottomAxis.Intervals.MinLength := 20;
-  wxChart.BottomAxis.Marks.Format := '%0.f';
+    // X
+    Chart.BottomAxis.Title.Caption := TitleX;
+    Chart.BottomAxis.Title.Visible := True;
+    Chart.BottomAxis.Range.Min := 0;
+    if X.Count <= 10 then
+      Chart.BottomAxis.Range.Max := 10
+    else
+      Chart.BottomAxis.Range.Max := X.Count;
+    Chart.BottomAxis.Range.UseMin := True;
+    Chart.BottomAxis.Range.UseMax := True;
+    Chart.BottomAxis.Intervals.MaxLength := 100;
+    Chart.BottomAxis.Intervals.MinLength := 20;
+    Chart.BottomAxis.Marks.Format := '%0.f';
 
-  // Keep the Chart X clean
-  if X.Count > 10 then
-    wxChart.BottomAxis.Range.Max := X.Count
-  else
-    wxChart.BottomAxis.Range.Max := 10;
+    // Y
+    Chart.LeftAxis.Title.Caption := TitleY;
+    Chart.LeftAxis.Title.Visible := True;
+    Chart.LeftAxis.Intervals.MaxLength := 50;
+    Chart.LeftAxis.Intervals.MinLength := 10;
 
-  wxChart.BottomAxis.Range.Min := 0;
-  wxChart.BottomAxis.Range.UseMin := True;
-  wxChart.BottomAxis.Range.UseMax := True;
-  wxChart.BottomAxis.Title.Caption := 'Time';
-  wxChart.BottomAxis.Title.Visible := True;
-  wxChart.LeftAxis.Title.Caption := Title;
+    // Create Points
+    ChartPoint := TLineSeries.Create(Chart);
+    ChartPoint.LinePen.Width := 2;
+    ChartPoint.SeriesColor := clRed;
+    Chart.AddSeries(ChartPoint);
 
-  for i := 0 to X.Count - 1 do
-    ChartPoint.AddXY(i, X[i]);
+    // Punkte einfüllen
+    for i := 0 to X.Count - 1 do
+      ChartPoint.AddXY(i, X[i]);
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('WriteChart AutoGen Error: ', E.Message);
+      {$ENDIF}
+    end;
+  end;
 end;
+
 
 procedure TFMain.ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
@@ -918,9 +969,14 @@ begin
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
         newMsg^.Count := oldMsg^.Count;
 
+        PrependDoubleList(newMsg^.Speed, oldMsg^.Speed);
+        PrependDoubleList(newMsg^.Altitude, oldMsg^.Altitude);
         PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
         PrependDoubleList(newMsg^.WXHumidity, oldMsg^.WXHumidity);
         PrependDoubleList(newMsg^.WXPressure, oldMsg^.WXPressure);
+
+        // PrependDoubleList for all Devices
+        UpdateDevices(newMsg, oldMsg);
 
         if not newMsg^.ModeS then
           newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
@@ -936,7 +992,7 @@ begin
 
       if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
-          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude));
+          newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, newMsg^.Altitude.Last));
 
       // Filter is set
       visibility := True;
@@ -956,7 +1012,6 @@ begin
       if oldMSG = nil then
         AddCombobox(newMsg^);
 
-
       MVMap.Refresh;
     end;
   except
@@ -971,6 +1026,21 @@ begin
 
       if Assigned(oldMsg) and (Length(newMsg^.FromCall) > 0) then
         DelPoI(PoILayer, oldMsg^.FromCall);
+    end;
+  end;
+end;
+
+procedure TFMain.UpdateDevices(newMsg, oldMsg: PAPRSMessage);
+begin
+  try
+    if (newMsg^.Devices.RS41.Enabled) then
+      RS41SGPUpdate(newMsg, OldMsg)
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln(Format('UpdateDevices Error %s: %s ', [newMsg^.FromCall, E.Message]));
+      {$ENDIF}
     end;
   end;
 end;

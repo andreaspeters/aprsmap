@@ -75,46 +75,6 @@ msgctxt "tfmain.caption"
 msgid "APRS Map"
 msgstr ""
 
-#: tfmain.ctracking.axislist[0].title.caption
-msgctxt "tfmain.ctracking.axislist[0].title.caption"
-msgid "Altitude (m)"
-msgstr ""
-
-#: tfmain.ctracking.axislist[1].title.caption
-msgctxt "tfmain.ctracking.axislist[1].title.caption"
-msgid "Time"
-msgstr ""
-
-#: tfmain.cwxhumidity.axislist[0].title.caption
-msgctxt "tfmain.cwxhumidity.axislist[0].title.caption"
-msgid "Humidity (%)"
-msgstr ""
-
-#: tfmain.cwxhumidity.axislist[1].title.caption
-msgctxt "tfmain.cwxhumidity.axislist[1].title.caption"
-msgid "Time"
-msgstr ""
-
-#: tfmain.cwxpressure.axislist[0].title.caption
-msgctxt "tfmain.cwxpressure.axislist[0].title.caption"
-msgid "Pressure (mb)"
-msgstr ""
-
-#: tfmain.cwxpressure.axislist[1].title.caption
-msgctxt "tfmain.cwxpressure.axislist[1].title.caption"
-msgid "Time"
-msgstr ""
-
-#: tfmain.cwxtemperatur.axislist[0].title.caption
-msgctxt "tfmain.cwxtemperatur.axislist[0].title.caption"
-msgid "Temperatur (°C)"
-msgstr ""
-
-#: tfmain.cwxtemperatur.axislist[1].title.caption
-msgctxt "tfmain.cwxtemperatur.axislist[1].title.caption"
-msgid "Time"
-msgstr ""
-
 #: tfmain.groupbox1.caption
 msgid "Map"
 msgstr ""
@@ -279,6 +239,7 @@ msgid "Course/Direction"
 msgstr ""
 
 #: tfmain.label8.caption
+msgctxt "tfmain.label8.caption"
 msgid "Speed (km/h)"
 msgstr ""
 
@@ -328,14 +289,13 @@ msgctxt "tfmain.stmapcopyright.caption"
 msgid "MAP Copyright OpenStreetMap"
 msgstr ""
 
+#: tfmain.tscharts.caption
+msgid "Charts"
+msgstr ""
+
 #: tfmain.tsmain.caption
 msgctxt "tfmain.tsmain.caption"
 msgid "PoI"
-msgstr ""
-
-#: tfmain.tstracking.caption
-msgctxt "tfmain.tstracking.caption"
-msgid "Tracking"
 msgstr ""
 
 #: tfmain.tswx.caption

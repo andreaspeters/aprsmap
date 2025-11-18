@@ -203,12 +203,12 @@ object FMain: TFMain
         Height = 718
         Top = 412
         Width = 615
-        ActivePage = tsMain
+        ActivePage = tsCharts
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 9
-        TabIndex = 0
+        TabIndex = 2
         TabOrder = 1
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
@@ -569,7 +569,7 @@ object FMain: TFMain
           Caption = 'WX'
           ClientHeight = 681
           ClientWidth = 605
-          object ScrollBox1: TScrollBox
+          object scWX: TScrollBox
             Left = 0
             Height = 681
             Top = 0
@@ -800,12 +800,12 @@ object FMain: TFMain
               ParentFont = False
               TabOrder = 11
             end
-            object FlowPanel1: TFlowPanel
-              AnchorSideLeft.Control = ScrollBox1
+            object fpWX: TFlowPanel
+              AnchorSideLeft.Control = scWX
               AnchorSideTop.Control = STWXSnowFall24h
-              AnchorSideRight.Control = ScrollBox1
+              AnchorSideRight.Control = scWX
               AnchorSideRight.Side = asrBottom
-              AnchorSideBottom.Control = ScrollBox1
+              AnchorSideBottom.Control = scWX
               AnchorSideBottom.Side = asrBottom
               Left = 0
               Height = 447
@@ -813,199 +813,43 @@ object FMain: TFMain
               Width = 603
               Anchors = [akTop, akLeft, akRight, akBottom]
               BevelOuter = bvNone
-              ControlList = <              
-                item
-                  Control = cWXTemperatur
-                  WrapAfter = waAuto
-                  Index = 0
-                end              
-                item
-                  Control = cWXPressure
-                  WrapAfter = waAuto
-                  Index = 1
-                end              
-                item
-                  Control = cWXHumidity
-                  WrapAfter = waAuto
-                  Index = 2
-                end>
+              ControlList = <>
               FlowLayout = tlTop
               FlowStyle = fsLeftRightTopBottom
               TabOrder = 12
-              object cWXTemperatur: TChart
-                AnchorSideRight.Side = asrBottom
-                Left = 0
-                Height = 193
-                Top = 0
-                Width = 300
-                AxisList = <                
-                  item
-                    Marks.LabelBrush.Style = bsClear
-                    Minors = <>
-                    Title.LabelFont.Orientation = 900
-                    Title.Visible = True
-                    Title.Caption = 'Temperatur (°C)'
-                    Title.LabelBrush.Style = bsClear
-                  end                
-                  item
-                    Intervals.MaxLength = 100
-                    Intervals.MinLength = 20
-                    Alignment = calBottom
-                    Marks.Format = '%.0f'
-                    Marks.LabelBrush.Style = bsClear
-                    Marks.Style = smsCustom
-                    Minors = <>
-                    Range.Max = 10
-                    Range.UseMax = True
-                    Range.UseMin = True
-                    Title.Visible = True
-                    Title.Caption = 'Time'
-                    Title.LabelBrush.Style = bsClear
-                  end>
-                Title.Text.Strings = (
-                  'Temperature'
-                )
-                Title.Visible = True
-                Anchors = [akTop]
-                Color = clBackground
-              end
-              object cWXPressure: TChart
-                AnchorSideTop.Side = asrBottom
-                AnchorSideRight.Side = asrBottom
-                Left = 300
-                Height = 192
-                Top = 0
-                Width = 300
-                AxisList = <                
-                  item
-                    Marks.LabelBrush.Style = bsClear
-                    Minors = <>
-                    Range.Max = 10
-                    Range.UseMin = True
-                    Title.LabelFont.Orientation = 900
-                    Title.Visible = True
-                    Title.Caption = 'Pressure (mb)'
-                    Title.LabelBrush.Style = bsClear
-                  end                
-                  item
-                    Intervals.MaxLength = 100
-                    Intervals.MinLength = 20
-                    Alignment = calBottom
-                    Marks.Format = '%.0f'
-                    Marks.LabelBrush.Style = bsClear
-                    Marks.Style = smsCustom
-                    Minors = <>
-                    Range.Max = 10
-                    Range.UseMax = True
-                    Range.UseMin = True
-                    Title.Visible = True
-                    Title.Caption = 'Time'
-                    Title.LabelBrush.Style = bsClear
-                  end>
-                Title.Text.Strings = (
-                  'Pressure'
-                )
-                Title.Visible = True
-                Anchors = []
-              end
-              object cWXHumidity: TChart
-                AnchorSideRight.Side = asrBottom
-                Left = 0
-                Height = 193
-                Top = 193
-                Width = 300
-                AxisList = <                
-                  item
-                    Marks.LabelBrush.Style = bsClear
-                    Minors = <>
-                    Title.LabelFont.Orientation = 900
-                    Title.Visible = True
-                    Title.Caption = 'Humidity (%)'
-                    Title.LabelBrush.Style = bsClear
-                  end                
-                  item
-                    Intervals.MaxLength = 100
-                    Intervals.MinLength = 20
-                    Alignment = calBottom
-                    Marks.Format = '%.0f'
-                    Marks.LabelBrush.Style = bsClear
-                    Marks.Style = smsCustom
-                    Minors = <>
-                    Range.Max = 10
-                    Range.UseMax = True
-                    Range.UseMin = True
-                    Title.Visible = True
-                    Title.Caption = 'Time'
-                    Title.LabelBrush.Style = bsClear
-                  end>
-                Title.Text.Strings = (
-                  'Humidity'
-                )
-                Title.Visible = True
-                Anchors = [akTop]
-                Color = clBackground
-              end
             end
           end
         end
-        object tsTracking: TTabSheet
-          Caption = 'Tracking'
+        object tsCharts: TTabSheet
+          Caption = 'Charts'
           ClientHeight = 681
           ClientWidth = 605
-          object ScrollBox2: TScrollBox
+          object scCharts: TScrollBox
             Left = 0
             Height = 681
             Top = 0
             Width = 605
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
-            VertScrollBar.Increment = 20
-            VertScrollBar.Page = 208
+            VertScrollBar.Increment = 1
+            VertScrollBar.Page = 1
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 677
-            ClientWidth = 601
+            ClientHeight = 679
+            ClientWidth = 603
             TabOrder = 0
-            object cTracking: TChart
-              AnchorSideLeft.Control = ScrollBox2
-              AnchorSideTop.Control = ScrollBox2
-              AnchorSideRight.Control = ScrollBox2
-              AnchorSideRight.Side = asrBottom
+            object fpCharts: TFlowPanel
               Left = 0
-              Height = 208
+              Height = 679
               Top = 0
-              Width = 601
-              AxisList = <              
-                item
-                  Marks.LabelBrush.Style = bsClear
-                  Minors = <>
-                  Title.LabelFont.Orientation = 900
-                  Title.Visible = True
-                  Title.Caption = 'Altitude (m)'
-                  Title.LabelBrush.Style = bsClear
-                end              
-                item
-                  Intervals.MaxLength = 100
-                  Intervals.MinLength = 20
-                  Alignment = calBottom
-                  Marks.Format = '%.0f'
-                  Marks.LabelBrush.Style = bsClear
-                  Marks.Style = smsCustom
-                  Minors = <>
-                  Range.Max = 10
-                  Range.UseMax = True
-                  Range.UseMin = True
-                  Title.Visible = True
-                  Title.Caption = 'Time'
-                  Title.LabelBrush.Style = bsClear
-                end>
-              Title.Text.Strings = (
-                'Altitude'
-              )
-              Title.Visible = True
-              Anchors = [akTop, akLeft, akRight]
-              Color = clBackground
+              Width = 603
+              Align = alClient
+              BevelOuter = bvNone
+              ControlList = <>
+              FlowLayout = tlTop
+              FlowStyle = fsLeftRightTopBottom
+              TabOrder = 0
             end
           end
         end

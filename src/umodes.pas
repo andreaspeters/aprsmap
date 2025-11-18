@@ -138,6 +138,9 @@ begin
 
           new(APRSMessageObject);
 
+          APRSMessageObject^.Altitude := TDoubleList.Create;
+          APRSMessageObject^.Speed := TDoubleList.Create;
+
           if Obj.Find('flight') <> nil then
             APRSMessageObject^.FromCall := StringReplace(Obj.Strings['flight'], ' ', '', [rfReplaceAll]);
 
@@ -148,10 +151,10 @@ begin
             APRSMessageObject^.Longitude := Obj.Floats['lon'];
 
           if Obj.Find('altitude') <> nil then
-            APRSMessageObject^.Altitude := Round(Obj.Integers['altitude']*0.3048);
+            APRSMessageObject^.Altitude.Add(Round(Obj.Integers['altitude']*0.3048));
 
           if Obj.Find('speed') <> nil then
-            APRSMessageObject^.Speed := Round(Obj.Integers['speed']*1.85);
+            APRSMessageObject^.Speed.Add(Round(Obj.Integers['speed']*1.85));
 
           APRSMessageObject^.Track := TGPSTrack.Create;
           APRSMessageObject^.Track.Visible := True;

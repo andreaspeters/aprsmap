@@ -5,7 +5,8 @@ unit utypes;
 interface
 
 uses
-  Classes, SysUtils, Process, mvGpsObj, Forms, Controls, ComCtrls, Generics.Collections;
+  Classes, SysUtils, Process, mvGpsObj, Forms, Controls, ComCtrls,
+  Generics.Collections;
 
 type
   { Icon Primary meaning
@@ -20,6 +21,25 @@ type
 
   TDoubleList = specialize TList<Double>;
 
+  TRS41SGPData = record
+    Enabled: Boolean;
+    clb: TDoubleList;   // Climprate m/s
+    o3: TDoubleList;    // Ozone concentration in hPa
+    t: TDoubleList;     // Air Temperature
+    ti: TDoubleList;    // Temperature internal °C
+    pump: TDoubleList;  // How much A the o3 pumb consume in mA
+    batt: TDoubleList;  // Batterie State in V
+    dist: TDoubleList;  // Distance in km (I still don't know to what)
+    rssi: TDoubleList;  // Receive in dB
+    p: TDoubleList;     // Air Pressure in hPa
+    h: TDoubleList;     // Humidity in %
+    sats: TDoubleList;  // Number of GPS Sats
+  end;
+
+  TDevices = Record
+    RS41: TRS41SGPData
+  end;
+
   TAPRSMessage = record
     FromCall: String;
     ToCall: String;
@@ -29,9 +49,9 @@ type
     Icon: String;
     Longitude: Double;
     Latitude: Double;
-    Altitude: Double;
+    Altitude: TDoubleList;
     Course: Double;
-    Speed: Double;
+    Speed: TDoubleList;
     PHGPower: Double;
     PHGHeight: Double;
     PHGGain: Double;
@@ -67,6 +87,7 @@ type
     Count: Integer;
     Visible: Boolean;
     ActiveTabSheet: TTabSheet;
+    Devices: TDevices;
   end;
 
   TAPRSConfig = record
@@ -378,6 +399,7 @@ const
     (SymbolChar: '~'; Description: 'TNC Stream Sw')
   );
 
+
 procedure RestartApplication;
 procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
 function FahrenheitToCelsius(F: Double): Double;
@@ -426,6 +448,7 @@ begin
     Result := '';
   end;
 end;
+
 
 end.
 
