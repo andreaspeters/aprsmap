@@ -17,10 +17,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="406"/>
-        <CursorPos X="15" Y="409"/>
+        <TopLine Value="1084"/>
+        <CursorPos X="38" Y="1088"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,8 +36,8 @@
         <Filename Value="ureadpipe.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="18"/>
-        <CursorPos X="5" Y="18"/>
+        <TopLine Value="52"/>
+        <CursorPos X="15" Y="71"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -55,7 +54,7 @@
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="589"/>
+        <TopLine Value="653"/>
         <CursorPos X="14" Y="681"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -73,7 +72,7 @@
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="229"/>
+        <TopLine Value="52"/>
         <CursorPos Y="285"/>
         <UsageCount Value="278"/>
         <Loaded Value="True"/>
@@ -106,9 +105,10 @@
       <Unit>
         <Filename Value="umodes.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="128"/>
-        <CursorPos X="29" Y="142"/>
+        <TopLine Value="130"/>
+        <CursorPos Y="112"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -164,14 +164,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="devices/u_rs41sg.pas"/>
-        <Caret Line="72" Column="67" TopLine="25"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="1033" TopLine="1002"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="1032" Column="9" TopLine="1002"/>
@@ -283,6 +275,14 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="668" Column="107" TopLine="635"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="409" Column="15" TopLine="418"/>
+      </Position>
+      <Position>
+        <Filename Value="ureadpipe.pas"/>
+        <Caret Line="17" Column="13" TopLine="4"/>
       </Position>
     </JumpHistory>
     <RunParams>

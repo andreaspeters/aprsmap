@@ -90,7 +90,7 @@ procedure TModeSThread.LoadAircraftsFromDump1090;
 var Response: String;
     Obj: TJSONObject;
     Items: TJSONArray;
-    oldMsg, APRSMessageObject: PAPRSMessage;
+    APRSMessageObject: PAPRSMessage;
     i: Integer;
     Client: TFPHTTPClient;
     Root: TJSONData;
@@ -101,6 +101,7 @@ begin
     try
       Response := Client.Get('http://' + FConfig^.ModeSServer + ':' +
                              IntToStr(FConfig^.ModeSPort) + '/data.json');
+
     except
       on E: Exception do
       begin

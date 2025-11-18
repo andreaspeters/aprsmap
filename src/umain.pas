@@ -1083,7 +1083,10 @@ begin
 
   try
     if not ReadPipe.Error then
+    begin
       AddPoI(ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData));
+      ReadPipe.PipeData := '';
+    end;
   except
     on E: Exception do
       {$IFDEF UNIX}
