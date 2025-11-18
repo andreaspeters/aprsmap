@@ -58,6 +58,7 @@ to find more examples for filters.
 
 ![clipboard_20251030235800.bmp](vx_images/clipboard_20251030235800.bmp)
 ![clipboard_20251030235939.bmp](vx_images/clipboard_20251030235939.bmp)
+![clipboard_20251118104111.bmp](vx_images/clipboard_20251118104111.bmp)
 ![Track](vx_images/clipboard_20251029091932.bmp)
 ![Track](vx_images/clipboard_20251028114057.bmp)
 
