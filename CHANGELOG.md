@@ -1,6 +1,6 @@
 # Changelog
 
-## master
+## v0.6.0
 
 - ADD: [last] Window of the last seen APRS objects.
 - ADD: [raw] Show RAW Messages from a APRS object.
