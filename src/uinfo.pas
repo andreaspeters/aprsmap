@@ -25,6 +25,7 @@ type
     Memo1: TMemo;
     procedure ButtonPanel1Click(Sender: TObject);
     procedure CloseButtonClick(Sender: TObject);
+    procedure Label3Click(Sender: TObject);
     procedure LFPSourceCodeClick(Sender: TObject);
     procedure LGithubDonationClick(Sender: TObject);
   private
@@ -45,6 +46,11 @@ implementation
 procedure TFInfo.CloseButtonClick(Sender: TObject);
 begin
   Close
+end;
+
+procedure TFInfo.Label3Click(Sender: TObject);
+begin
+
 end;
 
 procedure TFInfo.ButtonPanel1Click(Sender: TObject);

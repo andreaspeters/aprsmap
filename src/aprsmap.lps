@@ -17,7 +17,6 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="896"/>
         <CursorPos X="29" Y="854"/>
@@ -97,8 +96,9 @@
         <ComponentName Value="FInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="17" Y="37"/>
+        <CursorPos Y="4"/>
         <UsageCount Value="219"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -120,7 +120,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
         <TopLine Value="52"/>
-        <CursorPos X="123" Y="71"/>
+        <CursorPos X="39" Y="71"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -143,7 +143,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
         <TopLine Value="163"/>
-        <CursorPos X="127" Y="187"/>
+        <CursorPos Y="187"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit>
@@ -157,10 +157,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="1031" TopLine="1002"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="1010" Column="45" TopLine="1004"/>
@@ -276,6 +272,10 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="186" Column="26" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="uinfo.pas"/>
+        <Caret Line="38" Column="17"/>
       </Position>
     </JumpHistory>
     <RunParams>
