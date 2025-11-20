@@ -594,11 +594,6 @@ begin
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
       STLongitudeDMS.Caption := LonToStr(msg^.Longitude, True);
 
-      if msg^.Altitude.Count > 0 then
-        STAltitude.Caption := FloatToStr(msg^.Altitude.Last)
-      else
-        STAltitude.Caption := '';
-
       STCourse.Caption := FloatToStr(msg^.Course);
       STPower.Caption := FloatToStr(msg^.PHGPower);
       STHeight.Caption := FloatToStr(msg^.PHGHeight);
@@ -632,14 +627,18 @@ begin
       begin
         WriteChart(msg^.Speed, 'Speed', 'Time', 'Speed (km/h)', fpCharts);
         STSpeed.Caption := FloatToStr(msg^.Speed.Last);
-      end;
+      end
+      else
+        STSpeed.Caption := '';
 
 
       if Assigned(msg^.Altitude) and (msg^.Altitude.Count > 0) then
       begin
         WriteChart(msg^.Altitude, 'Altitude', 'Time', 'Altitude (m)', fpCharts);
         STAltitude.Caption := FloatToStr(msg^.Altitude.Last);
-      end;
+      end
+      else
+        STAltitude.Caption := '';
 
       if not (msg^.ModeS) then
       begin

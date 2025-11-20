@@ -213,7 +213,7 @@ object FMain: TFMain
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 681
+          ClientHeight = 678
           ClientWidth = 605
           object Label4: TLabel
             Left = 10
@@ -567,7 +567,7 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 681
+          ClientHeight = 678
           ClientWidth = 605
           object scWX: TScrollBox
             Left = 0
@@ -822,7 +822,7 @@ object FMain: TFMain
         end
         object tsCharts: TTabSheet
           Caption = 'Charts'
-          ClientHeight = 681
+          ClientHeight = 678
           ClientWidth = 605
           object scCharts: TScrollBox
             Left = 0

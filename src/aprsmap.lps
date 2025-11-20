@@ -17,9 +17,10 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="896"/>
-        <CursorPos X="29" Y="854"/>
+        <TopLine Value="586"/>
+        <CursorPos Y="596"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -96,7 +97,6 @@
         <ComponentName Value="FInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos Y="4"/>
         <UsageCount Value="219"/>
@@ -119,7 +119,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="5"/>
-        <TopLine Value="52"/>
+        <TopLine Value="40"/>
         <CursorPos X="39" Y="71"/>
         <UsageCount Value="200"/>
         <Loaded Value="True"/>
