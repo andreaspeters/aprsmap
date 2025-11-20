@@ -17,9 +17,10 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="1084"/>
-        <CursorPos X="38" Y="1088"/>
+        <TopLine Value="896"/>
+        <CursorPos X="29" Y="854"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -36,8 +37,8 @@
         <Filename Value="ureadpipe.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="52"/>
-        <CursorPos X="15" Y="71"/>
+        <TopLine Value="18"/>
+        <CursorPos X="5" Y="18"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -45,7 +46,7 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="409"/>
+        <TopLine Value="364"/>
         <CursorPos X="9" Y="462"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -54,7 +55,7 @@
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="653"/>
+        <TopLine Value="589"/>
         <CursorPos X="14" Y="681"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
@@ -72,7 +73,7 @@
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="52"/>
+        <TopLine Value="229"/>
         <CursorPos Y="285"/>
         <UsageCount Value="278"/>
         <Loaded Value="True"/>
@@ -105,10 +106,9 @@
       <Unit>
         <Filename Value="umodes.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="7"/>
-        <TopLine Value="130"/>
-        <CursorPos Y="112"/>
+        <TopLine Value="128"/>
+        <CursorPos X="29" Y="142"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -153,25 +153,10 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="4012"/>
         <CursorPos X="31" Y="4039"/>
-        <UsageCount Value="10"/>
-      </Unit>
-      <Unit>
-        <Filename Value="devices/u_rs42sg.pas"/>
-        <UnitName Value="u_rs41sg"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="14"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="1"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="1032" Column="9" TopLine="1002"/>
-      </Position>
-      <Position>
-        <Filename Value="devices/u_rs41sg.pas"/>
-        <Caret Line="11" Column="55"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="1031" TopLine="1002"/>
@@ -278,11 +263,19 @@
       </Position>
       <Position>
         <Filename Value="umain.pas"/>
-        <Caret Line="409" Column="15" TopLine="418"/>
+        <Caret Line="7" Column="66"/>
       </Position>
       <Position>
-        <Filename Value="ureadpipe.pas"/>
-        <Caret Line="17" Column="13" TopLine="4"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="783" Column="19" TopLine="732"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="1063" Column="14" TopLine="1032"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="186" Column="26" TopLine="158"/>
       </Position>
     </JumpHistory>
     <RunParams>
