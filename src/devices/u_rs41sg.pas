@@ -48,34 +48,35 @@ begin
         end;
       end;
 
-      with msg^.Devices.RS41 do
-      begin
-        if GetTemperature(msg^.Message) <> -999999 then
+      if msg^.Devices.RS41.Enabled then
+        with msg^.Devices.RS41 do
         begin
-          t.Add(GetTemperature(msg^.Message));
-          msg^.WXTemperature.Add(GetTemperature(msg^.Message));
-        end;
+          if GetTemperature(msg^.Message) <> -999999 then
+          begin
+            t.Add(GetTemperature(msg^.Message));
+            msg^.WXTemperature.Add(GetTemperature(msg^.Message));
+          end;
 
-        if GetPressure(msg^.Message) <> -999999 then
-        begin
-          p.Add(GetPressure(msg^.Message));
-          msg^.WXPressure.Add(GetPressure(msg^.Message));
-        end;
+          if GetPressure(msg^.Message) <> -999999 then
+          begin
+            p.Add(GetPressure(msg^.Message));
+            msg^.WXPressure.Add(GetPressure(msg^.Message));
+          end;
 
-        if GetHumidity(msg^.Message) <> -999999 then
-        begin
-          h.Add(GetHumidity(msg^.Message));
-          msg^.WXHumidity.Add(GetHumidity(msg^.Message));
+          if GetHumidity(msg^.Message) <> -999999 then
+          begin
+            h.Add(GetHumidity(msg^.Message));
+            msg^.WXHumidity.Add(GetHumidity(msg^.Message));
+          end;
+          if GetClimbrate(msg^.Message) <> -999999 then
+            clb.Add(GetClimbrate(msg^.Message));
+          if GetSats(msg^.Message) <> -999999 then
+            sats.Add(GetSats(msg^.Message));
+          if GetRSSI(msg^.Message) <> -999999 then
+            rssi.Add(GetRSSI(msg^.Message));
+          if GetBatterie(msg^.Message) <> -999999 then
+            batt.Add(GetBatterie(msg^.Message));
         end;
-        if GetClimbrate(msg^.Message) <> -999999 then
-          clb.Add(GetClimbrate(msg^.Message));
-        if GetSats(msg^.Message) <> -999999 then
-          sats.Add(GetSats(msg^.Message));
-        if GetRSSI(msg^.Message) <> -999999 then
-          rssi.Add(GetRSSI(msg^.Message));
-        if GetBatterie(msg^.Message) <> -999999 then
-          batt.Add(GetBatterie(msg^.Message));
-      end;
     end;
   except
     on E: Exception do

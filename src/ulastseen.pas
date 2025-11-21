@@ -101,7 +101,7 @@ end;
 
 procedure TFLastSeen.FormHide(Sender: TObject);
 begin
-  if not IsClosing then
+  if not IsClosing and Assigned(FConfig) then
   begin
     FConfig^.LastSeenVisible := False;
     FConfig^.LastSeenWidth := Width;

@@ -550,7 +550,7 @@ begin
 end;
 
 function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
-var Regex: TRegExpr;
+var Regex, OrRegex: TRegExpr;
     Lat, Lon: Double;
     APRSMessageObject: TAPRSMessage;
     Message: Array of String;
@@ -564,6 +564,7 @@ const
     Messages = ':';
     StatusReport = '>';
     Telemetry = 'T#';
+    ObjectReport = ';';
 begin
   Result := Default(TAPRSMessage);
   Regex := TRegExpr.Create;
@@ -597,9 +598,19 @@ begin
       APRSMessageObject.Track.LineWidth := 1;
       APRSMessageObject.ModeS := False;
       APRSMessageObject.RAWMessages := TStringList.Create;
-      APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Message[3]]));
+      APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Data]));
       APRSMessageObject.Count := 0;
       APRSMessageObject.Visible := True;
+
+      // In a ObjectReport, the Callsign could be inside the PayLoad
+      if DataType = ObjectReport then
+      begin
+        OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
+        OrRegex.ModifierI := False;
+        if OrRegex.Exec(Message[3]) then
+          if OrRegex.SubExprMatchCount >= 1 then
+            APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
+      end;
 
 
       if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
@@ -738,6 +749,7 @@ begin
     end;
   end;
   Regex.Free;
+  OrRegex.Free;
 end;
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;

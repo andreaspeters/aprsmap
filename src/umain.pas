@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, TAStyles, fpexprpars,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, TANavigation, u_rs41sg;
+  TASeries, TATools, TANavigation, TAChartExtentLink, TAChartLiveView, u_rs41sg;
 
 type
 
@@ -26,6 +26,7 @@ type
     CBEFilter: TComboBoxEx;
     CBEMapProvider: TComboBoxEx;
     CBEPOIList: TComboBoxEx;
+    Chart1: TChart;
     fpWX: TFlowPanel;
     fpCharts: TFlowPanel;
     GroupBox1: TGroupBox;
@@ -190,6 +191,7 @@ type
     procedure WriteChart(X: TDoubleList; Title, TitleX, TitleY: String; ParentCtrl: TWinControl);
     procedure UpdateWXCaption(msg: TAPRSMessage);
     procedure UpdateDevices(newMsg, oldMsg: PAPRSMessage);
+    procedure ShowChartPopup(Sender: TObject);
     function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
@@ -744,7 +746,7 @@ end;
 procedure TFMain.WriteChart(X: TDoubleList; Title, TitleX, TitleY: String; ParentCtrl: TWinControl);
 var Chart: TChart;
     ChartPoint: TLineSeries;
-    i: Integer;
+    i, min: Integer;
     ChartName: String;
 begin
   if (not Assigned(X)) or (X.Count = 0) or (ParentCtrl = nil) then
@@ -779,9 +781,17 @@ begin
     end;
 
     // X
+    min := 0;
     Chart.BottomAxis.Title.Caption := TitleX;
     Chart.BottomAxis.Title.Visible := True;
-    Chart.BottomAxis.Range.Min := 0;
+    if X.Count >= 100 then
+    begin
+      Chart.BottomAxis.Range.Min := X.Count - 100;
+      min := X.Count - 100;
+    end
+    else
+      Chart.BottomAxis.Range.Min := 0;
+
     if X.Count <= 10 then
       Chart.BottomAxis.Range.Max := 10
     else
@@ -803,10 +813,12 @@ begin
     ChartPoint.LinePen.Width := 2;
     ChartPoint.SeriesColor := clRed;
     Chart.AddSeries(ChartPoint);
+    Chart.OnDblClick :=  @ShowChartPopup;
 
     // Punkte einfüllen
-    for i := 0 to X.Count - 1 do
+    for i := min to X.Count - 1 do
       ChartPoint.AddXY(i, X[i]);
+
   except
     on E: Exception do
     begin
@@ -814,6 +826,36 @@ begin
       writeln('WriteChart AutoGen Error: ', E.Message);
       {$ENDIF}
     end;
+  end;
+end;
+
+procedure TFMain.ShowChartPopup(Sender: TObject);
+var PopupForm: TForm;
+    PopupChart, Chart: TChart;
+    i: Integer;
+begin
+  if not (Sender is TChart) then
+    Exit;
+
+  Chart := Sender as TChart;
+
+  PopupForm := TForm.Create(Parent);
+  try
+    PopupForm.Caption := Chart.Title.Text.Text;
+    PopupForm.Width := 800;
+    PopupForm.Height := 600;
+    PopupForm.Position := poScreenCenter;
+
+    PopupChart := TChart.Create(PopupForm);
+    PopupChart.Parent := PopupForm;
+    PopupChart.Align := alClient;
+
+    for i := 0 to Chart.SeriesCount - 1 do
+      PopupChart.AddSeries(Chart.Series[i]);
+
+    PopupForm.ShowModal;
+  finally
+    PopupForm.Free;
   end;
 end;
 
@@ -974,6 +1016,10 @@ begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.ImageIndex := oldMsg^.ImageIndex;
         newMsg^.Count := oldMsg^.Count;
+
+        // modes gaves us a lot of points with the same data. We can ignore them.
+        if newMsg^.ModeS and (Length(newMsg^.Checksum) > 0) and (newMsg^.Checksum = oldMsg^.Checksum) then
+          Exit;
 
         PrependDoubleList(newMsg^.Speed, oldMsg^.Speed);
         PrependDoubleList(newMsg^.Altitude, oldMsg^.Altitude);

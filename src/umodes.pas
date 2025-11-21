@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, fpjson, jsonparser, utypes, RegExpr, Contnrs, fphttpclient,
-  mvGpsObj, Process;
+  mvGpsObj, Process, md5;
 
 type
   { TModeSThread }
@@ -162,6 +162,8 @@ begin
           APRSMessageObject^.Track.LineWidth := 1;
           APRSMessageObject^.Time := now();
           APRSMessageObject^.ImageIndex := 7;
+          if (Obj.Find('lat') <> nil) and (Obj.Find('lon') <> nil) then
+            APRSMessageObject^.Checksum := MD5Print(MD5String(FloatToStr(APRSMessageObject^.Longitude)+FloatToStr(APRSMessageObject^.Latitude)));
 
           if Length(APRSMessageObject^.FromCall) > 0 then
           begin

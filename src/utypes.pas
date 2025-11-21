@@ -88,6 +88,7 @@ type
     Visible: Boolean;
     ActiveTabSheet: TTabSheet;
     Devices: TDevices;
+    Checksum: String;
   end;
 
   TAPRSConfig = record
@@ -427,11 +428,12 @@ var
   i: Integer;
 begin
   try
-    if not Assigned(Dest) or not Assigned(Src) then
+    if (Dest = nil) or (Src = nil) then
       Exit;
 
-    for i := Src.Count - 1 downto 0 do
-      Dest.Insert(0, Src[i]);
+    if Src.Count > 0 then
+      for i := Src.Count - 1 downto 0 do
+        Dest.Insert(0, Src[i]);
   except
     on E: Exception do
     begin
