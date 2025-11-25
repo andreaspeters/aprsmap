@@ -2,7 +2,7 @@
 {"hash":94476991,"name":"tfinfo.caption","sourcebytes":[65,80,82,83,32,77,97,112,32,45,32,73,110,102,111],"value":"APRS Map - Info"},
 {"hash":91576288,"name":"tfinfo.label1.caption","sourcebytes":[65,80,82,83,32,77,97,112],"value":"APRS Map"},
 {"hash":19325625,"name":"tfinfo.label2.caption","sourcebytes":[98,121,32,65,110,100,114,101,97,115,32,80,101,116,101,114,115,32,40,68,67,54,65,80,41],"value":"by Andreas Peters (DC6AP)"},
-{"hash":127080720,"name":"tfinfo.label3.caption","sourcebytes":[118,48,46,54,46,48],"value":"v0.6.0"},
+{"hash":127080721,"name":"tfinfo.label3.caption","sourcebytes":[118,48,46,54,46,49],"value":"v0.6.1"},
 {"hash":234432372,"name":"tfinfo.lgithubdonation.caption","sourcebytes":[80,108,101,97,115,101,32,68,111,110,97,116,101,32,97,32,115,109,97,108,108,32,97,109,111,117,110,116],"value":"Please Donate a small amount"},
 {"hash":240762565,"name":"tfinfo.lfpsourcecode.caption","sourcebytes":[65,80,82,83,32,77,97,112,32,83,111,117,114,99,101,32,67,111,100,101],"value":"APRS Map Source Code"}
 ]}

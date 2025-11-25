@@ -15,7 +15,7 @@ msgid "by Andreas Peters (DC6AP)"
 msgstr ""
 
 #: tfinfo.label3.caption
-msgid "v0.6.0"
+msgid "v0.6.1"
 msgstr ""
 
 #: tfinfo.lfpsourcecode.caption

@@ -17,7 +17,6 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
         <TopLine Value="995"/>
         <CursorPos Y="1018"/>
@@ -46,7 +45,7 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="260"/>
+        <TopLine Value="248"/>
         <CursorPos X="46" Y="271"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -97,6 +96,7 @@
         <ComponentName Value="FInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <CursorPos Y="4"/>
         <UsageCount Value="219"/>
@@ -143,7 +143,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
         <TopLine Value="26"/>
-        <CursorPos X="58" Y="51"/>
+        <CursorPos X="40" Y="51"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit>

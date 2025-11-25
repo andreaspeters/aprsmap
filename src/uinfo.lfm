@@ -2598,7 +2598,7 @@ object FInfo: TFInfo
     Height = 23
     Top = 72
     Width = 43
-    Caption = 'v0.6.0'
+    Caption = 'v0.6.1'
     OnClick = Label3Click
   end
   object IGithubDonation: TImage
