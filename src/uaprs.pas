@@ -318,7 +318,7 @@ begin
             {$IFDEF UNIX}
             writeln('Error Create Overlay Image: ', E.Message);
             {$ENDIF}
-            Result := i;
+            Result := 0;
           end;
         end;
       end;

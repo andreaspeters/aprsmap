@@ -1014,7 +1014,6 @@ begin
       begin
         // Preserve old Data
         newMsg^.Track := oldMsg^.Track;
-        newMsg^.ImageIndex := oldMsg^.ImageIndex;
         newMsg^.Count := oldMsg^.Count;
 
         // modes gaves us a lot of points with the same data. We can ignore them.
@@ -1033,6 +1032,7 @@ begin
         if not newMsg^.ModeS and Assigned(newMsg^.RAWMessages) then
           newMsg^.RAWMessages.AddStrings(oldMsg^.RAWMessages);
       end;
+
 
       // how often we saw that call
       inc(newMsg^.Count);
