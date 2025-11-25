@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.6.1
+
+- FIX: wrong callsings from hotspots aprs packets.
+- FIX: cleanup speed if it's empty
+
 ## v0.6.0
 
 - ADD: [last] Window of the last seen APRS objects.
@@ -17,7 +22,7 @@
 - ADD: ModeS (Airplane Tracking) support via dump1090.
 - CHANGE: Improve PoI update.
 - ADD: Tracking for APRS Objects (has to be enabled per Object).
-- ADD: Splitter to resize Map and PoI details.
+- ADD: Splitter to resize Map and PoI details.                          *
 - ADD: support for overlay image.
 - ADD: Simple PoI filter.
 - ADD: Configure own APRS symbol.
