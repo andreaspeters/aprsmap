@@ -13,6 +13,7 @@ object FMain: TFMain
   Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
   Scaled = False
+  OnChangeBounds = FormChangeBounds
   OnClose = FormClose
   OnCreate = FMainInit
   OnHide = FormHide
@@ -20,8 +21,8 @@ object FMain: TFMain
   OnShow = FormShow
   object SBMain: TStatusBar
     Left = 0
-    Height = 25
-    Top = 1172
+    Height = 23
+    Top = 1174
     Width = 1574
     Panels = <    
       item
@@ -38,7 +39,7 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1172
+    Height = 1174
     Top = 0
     Width = 1574
     Align = alClient
@@ -46,15 +47,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1172
+      Height = 1174
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1172
+      ClientHeight = 1174
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1165
+        Height = 1167
         Top = 0
         Width = 950
         Active = True
@@ -62,7 +63,7 @@ object FMain: TFMain
         Anchors = [akTop, akLeft, akBottom]
         BorderSpacing.Bottom = 7
         DownloadEngine = MVDEFPC1
-        DrawingEngine = MvRGBGraphicsDrawingEngine1
+        DrawingEngine = MvBGRADrawingEngine1
         Layers = <>
         Font.Color = clBlack
         MapProvider = 'OpenStreetMap Standard'
@@ -83,7 +84,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 1149
+        Top = 1151
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -100,11 +101,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1172
+      Height = 1174
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 1172
+      ClientHeight = 1174
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -113,7 +114,7 @@ object FMain: TFMain
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 160
+        ClientHeight = 162
         ClientWidth = 613
         Color = clForm
         ParentBackground = False
@@ -121,9 +122,9 @@ object FMain: TFMain
         TabOrder = 0
         object Label1: TLabel
           Left = 8
-          Height = 23
+          Height = 21
           Top = 8
-          Width = 44
+          Width = 40
           Caption = 'Zoom'
         end
         object TBZoomMap: TTrackBar
@@ -149,7 +150,7 @@ object FMain: TFMain
           AnchorSideTop.Control = GroupBox1
           AnchorSideRight.Side = asrBottom
           Left = 302
-          Height = 39
+          Height = 35
           Top = 33
           Width = 314
           Anchors = [akTop, akLeft, akRight]
@@ -162,16 +163,16 @@ object FMain: TFMain
         end
         object Label35: TLabel
           Left = 304
-          Height = 23
+          Height = 21
           Top = 8
-          Width = 63
+          Width = 58
           Caption = 'Provider'
         end
         object CBEFilter: TComboBoxEx
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 304
-          Height = 39
+          Height = 35
           Top = 104
           Width = 312
           Anchors = [akTop, akLeft, akRight]
@@ -186,9 +187,9 @@ object FMain: TFMain
         end
         object Label36: TLabel
           Left = 304
-          Height = 23
+          Height = 21
           Top = 80
-          Width = 38
+          Width = 35
           Caption = 'Filter'
         end
       end
@@ -200,7 +201,7 @@ object FMain: TFMain
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = Panel4
         Left = 0
-        Height = 718
+        Height = 720
         Top = 412
         Width = 615
         ActivePage = tsMain
@@ -213,20 +214,20 @@ object FMain: TFMain
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 681
+          ClientHeight = 687
           ClientWidth = 605
           object Label4: TLabel
             Left = 10
-            Height = 23
+            Height = 21
             Top = 8
-            Width = 62
+            Width = 56
             Caption = 'Latitude'
           end
           object Label5: TLabel
             Left = 155
-            Height = 23
+            Height = 21
             Top = 8
-            Width = 77
+            Width = 70
             Caption = 'Longitude'
           end
           object STLatitude: TStaticText
@@ -283,9 +284,9 @@ object FMain: TFMain
           end
           object Label6: TLabel
             Left = 304
-            Height = 23
+            Height = 21
             Top = 8
-            Width = 88
+            Width = 79
             Caption = 'Altitude (m)'
           end
           object STAltitude: TStaticText
@@ -303,16 +304,16 @@ object FMain: TFMain
           end
           object Label7: TLabel
             Left = 303
-            Height = 23
+            Height = 21
             Top = 49
-            Width = 129
+            Width = 116
             Caption = 'Course/Direction'
           end
           object Label8: TLabel
             Left = 303
-            Height = 23
+            Height = 21
             Top = 89
-            Width = 101
+            Width = 90
             Caption = 'Speed (km/h)'
           end
           object STCourse: TStaticText
@@ -343,9 +344,9 @@ object FMain: TFMain
           end
           object Label9: TLabel
             Left = 9
-            Height = 23
+            Height = 21
             Top = 360
-            Width = 75
+            Width = 68
             Caption = 'Power (w)'
           end
           object Label10: TLabel
@@ -371,23 +372,23 @@ object FMain: TFMain
           end
           object Label11: TLabel
             Left = 156
-            Height = 23
+            Height = 21
             Top = 360
-            Width = 80
+            Width = 72
             Caption = 'Height (m)'
           end
           object Label12: TLabel
             Left = 9
-            Height = 23
+            Height = 21
             Top = 400
-            Width = 69
+            Width = 63
             Caption = 'Gain (dB)'
           end
           object Label13: TLabel
             Left = 156
-            Height = 23
+            Height = 21
             Top = 400
-            Width = 90
+            Width = 81
             Caption = 'Direction (°)'
           end
           object STPower: TStaticText
@@ -456,30 +457,30 @@ object FMain: TFMain
           end
           object Label15: TLabel
             Left = 306
-            Height = 23
+            Height = 21
             Top = 200
-            Width = 66
+            Width = 59
             Caption = 'Strength'
           end
           object Label17: TLabel
             Left = 306
-            Height = 23
+            Height = 21
             Top = 240
-            Width = 69
+            Width = 63
             Caption = 'Gain (dB)'
           end
           object Label18: TLabel
             Left = 453
-            Height = 23
+            Height = 21
             Top = 200
-            Width = 80
+            Width = 72
             Caption = 'Height (m)'
           end
           object Label19: TLabel
             Left = 453
-            Height = 23
+            Height = 21
             Top = 240
-            Width = 90
+            Width = 81
             Caption = 'Direction (°)'
           end
           object STStrength: TStaticText
@@ -539,9 +540,9 @@ object FMain: TFMain
           end
           object Label20: TLabel
             Left = 10
-            Height = 23
+            Height = 21
             Top = 200
-            Width = 86
+            Width = 77
             Caption = 'Range (km)'
           end
           object Panel3: TPanel
@@ -557,7 +558,7 @@ object FMain: TFMain
             Left = 10
             Height = 23
             Top = 160
-            Width = 35
+            Width = 36
             Caption = 'RNG'
             Font.Height = -16
             Font.Name = 'Sans'
@@ -567,11 +568,11 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 681
+          ClientHeight = 687
           ClientWidth = 605
           object scWX: TScrollBox
             Left = 0
-            Height = 681
+            Height = 687
             Top = 0
             Width = 605
             HorzScrollBar.Page = 1
@@ -581,77 +582,77 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 677
+            ClientHeight = 683
             ClientWidth = 601
             TabOrder = 0
             object Label23: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 32
-              Width = 133
+              Width = 121
               Caption = 'Wind Direction (°)'
             end
             object Label24: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 72
-              Width = 144
+              Width = 130
               Caption = 'Wind Speed (km/h)'
             end
             object Label25: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 112
-              Width = 133
+              Width = 120
               Caption = 'Wind Gust (km/h)'
             end
             object Label16: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 152
-              Width = 120
+              Width = 107
               Caption = 'Temperatur (°C)'
             end
             object Label26: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 32
-              Width = 154
+              Width = 140
               Caption = 'Rainfall last 1h (mm)'
             end
             object Label28: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 112
-              Width = 147
+              Width = 133
               Caption = 'Rainfall today (mm)'
             end
             object Label29: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 192
-              Width = 96
+              Width = 87
               Caption = 'Humidity (%)'
             end
             object Label30: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 192
-              Width = 105
+              Width = 95
               Caption = 'Pressure (mb)'
             end
             object Label31: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 232
-              Width = 108
+              Width = 97
               Caption = 'Lum (watt/m²)'
             end
             object Label33: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 152
-              Width = 135
+              Width = 122
               Caption = 'Raw Rain Counter'
             end
             object STWXDirection: TStaticText
@@ -722,9 +723,9 @@ object FMain: TFMain
             end
             object Label32: TLabel
               Left = 8
-              Height = 23
+              Height = 21
               Top = 232
-              Width = 171
+              Width = 156
               Caption = 'Snowfall last 24h (mm)'
             end
             object STWXSnowFall24h: TStaticText
@@ -784,9 +785,9 @@ object FMain: TFMain
             end
             object Label27: TLabel
               Left = 304
-              Height = 23
+              Height = 21
               Top = 72
-              Width = 163
+              Width = 148
               Caption = 'Rainfall last 24h (mm)'
             end
             object STWXRainFall24h: TStaticText
@@ -808,7 +809,7 @@ object FMain: TFMain
               AnchorSideBottom.Control = scWX
               AnchorSideBottom.Side = asrBottom
               Left = 0
-              Height = 445
+              Height = 451
               Top = 232
               Width = 601
               Anchors = [akTop, akLeft, akRight, akBottom]
@@ -822,11 +823,11 @@ object FMain: TFMain
         end
         object tsCharts: TTabSheet
           Caption = 'Charts'
-          ClientHeight = 681
+          ClientHeight = 687
           ClientWidth = 605
           object scCharts: TScrollBox
             Left = 0
-            Height = 681
+            Height = 687
             Top = 0
             Width = 605
             HorzScrollBar.Page = 1
@@ -836,12 +837,12 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 677
+            ClientHeight = 683
             ClientWidth = 601
             TabOrder = 0
             object fpCharts: TFlowPanel
               Left = 0
-              Height = 677
+              Height = 683
               Top = 0
               Width = 601
               Align = alClient
@@ -867,21 +868,21 @@ object FMain: TFMain
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         Caption = 'PoI'
-        ClientHeight = 200
+        ClientHeight = 202
         ClientWidth = 613
         TabOrder = 2
         object Label3: TLabel
           Left = 8
-          Height = 23
+          Height = 21
           Top = 8
-          Width = 111
+          Width = 99
           Caption = 'APRS Message'
         end
         object Label2: TLabel
           Left = 304
-          Height = 23
+          Height = 21
           Top = 8
-          Width = 108
+          Width = 98
           Caption = 'Select Callsign'
         end
         object MAPRSMessage: TMemo
@@ -906,7 +907,7 @@ object FMain: TFMain
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 304
-          Height = 39
+          Height = 35
           Top = 40
           Width = 294
           Anchors = [akTop, akLeft, akRight]
@@ -942,9 +943,9 @@ object FMain: TFMain
         end
         object Label34: TLabel
           Left = 304
-          Height = 23
+          Height = 21
           Top = 88
-          Width = 59
+          Width = 54
           Caption = 'Callsign'
         end
         object STIconDescription: TStaticText
@@ -960,9 +961,9 @@ object FMain: TFMain
         end
         object Label37: TLabel
           Left = 304
-          Height = 23
+          Height = 21
           Top = 152
-          Width = 91
+          Width = 82
           Caption = 'Last Update'
         end
         object stLastUpdate: TStaticText
@@ -996,7 +997,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 33
-        Top = 1139
+        Top = 1141
         Width = 619
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = True
@@ -1047,9 +1048,9 @@ object FMain: TFMain
   end
   object Label22: TLabel
     Left = 304
-    Height = 23
+    Height = 21
     Top = 152
-    Width = 91
+    Width = 82
     Caption = 'Last Update'
   end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine

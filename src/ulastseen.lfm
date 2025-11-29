@@ -13,11 +13,12 @@ object FLastSeen: TFLastSeen
   LCLVersion = '4.4.0.0'
   Visible = True
   OnHide = FormHide
+  OnShow = FormShow
   object lvCallsigns: TListView
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     Left = 0
-    Height = 1154
+    Height = 1156
     Top = 5
     Width = 260
     Align = alClient
@@ -28,19 +29,19 @@ object FLastSeen: TFLastSeen
       item
         AutoSize = True
         Caption = '    Callsign'
-        Width = 95
+        Width = 86
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = 'Distance (km)'
-        Width = 126
+        Width = 115
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = '#'
-        Width = 26
+        Width = 23
       end    
       item
         Width = 257
@@ -52,8 +53,8 @@ object FLastSeen: TFLastSeen
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 25
-    Top = 1159
+    Height = 23
+    Top = 1161
     Width = 261
     Panels = <>
   end

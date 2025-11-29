@@ -24,6 +24,7 @@ type
     StatusBar1: TStatusBar;
     procedure actCloseWindowExecute(Sender: TObject);
     procedure FormHide(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure lvCallsignClick(Sender: TObject);
   private
     FConfig: PTAPRSConfig;
@@ -108,6 +109,16 @@ begin
     FConfig^.LastSeenHeight := Height;
     FConfig^.LastSeenPosX := Left;
     FConfig^.LastSeenPosY := Top;
+  end;
+end;
+
+procedure TFLastSeen.FormShow(Sender: TObject);
+begin
+  // Attach Convers window at the main window
+  if FMain.WindowState <> wsMinimized then
+  begin
+    Left := FMain.Left+FMain.Width+1;
+    Top := FMain.Top;
   end;
 end;
 

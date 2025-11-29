@@ -72,20 +72,20 @@ var
   poi: TMapPointOfInterest;
   Tolerance: Double;
 begin
-  p := Layer.View.ScreenToLatLon(Point(x, y));
+  p := Layer.MapView.ScreenToLatLon(Point(x, y));
   Tolerance := 0.0;
 
-  if Layer.View.Zoom < 20 then
+  if Layer.MapView.Zoom < 20 then
     Tolerance := 0.0005;
-  if Layer.View.Zoom < 15 then
+  if Layer.MapView.Zoom < 15 then
     Tolerance := 0.0010;
-  if Layer.View.Zoom < 13 then
+  if Layer.MapView.Zoom < 13 then
     Tolerance := 0.0050;
-  if Layer.View.Zoom < 10 then
+  if Layer.MapView.Zoom < 10 then
     Tolerance := 0.0500;
-  if Layer.View.Zoom < 7 then
+  if Layer.MapView.Zoom < 7 then
     Tolerance := 0.1000;
-  if Layer.View.Zoom < 5 then
+  if Layer.MapView.Zoom < 5 then
     Tolerance := 0.3000;
 
   for i := 0 to Layer.PointsOfInterest.Count - 1 do

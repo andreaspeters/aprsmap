@@ -163,6 +163,7 @@ type
     procedure CBEFilterSelect(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
     procedure FMainInit(Sender: TObject);
+    procedure FormChangeBounds(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormHide(Sender: TObject);
     procedure FormResize(Sender: TObject);
@@ -277,6 +278,19 @@ begin
   SetupFilterCombo;
 
   pcPoITab.ActivePage := tsMain;
+end;
+
+procedure TFMain.FormChangeBounds(Sender: TObject);
+begin
+  if (FLastseen.WindowState <> wsMinimized) and FLastseen.Visible then
+  begin
+    if Abs(FLastseen.Left - (FMain.Left + FMain.Width)) <= 100 then
+    begin
+      // Docken
+      FLastseen.Left := FMain.Left + FMain.Width + 1;
+      FLastseen.Top  := FMain.Top;
+    end;
+  end;
 end;
 
 procedure TFMain.SetupFilterCombo;

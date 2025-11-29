@@ -1,5 +1,9 @@
 # Changelog
 
+- ADD: Wayland support
+- ADD: Dock lastseen window at the main window if they are close
+       to eachother.
+
 ## v0.6.1
 
 - FIX: wrong callsings from hotspots aprs packets.
