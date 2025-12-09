@@ -5,7 +5,8 @@ unit ureadpipe;
 interface
 
 uses
-  Classes, SysUtils, utypes, RegExpr, uaprs, {$IFDEF UNIX}BaseUnix{$ELSE}Windows{$ENDIF};
+  Classes, SysUtils, utypes, RegExpr, uaprs, base64,
+  {$IFDEF UNIX}BaseUnix{$ELSE}Windows{$ENDIF};
 
 type
   TReadPipeThread = class(TThread)
@@ -139,29 +140,72 @@ end;
 
 function TReadPipeThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
-    DataType, DataMessage: String;
+    PRData, DataType, DataMessage: String;
+    msg: TStringArray;
+    Channel: Integer;
 begin
-  Result := Default(TAPRSMessage);
-  Regex := TRegExpr.Create;
-  try
-    // check type
-    if Length(Data) <= 0 then
-      Exit;
-    Regex.Expression := '(?:\s)?([!=\/@;#*)_:>]{1})(.*)';
-    Regex.ModifierI := False;
-    if Regex.Exec(Data.Split('|')[3]) then
+
+  msg := Data.Split('|');
+  if Length(msg) < 2 then
+  begin
+    Channel := StrToInt(msg[0]);
+    PRData := DecodeStringBase64(msg[1]);
+
+    if Pos('<UI', PRData) >= 0 then
     begin
-      // check if type is a position type
-      DataType := Regex.Match[1];
-      DataMessage := Regex.Match[2];
-      {$IFDEF UNIX}
-      if FMain.Debug then
-        writeln(Data);
-      {$ENDIF}
-      Result := GetAPRSMessageObject(Data, DataType, DataMessage);
+      Regex := TRegExpr.Create;
+      Regex.Expression := '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? <UI pid=F0.*(?:\[(\d{2}:\d{2}:\d{2})\]){1}(.*)';
+      Regex.ModifierI := False;
+      if Regex.Exec(PRData) then
+        if Regex.SubExprMatchCount >= 5 then
+        begin
+          DataMessage := Regex.Match[5];
+          DataMessage := StringReplace(DataMessage, #13, ' ', [rfReplaceAll]);
+        end;
     end;
-  finally
-    Regex.Free;
+
+//      if Pos('ctl UI', PRData) >= 0 then
+//      begin
+//        Regex.Expression := '^.*?fm\s(\S+)\sto\s(\S+)\s(?:via\s(.*))? ctl UI(?:(\S){1})? pid F0?';
+//        Regex.ModifierI := False;
+//        if Regex.Exec(Data) then
+//          if Regex.SubExprMatchCount >= 3 then
+//            APRSHeader := Regex.Match[1]+'|'+Regex.Match[2]+'|'+Regex.Match[3];
+//
+//        Regex.Expression := '^([!=\/@;#*)_:>]{1})(.*)$';
+//        Regex.ModifierI := False;
+//        if Regex.Exec(PRData) then
+//        begin
+//          DataMessage := APRSHeader + '|' + Data;
+//          DataMessage := StringReplace(APRSMsg, #13, ' ', [rfReplaceAll]);
+//          WriteToPipe('flexpacketaprspipe', APRSMsg);
+//          APRSHeader := '';
+//        end;
+//      end;
+
+
+    Result := Default(TAPRSMessage);
+    Regex := TRegExpr.Create;
+    try
+      // check type
+      if Length(DataMessage) <= 0 then
+        Exit;
+      Regex.Expression := '(?:\s)?([!=\/@;#*)_:>]{1})(.*)';
+      Regex.ModifierI := False;
+      if Regex.Exec(DataMessage) then
+      begin
+        // check if type is a position type
+        DataType := Regex.Match[1];
+        DataMessage := Regex.Match[2];
+        {$IFDEF UNIX}
+        if FMain.Debug then
+          writeln(DataMessage);
+        {$ENDIF}
+        Result := GetAPRSMessageObject(Data, DataType, DataMessage);
+      end;
+    finally
+      Regex.Free;
+    end;
   end;
 end;
 
