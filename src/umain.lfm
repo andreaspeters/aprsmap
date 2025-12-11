@@ -21,8 +21,8 @@ object FMain: TFMain
   OnShow = FormShow
   object SBMain: TStatusBar
     Left = 0
-    Height = 23
-    Top = 1174
+    Height = 25
+    Top = 1172
     Width = 1574
     Panels = <    
       item
@@ -39,7 +39,7 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1174
+    Height = 1172
     Top = 0
     Width = 1574
     Align = alClient
@@ -47,15 +47,15 @@ object FMain: TFMain
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1174
+      Height = 1172
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1174
+      ClientHeight = 1172
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1167
+        Height = 1165
         Top = 0
         Width = 950
         Active = True
@@ -84,7 +84,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 1151
+        Top = 1149
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -101,11 +101,11 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1174
+      Height = 1172
       Top = 0
       Width = 619
       ClientWidth = 619
-      ClientHeight = 1174
+      ClientHeight = 1172
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
@@ -114,8 +114,8 @@ object FMain: TFMain
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 162
-        ClientWidth = 613
+        ClientHeight = 161
+        ClientWidth = 611
         Color = clForm
         ParentBackground = False
         ParentColor = False
@@ -150,7 +150,7 @@ object FMain: TFMain
           AnchorSideTop.Control = GroupBox1
           AnchorSideRight.Side = asrBottom
           Left = 302
-          Height = 35
+          Height = 33
           Top = 33
           Width = 314
           Anchors = [akTop, akLeft, akRight]
@@ -172,7 +172,7 @@ object FMain: TFMain
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 304
-          Height = 35
+          Height = 33
           Top = 104
           Width = 312
           Anchors = [akTop, akLeft, akRight]
@@ -201,7 +201,7 @@ object FMain: TFMain
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = Panel4
         Left = 0
-        Height = 720
+        Height = 718
         Top = 412
         Width = 615
         ActivePage = tsMain
@@ -214,8 +214,8 @@ object FMain: TFMain
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 687
-          ClientWidth = 605
+          ClientHeight = 683
+          ClientWidth = 611
           object Label4: TLabel
             Left = 10
             Height = 21
@@ -558,7 +558,7 @@ object FMain: TFMain
             Left = 10
             Height = 23
             Top = 160
-            Width = 36
+            Width = 35
             Caption = 'RNG'
             Font.Height = -16
             Font.Name = 'Sans'
@@ -568,13 +568,13 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 687
-          ClientWidth = 605
+          ClientHeight = 683
+          ClientWidth = 611
           object scWX: TScrollBox
             Left = 0
-            Height = 687
+            Height = 683
             Top = 0
-            Width = 605
+            Width = 611
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
             VertScrollBar.Increment = 25
@@ -582,8 +582,8 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 683
-            ClientWidth = 601
+            ClientHeight = 679
+            ClientWidth = 607
             TabOrder = 0
             object Label23: TLabel
               Left = 8
@@ -809,9 +809,9 @@ object FMain: TFMain
               AnchorSideBottom.Control = scWX
               AnchorSideBottom.Side = asrBottom
               Left = 0
-              Height = 451
+              Height = 447
               Top = 232
-              Width = 601
+              Width = 607
               Anchors = [akTop, akLeft, akRight, akBottom]
               BevelOuter = bvNone
               ControlList = <>
@@ -823,13 +823,13 @@ object FMain: TFMain
         end
         object tsCharts: TTabSheet
           Caption = 'Charts'
-          ClientHeight = 687
-          ClientWidth = 605
+          ClientHeight = 683
+          ClientWidth = 611
           object scCharts: TScrollBox
             Left = 0
-            Height = 687
+            Height = 683
             Top = 0
-            Width = 605
+            Width = 611
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
             VertScrollBar.Increment = 1
@@ -837,14 +837,14 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 683
-            ClientWidth = 601
+            ClientHeight = 679
+            ClientWidth = 607
             TabOrder = 0
             object fpCharts: TFlowPanel
               Left = 0
-              Height = 683
+              Height = 679
               Top = 0
-              Width = 601
+              Width = 607
               Align = alClient
               BevelOuter = bvNone
               ControlList = <>
@@ -868,8 +868,8 @@ object FMain: TFMain
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         Caption = 'PoI'
-        ClientHeight = 202
-        ClientWidth = 613
+        ClientHeight = 201
+        ClientWidth = 611
         TabOrder = 2
         object Label3: TLabel
           Left = 8
@@ -907,7 +907,7 @@ object FMain: TFMain
           AnchorSideLeft.Side = asrBottom
           AnchorSideRight.Side = asrBottom
           Left = 304
-          Height = 35
+          Height = 33
           Top = 40
           Width = 294
           Anchors = [akTop, akLeft, akRight]
@@ -997,7 +997,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 33
-        Top = 1141
+        Top = 1139
         Width = 619
         Anchors = [akLeft, akRight, akBottom]
         AutoSize = True

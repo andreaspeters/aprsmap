@@ -573,15 +573,26 @@ begin
     if Length(Data) <= 0 then
       Exit;
 
-    Message := Data.Split('|');
-    if Length(Message) < 4 then
-      Exit;
+    Regex.Expression := 'Fm\s(\S+)\sTo\s(\S+)\s(?:via\s(\S+))?';
+    Regex.ModifierI := True;
+    if Regex.Exec(Data) then
+    begin
+      if Regex.SubExprMatchCount >= 2 then
+      begin
+        APRSMessageObject.FromCall := Trim(Regex.Match[1]);
+        APRSMessageObject.ToCall := Trim(Regex.Match[2]);
+      end;
+      if Regex.SubExprMatchCount = 3 then
+        APRSMessageObject.Path := Trim(Regex.Match[3]);
+
+    end;
+
 
     //, '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
     Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
     Regex.ModifierI := False;
 
-    if Regex.Exec(Message[3]) then
+    if Regex.Exec(Data) then
     begin
       // FromCall: String;
       // ToCall: String;
@@ -590,8 +601,6 @@ begin
       // Latitude: Double;
       // Message: String;
       // Time: String
-      APRSMessageObject.FromCall := Trim(Message[0]);
-      APRSMessageObject.ToCall := Trim(Message[1]);
       APRSMessageObject.EnableTrack := False;
       APRSMessageObject.Track := TGPSTrack.Create;
       APRSMessageObject.Track.Visible := False;
@@ -607,7 +616,7 @@ begin
       begin
         OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
         OrRegex.ModifierI := False;
-        if OrRegex.Exec(Message[3]) then
+        if OrRegex.Exec(DataMessage) then
           if OrRegex.SubExprMatchCount >= 1 then
             APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
       end;

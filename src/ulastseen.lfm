@@ -5,10 +5,13 @@ object FLastSeen: TFLastSeen
   Width = 261
   HorzScrollBar.Visible = False
   VertScrollBar.Visible = False
+  BorderStyle = bsToolWindow
   Caption = 'APRSMap - LastSeen'
   ClientHeight = 1184
   ClientWidth = 261
+  DoubleBuffered = True
   Menu = MainMenu1
+  ParentDoubleBuffered = False
   Position = poDefault
   LCLVersion = '4.4.0.0'
   Visible = True

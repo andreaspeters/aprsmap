@@ -250,7 +250,7 @@ begin
 
   APRSMessageList := TFPHashList.Create;
 
-  ReadPipe := TReadPipeThread.Create('flexpacketaprspipe');
+  ReadPipe := TReadPipeThread.Create('flexpacketwritepipe');
   IGate := TIGateThread.Create(@APRSConfig);
 
   PoILayer := (MVMap.Layers.Add as TMapLayer);
@@ -1143,7 +1143,9 @@ begin
   try
     if not ReadPipe.Error then
     begin
-      AddPoI(ReadPipe.DecodeAPRSMessage(ReadPipe.PipeData));
+      buffer := ReadPipe.PipeData;
+      if Length(buffer) > 0 then
+        AddPoI(ReadPipe.DecodeAPRSMessage(buffer));
       ReadPipe.PipeData := '';
     end;
   except

@@ -107,7 +107,7 @@ begin
       begin
         Error := True;
         {$IFDEF UNIX}
-        writeln('HTTP connection failed: ', E.Message);
+//        writeln('HTTP connection failed: ', E.Message);
         {$ENDIF}
         Exit;
       end;

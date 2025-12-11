@@ -405,6 +405,7 @@ procedure RestartApplication;
 procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
 function FahrenheitToCelsius(F: Double): Double;
 function FahrenheitToCelsius(F: String): String;
+function NormalizeString(Data: AnsiString): AnsiString;
 
 implementation
 
@@ -465,6 +466,13 @@ begin
   end;
 end;
 
+function NormalizeString(Data: AnsiString): AnsiString;
+begin
+  // Normalize > CRLF (#13#10)
+  Data   := StringReplace(Data, #13#10, #10, [rfReplaceAll]); // CRLF -> LF
+  Data   := StringReplace(Data, #13, #10, [rfReplaceAll]);    // CR -> LF
+  Result := StringReplace(Data, #10, #13#10, [rfReplaceAll]); // LF -> CRLF
+end;
 
 end.
 
