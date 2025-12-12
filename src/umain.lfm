@@ -70,7 +70,7 @@ object FMain: TFMain
         POIImages = ImageList1
         POIImagesWidth = 16
         POITextBgColor = clWhite
-        Zoom = 13
+        Zoom = 8
         OnZoomChange = MVMapZoomChange
         OnMouseDown = MVMapMouseDown
         OnMouseMove = ShowMapMousePosition
@@ -1078,7 +1078,13 @@ object FMain: TFMain
       end
     end
     object Settings: TMenuItem
-      Action = actSettings
+      Caption = 'Settings'
+      object MenuItem9: TMenuItem
+        Action = actSettings
+      end
+      object MenuItem10: TMenuItem
+        Action = actGPS
+      end
     end
     object MenuItem5: TMenuItem
       Caption = 'View'
@@ -3616,8 +3622,12 @@ object FMain: TFMain
       OnExecute = actExitExecute
     end
     object actSettings: TAction
-      Caption = 'Settings'
+      Caption = 'Properties'
       OnExecute = actSettingsExecute
+    end
+    object actGPS: TAction
+      Caption = 'GPS'
+      OnExecute = actGPSExecute
     end
   end
   object pmTray: TPopupMenu

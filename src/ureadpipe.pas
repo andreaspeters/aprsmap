@@ -17,6 +17,7 @@ type
   public
     PipeData: String;
     Error: Boolean;
+    procedure WriteToPipe(const PipeName, Data: String);
     function DecodeAPRSMessage(const Data: String): TAPRSMessage;
     constructor Create(const PipeName: string);
   end;
@@ -49,7 +50,7 @@ var Pipe: Integer;
     Text : String;
 begin
   repeat
-    Pipe := FpOpen(PChar('/tmp/' + FPipeName), O_RDONLY);
+    Pipe := FpOpen(PChar('/tmp/' + FPipeName), O_RDONLY or O_NONBLOCK);
     if Pipe < 0 then
     begin
       Writeln('Could not open Pipe to read: ', FPipeName);
@@ -132,6 +133,50 @@ begin
   finally
     CloseHandle(PipeHandle);
   end;
+end;
+{$ENDIF}
+
+procedure TReadPipeThread.WriteToPipe(const PipeName, Data: String);
+{$IFDEF UNIX}
+var
+  Pipe: Integer;
+begin
+  if Length(Data) > 0 then
+  begin
+    Pipe := FpOpen(PChar('/tmp/'+PipeName), O_WRONLY or O_NONBLOCK);
+    if Pipe >= 0 then
+    begin
+      FpWrite(Pipe, PChar(Data)^, Length(Data));
+      FpClose(Pipe);
+    end
+  end;
+end;
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+var BytesWritten: DWORD;
+begin
+  BytesWritten := 0;
+
+  PipeHandle := CreateFile(
+    PChar('\\.\pipe\' + PipeName),
+    GENERIC_WRITE,
+    0,
+    nil,
+    OPEN_EXISTING,
+    0,
+    0
+  );
+
+  if PipeHandle = INVALID_HANDLE_VALUE then
+  begin
+    ShowMessage('Could not open Pipe to write: ' + PipeName);
+    Exit;
+  end;
+
+  if not WriteFile(PipeHandle, Data, Length(Data), BytesWritten, nil) then
+    ShowMessage('Error during write into pipe');
+
+  CloseHandle(PipeHandle);
 end;
 {$ENDIF}
 

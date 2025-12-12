@@ -9,9 +9,9 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  Buttons, PairSplitter, ActnList, TAGraph, TAStyles, fpexprpars,
+  Buttons, PairSplitter, ActnList, TAGraph, fpexprpars,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, TANavigation, TAChartExtentLink, TAChartLiveView, u_rs41sg;
+  TASeries, TATools, u_rs41sg, ugps;
 
 type
 
@@ -19,6 +19,7 @@ type
 
   TFMain = class(TForm)
     actExit: TAction;
+    actGPS: TAction;
     actSettings: TAction;
     actOpenLastseen: TAction;
     actShowHide: TAction;
@@ -75,9 +76,11 @@ type
     MainMenu2: TMainMenu;
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
+    MenuItem10: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
     MenuItem3: TMenuItem;
+    MenuItem9: TMenuItem;
     MIKofi: TMenuItem;
     mntDonate: TMenuItem;
     MIInfo: TMenuItem;
@@ -156,6 +159,7 @@ type
     TrayIcon1: TTrayIcon;
     UniqueInstance1: TUniqueInstance;
     procedure actExitExecute(Sender: TObject);
+    procedure actGPSExecute(Sender: TObject);
     procedure actOpenLastseenExecute(Sender: TObject);
     procedure actSettingsExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
@@ -418,6 +422,11 @@ end;
 procedure TFMain.actExitExecute(Sender: TObject);
 begin
   close;
+end;
+
+procedure TFMain.actGPSExecute(Sender: TObject);
+begin
+
 end;
 
 procedure TFMain.CBEFilterSelect(Sender: TObject);

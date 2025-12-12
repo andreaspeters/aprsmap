@@ -1,0 +1,8 @@
+object FGPS: TFGPS
+  Left = 1520
+  Height = 240
+  Top = 33
+  Width = 320
+  Caption = 'FGPS'
+  LCLVersion = '4.4.0.0'
+end

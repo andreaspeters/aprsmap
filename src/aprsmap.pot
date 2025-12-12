@@ -1,6 +1,10 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
+#: tfgps.caption
+msgid "FGPS"
+msgstr ""
+
 #: tfinfo.caption
 msgid "APRS Map - Info"
 msgstr ""
@@ -54,12 +58,17 @@ msgstr ""
 msgid "Exit"
 msgstr ""
 
+#: tfmain.actgps.caption
+msgid "GPS"
+msgstr ""
+
 #: tfmain.actopenlastseen.caption
 msgid "Lastseen"
 msgstr ""
 
 #: tfmain.actsettings.caption
-msgid "Settings"
+msgctxt "tfmain.actsettings.caption"
+msgid "Properties"
 msgstr ""
 
 #: tfmain.actshowhide.caption
@@ -278,6 +287,11 @@ msgstr ""
 
 #: tfmain.sbshowrawmessages.hint
 msgid "Show Raw Messages"
+msgstr ""
+
+#: tfmain.settings.caption
+msgctxt "tfmain.settings.caption"
+msgid "Settings"
 msgstr ""
 
 #: tfmain.sptrack.hint
