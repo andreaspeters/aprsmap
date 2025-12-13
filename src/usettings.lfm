@@ -34,10 +34,10 @@ object FSettings: TFSettings
     Left = 6
     Height = 288
     Top = 200
-    Width = 537
+    Width = 539
     Caption = 'IGate'
     ClientHeight = 265
-    ClientWidth = 533
+    ClientWidth = 535
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 176
