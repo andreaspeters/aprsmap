@@ -51,6 +51,9 @@ end;
 
 procedure TModeSThread.Execute;
 begin
+  if not FConfig^.ModeSEnabled then
+    Exit;
+
   while not Terminated do
   begin
     LoadAircraftsFromDump1090;
@@ -61,7 +64,7 @@ end;
 procedure TModeSThread.RunDump190Server;
 var i: Integer;
 begin
-  if Length(FConfig^.ModeSExecutable) <= 0 then
+  if (Length(FConfig^.ModeSExecutable) <= 0) or not FConfig^.ModeSEnabled then
     Exit;
 
   Dump1090 := TProcess.Create(nil);

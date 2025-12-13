@@ -48,6 +48,7 @@ end;
 destructor TIGateThread.Destroy;
 begin
   Disconnect;
+  Self := Nil;
 end;
 
 procedure TIGateThread.Disconnect;
@@ -122,10 +123,8 @@ begin
       try
         Lines.Text := Response;
         for Line in Lines do
-        begin
           if Length(Trim(Line)) > 0 then
             APRSBuffer := Line;
-        end;
       finally
         Lines.Free;
       end;
@@ -266,14 +265,14 @@ begin
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
-
       if Regex.SubExprMatchCount < 5 then
         Exit;
 
       // check if type is a position type
       DataType := Regex.Match[4];
       DataMessage := Regex.Match[5];
-      NormData := Regex.Match[1]+'|'+Regex.Match[3]+'|'+Regex.Match[2]+'| '+Regex.Match[4]+Regex.Match[5];
+      NormData := Format('Fm %s To %s via %s ctl UIv pid F0 %s%s', [Regex.Match[1], Regex.Match[3], Regex.Match[2], Regex.Match[4], Regex.Match[5]]);
+
       {$IFDEF UNIX}
       if FMain.Debug then
         writeln(NormData);

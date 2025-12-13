@@ -214,7 +214,6 @@ begin
           PRData := NormalizeString(Format('%s %s', [APRSHeader, PRData]));
 
         PRData := StringReplace(PRData, #13#10, '', [rfReplaceAll]);
-        writeln(PRData);
         {$IFDEF UNIX}
         if FMain.Debug then
           writeln(PRData);

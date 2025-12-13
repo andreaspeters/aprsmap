@@ -21,7 +21,7 @@ object FLastSeen: TFLastSeen
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     Left = 0
-    Height = 1156
+    Height = 1154
     Top = 5
     Width = 260
     Align = alClient
@@ -32,19 +32,19 @@ object FLastSeen: TFLastSeen
       item
         AutoSize = True
         Caption = '    Callsign'
-        Width = 86
+        Width = 80
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = 'Distance (km)'
-        Width = 115
+        Width = 103
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = '#'
-        Width = 23
+        Width = 19
       end    
       item
         Width = 257
@@ -56,8 +56,8 @@ object FLastSeen: TFLastSeen
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 1161
+    Height = 25
+    Top = 1159
     Width = 261
     Panels = <>
   end

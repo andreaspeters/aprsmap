@@ -6,6 +6,7 @@
 {"hash":110503760,"name":"tfsettings.leigateport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Port                            "},
 {"hash":199920110,"name":"tfsettings.label3.caption","sourcebytes":[84,104,101,32,112,97,115,115,119,111,114,100,32,119,105,108,108,32,98,101,32,115,116,111,114,101,100,32,105,110,32,112,108,97,105,110,116,101,120,116,46],"value":"The password will be stored in plaintext."},
 {"hash":3850480,"name":"tfsettings.leigatefilter.editlabel.caption","sourcebytes":[70,105,108,116,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Filter                          "},
+{"hash":79984933,"name":"tfsettings.cbigateenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"},
 {"hash":91576288,"name":"tfsettings.groupbox2.caption","sourcebytes":[65,80,82,83,32,77,97,112],"value":"APRS Map"},
 {"hash":4174521,"name":"tfsettings.lemapcache.editlabel.caption","sourcebytes":[77,65,80,32,67,97,99,104,101,32,68,105,114,101,99,116,111,114,121],"value":"MAP Cache Directory"},
 {"hash":199208089,"name":"tfsettings.lecleanuptime.editlabel.caption","sourcebytes":[80,111,73,32,67,108,101,97,110,117,112,32,84,105,109,101,32,40,109,41],"value":"PoI Cleanup Time (m)"},
@@ -17,5 +18,6 @@
 {"hash":205735792,"name":"tfsettings.groupbox4.caption","sourcebytes":[68,117,109,112,49,48,57,48],"value":"Dump1090"},
 {"hash":60595392,"name":"tfsettings.lemodesserver.editlabel.caption","sourcebytes":[83,101,114,118,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Server                        "},
 {"hash":110503760,"name":"tfsettings.lemodesport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Port                            "},
-{"hash":127790224,"name":"tfsettings.lemodesexecutable.editlabel.caption","sourcebytes":[69,120,101,99,117,116,97,98,108,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Executable                "}
+{"hash":127790224,"name":"tfsettings.lemodesexecutable.editlabel.caption","sourcebytes":[69,120,101,99,117,116,97,98,108,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Executable                "},
+{"hash":79984933,"name":"tfsettings.cbmodesenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"}
 ]}

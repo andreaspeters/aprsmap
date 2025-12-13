@@ -45,6 +45,7 @@ begin
   ini.WriteInteger('IGATE', 'port', Config^.IGatePort);
   ini.WriteString('IGATE', 'password', Config^.IGatePassword);
   ini.WriteString('IGATE', 'filter', Config^.IGateFilter);
+  ini.WriteBool('MODES', 'enable', Config^.ModeSEnabled);
   ini.WriteString('MODES', 'server', Config^.ModeSServer);
   ini.WriteInteger('MODES', 'port', Config^.ModeSPort);
   ini.WriteString('MODES', 'executable', Config^.ModeSExecutable);
@@ -62,7 +63,9 @@ begin
   ini.WriteInteger('RAWMESSAGE', 'width', Config^.RawMessageWidth);
   ini.WriteInteger('RAWMESSAGE', 'height', Config^.RawMessageHeight);
   ini.WriteBool('RAWMESSAGE', 'visible', Config^.RawMessageVisible);
-
+  ini.WriteBool('GPSD', 'enable', Config^.GPSdEnabled);
+  ini.WriteString('GPSD', 'host', Config^.GPSdHost);
+  ini.WriteInteger('GPSD', 'port', Config^.GPSdPort);
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -100,6 +103,7 @@ begin
   Config^.IGatePort := ini.ReadInteger('IGATE', 'port', 14580);
   Config^.IGatePassword := ini.ReadString('IGATE', 'password', '');
   Config^.IGateFilter := ini.ReadString('IGATE', 'filter', 'r/<LAT>/<LON>/200');
+  Config^.ModeSEnabled := ini.ReadBool('MODES', 'enable', False);
   Config^.ModeSServer := ini.ReadString('MODES', 'server', 'localhost');
   Config^.ModeSPort := ini.ReadInteger('MODES', 'port', 8080);
   Config^.ModeSExecutable := ini.ReadString('MODES', 'executable', '');
@@ -117,6 +121,9 @@ begin
   Config^.RawMessageWidth := ini.ReadInteger('RAWMESSAGE', 'width', 1574);
   Config^.RawMessageHeight := ini.ReadInteger('RAWMESSAGE', 'height', 1035);
   Config^.RawMessageVisible := ini.ReadBool('RAWMESSAGE', 'visible', False);
+  Config^.GPSdEnabled := ini.ReadBool('GPSD', 'enable', False);
+  Config^.GPSdHost := ini.ReadString('GPSD', 'host', '127.0.0.1');
+  Config^.GPSdPort := ini.ReadInteger('GPSD', 'port', 2947);
 end;
 
 

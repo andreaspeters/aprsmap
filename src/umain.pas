@@ -202,6 +202,9 @@ type
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
   public
+    PoILayer, myPoILayer: TMapLayer;
+    MyPosition: TGPSObj;
+    MyPositionGPS: TGPSPoint;
     Debug: Boolean;
   end;
 
@@ -214,9 +217,6 @@ var
   IGate: TIGateThread;
   ModeS: TModeSThread;
   LastZoom: Byte;
-  MyPosition: TGPSObj;
-  MyPositionGPS: TGPSPoint;
-  PoILayer, myPoILayer: TMapLayer;
   ModeSCount: Integer;
   TrackID: Integer;
   IsClosing: Boolean;
@@ -282,6 +282,8 @@ begin
   SetupFilterCombo;
 
   pcPoITab.ActivePage := tsMain;
+
+  FGPS.Start(@APRSConfig);
 end;
 
 procedure TFMain.FormChangeBounds(Sender: TObject);
@@ -330,13 +332,11 @@ begin
 
   SaveConfigToFile(@APRSConfig);
   try
-    if Assigned(ModeS) then
+    if APRSConfig.ModeSEnabled and Assigned(ModeS) then
     begin
       ModeS.Stop;
       ModeS.Terminate;
     end;
-    if Assigned(ReadPipe) then
-      ReadPipe.Terminate;
   except
   end;
 end;
@@ -426,7 +426,7 @@ end;
 
 procedure TFMain.actGPSExecute(Sender: TObject);
 begin
-
+  FGPS.Show;
 end;
 
 procedure TFMain.CBEFilterSelect(Sender: TObject);
@@ -772,8 +772,17 @@ var Chart: TChart;
     i, min: Integer;
     ChartName: String;
 begin
-  if (not Assigned(X)) or (X.Count = 0) or (ParentCtrl = nil) then
-    Exit;
+  try
+    if not Assigned(X) or not Assigned(ParentCtrl) then
+      Exit;
+
+    if (X.Count = 0) then
+      Exit;
+
+    if (ParentCtrl = nil) then
+      Exit;
+  except
+  end;
 
   try
     ChartName := 'AutoGen_' + StringReplace(Title, ' ', '_', [rfReplaceAll]);
@@ -991,22 +1000,23 @@ begin
 
   // cleanup modes
   i := 0;
-  while i < ModeS.ModeSMessageList.Count do
-  begin
-    try
-      msg := ModeS.ModeSMessageList.Items[i];
-      if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
-      begin
-        ModeS.ModeSMessageList.Delete(i);
-        Continue;
+  if APRSConfig.ModeSEnabled and Assigned(ModeS) and (ModeS.ModeSMessageList.Count > 0) then
+    while i < ModeS.ModeSMessageList.Count do
+    begin
+      try
+        msg := ModeS.ModeSMessageList.Items[i];
+        if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
+        begin
+          ModeS.ModeSMessageList.Delete(i);
+          Continue;
+        end;
+      except
+        {$IFDEF UNIX}
+        writeln('Error Cleanup Old ModeS PoI')
+        {$ENDIF}
       end;
-    except
-      {$IFDEF UNIX}
-      writeln('Error Cleanup Old ModeS PoI')
-      {$ENDIF}
+      inc(i);
     end;
-    inc(i);
-  end;
 
   MVMap.Refresh;
 end;
@@ -1031,7 +1041,8 @@ begin
       begin
         inc(TrackID);
         newMsg^.TrackID := TrackID;
-        MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
+        if Assigned(newMsg^.Track) and (newMsg^.TrackID > 0) then
+          MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
       end
       else
       begin
@@ -1164,7 +1175,7 @@ begin
       {$ENDIF}
   end;
 
-  if not ModeS.Error and Assigned(ModeS.ModeSMessageList) then
+  if APRSConfig.ModeSEnabled and ModeS.Error and Assigned(ModeS.ModeSMessageList) then
   begin
     if ModeS.ModeSMessageList.Count > 0 then
     begin
@@ -1245,7 +1256,8 @@ var km: Double;
 begin
   try
     km := msg.Distance;
-    CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil);
+    if (km > 0) and (msg.ImageIndex >= 0) and (msg.ImageIndex < ImageList1.Count) then
+      CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil);
   except
     on E: Exception do
     begin

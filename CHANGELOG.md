@@ -3,6 +3,8 @@
 - ADD: Wayland support
 - ADD: Dock lastseen window at the main window if they are close
        to eachother.
+- ADD: [gps] Add support for gpsd to get current position.
+- ADD: posibility to disable/enable IGate and Dump1090.
 
 ## v0.6.1
 

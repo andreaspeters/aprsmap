@@ -1,8 +1,78 @@
 object FGPS: TFGPS
   Left = 1520
-  Height = 240
+  Height = 226
   Top = 33
-  Width = 320
-  Caption = 'FGPS'
+  Width = 295
+  BorderIcons = []
+  BorderStyle = bsToolWindow
+  Caption = 'APRSMap - GPS Settings'
+  ClientHeight = 226
+  ClientWidth = 295
+  Position = poDesktopCenter
   LCLVersion = '4.4.0.0'
+  OnShow = FormShow
+  object GroupBox1: TGroupBox
+    Left = 0
+    Height = 175
+    Top = 0
+    Width = 295
+    Align = alClient
+    Caption = 'GPSd'
+    ClientHeight = 152
+    ClientWidth = 291
+    TabOrder = 0
+    object leGPSdHost: TLabeledEdit
+      Left = 80
+      Height = 29
+      Top = 32
+      Width = 192
+      EditLabel.Height = 29
+      EditLabel.Width = 56
+      EditLabel.Caption = 'Host      '
+      Enabled = False
+      LabelPosition = lpLeft
+      TabOrder = 0
+    end
+    object leGPSdPort: TLabeledEdit
+      Left = 80
+      Height = 29
+      Top = 80
+      Width = 192
+      EditLabel.Height = 29
+      EditLabel.Width = 57
+      EditLabel.Caption = 'Port       '
+      Enabled = False
+      LabelPosition = lpLeft
+      NumbersOnly = True
+      TabOrder = 1
+    end
+    object cbGPSdEnable: TCheckBox
+      Left = 16
+      Height = 25
+      Top = 0
+      Width = 69
+      Caption = 'Enable'
+      TabOrder = 2
+      OnChange = cbGPSdEnableChange
+    end
+  end
+  object BPDefaultButtons: TButtonPanel
+    Left = 6
+    Height = 39
+    Top = 181
+    Width = 283
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    OKButton.OnClick = BPDefaultButtonsClick
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 1
+    ShowButtons = [pbOK, pbCancel]
+    OnClick = BPDefaultButtonsClick
+  end
 end

@@ -2,7 +2,24 @@ msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8"
 
 #: tfgps.caption
-msgid "FGPS"
+msgid "APRSMap - GPS Settings"
+msgstr ""
+
+#: tfgps.cbgpsdenable.caption
+msgctxt "tfgps.cbgpsdenable.caption"
+msgid "Enable"
+msgstr ""
+
+#: tfgps.groupbox1.caption
+msgid "GPSd"
+msgstr ""
+
+#: tfgps.legpsdhost.editlabel.caption
+msgid "Host      "
+msgstr ""
+
+#: tfgps.legpsdport.editlabel.caption
+msgid "Port       "
 msgstr ""
 
 #: tfinfo.caption
@@ -328,6 +345,16 @@ msgstr ""
 
 #: tfsettings.caption
 msgid "APRS Map - Settings"
+msgstr ""
+
+#: tfsettings.cbigateenable.caption
+msgctxt "tfsettings.cbigateenable.caption"
+msgid "Enable"
+msgstr ""
+
+#: tfsettings.cbmodesenable.caption
+msgctxt "tfsettings.cbmodesenable.caption"
+msgid "Enable"
 msgstr ""
 
 #: tfsettings.groupbox1.caption

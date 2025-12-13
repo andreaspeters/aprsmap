@@ -27,27 +27,24 @@ uses
 procedure RS41SGP(msg: PAPRSMessage);
 begin
   try
+    with msg^.Devices.RS41 do
+    begin
+      Enabled := True;
+      clb := TDoubleList.Create;
+      o3 := TDoubleList.Create;
+      t := TDoubleList.Create;
+      ti := TDoubleList.Create;
+      pump := TDoubleList.Create;
+      batt := TDoubleList.Create;
+      dist := TDoubleList.Create;
+      rssi := TDoubleList.Create;
+      p := TDoubleList.Create;
+      h := TDoubleList.Create;
+      sats := TDoubleList.Create;
+    end;
+
     if (Pos('Type=RS41', msg^.Message) > 0) or (Pos('Type=DFM', msg^.Message) > 0) then
     begin
-      if not msg^.Devices.RS41.Enabled then
-      begin
-        with msg^.Devices.RS41 do
-        begin
-          Enabled := True;
-          clb := TDoubleList.Create;
-          o3 := TDoubleList.Create;
-          t := TDoubleList.Create;
-          ti := TDoubleList.Create;
-          pump := TDoubleList.Create;
-          batt := TDoubleList.Create;
-          dist := TDoubleList.Create;
-          rssi := TDoubleList.Create;
-          p := TDoubleList.Create;
-          h := TDoubleList.Create;
-          sats := TDoubleList.Create;
-        end;
-      end;
-
       if msg^.Devices.RS41.Enabled then
         with msg^.Devices.RS41 do
         begin

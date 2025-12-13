@@ -8,8 +8,7 @@ uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
   mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math,
   FPImage, IntfGraphics, GraphType,
-  u_rs41sg
-  ;
+  u_rs41sg;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
@@ -567,6 +566,7 @@ const
     ObjectReport = ';';
 begin
   Result := Default(TAPRSMessage);
+
   Regex := TRegExpr.Create;
   try
     // check type
@@ -586,7 +586,6 @@ begin
         APRSMessageObject.Path := Trim(Regex.Match[3]);
 
     end;
-
 
     //, '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
     Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
@@ -614,11 +613,13 @@ begin
       // In a ObjectReport, the Callsign could be inside the PayLoad
       if DataType = ObjectReport then
       begin
+        OrRegex := TRegExpr.Create;
         OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
         OrRegex.ModifierI := False;
         if OrRegex.Exec(DataMessage) then
           if OrRegex.SubExprMatchCount >= 1 then
             APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
+        OrRegex.Free;
       end;
 
 
@@ -757,8 +758,8 @@ begin
       {$ENDIF}
     end;
   end;
+
   Regex.Free;
-  OrRegex.Free;
 end;
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;
@@ -782,6 +783,9 @@ function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer):
 var bmpBase, bmpOverlay, bmpMerged: TBitmap;
 begin
   Result := 0;
+
+  if (IndexOverlay > ImageList.Count) or (IndexBase > ImageList.Count) then
+    Exit;
 
   bmpBase := TBitmap.Create;
   bmpOverlay := TBitmap.Create;

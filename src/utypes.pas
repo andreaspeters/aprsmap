@@ -105,6 +105,7 @@ type
     Latitude: Double;
     Longitude: Double;
     CleanupTime: Integer;
+    ModeSEnabled: Boolean;
     ModeSServer: String;
     ModeSPort: Integer;
     ModeSExecutable: String;
@@ -122,6 +123,9 @@ type
     RawMessageWidth: Integer;
     RawMessageHeight: Integer;
     RawMessageVisible: Boolean;
+    GPSdEnabled: Boolean;
+    GPSdHost: String;
+    GPSdPort: Integer;
   end;
 
   PTAPRSConfig = ^TAPRSConfig;
@@ -429,7 +433,7 @@ var
   i: Integer;
 begin
   try
-    if (Dest = nil) or (Src = nil) then
+    if not Assigned(Dest) or not Assigned(Src) then
       Exit;
 
     if Src.Count > 0 then

@@ -235,6 +235,7 @@
         <Filename Value="ugps.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FGPS"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
       <Unit>

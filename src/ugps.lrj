@@ -1,3 +1,7 @@
 {"version":1,"strings":[
-{"hash":306259,"name":"tfgps.caption","sourcebytes":[70,71,80,83],"value":"FGPS"}
+{"hash":4454131,"name":"tfgps.caption","sourcebytes":[65,80,82,83,77,97,112,32,45,32,71,80,83,32,83,101,116,116,105,110,103,115],"value":"APRSMap - GPS Settings"},
+{"hash":312724,"name":"tfgps.groupbox1.caption","sourcebytes":[71,80,83,100],"value":"GPSd"},
+{"hash":103208064,"name":"tfgps.legpsdhost.editlabel.caption","sourcebytes":[72,111,115,116,32,32,32,32,32,32],"value":"Host      "},
+{"hash":41241408,"name":"tfgps.legpsdport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32],"value":"Port       "},
+{"hash":79984933,"name":"tfgps.cbgpsdenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"}
 ]}
