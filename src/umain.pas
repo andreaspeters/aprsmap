@@ -643,7 +643,7 @@ begin
         end;
       end;
 
-      if msg^.Track.Visible then
+      if Assigned(msg^.Track) and (msg^.Track.Visible) then
         SPTrack.Down := True
       else
         SPTrack.Down := False;
@@ -975,7 +975,8 @@ begin
         end;
         DeleteCombobox(call);
         PoILayer.PointsOfInterest.Delete(i);
-        ModeS.ModeSMessageList.Remove(msg);
+        if Assigned(ModeS) then
+          ModeS.ModeSMessageList.Remove(msg);
         // cleanup als call copies in the APRSMessage list
         x := 1;
         repeat
@@ -1080,7 +1081,7 @@ begin
       else
         Alt := 0;
 
-      if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) then
+      if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) and Assigned(newMsg^.Track) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
           newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, Alt));
 
@@ -1090,6 +1091,7 @@ begin
         if not SameText(FMain.CBEFilter.ItemsEx.Items[FMain.CBEFilter.ItemIndex].Caption, newMsg^.ImageDescription) then
           visibility := False;
 
+      APRSMessageList.Add(newMsg^.FromCall, newMsg);
       SetPoi(PoILayer, newMsg, visibility);
 
       poi := TGpsPoint(FindGPSItem(PoILayer, newMsg^.FromCall));

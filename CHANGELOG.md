@@ -5,6 +5,7 @@
        to eachother.
 - ADD: [gps] Add support for gpsd to get current position.
 - ADD: posibility to disable/enable IGate and Dump1090.
+- ADD: Start support for non position Messages.
 
 ## v0.6.1
 

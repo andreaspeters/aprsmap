@@ -134,7 +134,6 @@ begin
   poi.Caption := Message^.FromCall;
   poi.ImageIndex := Message^.ImageIndex;
   poi.Visible := visibility;
-  APRSMessageList.Add(Message^.FromCall, Message);
 end;
 
 
@@ -565,7 +564,8 @@ const
     Telemetry = 'T#';
     ObjectReport = ';';
 begin
-  Result := Default(TAPRSMessage);
+  APRSMessageObject := InitAPRSMessage;
+  Result := APRSMessageObject;
 
   Regex := TRegExpr.Create;
   try
@@ -584,49 +584,39 @@ begin
       end;
       if Regex.SubExprMatchCount = 3 then
         APRSMessageObject.Path := Trim(Regex.Match[3]);
-
     end;
 
-    //, '^.*?Fm\s(\S+)\sTo\s(\S+)\s(?:Via\s(\S+))? .*UI(?:[v]{0,1})\spid(?:[=|\s]{0,1})F0.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$'
+    APRSMessageObject.Time := now();
+    APRSMessageObject.ModeS := False;
+    APRSMessageObject.RAWMessages := TStringList.Create;
+    APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Data]));
+    APRSMessageObject.Count := 0;
+    APRSMessageObject.Message := Data;
+
+    // In a ObjectReport, the Callsign could be inside the PayLoad
+    if DataType = ObjectReport then
+    begin
+      OrRegex := TRegExpr.Create;
+      OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
+      OrRegex.ModifierI := False;
+      if OrRegex.Exec(DataMessage) then
+        if OrRegex.SubExprMatchCount >= 1 then
+          APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
+      OrRegex.Free;
+    end;
+
     Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
     Regex.ModifierI := False;
-
     if Regex.Exec(Data) then
     begin
-      // FromCall: String;
-      // ToCall: String;
-      // Path: String;
-      // Longitude: Double;
-      // Latitude: Double;
-      // Message: String;
-      // Time: String
       APRSMessageObject.EnableTrack := False;
       APRSMessageObject.Track := TGPSTrack.Create;
       APRSMessageObject.Track.Visible := False;
       APRSMessageObject.Track.LineWidth := 1;
-      APRSMessageObject.ModeS := False;
-      APRSMessageObject.RAWMessages := TStringList.Create;
-      APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Data]));
-      APRSMessageObject.Count := 0;
       APRSMessageObject.Visible := True;
 
-      // In a ObjectReport, the Callsign could be inside the PayLoad
-      if DataType = ObjectReport then
+      if Regex.SubExprMatchCount >= 6 then
       begin
-        OrRegex := TRegExpr.Create;
-        OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
-        OrRegex.ModifierI := False;
-        if OrRegex.Exec(DataMessage) then
-          if OrRegex.SubExprMatchCount >= 1 then
-            APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
-        OrRegex.Free;
-      end;
-
-
-      if (Pos(DataType, WX) > 0) or (Pos(DataType, WXRaw) > 0) or (Pos(DataType, ItemObject) > 0) then
-      begin
-        if Regex.SubExprMatchCount < 6 then
-          Exit;
         ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
@@ -646,26 +636,11 @@ begin
         APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
         APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
 
-        APRSMessageObject.Altitude := TDoubleList.Create;
-        APRSMessageObject.Speed := TDoubleList.Create;
 
         if GetAltitude(APRSMessageObject.Message) <> -999999 then
           APRSMessageObject.Altitude.Add(GetAltitude(APRSMessageObject.Message));
         if GetSpeed(APRSMessageObject.Message) <> -999999 then
           APRSMessageObject.Speed.Add(GetSpeed(APRSMessageObject.Message));
-
-        APRSMessageObject.WXTemperature := TDoubleList.Create;
-        APRSMessageObject.WXPressure := TDoubleList.Create;
-        APRSMessageObject.WXHumidity := TDoubleList.Create;
-        APRSMessageObject.WXDirection := TDoubleList.Create;
-        APRSMessageObject.WXSpeed := TDoubleList.Create;
-        APRSMessageObject.WXGust := TDoubleList.Create;
-        APRSMessageObject.WXRainFall1h := TDoubleList.Create;
-        APRSMessageObject.WXRainFall24h := TDoubleList.Create;
-        APRSMessageObject.WXRainFallToday := TDoubleList.Create;
-        APRSMessageObject.WXLum := TDoubleList.Create;
-        APRSMessageObject.WXSnowFall := TDoubleList.Create;
-        APRSMessageObject.WXRainCount := TDoubleList.Create;
 
         if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
         begin
@@ -694,10 +669,7 @@ begin
           if GetWX(APRSMessageObject.Message,'#') <> -999999 then
             APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
         end;
-
-        APRSMessageObject.Time := now();
       end;
-
 
       RS41SGP(@APRSMessageObject);
     end;
@@ -749,6 +721,7 @@ begin
       // todo telemetry messages
       APRSMessageObject.Message := APRSMessageObject.Message + Data;
     end;
+
     Result := APRSMessageObject;
   except
     on E: Exception do

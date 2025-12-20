@@ -407,6 +407,9 @@ const
 
 procedure RestartApplication;
 procedure PrependDoubleList(Dest: TDoubleList; const Src: TDoubleList);
+function InitAPRSMessage: TAPRSMessage;
+function InitRS41SGPData:TRS41SGPData;
+function InitDevices:TDevices;
 function FahrenheitToCelsius(F: Double): Double;
 function FahrenheitToCelsius(F: String): String;
 function NormalizeString(Data: AnsiString): AnsiString;
@@ -476,6 +479,98 @@ begin
   Data   := StringReplace(Data, #13#10, #10, [rfReplaceAll]); // CRLF -> LF
   Data   := StringReplace(Data, #13, #10, [rfReplaceAll]);    // CR -> LF
   Result := StringReplace(Data, #10, #13#10, [rfReplaceAll]); // LF -> CRLF
+end;
+
+function InitAPRSMessage: TAPRSMessage;
+begin
+  // 1) Alles auf 0 / nil setzen
+  FillChar(Result, SizeOf(Result), 0);
+
+  // 2) String-Felder explizit (optional, aber klar)
+  Result.FromCall         := '';
+  Result.ToCall           := '';
+  Result.Path             := '';
+  Result.DataType         := '';
+  Result.IconPrimary      := '';
+  Result.Icon             := '';
+  Result.PHGDirectivity   := '';
+  Result.DFSDirectivity   := '';
+  Result.Message          := '';
+  Result.ImageDescription := '';
+  Result.Checksum         := '';
+
+  // 3) Numerische Defaults
+  Result.Longitude  := 0.0;
+  Result.Latitude   := 0.0;
+  Result.Altitude   := TDoubleList.Create;
+  Result.Course     := 0.0;
+  Result.Speed      := TDoubleList.Create;
+  Result.PHGPower   := 0.0;
+  Result.PHGHeight  := 0.0;
+  Result.PHGGain    := 0.0;
+  Result.DFSStrength := 0.0;
+  Result.DFSHeight   := 0.0;
+  Result.DFSGain     := 0.0;
+  Result.RNGRange    := 0.0;
+  Result.Distance    := 0.0;
+
+  // 4) WX-Listen
+  Result.WXDirection     := TDoubleList.Create;
+  Result.WXSpeed         := TDoubleList.Create;
+  Result.WXGust          := TDoubleList.Create;
+  Result.WXTemperature   := TDoubleList.Create;
+  Result.WXPressure      := TDoubleList.Create;
+  Result.WXLum           := TDoubleList.Create;
+  Result.WXSnowFall      := TDoubleList.Create;
+  Result.WXRainCount     := TDoubleList.Create;
+  Result.WXRainFall1h    := TDoubleList.Create;
+  Result.WXRainFall24h   := TDoubleList.Create;
+  Result.WXRainFallToday := TDoubleList.Create;
+  Result.WXHumidity      := TDoubleList.Create;
+
+  // 5) RAW Messages
+  Result.RAWMessages := TStringList.Create;
+
+  // 6) Track / GUI / sonstiges
+  Result.Track       := nil;
+  Result.TrackID     := 0;
+  Result.EnableTrack := False;
+  Result.ImageIndex  := -1;
+  Result.ModeS       := False;
+  Result.Count       := 0;
+  Result.Visible     := True;
+  Result.ActiveTabSheet := nil;
+  Result.Devices     := InitDevices;
+
+  // 7) Zeit
+  Result.Time := 0;
+end;
+
+
+function InitRS41SGPData:TRS41SGPData;
+begin
+  FillChar(Result, SizeOf(Result), 0); // setzt alle Pointer auf nil
+
+  Result.Enabled := False;
+
+  Result.clb  := TDoubleList.Create;
+  Result.o3   := TDoubleList.Create;
+  Result.t    := TDoubleList.Create;
+  Result.ti   := TDoubleList.Create;
+  Result.pump := TDoubleList.Create;
+  Result.batt := TDoubleList.Create;
+  Result.dist := TDoubleList.Create;
+  Result.rssi := TDoubleList.Create;
+  Result.p    := TDoubleList.Create;
+  Result.h    := TDoubleList.Create;
+  Result.sats := TDoubleList.Create;
+end;
+
+function InitDevices:TDevices;
+begin
+  FillChar(Result, SizeOf(Result), 0); // setzt alle Pointer auf nilend;
+
+  Result.RS41 := InitRS41SGPData;
 end;
 
 end.

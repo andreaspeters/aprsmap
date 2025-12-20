@@ -50,6 +50,7 @@ begin
   except
     on E: Exception do
     begin
+      FConfig^.GPSdEnabled := False;
       Client.Free;
       Client := Nil;
       Exit;

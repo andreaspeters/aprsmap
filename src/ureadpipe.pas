@@ -49,8 +49,9 @@ var Pipe: Integer;
     BytesRead: ssize_t;
     Text : String;
 begin
+  Buffer := Default(Char);
   repeat
-    Pipe := FpOpen(PChar('/tmp/' + FPipeName), O_RDONLY or O_NONBLOCK);
+    Pipe := FpOpen(PChar('/tmp/' + FPipeName), O_RDONLY);
     if Pipe < 0 then
     begin
       Writeln('Could not open Pipe to read: ', FPipeName);
@@ -63,14 +64,14 @@ begin
         // Convert the bytes that were actually read into a string.
         SetLength(Text, BytesRead);
         Move(Buffer[0], Text[1], BytesRead);  // faster than Text := Text + Buffer[i];
-        PipeData := Text;
+        PipeData := PipeData + Text;
       end;
       // Wenn BytesRead = 0 bedeutet, dass der Schreiber die Pipe geschlossen hat.
     until BytesRead = 0;  // EOF erreicht
 
     FpClose(Pipe);
     // Warten bis ein neuer Schreiber die Pipe erneut öffnet.
-    Sleep(100);
+    Sleep(10);
   until Terminated;
 end;
 {$ELSE}

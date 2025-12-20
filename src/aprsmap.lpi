@@ -279,6 +279,12 @@
       <Item>
         <Name Value="RunError(103)"/>
       </Item>
+      <Item>
+        <Name Value="RunError(210)"/>
+      </Item>
+      <Item>
+        <Name Value="EObjectCheck"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
