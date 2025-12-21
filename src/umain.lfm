@@ -207,12 +207,12 @@ object FMain: TFMain
         Height = 670
         Top = 412
         Width = 615
-        ActivePage = tsMain
+        ActivePage = tsWX
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 9
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 1
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
@@ -580,8 +580,8 @@ object FMain: TFMain
             Width = 609
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
-            VertScrollBar.Increment = 25
-            VertScrollBar.Page = 257
+            VertScrollBar.Increment = 22
+            VertScrollBar.Page = 225
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
@@ -589,79 +589,79 @@ object FMain: TFMain
             ClientWidth = 609
             TabOrder = 0
             object Label23: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 32
+              Top = 0
               Width = 124
               Caption = 'Wind Direction (°)'
             end
             object Label24: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 72
+              Top = 40
               Width = 134
               Caption = 'Wind Speed (km/h)'
             end
             object Label25: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 112
+              Top = 80
               Width = 123
               Caption = 'Wind Gust (km/h)'
             end
             object Label16: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 152
+              Top = 120
               Width = 112
               Caption = 'Temperatur (°C)'
             end
             object Label26: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 32
+              Top = 0
               Width = 144
               Caption = 'Rainfall last 1h (mm)'
             end
             object Label28: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 112
+              Top = 80
               Width = 137
               Caption = 'Rainfall today (mm)'
             end
             object Label29: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 192
+              Top = 160
               Width = 90
               Caption = 'Humidity (%)'
             end
             object Label30: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 192
+              Top = 160
               Width = 98
               Caption = 'Pressure (mb)'
             end
             object Label31: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 232
+              Top = 200
               Width = 100
               Caption = 'Lum (watt/m²)'
             end
             object Label33: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 152
+              Top = 120
               Width = 126
               Caption = 'Raw Rain Counter'
             end
             object STWXDirection: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 32
+              Top = 0
               Width = 86
               Font.Color = clHighlight
               Font.Height = -15
@@ -670,9 +670,9 @@ object FMain: TFMain
               TabOrder = 0
             end
             object STWXSpeed: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 72
+              Top = 40
               Width = 86
               Font.Color = clHighlight
               Font.Height = -15
@@ -681,9 +681,9 @@ object FMain: TFMain
               TabOrder = 1
             end
             object STWXGust: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 112
+              Top = 80
               Width = 88
               Font.Color = clHighlight
               Font.Height = -15
@@ -692,9 +692,9 @@ object FMain: TFMain
               TabOrder = 2
             end
             object STWXTemperature: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 152
+              Top = 120
               Width = 86
               Font.Color = clHighlight
               Font.Height = -15
@@ -703,9 +703,9 @@ object FMain: TFMain
               TabOrder = 3
             end
             object STWXPressure: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 192
+              Top = 160
               Width = 86
               Font.Color = clHighlight
               Font.Height = -15
@@ -714,9 +714,9 @@ object FMain: TFMain
               TabOrder = 4
             end
             object STWXRainFall1h: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 32
+              Top = 0
               Width = 78
               Font.Color = clHighlight
               Font.Height = -15
@@ -725,16 +725,16 @@ object FMain: TFMain
               TabOrder = 5
             end
             object Label32: TLabel
-              Left = 8
+              Left = 0
               Height = 21
-              Top = 232
+              Top = 200
               Width = 160
               Caption = 'Snowfall last 24h (mm)'
             end
             object STWXSnowFall24h: TStaticText
-              Left = 208
+              Left = 200
               Height = 25
-              Top = 232
+              Top = 200
               Width = 86
               Font.Color = clHighlight
               Font.Height = -15
@@ -743,9 +743,9 @@ object FMain: TFMain
               TabOrder = 6
             end
             object STWXRainFallToday: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 112
+              Top = 80
               Width = 78
               Font.Color = clHighlight
               Font.Height = -15
@@ -754,9 +754,9 @@ object FMain: TFMain
               TabOrder = 7
             end
             object STWXRainCount: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 152
+              Top = 120
               Width = 77
               Font.Color = clHighlight
               Font.Height = -15
@@ -765,9 +765,9 @@ object FMain: TFMain
               TabOrder = 8
             end
             object STWXHumidity: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 192
+              Top = 160
               Width = 77
               Font.Color = clHighlight
               Font.Height = -15
@@ -776,9 +776,9 @@ object FMain: TFMain
               TabOrder = 9
             end
             object STWXLum: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 232
+              Top = 200
               Width = 77
               Font.Color = clHighlight
               Font.Height = -15
@@ -787,16 +787,16 @@ object FMain: TFMain
               TabOrder = 10
             end
             object Label27: TLabel
-              Left = 304
+              Left = 296
               Height = 21
-              Top = 72
+              Top = 40
               Width = 153
               Caption = 'Rainfall last 24h (mm)'
             end
             object STWXRainFall24h: TStaticText
-              Left = 496
+              Left = 488
               Height = 25
-              Top = 72
+              Top = 40
               Width = 79
               Font.Color = clHighlight
               Font.Height = -15
@@ -807,15 +807,17 @@ object FMain: TFMain
             object fpWX: TFlowPanel
               AnchorSideLeft.Control = scWX
               AnchorSideTop.Control = STWXSnowFall24h
+              AnchorSideTop.Side = asrBottom
               AnchorSideRight.Control = scWX
               AnchorSideRight.Side = asrBottom
               AnchorSideBottom.Control = scWX
               AnchorSideBottom.Side = asrBottom
               Left = 0
-              Height = 403
-              Top = 232
+              Height = 0
+              Top = 225
               Width = 609
-              Anchors = [akTop, akLeft, akRight, akBottom]
+              Anchors = [akTop, akLeft, akRight]
+              AutoSize = True
               BevelOuter = bvNone
               ControlList = <>
               FlowLayout = tlTop
@@ -849,6 +851,7 @@ object FMain: TFMain
               Top = 0
               Width = 609
               Align = alClient
+              AutoSize = True
               BevelOuter = bvNone
               ControlList = <>
               FlowLayout = tlTop

@@ -805,11 +805,12 @@ begin
     begin
       Chart := TChart.Create(ParentCtrl);
       Chart.Parent := ParentCtrl;
-      Chart.Align := alClient;
+      Chart.Align := alNone;
       Chart.Name := ChartName;
       Chart.Title.Text.Clear;
       Chart.Title.Text.Add(Title);
       Chart.Title.Visible := True;
+      Chart.Width := 290;
     end;
 
     // X

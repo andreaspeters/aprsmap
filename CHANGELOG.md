@@ -6,6 +6,8 @@
 - ADD: [gps] Add support for gpsd to get current position.
 - ADD: posibility to disable/enable IGate and Dump1090.
 - ADD: Start support for non position Messages.
+- ADD: Start support for Compressed Data.
+- FIX: WX Charts without scroolbox.
 
 ## v0.6.1
 

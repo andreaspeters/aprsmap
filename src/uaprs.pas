@@ -14,7 +14,7 @@ procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
-function GetImageIndex(const Symbol, IconPrimary: String):Byte;
+function GetImageIndex(const Symbol, IconPrimary: String):Integer;
 function GetImageDescription(const Symbol, IconPrimary: String):String;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
 function FindGPSItem(Layer: TMapLayer; const Call: String):TGPSObj;
@@ -237,10 +237,11 @@ begin
   end;
 end;
 
-function GetImageIndex(const Symbol, IconPrimary: String):Byte;
+function GetImageIndex(const Symbol, IconPrimary: String):Integer;
 var i, x: Byte;
     count: Integer;
     overlay: String;
+
 begin
   Result := 0;
   if (Length(Symbol) <> 1) or (Length(IconPrimary) <> 1) then
@@ -279,7 +280,7 @@ begin
         Exit;
       end;
 
-      if Length(IconPrimary) > 0 then
+      if Length(IconPrimary) = 1 then
       begin
         try
           // Primary Symbols with Overlay
@@ -605,74 +606,93 @@ begin
       OrRegex.Free;
     end;
 
+    APRSMessageObject.EnableTrack := False;
+    APRSMessageObject.Track := TGPSTrack.Create;
+    APRSMessageObject.Track.Visible := False;
+    APRSMessageObject.Track.LineWidth := 1;
+    APRSMessageObject.Visible := True;
+
+    APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
+    APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
+    APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
+    APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
+    APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
+    APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
+    APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
+    APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
+    APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
+    APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
+
+
+    if GetAltitude(APRSMessageObject.Message) <> -999999 then
+      APRSMessageObject.Altitude.Add(GetAltitude(APRSMessageObject.Message));
+    if GetSpeed(APRSMessageObject.Message) <> -999999 then
+      APRSMessageObject.Speed.Add(GetSpeed(APRSMessageObject.Message));
+
+    if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+    begin
+      if GetWX(APRSMessageObject.Message,'c') <> -999999 then
+        APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
+      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+        APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s')*1.85);
+      if GetWX(APRSMessageObject.Message,'g') <> -999999 then
+        APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g')*1.85);
+      if GetWX(APRSMessageObject.Message,'r') <> -999999 then
+        APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r')*25.4);
+      if GetWX(APRSMessageObject.Message,'p') <> -999999 then
+        APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p')*25.4);
+      if GetWX(APRSMessageObject.Message,'P') <> -999999 then
+        APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P')*25.4);
+      if GetWX(APRSMessageObject.Message, 't') <> -999999 then
+        APRSMessageObject.WXTemperature.Add(FahrenheitToCelsius(GetWX(APRSMessageObject.Message, 't')));
+      if GetWX(APRSMessageObject.Message,'h') <> -999999 then
+        APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
+      if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
+        APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b')/ 10);
+      if GetWX(APRSMessageObject.Message,'L') <> -999999 then
+        APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
+      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+        APRSMessageObject.WXSnowFall.Add(GetWX(APRSMessageObject.Message,'s'));
+      if GetWX(APRSMessageObject.Message,'#') <> -999999 then
+        APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
+    end;
+
+    // Compressed Position Report Data
+    Regex.Expression := '([!=])([&/\\0-9a-jA-Z])(.{4})(.{4})(.)(.{2})(.)(.*)';
+    Regex.ModifierI := False;
+    if Regex.Exec(Data) then
+    begin
+      if Regex.SubExprMatchCount >= 7 then
+      begin
+        //ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
+        APRSMessageObject.IconPrimary := Regex.Match[2];
+        APRSMessageObject.Icon := Regex.Match[5];
+        APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[2]);
+        APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[2]);
+      end;
+      if Regex.SubExprMatchCount >= 8 then
+        APRSMessageObject.Message := Regex.Match[8];
+    end;
+
+    // Position Data
     Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
-      APRSMessageObject.EnableTrack := False;
-      APRSMessageObject.Track := TGPSTrack.Create;
-      APRSMessageObject.Track.Visible := False;
-      APRSMessageObject.Track.LineWidth := 1;
-      APRSMessageObject.Visible := True;
-
       if Regex.SubExprMatchCount >= 6 then
       begin
         ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
+        APRSMessageObject.Message := Regex.Match[6];
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
         APRSMessageObject.IconPrimary := Regex.Match[3];
         APRSMessageObject.Icon := Regex.Match[5];
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[3]);
-        APRSMessageObject.Message := Regex.Match[6];
-        APRSMessageObject.Course := GetCourse(APRSMessageObject.Message);
-        APRSMessageObject.PHGPower := GetPHGPower(APRSMessageObject.Message);
-        APRSMessageObject.PHGHeight := GetPHGHeight(APRSMessageObject.Message);
-        APRSMessageObject.PHGGain := GetPHGGain(APRSMessageObject.Message);
-        APRSMessageObject.PHGDirectivity := GetPHGDirectivity(APRSMessageObject.Message);
-        APRSMessageObject.DFSStrength := GetDFSStrength(APRSMessageObject.Message);
-        APRSMessageObject.DFSHeight := GetDFSHeight(APRSMessageObject.Message);
-        APRSMessageObject.DFSGain := GetDFSGain(APRSMessageObject.Message);
-        APRSMessageObject.DFSDirectivity := GetDFSDirectivity(APRSMessageObject.Message);
-        APRSMessageObject.RNGRange := GetRNG(APRSMessageObject.Message);
-
-
-        if GetAltitude(APRSMessageObject.Message) <> -999999 then
-          APRSMessageObject.Altitude.Add(GetAltitude(APRSMessageObject.Message));
-        if GetSpeed(APRSMessageObject.Message) <> -999999 then
-          APRSMessageObject.Speed.Add(GetSpeed(APRSMessageObject.Message));
-
-        if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
-        begin
-          if GetWX(APRSMessageObject.Message,'c') <> -999999 then
-            APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
-          if GetWX(APRSMessageObject.Message,'s') <> -999999 then
-            APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s')*1.85);
-          if GetWX(APRSMessageObject.Message,'g') <> -999999 then
-            APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g')*1.85);
-          if GetWX(APRSMessageObject.Message,'r') <> -999999 then
-            APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r')*25.4);
-          if GetWX(APRSMessageObject.Message,'p') <> -999999 then
-            APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p')*25.4);
-          if GetWX(APRSMessageObject.Message,'P') <> -999999 then
-            APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P')*25.4);
-          if GetWX(APRSMessageObject.Message, 't') <> -999999 then
-            APRSMessageObject.WXTemperature.Add(FahrenheitToCelsius(GetWX(APRSMessageObject.Message, 't')));
-          if GetWX(APRSMessageObject.Message,'h') <> -999999 then
-            APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
-          if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
-            APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b')/ 10);
-          if GetWX(APRSMessageObject.Message,'L') <> -999999 then
-            APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
-          if GetWX(APRSMessageObject.Message,'s') <> -999999 then
-            APRSMessageObject.WXSnowFall.Add(GetWX(APRSMessageObject.Message,'s'));
-          if GetWX(APRSMessageObject.Message,'#') <> -999999 then
-            APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
-        end;
       end;
-
-      RS41SGP(@APRSMessageObject);
     end;
+
+    RS41SGP(@APRSMessageObject);
 
     // text, bulletins, announcement and some telemetry messages
     // shares the same datatype
@@ -757,7 +777,7 @@ var bmpBase, bmpOverlay, bmpMerged: TBitmap;
 begin
   Result := 0;
 
-  if (IndexOverlay > ImageList.Count) or (IndexBase > ImageList.Count) then
+  if (IndexOverlay >= ImageList.Count) or (IndexBase >= ImageList.Count) then
     Exit;
 
   bmpBase := TBitmap.Create;
@@ -779,11 +799,17 @@ begin
 
     // add new image to imagelist
     Result := ImageList.Add(bmpMerged, nil);
-  finally
-    bmpBase.Free;
-    bmpOverlay.Free;
-    bmpMerged.Free;
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln(Format('Error CreateOverlay: %s', [E.Message]));
+      {$ENDIF}
+    end;
   end;
+  bmpBase.Free;
+  bmpOverlay.Free;
+  bmpMerged.Free;
 end;
 
 end.
