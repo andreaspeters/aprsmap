@@ -155,7 +155,7 @@ object FMain: TFMain
           Left = 302
           Height = 35
           Top = 33
-          Width = 314
+          Width = 296
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 33
           BorderSpacing.Right = 5
@@ -177,7 +177,7 @@ object FMain: TFMain
           Left = 304
           Height = 35
           Top = 104
-          Width = 312
+          Width = 294
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5

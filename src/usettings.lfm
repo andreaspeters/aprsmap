@@ -10,7 +10,7 @@ object FSettings: TFSettings
   ClientWidth = 1095
   DefaultMonitor = dmDesktop
   Position = poMainFormCenter
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.5.0.0'
   OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6
@@ -36,8 +36,8 @@ object FSettings: TFSettings
     Top = 200
     Width = 539
     Caption = 'IGate'
-    ClientHeight = 265
-    ClientWidth = 535
+    ClientHeight = 276
+    ClientWidth = 527
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 176
@@ -116,8 +116,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 161
-    ClientWidth = 533
+    ClientHeight = 172
+    ClientWidth = 525
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
@@ -179,8 +179,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 161
-    ClientWidth = 533
+    ClientHeight = 172
+    ClientWidth = 525
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 182
@@ -253,8 +253,8 @@ object FSettings: TFSettings
     Top = 200
     Width = 537
     Caption = 'Dump1090'
-    ClientHeight = 265
-    ClientWidth = 533
+    ClientHeight = 276
+    ClientWidth = 525
     TabOrder = 4
     object LEModeSServer: TLabeledEdit
       Left = 184

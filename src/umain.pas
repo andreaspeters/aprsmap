@@ -206,6 +206,8 @@ type
     MyPosition: TGPSObj;
     MyPositionGPS: TGPSPoint;
     Debug: Boolean;
+    IGate: TIGateThread;
+    ModeS: TModeSThread;
   end;
 
 var
@@ -214,8 +216,6 @@ var
   APRSMessageObject: PAPRSMessage;
   ReadPipe: TReadPipeThread;
   APRSConfig: TAPRSConfig;
-  IGate: TIGateThread;
-  ModeS: TModeSThread;
   LastZoom: Byte;
   ModeSCount: Integer;
   TrackID: Integer;
@@ -254,9 +254,6 @@ begin
 
   APRSMessageList := TFPHashList.Create;
 
-  ReadPipe := TReadPipeThread.Create('flexpacketwritepipe');
-  IGate := TIGateThread.Create(@APRSConfig);
-
   PoILayer := (MVMap.Layers.Add as TMapLayer);
   SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, APRSConfig.AprsSymbol+1, MVMap.GPSItems);
   MyPosition := FindGPSItem(PoILayer, APRSConfig.Callsign);
@@ -278,7 +275,17 @@ begin
     end;
   end;
 
-  ModeS := TModeSThread.Create(@APRSConfig);
+  ModeS := nil;
+  if APRSConfig.ModeSEnabled then
+    ModeS := TModeSThread.Create(@APRSConfig);
+
+  IGate := nil;
+  if APRSConfig.IGateEnabled then
+    IGate := TIGateThread.Create(@APRSConfig);
+
+  ReadPipe := nil;
+  ReadPipe := TReadPipeThread.Create('flexpacketwritepipe');
+
   SetupFilterCombo;
 
   pcPoITab.ActivePage := tsMain;
@@ -1259,8 +1266,10 @@ var km: Double;
 begin
   try
     km := msg.Distance;
-    if (km > 0) and (msg.ImageIndex >= 0) and (msg.ImageIndex < ImageList1.Count) then
-      CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil);
+    if (msg.ImageIndex >= 0) and (msg.ImageIndex < ImageList1.Count) then
+      CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil)
+    else
+      CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , 0, 0, 0, 0, nil);
   except
     on E: Exception do
     begin

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, ComboEx, utypes, uini, ugps, uaprs, mvGPSObj;
+  Buttons, StdCtrls, ComboEx, utypes, uini, ugps, uaprs, uigate, umodes;
 
 type
 
@@ -155,6 +155,17 @@ begin
   FConfig^.ModeSExecutable := LEModeSExecutable.Caption;
   FConfig^.AprsSymbol := CBESymbol.ItemIndex;
   FConfig^.ModeSEnabled := LEModeSServer.Enabled;
+
+
+  if Assigned(FMain.ModeS) then
+    FMain.ModeS.Free;
+  if FConfig^.ModeSEnabled then
+    FMain.ModeS := TModeSThread.Create(@APRSConfig);
+
+  if Assigned(FMain.IGate) then
+    FMain.IGate.Free;
+  if FConfig^.IGateEnabled then
+    FMain.IGate := TIGateThread.Create(@APRSConfig);
 
   SaveConfigToFile(FConfig);
 

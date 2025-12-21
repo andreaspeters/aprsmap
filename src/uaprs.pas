@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
-  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math,
+  mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math, umice, ucompressed,
   FPImage, IntfGraphics, GraphType,
   u_rs41sg;
 
@@ -34,7 +34,7 @@ function GetPHGDirectivity(const Text: String):String;
 function GetAPRSDataExtension(const Text, Search: String; const MatchIndex: Byte; const Table: ArrayOfPHGCode):String;
 function GetRNG(const Text: String):Double;
 function GetWX(const Text, Search: String):Double;
-function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
+function GetAPRSMessageObject(const Data: String; DataType: String; const DataMessage: String): TAPRSMessage;
 function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer): Integer;
 
 var
@@ -548,7 +548,7 @@ begin
     Longitude := -Longitude;
 end;
 
-function GetAPRSMessageObject(const Data, DataType, DataMessage: String): TAPRSMessage;
+function GetAPRSMessageObject(const Data: String; DataType: String; const DataMessage: String): TAPRSMessage;
 var Regex, OrRegex: TRegExpr;
     Lat, Lon: Double;
     APRSMessageObject: TAPRSMessage;
@@ -592,19 +592,7 @@ begin
     APRSMessageObject.RAWMessages := TStringList.Create;
     APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Data]));
     APRSMessageObject.Count := 0;
-    APRSMessageObject.Message := Data;
-
-    // In a ObjectReport, the Callsign could be inside the PayLoad
-    if DataType = ObjectReport then
-    begin
-      OrRegex := TRegExpr.Create;
-      OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
-      OrRegex.ModifierI := False;
-      if OrRegex.Exec(DataMessage) then
-        if OrRegex.SubExprMatchCount >= 1 then
-          APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
-      OrRegex.Free;
-    end;
+    APRSMessageObject.Message := DataMessage;
 
     APRSMessageObject.EnableTrack := False;
     APRSMessageObject.Track := TGPSTrack.Create;
@@ -657,6 +645,21 @@ begin
         APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
     end;
 
+
+    // Mic-E Position Data
+    Regex.Expression := '([''`]{1})(.{8})';
+    Regex.ModifierI := False;
+    if Regex.Exec(Data) then
+    begin
+      if Regex.SubExprMatchCount = 2 then
+      begin
+        DecodeMicELonSpeedCourse(Format('%s%s',[Regex.Match[1],Regex.Match[2]]),@APRSMessageObject);
+        DecodeMicELat(@APRSMessageObject);
+        APRSMessageObject.ImageIndex := GetImageIndex(APRSMessageObject.Icon, APRSMessageObject.IconPrimary);
+        APRSMessageObject.ImageDescription := GetImageDescription(APRSMessageObject.Icon, APRSMessageObject.IconPrimary);
+      end;
+    end;
+
     // Compressed Position Report Data
     Regex.Expression := '([!=])([&/\\0-9a-jA-Z])(.{4})(.{4})(.)(.{2})(.)(.*)';
     Regex.ModifierI := False;
@@ -664,7 +667,8 @@ begin
     begin
       if Regex.SubExprMatchCount >= 7 then
       begin
-        //ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
+        DataType := Regex.Match[1];
+        DecodeCompressedLatLon(Regex.Match[3], Regex.Match[4], @APRSMessageObject);
         APRSMessageObject.IconPrimary := Regex.Match[2];
         APRSMessageObject.Icon := Regex.Match[5];
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[2]);
@@ -690,6 +694,18 @@ begin
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[3]);
       end;
+    end;
+
+    // In a ObjectReport, the Callsign could be inside the PayLoad
+    if DataType = ObjectReport then
+    begin
+      OrRegex := TRegExpr.Create;
+      OrRegex.Expression := '^;([A-Z0-9\-]{1,9})\s';
+      OrRegex.ModifierI := False;
+      if OrRegex.Exec(DataMessage) then
+        if OrRegex.SubExprMatchCount >= 1 then
+          APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
+      OrRegex.Free;
     end;
 
     RS41SGP(@APRSMessageObject);

@@ -19,6 +19,7 @@ type
     Error: Boolean;
     procedure WriteToPipe(const PipeName, Data: String);
     function DecodeAPRSMessage(const Data: String): TAPRSMessage;
+    function IsPipeExisting(const PipeName: string): Boolean;
     constructor Create(const PipeName: string);
   end;
 
@@ -39,6 +40,11 @@ begin
   FPipeName := PipeName;
   FreeOnTerminate := True;
   Error := False;
+  if not IsPipeExisting(PipeName) then
+  begin
+    Terminate;
+    Exit;
+  end;
   Start;
 end;
 
@@ -226,6 +232,35 @@ begin
     end;
   end;
 end;
+
+{$IFDEF UNIX}
+function TReadPipeThread.IsPipeExisting(const PipeName: string): Boolean;
+begin
+  if FpAccess(PChar('/tmp/' + PipeName), F_OK) = 0 then
+    Result := True
+  else
+    Result := False;
+end;
+{$ENDIF}
+{$IFDEF MSWINDOWS}
+function TReadPipeThread.IsPipeExisting(const PipeName: string): Boolean;
+begin
+  PipeHandle := CreateFile(
+    PChar('\\.\pipe\' + PipeName),
+    GENERIC_READ or GENERIC_WRITE,
+    0,
+    nil,
+    OPEN_EXISTING,
+    0,
+    0
+  );
+
+  if PipeHandle = INVALID_HANDLE_VALUE then
+    Result := False
+  else
+    Result := True;
+end;
+{$ENDIF}
 
 end.
 
