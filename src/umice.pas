@@ -7,52 +7,65 @@ interface
 uses
   Classes, SysUtils, utypes;
 
+
+type
+  TMicEDestination = record
+    Lat: Double;
+    Message: String;
+    NS: Char;
+    Offset: Byte;
+    WE: Char;
+  end;
+
+
 procedure DecodeMicELonSpeedCourse(const Data: String; APRSMessage: PAPRSMessage);
 procedure DecodeMicELat(APRSMessage: PAPRSMessage);
-function MicECharValue(C: Char): Integer;
 
 implementation
 
-function MicECharValue(C: Char): Integer;
-begin
-  Result := Ord(C) - 28;
-end;
-
 procedure DecodeMicELonSpeedCourse(const Data: String; APRSMessage: PAPRSMessage);
 var Lon, Speed, Course: Double;
-    SymTab, SymCode: Char;
-    Deg, Min, Hun: Integer;
+    Deg, Min, Sec: Double;
+    WE: Char;
 begin
   Lon := 0;
   Speed := 0;
   Course := 0;
-  SymTab := '/';
-  SymCode := '>';
+  WE := 'W';
 
   if (Length(Data) < 9) or (Length(APRSMessage^.ToCall) <> 6) then
     Exit;
 
   // Longitude
-  Deg := MicECharValue(Data[2]);
-  Min := MicECharValue(Data[3]);
-  Hun := MicECharValue(Data[4]);
+  Deg := Ord(Data[2]) - 28;
+  Min := Ord(Data[3]) - 28;
+  Sec := Ord(Data[4]) - 28;
 
-  // Degree-Korrektur laut Spec
-  if Deg >= 180 then
+  if APRSMessage^.ToCall[3] in ['P'..'Y'] then
+  begin
+    Deg := Deg + 100;
+    WE := 'E';
+  end;
+
+  if Min >= 60 then
+    Min := Min - 60;
+
+  if Deg >= 190 then
+    Deg := Deg - 190
+  else if Deg >= 180 then
     Deg := Deg - 80
-  else if Deg >= 100 then
-    Deg := Deg - 100;
+  else
+    Deg := Deg;
 
-  Lon := Deg + (Min / 60.0) + (Hun / 6000.0);
-
-  if APRSMessage^.ToCall[6] in ['P'..'Y'] then
+  Lon := (Deg + (Min / 60.0)) + (Sec / 6000.0);
+  if WE = 'W' then
     Lon := -Lon;
 
   // Speed (knots)
-  Speed := MicECharValue(Data[5]) * 10 + (MicECharValue(Data[6]) / 10.0) * 1.852;
+  Speed := (Ord(Data[5]) - 28) * 10 + ((Ord(Data[6]) - 28) / 10.0) * 1.852;
 
   // Course
-  Course := MicECharValue(Data[7]) * 4;
+  Course := (Ord(Data[7]) - 28)* 4;
 
   APRSMessage^.Longitude := Lon;
   APRSMessage^.Speed.Add(Speed);
@@ -66,8 +79,9 @@ var d: array[1..6] of Integer;
     i: Integer;
     Lat: Double;
     NS: Char;
+    Deg, Min, Sec: Double;
 begin
-  NS := 'N';
+  NS := 'S';
 
   if Length(APRSMessage^.ToCall) < 6 then
     Exit;
@@ -83,15 +97,16 @@ begin
   end;
 
   // N / S
-  if APRSMessage^.ToCall[4] in ['P'..'Y'] then
-    NS := 'S';
+  if APRSMessage^.ToCall[3] in ['P'..'Y'] then
+    NS := 'N';
 
-  Lat := (d[1] * 10 + d[2]) +
-         (d[3] * 10 + d[4]) / 60.0 +
-         (d[5] * 10 + d[6]) / 6000.0;
+  Deg := (d[1] * 10 + d[2]);
+  Min := (d[3] * 10 + d[4]);
+  Sec := (d[5] * 10 + d[6]);
 
+  Lat := (Deg + (Min / 60.0)) + (Sec / 6000.0);
   if NS = 'S' then
-    Lat := -Lat;
+    Lat := Lat * -1;
 
   APRSMessage^.Latitude := Lat;
 end;

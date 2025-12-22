@@ -8,7 +8,7 @@
         <Filename Value="aprsmap.lpr"/>
         <IsPartOfProject Value="True"/>
         <TopLine Value="4"/>
-        <CursorPos X="26" Y="10"/>
+        <CursorPos X="11" Y="10"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
       </Unit>
@@ -20,7 +20,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="9"/>
         <TopLine Value="1250"/>
-        <CursorPos X="52" Y="1261"/>
+        <CursorPos X="5" Y="1261"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,8 +37,8 @@
         <Filename Value="ureadpipe.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="13"/>
-        <TopLine Value="203"/>
-        <CursorPos Y="206"/>
+        <TopLine Value="56"/>
+        <CursorPos Y="71"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -46,7 +46,7 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="16"/>
-        <TopLine Value="120"/>
+        <TopLine Value="547"/>
         <CursorPos Y="475"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -55,8 +55,8 @@
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="656"/>
-        <CursorPos X="65" Y="671"/>
+        <TopLine Value="604"/>
+        <CursorPos X="73" Y="652"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -98,8 +98,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="47"/>
-        <CursorPos X="31" Y="7"/>
+        <TopLine Value="44"/>
+        <CursorPos X="5" Y="7"/>
         <UsageCount Value="219"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -109,7 +109,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="11"/>
         <TopLine Value="35"/>
-        <CursorPos X="3" Y="56"/>
+        <CursorPos Y="56"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -143,8 +143,8 @@
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="17"/>
-        <TopLine Value="38"/>
-        <CursorPos X="34" Y="42"/>
+        <TopLine Value="32"/>
+        <CursorPos X="58" Y="51"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
       </Unit>
@@ -155,9 +155,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="40"/>
         <CursorPos X="3" Y="35"/>
-        <UsageCount Value="146"/>
+        <UsageCount Value="192"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -166,97 +165,18 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
         <TopLine Value="77"/>
-        <CursorPos X="42" Y="79"/>
-        <UsageCount Value="146"/>
+        <CursorPos Y="97"/>
+        <UsageCount Value="192"/>
         <Loaded Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../use/LazMapViewer/source/mvgpsobj.pas"/>
-        <UnitName Value="mvGpsObj"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="849"/>
-        <CursorPos Y="872"/>
-        <UsageCount Value="2"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/packages/rtl-generics/src/generics.collections.pas"/>
-        <UnitName Value="Generics.Collections"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1429"/>
-        <CursorPos X="68" Y="1447"/>
-        <UsageCount Value="4"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/System/IdStack.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="970"/>
-        <CursorPos Y="981"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandlerStack.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="389"/>
-        <CursorPos Y="421"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdTCPClient.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="327"/>
-        <CursorPos Y="338"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/rtl/objpas/classes/classesh.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1782"/>
-        <CursorPos X="16" Y="1793"/>
-        <UsageCount Value="2"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdBuffer.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="605"/>
-        <CursorPos Y="622"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandler.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1552"/>
-        <CursorPos Y="1558"/>
-        <UsageCount Value="11"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/System/IdGlobal.pas"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="8785"/>
-        <CursorPos Y="8800"/>
-        <UsageCount Value="2"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/fpcsrc/packages/fcl-base/src/contnrs.pp"/>
-        <UnitName Value="Contnrs"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1497"/>
-        <CursorPos X="3" Y="1503"/>
-        <UsageCount Value="3"/>
       </Unit>
       <Unit>
         <Filename Value="umice.pas"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="17"/>
-        <CursorPos X="29" Y="32"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="26"/>
+        <CursorPos X="47" Y="49"/>
+        <UsageCount Value="78"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -265,95 +185,20 @@
         <EditorIndex Value="2"/>
         <TopLine Value="23"/>
         <CursorPos Y="36"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandler.pas"/>
+        <EditorIndex Value="18"/>
+        <TopLine Value="1552"/>
+        <CursorPos Y="1558"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="980" TopLine="926"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="210" Column="28" TopLine="200"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="161" Column="26" TopLine="148"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="160" Column="29" TopLine="155"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="164" Column="11" TopLine="146"/>
-      </Position>
-      <Position>
-        <Filename Value="usettings.pas"/>
-        <Caret Line="166" Column="22" TopLine="146"/>
-      </Position>
-      <Position>
-        <Filename Value="devices/u_rs41sg.pas"/>
-        <Caret Line="47" Column="10" TopLine="38"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="288" Column="3" TopLine="269"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="286" Column="19" TopLine="273"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="6" Column="65"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="190" Column="26" TopLine="167"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="1113" Column="20" TopLine="1090"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="556" Column="39" TopLine="548"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="580" Column="31" TopLine="568"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="8" Column="28"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="19" Column="5" TopLine="3"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="50" Column="18" TopLine="13"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="20" Column="70" TopLine="5"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="87" Column="31" TopLine="64"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="44" Column="20" TopLine="30"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="676" TopLine="665"/>
-      </Position>
       <Position>
         <Filename Value="uaprs.pas"/>
         <Caret Line="674" Column="24" TopLine="658"/>
@@ -389,6 +234,90 @@
       <Position>
         <Filename Value="devices/u_rs41sg.pas"/>
         <Caret Line="42" Column="34" TopLine="38"/>
+      </Position>
+      <Position>
+        <Filename Value="uini.pas"/>
+        <Caret Line="43" Column="56" TopLine="38"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="32" Column="29" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="47" Column="41" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="52" Column="42" TopLine="36"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="19"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="74" TopLine="55"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="34" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="55" TopLine="39"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="38" Column="34" TopLine="23"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="821" Column="77" TopLine="803"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="16" Column="18"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="87" Column="44" TopLine="80"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="29" Column="14" TopLine="14"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="55" Column="16" TopLine="28"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="41" Column="4" TopLine="31"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="58" Column="15" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="62" Column="50" TopLine="49"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="47" Column="13" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="62" Column="20" TopLine="51"/>
+      </Position>
+      <Position>
+        <Filename Value="uinfo.pas"/>
+        <Caret Line="7" Column="5" TopLine="44"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="55" Column="27" TopLine="32"/>
       </Position>
     </JumpHistory>
     <RunParams>
