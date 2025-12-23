@@ -19,8 +19,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="1250"/>
-        <CursorPos X="5" Y="1261"/>
+        <TopLine Value="603"/>
+        <CursorPos X="54" Y="628"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -46,8 +46,8 @@
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="16"/>
-        <TopLine Value="547"/>
-        <CursorPos Y="475"/>
+        <TopLine Value="59"/>
+        <CursorPos X="25" Y="77"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
       </Unit>
@@ -142,6 +142,7 @@
       <Unit>
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="17"/>
         <TopLine Value="35"/>
         <CursorPos X="58" Y="51"/>
@@ -173,9 +174,9 @@
         <Filename Value="umice.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="76"/>
-        <CursorPos X="37" Y="91"/>
-        <UsageCount Value="101"/>
+        <TopLine Value="97"/>
+        <CursorPos X="23" Y="109"/>
+        <UsageCount Value="119"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -184,29 +185,19 @@
         <EditorIndex Value="2"/>
         <TopLine Value="23"/>
         <CursorPos Y="36"/>
-        <UsageCount Value="90"/>
+        <UsageCount Value="108"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandler.pas"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="1552"/>
         <CursorPos Y="1558"/>
-        <UsageCount Value="20"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="23"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="ucompressed.pas"/>
-        <Caret Line="36" Column="17" TopLine="25"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="671" Column="64" TopLine="655"/>
-      </Position>
       <Position>
         <Filename Value="uaprs.pas"/>
         <Caret Line="9" Column="78"/>
@@ -318,6 +309,14 @@
       <Position>
         <Filename Value="umice.pas"/>
         <Caret Line="91" Column="37" TopLine="76"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="110" Column="13" TopLine="97"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="109" Column="23" TopLine="97"/>
       </Position>
     </JumpHistory>
     <RunParams>

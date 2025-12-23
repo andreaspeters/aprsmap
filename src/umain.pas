@@ -621,6 +621,13 @@ begin
       MAPRSMessage.Lines.Add(msg^.Message);
       STCallsign.Caption := Call;
       STIconDescription.Caption := msg^.ImageDescription;
+      if Length(msg^.MicEMessage) > 0 then
+        STIconDescription.Caption := Format('%s - %s', [STIconDescription.Caption, msg^.MicEMessage]);
+
+      if (Length(msg^.MicEMessage) > 0) and (Length(msg^.ImageDescription) <= 0) then
+        STIconDescription.Caption := msg^.MicEMessage;
+
+
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);

@@ -74,6 +74,7 @@ type
     WXRainFallToday: TDoubleList;
     WXHumidity: TDoubleList;
     Message: String;
+    MicEMessage: String;
     ID: Integer;
     Time: TTime;
     Track: TGPSTrack;
