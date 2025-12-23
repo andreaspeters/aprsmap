@@ -24,7 +24,7 @@ procedure DecodeMicELat(APRSMessage: PAPRSMessage);
 implementation
 
 procedure DecodeMicELonSpeedCourse(const Data: String; APRSMessage: PAPRSMessage);
-var Lon, Speed, Course: Double;
+var Lon, Speed, M, Course: Double;
     Deg, Min, Sec: Double;
     WE: Char;
 begin
@@ -61,17 +61,35 @@ begin
   if WE = 'W' then
     Lon := -Lon;
 
-  // Speed (knots)
-  Speed := (Ord(Data[5]) - 28) * 10 + ((Ord(Data[6]) - 28) / 10.0) * 1.852;
+  // Speed
+  M := (Ord(Data[6]) - 28);
+  Speed := (Ord(Data[5]) - 28);
 
-  // Course
-  Course := (Ord(Data[7]) - 28)* 4;
+  if (M > 0) and (M < 97) then
+    if (Speed > 0) and (Speed < 99) then
+    begin
+      Speed := (Speed * 10) + (M / 10);
+      if (Speed >= 800) then
+        Speed := Speed - 800;
+
+      // knots -> km/h
+      APRSMessage^.Speed.Add(Speed * 1.85);
+
+      Course := (Ord(Data[7]) - 28);
+      if (Course > 0) and (Course < 99) then
+      begin
+        Course := ((M / 10) * 100) + Course;
+        if (Course >= 400) then
+          Course := Course - 400;
+
+        if (Course > 0) then
+          APRSMessage^.Course := Course;
+      end;
+    end;
 
   APRSMessage^.Longitude := Lon;
-  APRSMessage^.Speed.Add(Speed);
-  APRSMessage^.Course := Course;
-  APRSMessage^.IconPrimary := Data[8];
-  APRSMessage^.Icon := Data[9];
+  APRSMessage^.IconPrimary := Data[9];
+  APRSMessage^.Icon := Data[8];
 end;
 
 procedure DecodeMicELat(APRSMessage: PAPRSMessage);
@@ -97,7 +115,7 @@ begin
   end;
 
   // N / S
-  if APRSMessage^.ToCall[3] in ['P'..'Y'] then
+  if APRSMessage^.ToCall[4] in ['P'..'Y'] then
     NS := 'N';
 
   Deg := (d[1] * 10 + d[2]);

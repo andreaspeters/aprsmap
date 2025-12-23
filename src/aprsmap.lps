@@ -143,7 +143,7 @@
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="17"/>
-        <TopLine Value="32"/>
+        <TopLine Value="35"/>
         <CursorPos X="58" Y="51"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -156,7 +156,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="3"/>
         <CursorPos X="3" Y="35"/>
-        <UsageCount Value="192"/>
+        <UsageCount Value="214"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -166,17 +166,16 @@
         <EditorIndex Value="4"/>
         <TopLine Value="77"/>
         <CursorPos Y="97"/>
-        <UsageCount Value="192"/>
+        <UsageCount Value="214"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="umice.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="10"/>
-        <TopLine Value="26"/>
-        <CursorPos X="47" Y="49"/>
-        <UsageCount Value="78"/>
+        <TopLine Value="76"/>
+        <CursorPos X="37" Y="91"/>
+        <UsageCount Value="101"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -185,32 +184,21 @@
         <EditorIndex Value="2"/>
         <TopLine Value="23"/>
         <CursorPos Y="36"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="90"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandler.pas"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="18"/>
         <TopLine Value="1552"/>
         <CursorPos Y="1558"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="674" Column="24" TopLine="658"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
-        <Caret Line="661" Column="5" TopLine="655"/>
-      </Position>
-      <Position>
-        <Filename Value="umice.pas"/>
-        <Caret Line="44" Column="25" TopLine="32"/>
-      </Position>
       <Position>
         <Filename Value="ucompressed.pas"/>
         <Caret Line="36" Column="17" TopLine="25"/>
@@ -318,6 +306,18 @@
       <Position>
         <Filename Value="umice.pas"/>
         <Caret Line="55" Column="27" TopLine="32"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="85" Column="3" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="92" Column="30" TopLine="70"/>
+      </Position>
+      <Position>
+        <Filename Value="umice.pas"/>
+        <Caret Line="91" Column="37" TopLine="76"/>
       </Position>
     </JumpHistory>
     <RunParams>
