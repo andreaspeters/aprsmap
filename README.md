@@ -18,6 +18,9 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 - Show RAW Messages from a APRS object.
 - Show Weather and Tracking Chars.
 - Support for RS41-SG and DFM Weather probe.
+- Support for Mic-E Position Data.
+- Support for Compressed Position Data.
+- Set own position via GPS.
 
 ## Download
 

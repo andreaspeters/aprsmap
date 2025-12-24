@@ -100,9 +100,10 @@ begin
   close;
 end;
 
+// Wird auch bei Close aufgerufen
 procedure TFLastSeen.FormHide(Sender: TObject);
 begin
-  if not IsClosing and Assigned(FConfig) then
+  if Assigned(FConfig) then
   begin
     FConfig^.LastSeenVisible := False;
     FConfig^.LastSeenWidth := Width;
@@ -119,6 +120,7 @@ begin
   begin
     Left := FMain.Left+FMain.Width+1;
     Top := FMain.Top;
+    Height := FMain.Height;
   end;
 end;
 

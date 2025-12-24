@@ -7,13 +7,13 @@ object FLastSeen: TFLastSeen
   VertScrollBar.Visible = False
   BorderStyle = bsToolWindow
   Caption = 'APRSMap - LastSeen'
-  ClientHeight = 1184
+  ClientHeight = 1156
   ClientWidth = 261
   DoubleBuffered = True
   Menu = MainMenu1
   ParentDoubleBuffered = False
   Position = poDefault
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.5.0.0'
   Visible = True
   OnHide = FormHide
   OnShow = FormShow
@@ -21,7 +21,7 @@ object FLastSeen: TFLastSeen
     AnchorSideLeft.Control = Owner
     AnchorSideRight.Control = Owner
     Left = 0
-    Height = 1154
+    Height = 1126
     Top = 5
     Width = 260
     Align = alClient
@@ -32,19 +32,19 @@ object FLastSeen: TFLastSeen
       item
         AutoSize = True
         Caption = '    Callsign'
-        Width = 80
+        Width = 100
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = 'Distance (km)'
-        Width = 103
+        Width = 100
       end    
       item
         Alignment = taRightJustify
         AutoSize = True
         Caption = '#'
-        Width = 19
+        Width = 100
       end    
       item
         Width = 257
@@ -57,7 +57,7 @@ object FLastSeen: TFLastSeen
   object StatusBar1: TStatusBar
     Left = 0
     Height = 25
-    Top = 1159
+    Top = 1131
     Width = 261
     Panels = <>
   end

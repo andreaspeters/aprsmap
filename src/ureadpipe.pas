@@ -220,6 +220,7 @@ begin
         if Pos(DataMessage, APRSHeader) <= 0 then
           PRData := NormalizeString(Format('%s %s', [APRSHeader, PRData]));
 
+        APRSHeader := '';
         PRData := StringReplace(PRData, #13#10, '', [rfReplaceAll]);
         {$IFDEF UNIX}
         if FMain.Debug then
