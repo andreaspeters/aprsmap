@@ -22,6 +22,7 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 - Support for Compressed Position Data.
 - Set own position via GPS.
 - Receive User Messages.
+- Receive Bulletin Messages.
 
 ## Download
 

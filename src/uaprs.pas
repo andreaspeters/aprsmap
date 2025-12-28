@@ -15,6 +15,7 @@ procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Bool
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
 procedure CheckUserMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
+procedure CheckBulletinMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
 function GetImageIndex(const Symbol, IconPrimary: String):Integer;
 function GetImageDescription(const Symbol, IconPrimary: String):String;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
@@ -723,6 +724,7 @@ begin
     if (Pos(DataType, Messages) > 0) then
     begin
       CheckUserMessage(@APRSMessageObject, Data, DataType, DataMessage);
+      CheckBulletinMessage(@APRSMessageObject, Data, DataType, DataMessage);
 
       // check telemetry message
       Regex.Expression := '^.*((UNIT|PARM|EQNS|BITS))(.*)$';
@@ -730,18 +732,6 @@ begin
       if Regex.Exec(DataMessage) then
       begin
         // todo telemetry messages
-        //APRSMessageObject.Message := APRSMessageObject.Message + Data;
-      end;
-
-      // check bulletin message
-      Regex.Expression := '^.*:(BLN)(\d{1})(\w{5}):(.*)$';
-      Regex.ModifierI := False;
-      if Regex.Exec(DataMessage) then
-      begin
-        // todo bulletin message
-        {$IFDEF UNIX}
-        writeln(data);
-        {$ENDIF}
         //APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
 
@@ -782,6 +772,7 @@ begin
 end;
 
 
+// Handle user Messages
 procedure CheckUserMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
 var FName, ack, UserMessage, msg: String;
     f: TextFile;
@@ -805,7 +796,7 @@ begin
       UserMessage := Regex.Replace(Data, '', True);
       Regex.Free;
 
-      FName := Format('%s.txt',[md5print(md5string(Messages+''+TimeToStr(Time)))]);
+      FName := Format('msg_%s.txt',[md5print(md5string(Messages+''+TimeToStr(Time)))]);
       FName := APRSConfig.MailDirectory + DirectorySeparator + FName;
       AssignFile(f, FName);
       try
@@ -814,9 +805,10 @@ begin
         WriteLn(f, Format('FromCall: %s', [APRSMessageObject^.FromCall]));
         WriteLn(f, Format('DateStr: %s', [DateToStr(Date)]));
         WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
-        WriteLn(f, 'MType: M');
+        WriteLn(f, 'MType: MSG');
         WriteLn(f, 'Message:');
         WriteLn(f, Format('%s', [UserMessage]));
+        FMain.ilMessageStatus.ImageIndex := 242;
       finally
         CloseFile(f);
       end;
@@ -832,6 +824,42 @@ begin
   end;
 end;
 
+procedure CheckBulletinMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
+var FName: String;
+    f: TextFile;
+    Regex: TRegExpr;
+const
+    Messages = ':';
+begin
+  if (Pos(DataType, Messages) > 0) then
+  begin
+    Regex := TRegExpr.Create;
+    Regex.Expression := ':BLN(.{1})     :(.*)';
+    Regex.ModifierI := False;
+    if Regex.Exec(DataMessage) then
+    begin
+      if Regex.SubExprMatchCount = 2 then
+      begin
+        FName := Format('bln_%s.txt',[md5print(md5string(Messages+''+TimeToStr(Time)))]);
+        FName := APRSConfig.MailDirectory + DirectorySeparator + FName;
+        AssignFile(f, FName);
+        try
+          Rewrite(f);
+          WriteLn(f, Format('ToCall: %s', [RegEx.Match[1]]));
+          WriteLn(f, Format('FromCall: %s', [APRSMessageObject^.FromCall]));
+          WriteLn(f, Format('DateStr: %s', [DateToStr(Date)]));
+          WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
+          WriteLn(f, 'MType: BLN');
+          WriteLn(f, 'Message:');
+          WriteLn(f, Format('%s', [RegEx.Match[2]]));
+          FMain.ilMessageStatus.ImageIndex := 242;
+        finally
+          CloseFile(f);
+        end;
+      end;
+    end;
+  end;
+end;
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;
 var dLon, y, x: Double;

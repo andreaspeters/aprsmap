@@ -10,6 +10,7 @@
 - FIX: WX Charts without scroolbox.
 - ADD: Support for decoding Mic-E Position Data.
 - ADD: Support for user messages.
+- ADD: Support for bulletin messages.
 
 ## v0.6.1
 

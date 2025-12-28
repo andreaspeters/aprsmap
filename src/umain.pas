@@ -35,6 +35,7 @@ type
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     ICallsignIcon: TImage;
+    ilMessageStatus: TImage;
     ImageList1: TImageList;
     Label1: TLabel;
     Label10: TLabel;
@@ -298,6 +299,8 @@ begin
   pcPoITab.ActivePage := tsMain;
 
   FGPS.Start(@APRSConfig);
+
+  ilMessageStatus.ImageIndex := 241;
 end;
 
 procedure TFMain.FormChangeBounds(Sender: TObject);
@@ -421,6 +424,7 @@ procedure TFMain.actShowMessagesExecute(Sender: TObject);
 begin
   FListMails.SetConfig(@APRSConfig);
   FListMails.Show;
+  ilMessageStatus.ImageIndex := 241;
 end;
 
 procedure TFMain.actOpenLastseenExecute(Sender: TObject);
@@ -1125,7 +1129,11 @@ begin
 
       poi := TGpsPoint(FindGPSItem(PoILayer, newMsg^.FromCall));
       if Assigned(MyPositionGPS) and Assigned(poi) then
+      begin
         newMsg^.Distance := poi.DistanceInKmFrom(MyPositionGPS,False);
+        if newMsg^.Distance <= 0 then
+          newMsg^.Distance := 0;
+      end;
 
       FLastSeen.AddCallsign(newMsg);
 
