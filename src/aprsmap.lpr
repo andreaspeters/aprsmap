@@ -14,7 +14,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, indylaz, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe,
   utypes, uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage,
-  u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails;
+  u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails, ueditor;
 
 {$R *.res}
 
@@ -30,6 +30,7 @@ begin
   Application.CreateForm(TFRawMessage, FRawMessage);
   Application.CreateForm(TFGPS, FGPS);
   Application.CreateForm(TFListMails, FListMails);
+  Application.CreateForm(TTFEditor, TFEditor);
   Application.Run;
 end.
 

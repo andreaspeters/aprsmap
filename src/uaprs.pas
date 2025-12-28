@@ -829,7 +829,7 @@ begin
         WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
         WriteLn(f, 'MType: MSG');
         WriteLn(f, 'Message:');
-        WriteLn(f, Format('%s', [UserMessage]));
+        WriteLn(f, Format('%s', [Copy(UserMessage,0,Length(UserMessage)- 3)]));
         FMain.ilMessageStatus.ImageIndex := 242;
       finally
         CloseFile(f);

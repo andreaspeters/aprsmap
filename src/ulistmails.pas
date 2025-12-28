@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, Grids,
   PairSplitter, Menus, ComCtrls, ActnList, RichMemo, utypes, RegExpr, FileUtil,
-  LConvEncoding, Types;
+  LConvEncoding, Types, ueditor;
 
 type
 
@@ -26,6 +26,7 @@ type
   TFListMails = class(TForm)
     actDeleteMail: TAction;
     actClose: TAction;
+    actNewMessage: TAction;
     actList: TActionList;
     MenuItem1: TMenuItem;
     PairSplitter1: TPairSplitter;
@@ -35,6 +36,7 @@ type
     sdSaveAs: TSaveDialog;
     StatusBar1: TStatusBar;
     ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
@@ -43,6 +45,7 @@ type
     sgMailList: TStringGrid;
     procedure actCloseExecute(Sender: TObject);
     procedure actDeleteMailExecute(Sender: TObject);
+    procedure actNewMessageExecute(Sender: TObject);
     procedure CloseButtonClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormResize(Sender: TObject);
@@ -165,6 +168,12 @@ begin
   finally
     RowsToDelete.Free;
   end;
+end;
+
+procedure TFListMails.actNewMessageExecute(Sender: TObject);
+begin
+  TFEditor.SetConfig(APRSConfig);
+  TFEditor.Show;
 end;
 
 procedure TFListMails.actCloseExecute(Sender: TObject);

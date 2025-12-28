@@ -77,6 +77,7 @@ msgid "Close"
 msgstr ""
 
 #: tflistmails.actclose.hint
+msgctxt "tflistmails.actclose.hint"
 msgid "Close Window"
 msgstr ""
 
@@ -90,15 +91,21 @@ msgctxt "tflistmails.actdeletemail.hint"
 msgid "Delete Mail"
 msgstr ""
 
+#: tflistmails.actnewmessage.caption
+msgid "New Message"
+msgstr ""
+
 #: tflistmails.caption
-msgid "FListMails"
+msgid "APRSMap - Message List"
 msgstr ""
 
 #: tflistmails.toolbar1.caption
+msgctxt "tflistmails.toolbar1.caption"
 msgid "ToolBar1"
 msgstr ""
 
 #: tflistmails.toolbutton5.caption
+msgctxt "tflistmails.toolbutton5.caption"
 msgid "ToolButton5"
 msgstr ""
 
@@ -346,6 +353,10 @@ msgstr ""
 msgid "Donate"
 msgstr ""
 
+#: tfmain.sbsendmessageto.hint
+msgid "Send Message to ..."
+msgstr ""
+
 #: tfmain.sbshowrawmessages.hint
 msgid "Show Raw Messages"
 msgstr ""
@@ -476,5 +487,110 @@ msgstr ""
 #: tfsettings.lemodesserver.editlabel.caption
 msgctxt "tfsettings.lemodesserver.editlabel.caption"
 msgid "Server                        "
+msgstr ""
+
+#: ttfeditor.actclose.caption
+msgctxt "ttfeditor.actclose.caption"
+msgid "Close"
+msgstr ""
+
+#: ttfeditor.actclose.hint
+msgctxt "ttfeditor.actclose.hint"
+msgid "Close Window"
+msgstr ""
+
+#: ttfeditor.actnew.caption
+msgid "New"
+msgstr ""
+
+#: ttfeditor.actnew.hint
+msgid "Create New Mail"
+msgstr ""
+
+#: ttfeditor.actopenfile.caption
+msgctxt "ttfeditor.actopenfile.caption"
+msgid "Open File"
+msgstr ""
+
+#: ttfeditor.actopenfile.hint
+msgctxt "ttfeditor.actopenfile.hint"
+msgid "Open File"
+msgstr ""
+
+#: ttfeditor.actsaveas.caption
+msgctxt "ttfeditor.actsaveas.caption"
+msgid "Save As"
+msgstr ""
+
+#: ttfeditor.actsaveas.hint
+msgctxt "ttfeditor.actsaveas.hint"
+msgid "Save As"
+msgstr ""
+
+#: ttfeditor.actsend.caption
+msgid "Send"
+msgstr ""
+
+#: ttfeditor.actsend.hint
+msgid "Send Text"
+msgstr ""
+
+#: ttfeditor.actsignature.caption
+msgctxt "ttfeditor.actsignature.caption"
+msgid "Add Signature"
+msgstr ""
+
+#: ttfeditor.actsignature.hint
+msgctxt "ttfeditor.actsignature.hint"
+msgid "Add Signature"
+msgstr ""
+
+#: ttfeditor.bpdefaultbuttons.closebutton.caption
+msgctxt "ttfeditor.bpdefaultbuttons.closebutton.caption"
+msgid "Close"
+msgstr ""
+
+#: ttfeditor.bpdefaultbuttons.okbutton.caption
+msgid "SEND"
+msgstr ""
+
+#: ttfeditor.caption
+msgid "APRSMap - Message Editor"
+msgstr ""
+
+#: ttfeditor.label1.caption
+msgid "Message Type"
+msgstr ""
+
+#: ttfeditor.letocall.editlabel.caption
+msgid "To Callsing   "
+msgstr ""
+
+#: ttfeditor.rbmtypebulletin.caption
+msgctxt "ttfeditor.rbmtypebulletin.caption"
+msgid "Bulletin"
+msgstr ""
+
+#: ttfeditor.rbmtypemessage.caption
+msgctxt "ttfeditor.rbmtypemessage.caption"
+msgid "Message"
+msgstr ""
+
+#: ttfeditor.toolbar1.caption
+msgctxt "ttfeditor.toolbar1.caption"
+msgid "ToolBar1"
+msgstr ""
+
+#: ttfeditor.toolbutton1.hint
+msgid "Create new File"
+msgstr ""
+
+#: ttfeditor.toolbutton5.caption
+msgctxt "ttfeditor.toolbutton5.caption"
+msgid "ToolButton5"
+msgstr ""
+
+#: ttfeditor.toolbutton8.caption
+msgid "ToolButton8"
 msgstr ""
 

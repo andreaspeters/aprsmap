@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg, ugps, ulistmails;
+  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor;
 
 type
 
@@ -120,6 +120,7 @@ type
     MIFileExit: TMenuItem;
     SBMain: TStatusBar;
     Settings1: TMenuItem;
+    sbSendMessageTo: TSpeedButton;
     SPTrack: TSpeedButton;
     STAltitude: TStaticText;
     stCount: TStaticText;
@@ -188,6 +189,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure MVMapZoomChange(Sender: TObject);
     procedure pcPoITabChange(Sender: TObject);
+    procedure sbSendMessageToClick(Sender: TObject);
     procedure sbShowRawMessagesClick(Sender: TObject);
     procedure SelectPOI(Sender: TObject);
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
@@ -592,6 +594,16 @@ begin
   msg^.ActiveTabSheet := (Sender as TPageControl).ActivePage;
 end;
 
+procedure TFMain.sbSendMessageToClick(Sender: TObject);
+begin
+  if Length(STCallsign.Caption) < 0 then
+    Exit;
+
+  TFEditor.Show;
+  TFEditor.leToCall.Caption := STCallsign.Caption;
+  TFEditor.rbMTypeMessage.Checked := True;
+end;
+
 procedure TFMain.sbShowRawMessagesClick(Sender: TObject);
 var msg: PAPRSMessage;
 begin
@@ -609,8 +621,6 @@ begin
   end
   else
     FRawMessage.Close;
-
-
 end;
 
 // User select one PoI
