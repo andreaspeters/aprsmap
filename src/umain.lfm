@@ -1,11 +1,11 @@
 object FMain: TFMain
   Left = 800
-  Height = 1182
+  Height = 1209
   Top = 675
-  Width = 1574
+  Width = 1592
   Caption = 'APRS Map'
-  ClientHeight = 1149
-  ClientWidth = 1574
+  ClientHeight = 1176
+  ClientWidth = 1592
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
@@ -22,8 +22,8 @@ object FMain: TFMain
   object SBMain: TStatusBar
     Left = 0
     Height = 25
-    Top = 1124
-    Width = 1574
+    Top = 1151
+    Width = 1592
     Panels = <    
       item
         Width = 250
@@ -39,23 +39,23 @@ object FMain: TFMain
   object PairSplitter1: TPairSplitter
     Cursor = crDefault
     Left = 0
-    Height = 1124
+    Height = 1151
     Top = 0
-    Width = 1574
+    Width = 1592
     Align = alClient
     Position = 950
     object PairSplitterSide1: TPairSplitterSide
       Cursor = crArrow
       Left = 0
-      Height = 1124
+      Height = 1151
       Top = 0
       Width = 950
       ClientWidth = 950
-      ClientHeight = 1124
+      ClientHeight = 1151
       object MVMap: TMapView
         Cursor = crHandPoint
         Left = 0
-        Height = 1117
+        Height = 1144
         Top = 0
         Width = 950
         Active = True
@@ -87,7 +87,7 @@ object FMain: TFMain
         AnchorSideBottom.Side = asrBottom
         Left = 0
         Height = 16
-        Top = 1101
+        Top = 1128
         Width = 170
         Anchors = [akLeft, akBottom]
         Caption = 'MAP Copyright OpenStreetMap'
@@ -104,21 +104,78 @@ object FMain: TFMain
     object PairSplitterSide2: TPairSplitterSide
       Cursor = crArrow
       Left = 955
-      Height = 1124
+      Height = 1151
       Top = 0
-      Width = 619
-      ClientWidth = 619
-      ClientHeight = 1124
+      Width = 637
+      ClientWidth = 637
+      ClientHeight = 1151
+      object Panel4: TPanel
+        AnchorSideLeft.Control = PairSplitterSide2
+        AnchorSideTop.Control = pcPoITab
+        AnchorSideTop.Side = asrBottom
+        AnchorSideRight.Control = PairSplitterSide2
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = PairSplitterSide2
+        AnchorSideBottom.Side = asrBottom
+        Left = 0
+        Height = 33
+        Top = 1118
+        Width = 637
+        Anchors = [akLeft, akRight, akBottom]
+        AutoSize = True
+        BevelOuter = bvNone
+        ClientHeight = 33
+        ClientWidth = 637
+        TabOrder = 3
+        object SPTrack: TSpeedButton
+          AnchorSideBottom.Side = asrBottom
+          Left = 8
+          Height = 31
+          Hint = 'Enable Tracking'
+          Top = 0
+          Width = 31
+          AllowAllUp = True
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Left = 8
+          BorderSpacing.Bottom = 2
+          GroupIndex = 1
+          Images = ImageList1
+          ImageIndex = 194
+          ShowHint = True
+          ParentShowHint = False
+          OnClick = SPTrackClick
+        end
+        object sbShowRawMessages: TSpeedButton
+          AnchorSideLeft.Control = SPTrack
+          AnchorSideLeft.Side = asrBottom
+          AnchorSideBottom.Side = asrBottom
+          Left = 47
+          Height = 31
+          Hint = 'Show Raw Messages'
+          Top = 0
+          Width = 31
+          AllowAllUp = True
+          Anchors = [akLeft, akBottom]
+          BorderSpacing.Left = 8
+          BorderSpacing.Bottom = 2
+          GroupIndex = 2
+          Images = ImageList1
+          ImageIndex = 236
+          ShowHint = True
+          ParentShowHint = False
+          OnClick = sbShowRawMessagesClick
+        end
+      end
       object GroupBox1: TGroupBox
         Left = 0
         Height = 184
         Top = 0
-        Width = 615
+        Width = 633
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
         ClientHeight = 153
-        ClientWidth = 611
+        ClientWidth = 629
         Color = clForm
         ParentBackground = False
         ParentColor = False
@@ -155,7 +212,7 @@ object FMain: TFMain
           Left = 302
           Height = 35
           Top = 33
-          Width = 296
+          Width = 314
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 33
           BorderSpacing.Right = 5
@@ -177,7 +234,7 @@ object FMain: TFMain
           Left = 304
           Height = 35
           Top = 104
-          Width = 294
+          Width = 312
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
@@ -204,9 +261,9 @@ object FMain: TFMain
         AnchorSideRight.Side = asrBottom
         AnchorSideBottom.Control = Panel4
         Left = 0
-        Height = 670
+        Height = 697
         Top = 412
-        Width = 615
+        Width = 633
         ActivePage = tsMain
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 2
@@ -217,8 +274,8 @@ object FMain: TFMain
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
           Caption = 'PoI'
-          ClientHeight = 635
-          ClientWidth = 609
+          ClientHeight = 662
+          ClientWidth = 627
           object Label4: TLabel
             Left = 10
             Height = 21
@@ -368,7 +425,7 @@ object FMain: TFMain
             Left = 304
             Height = 1
             Top = 184
-            Width = 286
+            Width = 304
             Anchors = [akTop, akLeft, akRight]
             BorderSpacing.Right = 5
             TabOrder = 7
@@ -571,13 +628,13 @@ object FMain: TFMain
         end
         object tsWX: TTabSheet
           Caption = 'WX'
-          ClientHeight = 635
-          ClientWidth = 609
+          ClientHeight = 662
+          ClientWidth = 627
           object scWX: TScrollBox
             Left = 0
-            Height = 635
+            Height = 662
             Top = 0
-            Width = 609
+            Width = 627
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
             VertScrollBar.Increment = 22
@@ -585,8 +642,8 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 635
-            ClientWidth = 609
+            ClientHeight = 662
+            ClientWidth = 627
             TabOrder = 0
             object Label23: TLabel
               Left = 0
@@ -815,7 +872,7 @@ object FMain: TFMain
               Left = 0
               Height = 0
               Top = 225
-              Width = 609
+              Width = 627
               Anchors = [akTop, akLeft, akRight]
               AutoSize = True
               BevelOuter = bvNone
@@ -828,13 +885,13 @@ object FMain: TFMain
         end
         object tsCharts: TTabSheet
           Caption = 'Charts'
-          ClientHeight = 635
-          ClientWidth = 609
+          ClientHeight = 662
+          ClientWidth = 627
           object scCharts: TScrollBox
             Left = 0
-            Height = 635
+            Height = 662
             Top = 0
-            Width = 609
+            Width = 627
             HorzScrollBar.Page = 1
             HorzScrollBar.Visible = False
             VertScrollBar.Increment = 1
@@ -842,14 +899,14 @@ object FMain: TFMain
             VertScrollBar.Smooth = True
             VertScrollBar.Tracking = True
             Align = alClient
-            ClientHeight = 635
-            ClientWidth = 609
+            ClientHeight = 662
+            ClientWidth = 627
             TabOrder = 0
             object fpCharts: TFlowPanel
               Left = 0
-              Height = 635
+              Height = 662
               Top = 0
-              Width = 609
+              Width = 627
               Align = alClient
               AutoSize = True
               BevelOuter = bvNone
@@ -869,13 +926,13 @@ object FMain: TFMain
         Left = 0
         Height = 224
         Top = 186
-        Width = 615
+        Width = 633
         Anchors = [akTop, akLeft, akRight]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         Caption = 'PoI'
         ClientHeight = 193
-        ClientWidth = 611
+        ClientWidth = 629
         TabOrder = 2
         object Label3: TLabel
           Left = 8
@@ -915,7 +972,7 @@ object FMain: TFMain
           Left = 304
           Height = 35
           Top = 40
-          Width = 294
+          Width = 312
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
@@ -993,63 +1050,6 @@ object FMain: TFMain
           TabOrder = 5
         end
       end
-      object Panel4: TPanel
-        AnchorSideLeft.Control = PairSplitterSide2
-        AnchorSideTop.Control = pcPoITab
-        AnchorSideTop.Side = asrBottom
-        AnchorSideRight.Control = PairSplitterSide2
-        AnchorSideRight.Side = asrBottom
-        AnchorSideBottom.Control = PairSplitterSide2
-        AnchorSideBottom.Side = asrBottom
-        Left = 0
-        Height = 33
-        Top = 1091
-        Width = 619
-        Anchors = [akLeft, akRight, akBottom]
-        AutoSize = True
-        BevelOuter = bvNone
-        ClientHeight = 33
-        ClientWidth = 619
-        TabOrder = 3
-        object SPTrack: TSpeedButton
-          AnchorSideBottom.Side = asrBottom
-          Left = 8
-          Height = 31
-          Hint = 'Enable Tracking'
-          Top = 0
-          Width = 31
-          AllowAllUp = True
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Left = 8
-          BorderSpacing.Bottom = 2
-          GroupIndex = 1
-          Images = ImageList1
-          ImageIndex = 194
-          ShowHint = True
-          ParentShowHint = False
-          OnClick = SPTrackClick
-        end
-        object sbShowRawMessages: TSpeedButton
-          AnchorSideLeft.Control = SPTrack
-          AnchorSideLeft.Side = asrBottom
-          AnchorSideBottom.Side = asrBottom
-          Left = 47
-          Height = 31
-          Hint = 'Show Raw Messages'
-          Top = 0
-          Width = 31
-          AllowAllUp = True
-          Anchors = [akLeft, akBottom]
-          BorderSpacing.Left = 8
-          BorderSpacing.Bottom = 2
-          GroupIndex = 2
-          Images = ImageList1
-          ImageIndex = 236
-          ShowHint = True
-          ParentShowHint = False
-          OnClick = sbShowRawMessagesClick
-        end
-      end
     end
   end
   object Label22: TLabel
@@ -1063,9 +1063,9 @@ object FMain: TFMain
     AnchorSideTop.Control = SBMain
     AnchorSideRight.Control = SBMain
     AnchorSideRight.Side = asrBottom
-    Left = 1552
+    Left = 1570
     Height = 16
-    Top = 1127
+    Top = 1154
     Width = 17
     Anchors = [akTop, akRight]
     BorderSpacing.Top = 3
@@ -1104,6 +1104,9 @@ object FMain: TFMain
       end
       object MenuItem10: TMenuItem
         Action = actGPS
+      end
+      object miSendPosition: TMenuItem
+        Action = actSendPosition
       end
     end
     object MenuItem5: TMenuItem
@@ -4652,6 +4655,10 @@ object FMain: TFMain
       ImageIndex = 241
       OnExecute = actShowMessagesExecute
     end
+    object actSendPosition: TAction
+      Caption = 'Send Position'
+      OnExecute = actSendPositionExecute
+    end
   end
   object pmTray: TPopupMenu
     Images = ImageList1
@@ -4679,5 +4686,12 @@ object FMain: TFMain
     OnTimer = tRefreshTimer
     Left = 1096
     Top = 1176
+  end
+  object tBake: TTimer
+    Enabled = False
+    Interval = 120000
+    OnTimer = tBakeTimer
+    Left = 1536
+    Top = 1112
   end
 end

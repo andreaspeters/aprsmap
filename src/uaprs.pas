@@ -38,6 +38,8 @@ function GetRNG(const Text: String):Double;
 function GetWX(const Text, Search: String):Double;
 function GetAPRSMessageObject(const Data: String; DataType: String; const DataMessage: String): TAPRSMessage;
 function CreateOverlay(ImageList: TImageList; IndexBase, IndexOverlay: Integer): Integer;
+function GetImageSymbol(const ImageIndex: Integer):String;
+function GetImageTable(const ImageIndex: Integer):String;
 
 var
   APRSMessageList: TFPHashList;
@@ -239,11 +241,31 @@ begin
   end;
 end;
 
-function GetImageIndex(const Symbol, IconPrimary: String):Integer;
-var i, x: Byte;
-    count: Integer;
-    overlay: String;
+function GetImageSymbol(const ImageIndex: Integer):String;
+var i, count: Integer;
+begin
+  Result := '';
+  i := ImageIndex;
+  count := Length(APRSPrimarySymbolTable);
+  Inc(i);
+  if (i <= 94) and (i > 0) then
+    Result := APRSPrimarySymbolTable[i].SymbolChar;
 
+  if (i >= 95) and (i <= Count) then
+    Result := APRSAlternateSymbolTable[i-95].SymbolChar;
+end;
+
+function GetImageTable(const ImageIndex: Integer):String;
+begin
+  Result := '/';
+  if ImageIndex >= 95 then
+    Result := '\'
+end;
+
+
+function GetImageIndex(const Symbol, IconPrimary: String):Integer;
+var i, x, count: Integer;
+    overlay: String;
 begin
   Result := 0;
   if (Length(Symbol) <> 1) or (Length(IconPrimary) <> 1) then

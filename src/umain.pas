@@ -20,6 +20,7 @@ type
   TFMain = class(TForm)
     actExit: TAction;
     actGPS: TAction;
+    actSendPosition: TAction;
     actShowMessages: TAction;
     actSettings: TAction;
     actOpenLastseen: TAction;
@@ -80,6 +81,7 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    miSendPosition: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
     MenuItem3: TMenuItem;
@@ -152,6 +154,7 @@ type
     STWXSnowFall24h: TStaticText;
     STWXSpeed: TStaticText;
     STWXTemperature: TStaticText;
+    tBake: TTimer;
     tsMain: TTabSheet;
     tsCharts: TTabSheet;
     tsWX: TTabSheet;
@@ -164,6 +167,7 @@ type
     procedure actExitExecute(Sender: TObject);
     procedure actGPSExecute(Sender: TObject);
     procedure actOpenLastseenExecute(Sender: TObject);
+    procedure actSendPositionExecute(Sender: TObject);
     procedure actSettingsExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
     procedure actShowMessagesExecute(Sender: TObject);
@@ -189,6 +193,7 @@ type
     procedure ShowMapMousePosition(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SPTrackClick(Sender: TObject);
+    procedure tBakeTimer(Sender: TObject);
     procedure TBZoomMapChange(Sender: TObject);
     procedure TMainLoopTimer(Sender: TObject);
     procedure AddCombobox(const msg: TAPRSMessage);
@@ -436,6 +441,16 @@ begin
   end
   else
     FLastSeen.Show;
+end;
+
+procedure TFMain.actSendPositionExecute(Sender: TObject);
+begin
+  actSendPosition.Checked := not(actSendPosition.Checked);
+
+  tBake.Enabled := actSendPosition.Checked;
+
+  if actSendPosition.Checked then
+    tBakeTimer(Sender);
 end;
 
 procedure TFMain.actSettingsExecute(Sender: TObject);
@@ -951,6 +966,20 @@ begin
 
 end;
 
+// Send own Position
+procedure TFMain.tBakeTimer(Sender: TObject);
+var msg, lat, lon: String;
+begin
+  if (APRSConfig.Latitude > 0) and (APRSConfig.Longitude > 0) then
+  begin
+    lat := FormatLatitude(APRSConfig.Latitude);
+    lon := FormatLongitude(APRSConfig.Longitude);
+    msg := Format('!%s%s%s%s', [lat, GetImageTable(APRSConfig.AprsSymbol), lon,  GetImageSymbol(APRSConfig.AprsSymbol)]);
+
+    SendStringCommand(APRSConfig.Channel, 0, msg);
+  end;
+end;
+
 procedure TFMain.TBZoomMapChange(Sender: TObject);
 begin
   MVMap.Zoom := TBZoomMap.Position;
@@ -1295,6 +1324,8 @@ var km: Double;
 begin
   try
     km := msg.Distance;
+    if km < 0 then
+      km := 0;
     if (msg.ImageIndex >= 0) and (msg.ImageIndex < ImageList1.Count) then
       CBEPOIList.ItemsEx.AddItem(msg.FromCall + ' > ' + IntToStr(Round(km)) + 'km' , msg.ImageIndex, 0, 0, 0, nil)
     else

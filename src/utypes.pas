@@ -416,6 +416,8 @@ function InitDevices:TDevices;
 function FahrenheitToCelsius(F: Double): Double;
 function FahrenheitToCelsius(F: String): String;
 function NormalizeString(Data: AnsiString): AnsiString;
+function FormatLatitude(Lat: Double): String;
+function FormatLongitude(Lon: Double): String;
 
 implementation
 
@@ -574,6 +576,42 @@ begin
   FillChar(Result, SizeOf(Result), 0); // setzt alle Pointer auf nilend;
 
   Result.RS41 := InitRS41SGPData;
+end;
+
+function FormatLatitude(Lat: Double): String;
+var Deg: Integer;
+    Min: Double;
+    Dir: Char;
+begin
+  if Lat >= 0 then
+    Dir := 'N'
+  Else
+    Dir := 'S';
+
+  Lat := Abs(Lat);
+
+  Deg := Trunc(Lat);
+  Min := (Lat - Deg) * 60.0;
+
+  Result := Format('%.2d%05.2f%s', [Deg, Min, Dir]);
+end;
+
+function FormatLongitude(Lon: Double): String;
+var Deg: Integer;
+    Min: Double;
+    Dir: Char;
+begin
+  if Lon >= 0 then
+    Dir := 'E'
+  Else
+    Dir := 'W';
+
+  Lon := Abs(Lon);
+
+  Deg := Trunc(Lon);
+  Min := (Lon - Deg) * 60.0;
+
+  Result := Format('%.3d%05.2f%s', [Deg, Min, Dir]);
 end;
 
 end.

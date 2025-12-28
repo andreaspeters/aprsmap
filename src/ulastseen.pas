@@ -80,7 +80,12 @@ begin
     item := lvCallsigns.Items.Insert(0);
     item.ImageIndex := msg^.ImageIndex;
     item.Caption := msg^.FromCall;
-    item.SubItems.Add(IntToStr(Round(msg^.Distance)));
+
+    if msg^.Distance >= 0 then
+      item.SubItems.Add(IntToStr(Round(msg^.Distance)))
+    else
+      item.SubItems.Add('0');
+
     item.SubItems.Add(IntToStr(msg^.Count));
 
     // max 100 callsigns

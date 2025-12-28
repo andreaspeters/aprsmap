@@ -118,6 +118,11 @@ msgstr ""
 msgid "Lastseen"
 msgstr ""
 
+#: tfmain.actsendposition.caption
+msgctxt "tfmain.actsendposition.caption"
+msgid "Send Position"
+msgstr ""
+
 #: tfmain.actsettings.caption
 msgctxt "tfmain.actsettings.caption"
 msgid "Properties"
