@@ -9,6 +9,7 @@
 - ADD: Start support for decoding Compressed Position Data.
 - FIX: WX Charts without scroolbox.
 - ADD: Support for decoding Mic-E Position Data.
+- ADD: Support for user messages.
 
 ## v0.6.1
 

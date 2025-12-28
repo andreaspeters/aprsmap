@@ -4,10 +4,10 @@ object FRawMessage: TFRawMessage
   Top = 34
   Width = 994
   Caption = 'ARPSMap - RAW Message'
-  ClientHeight = 504
-  ClientWidth = 994
+  ClientHeight = 207
+  ClientWidth = 320
   Menu = MainMenu1
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.5.0.0'
   OnClose = FormClose
   OnHide = FormHide
   OnShow = FormShow

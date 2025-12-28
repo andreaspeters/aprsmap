@@ -1,0 +1,149 @@
+object FListMails: TFListMails
+  Left = 518
+  Height = 646
+  Top = 164
+  Width = 924
+  Caption = 'FListMails'
+  ClientHeight = 646
+  ClientWidth = 924
+  Position = poOwnerFormCenter
+  LCLVersion = '4.5.0.0'
+  OnClose = FormClose
+  OnResize = FormResize
+  OnShow = FormShow
+  object PairSplitter1: TPairSplitter
+    Cursor = crDefault
+    Left = 0
+    Height = 646
+    Top = 0
+    Width = 924
+    Align = alClient
+    Position = 45
+    SplitterType = pstVertical
+    object PairSplitterSide1: TPairSplitterSide
+      Cursor = crArrow
+      Left = 0
+      Height = 45
+      Top = 0
+      Width = 924
+      ClientWidth = 924
+      ClientHeight = 45
+      object sgMailList: TStringGrid
+        Left = 1
+        Height = 13
+        Top = 31
+        Width = 922
+        Align = alClient
+        AutoEdit = False
+        BorderSpacing.Around = 1
+        BorderStyle = bsNone
+        ColRowDragIndicatorColor = clSilver
+        Flat = True
+        GridLineStyle = psClear
+        HeaderHotZones = []
+        HeaderPushZones = []
+        Options = [goVertLine, goHorzLine, goRangeSelect, goSmoothScroll]
+        PopupMenu = pmMailList
+        TabOrder = 0
+        OnClick = sgMailListClick
+        OnDrawCell = sgMailListDrawCell
+      end
+      object ToolBar1: TToolBar
+        Left = 0
+        Height = 30
+        Top = 0
+        Width = 924
+        AutoSize = True
+        BorderWidth = 3
+        ButtonHeight = 26
+        ButtonWidth = 26
+        Caption = 'ToolBar1'
+        EdgeBorders = [ebTop, ebBottom]
+        Images = FMain.ImageList1
+        TabOrder = 1
+        object ToolButton3: TToolButton
+          Left = 35
+          Top = 2
+          Action = actDeleteMail
+        end
+        object ToolButton4: TToolButton
+          Left = 1
+          Top = 2
+          Action = actClose
+        end
+        object ToolButton5: TToolButton
+          Left = 27
+          Height = 26
+          Top = 2
+          Caption = 'ToolButton5'
+          Style = tbsSeparator
+        end
+        object ToolButton7: TToolButton
+          Left = 61
+          Height = 26
+          Top = 2
+          Caption = 'ToolButton7'
+          Style = tbsSeparator
+        end
+      end
+    end
+    object PairSplitterSide2: TPairSplitterSide
+      Cursor = crArrow
+      Left = 0
+      Height = 596
+      Top = 50
+      Width = 924
+      ClientWidth = 924
+      ClientHeight = 596
+      object trmShowMail: TRichMemo
+        Left = 1
+        Height = 569
+        Top = 1
+        Width = 922
+        Align = alClient
+        BorderSpacing.Around = 1
+        BorderStyle = bsNone
+        HideSelection = False
+        ReadOnly = True
+        ScrollBars = ssAutoVertical
+        TabOrder = 0
+        ZoomFactor = 1
+      end
+      object StatusBar1: TStatusBar
+        Left = 0
+        Height = 25
+        Top = 571
+        Width = 924
+        Panels = <>
+      end
+    end
+  end
+  object pmMailList: TPopupMenu
+    Left = 104
+    Top = 416
+    object MenuItem1: TMenuItem
+      Action = actDeleteMail
+    end
+  end
+  object sdSaveAs: TSaveDialog
+    Left = 192
+    Top = 414
+  end
+  object actList: TActionList
+    Images = FMain.ImageList1
+    Left = 344
+    Top = 416
+    object actDeleteMail: TAction
+      Caption = 'Delete Mail'
+      Hint = 'Delete Mail'
+      ImageIndex = 239
+      OnExecute = actDeleteMailExecute
+    end
+    object actClose: TAction
+      Caption = 'Close'
+      Hint = 'Close Window'
+      ImageIndex = 235
+      OnExecute = actCloseExecute
+    end
+  end
+end

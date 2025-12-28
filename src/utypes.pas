@@ -127,6 +127,8 @@ type
     GPSdEnabled: Boolean;
     GPSdHost: String;
     GPSdPort: Integer;
+    MailDirectory: String;
+    Channel: Integer;
   end;
 
   PTAPRSConfig = ^TAPRSConfig;

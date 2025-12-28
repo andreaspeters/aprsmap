@@ -58,5 +58,6 @@
 {"hash":145464990,"name":"tfmain.actopenlastseen.caption","sourcebytes":[76,97,115,116,115,101,101,110],"value":"Lastseen"},
 {"hash":315140,"name":"tfmain.actexit.caption","sourcebytes":[69,120,105,116],"value":"Exit"},
 {"hash":114087587,"name":"tfmain.actsettings.caption","sourcebytes":[80,114,111,112,101,114,116,105,101,115],"value":"Properties"},
-{"hash":19539,"name":"tfmain.actgps.caption","sourcebytes":[71,80,83],"value":"GPS"}
+{"hash":19539,"name":"tfmain.actgps.caption","sourcebytes":[71,80,83],"value":"GPS"},
+{"hash":212433139,"name":"tfmain.actshowmessages.caption","sourcebytes":[77,101,115,115,97,103,101,115],"value":"Messages"}
 ]}

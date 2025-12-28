@@ -66,6 +66,7 @@ begin
   ini.WriteBool('GPSD', 'enable', Config^.GPSdEnabled);
   ini.WriteString('GPSD', 'host', Config^.GPSdHost);
   ini.WriteInteger('GPSD', 'port', Config^.GPSdPort);
+  ini.WriteString('MAIL', 'maildirectory', Config^.MailDirectory);
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -124,6 +125,7 @@ begin
   Config^.GPSdEnabled := ini.ReadBool('GPSD', 'enable', False);
   Config^.GPSdHost := ini.ReadString('GPSD', 'host', '127.0.0.1');
   Config^.GPSdPort := ini.ReadInteger('GPSD', 'port', 2947);
+  Config^.MailDirectory := ini.ReadString('MAIL', 'maildirectory', HomeDir+'mail/' );
 end;
 
 

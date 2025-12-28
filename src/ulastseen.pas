@@ -120,7 +120,7 @@ begin
   begin
     Left := FMain.Left+FMain.Width+1;
     Top := FMain.Top;
-    Height := FMain.Height;
+    Height := FMain.Height+5;
   end;
 end;
 

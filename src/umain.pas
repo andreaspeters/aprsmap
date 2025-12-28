@@ -9,9 +9,9 @@ uses
   Graphics, Dialogs, ComCtrls, StdCtrls, ExtCtrls, Menus, ComboEx, uresize,
   utypes, ureadpipe, uaprs, mvGPSObj, RegExpr, mvTypes, mvEngine,
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
-  Buttons, PairSplitter, ActnList, TAGraph, fpexprpars,
+  Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg, ugps;
+  TASeries, TATools, u_rs41sg, ugps, ulistmails;
 
 type
 
@@ -20,6 +20,7 @@ type
   TFMain = class(TForm)
     actExit: TAction;
     actGPS: TAction;
+    actShowMessages: TAction;
     actSettings: TAction;
     actOpenLastseen: TAction;
     actShowHide: TAction;
@@ -77,6 +78,7 @@ type
     MAPRSMessage: TMemo;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
     MenuItem3: TMenuItem;
@@ -163,6 +165,7 @@ type
     procedure actOpenLastseenExecute(Sender: TObject);
     procedure actSettingsExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
+    procedure actShowMessagesExecute(Sender: TObject);
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure CBEFilterSelect(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
@@ -208,6 +211,7 @@ type
     Debug: Boolean;
     IGate: TIGateThread;
     ModeS: TModeSThread;
+    procedure SendStringCommand(const Channel, Code: byte; const Command: String);
   end;
 
 var
@@ -283,8 +287,11 @@ begin
   if APRSConfig.IGateEnabled then
     IGate := TIGateThread.Create(@APRSConfig);
 
+  // Init Pipe
   ReadPipe := nil;
   ReadPipe := TReadPipeThread.Create('flexpacketwritepipe');
+  if ReadPipe.IsPipeExisting('flexpacketreadpipe') then
+    SendStringCommand(0,1,'C APN000 V WIDE1');
 
   SetupFilterCombo;
 
@@ -299,9 +306,10 @@ begin
   begin
     if Abs(FLastseen.Left - (FMain.Left + FMain.Width)) <= 100 then
     begin
-      // Docken
+      // Dock Lastseen window
       FLastseen.Left := FMain.Left + FMain.Width + 1;
       FLastseen.Top  := FMain.Top;
+      FLastseen.Height  := FMain.Height+5;
     end;
   end;
 end;
@@ -407,6 +415,12 @@ begin
     FMain.WindowState := wsMinimized;
     FMain.Hide;
   end;
+end;
+
+procedure TFMain.actShowMessagesExecute(Sender: TObject);
+begin
+  FListMails.SetConfig(@APRSConfig);
+  FListMails.Show;
 end;
 
 procedure TFMain.actOpenLastseenExecute(Sender: TObject);
@@ -1285,6 +1299,18 @@ begin
       {$ENDIF}
     end;
   end;
+end;
+
+
+procedure TFMain.SendStringCommand(const Channel, Code: byte; const Command: String);
+var msg: String;
+begin
+  if (Length(Command) <= 0) or not Assigned(ReadPipe) then
+    Exit;
+
+  // Channel Nr in FP | Message as Base64
+  msg := Format('%d|%d|%s', [Channel,Code,EncodeStringBase64(Command)]);
+  ReadPipe.WriteToPipe('flexpacketreadpipe', msg);
 end;
 
 end.

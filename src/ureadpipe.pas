@@ -191,14 +191,13 @@ function TReadPipeThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     PRData, DataType, DataMessage: String;
     msg: TStringArray;
-    Channel: Integer;
 begin
-  Channel := 0;
+  APRSConfig.Channel := 0;
 
   msg := Data.Split('|');
   if Length(msg) = 2 then
   begin
-    Channel := StrToInt(msg[0]);
+    APRSConfig.Channel := StrToInt(msg[0]);
     PRData := DecodeStringBase64(msg[1]);
 
     if (Pos('<UI', PRData) > 0) or (Pos('ctl UI', PRData) > 0) then
@@ -220,7 +219,6 @@ begin
         if Pos(DataMessage, APRSHeader) <= 0 then
           PRData := NormalizeString(Format('%s %s', [APRSHeader, PRData]));
 
-        APRSHeader := '';
         PRData := StringReplace(PRData, #13#10, '', [rfReplaceAll]);
         {$IFDEF UNIX}
         if FMain.Debug then

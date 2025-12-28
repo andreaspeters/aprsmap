@@ -7,13 +7,14 @@ interface
 uses
   Classes, utypes, SysUtils, ExtCtrls, Forms, Controls, Graphics, Dialogs,
   mvGPSObj, Contnrs, mvMapViewer, mvTypes, RegExpr, Math, umice, ucompressed,
-  FPImage, IntfGraphics, GraphType,
+  FPImage, IntfGraphics, GraphType, md5,
   u_rs41sg;
 
 procedure DelPoI(Layer: TMapLayer; const Call: String);
 procedure SetPoI(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
 procedure SetPoI(Layer: TMapLayer; const Latitude, Longitude: Double; const Text: String; const visibility: Boolean; const ImageIndex: Integer; List: TGPSObjectList);
 procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Longitude: Double; const divider: Integer);
+procedure CheckUserMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
 function GetImageIndex(const Symbol, IconPrimary: String):Integer;
 function GetImageDescription(const Symbol, IconPrimary: String):String;
 function LatLonToLocator(const Latitude, Longitude: Double): string;
@@ -552,7 +553,6 @@ function GetAPRSMessageObject(const Data: String; DataType: String; const DataMe
 var Regex, OrRegex: TRegExpr;
     Lat, Lon: Double;
     APRSMessageObject: TAPRSMessage;
-    Message: Array of String;
 const
     // with position
     WX = '!=/@;';
@@ -674,19 +674,16 @@ begin
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[2]);
         APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[2]);
       end;
-      if Regex.SubExprMatchCount >= 8 then
-        APRSMessageObject.Message := Regex.Match[8];
     end;
 
     // Position Data
-    Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.+)$';
+    Regex.Expression := '.*([!=\/@zh]{1})(\d{4}\.\d{2}[N|S])(.)(\d{5}\.\d{2}[E|W])(.)(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
-      if Regex.SubExprMatchCount >= 6 then
+      if Regex.SubExprMatchCount >= 5 then
       begin
         ConvertNMEAToLatLong(Regex.Match[2], Regex.Match[4], Lat, Lon, 1);
-        APRSMessageObject.Message := Regex.Match[6];
         APRSMessageObject.Latitude := Lat;
         APRSMessageObject.Longitude := Lon;
         APRSMessageObject.IconPrimary := Regex.Match[3];
@@ -708,19 +705,32 @@ begin
       OrRegex.Free;
     end;
 
+    if Pos('TCPIP', DataMessage) > 0 then
+    begin
+      OrRegex := TRegExpr.Create;
+      OrRegex.Expression := '([A-Z0-9\-]{1,9})>';
+      OrRegex.ModifierI := False;
+      if OrRegex.Exec(Data) then
+        if OrRegex.SubExprMatchCount >= 1 then
+          APRSMessageObject.FromCall := Trim(OrRegex.Match[1]);
+      OrRegex.Free;
+    end;
+
     RS41SGP(@APRSMessageObject);
 
     // text, bulletins, announcement and some telemetry messages
     // shares the same datatype
     if (Pos(DataType, Messages) > 0) then
     begin
+      CheckUserMessage(@APRSMessageObject, Data, DataType, DataMessage);
+
       // check telemetry message
       Regex.Expression := '^.*((UNIT|PARM|EQNS|BITS))(.*)$';
       Regex.ModifierI := False;
       if Regex.Exec(DataMessage) then
       begin
         // todo telemetry messages
-        APRSMessageObject.Message := APRSMessageObject.Message + Data;
+        //APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
 
       // check bulletin message
@@ -732,7 +742,7 @@ begin
         {$IFDEF UNIX}
         writeln(data);
         {$ENDIF}
-        APRSMessageObject.Message := APRSMessageObject.Message + Data;
+        //APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end;
 
       // check National Weather Service bulletin
@@ -741,21 +751,21 @@ begin
       if Regex.Exec(DataMessage) then
       begin
         // todo nws message
-        APRSMessageObject.Message := APRSMessageObject.Message + Data;
+        //APRSMessageObject.Message := APRSMessageObject.Message + Data;
       end
     end;
 
     // check status report
     if (Pos(DataType, StatusReport) > 0) then
     begin
-      APRSMessageObject.Message := APRSMessageObject.Message + Data;
+      //APRSMessageObject.Message := APRSMessageObject.Message + Data;
     end;
 
     // check telemetry
     if (Pos(DataType, Telemetry) > 0) then
     begin
       // todo telemetry messages
-      APRSMessageObject.Message := APRSMessageObject.Message + Data;
+      //APRSMessageObject.Message := APRSMessageObject.Message + Data;
     end;
 
     Result := APRSMessageObject;
@@ -770,6 +780,58 @@ begin
 
   Regex.Free;
 end;
+
+
+procedure CheckUserMessage(APRSMessageObject: PAPRSMessage; const Data: String; DataType: String; const DataMessage: String);
+var FName, ack, UserMessage, msg: String;
+    f: TextFile;
+    Regex: TRegExpr;
+const
+    Messages = ':';
+begin
+  if (Pos(DataType, Messages) > 0) then
+  begin
+    // if it's an ack package then do nothing
+    UserMessage := Format(':%-9.9s:ack',[APRSConfig.Callsign]);
+    if (Pos(UserMessage, Data) > 0) then
+      Exit;
+
+    // check user message (the user who is using aprsmap)
+    UserMessage := Format(':%-9.9s:',[APRSConfig.Callsign]);
+    if (Pos(UserMessage, Data) > 0) then
+    begin
+      Regex := TRegExpr.Create;
+      Regex.Expression := '.*' + UserMessage;
+      UserMessage := Regex.Replace(Data, '', True);
+      Regex.Free;
+
+      FName := Format('%s.txt',[md5print(md5string(Messages+''+TimeToStr(Time)))]);
+      FName := APRSConfig.MailDirectory + DirectorySeparator + FName;
+      AssignFile(f, FName);
+      try
+        Rewrite(f);
+        WriteLn(f, Format('ToCall: %s', [APRSConfig.Callsign]));
+        WriteLn(f, Format('FromCall: %s', [APRSMessageObject^.FromCall]));
+        WriteLn(f, Format('DateStr: %s', [DateToStr(Date)]));
+        WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
+        WriteLn(f, 'MType: M');
+        WriteLn(f, 'Message:');
+        WriteLn(f, Format('%s', [UserMessage]));
+      finally
+        CloseFile(f);
+      end;
+
+      // acknowlege message
+      if Length(UserMessage) >= 3 then
+      begin
+        ack := Copy(UserMessage, Length(UserMessage) - 1, 2);
+        msg := Format(':%-9.9s:ack%s', [APRSMessageObject^.FromCall, ack]);
+        FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
+      end;
+    end;
+  end;
+end;
+
 
 function BearingFromTo(Lat1, Lon1, Lat2, Lon2: Double): Double;
 var dLon, y, x: Double;

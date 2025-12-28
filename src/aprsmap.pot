@@ -71,6 +71,41 @@ msgctxt "tflastseen.lvcallsigns.columns[2].caption"
 msgid "#"
 msgstr ""
 
+#: tflistmails.actclose.caption
+msgctxt "tflistmails.actclose.caption"
+msgid "Close"
+msgstr ""
+
+#: tflistmails.actclose.hint
+msgid "Close Window"
+msgstr ""
+
+#: tflistmails.actdeletemail.caption
+msgctxt "tflistmails.actdeletemail.caption"
+msgid "Delete Mail"
+msgstr ""
+
+#: tflistmails.actdeletemail.hint
+msgctxt "tflistmails.actdeletemail.hint"
+msgid "Delete Mail"
+msgstr ""
+
+#: tflistmails.caption
+msgid "FListMails"
+msgstr ""
+
+#: tflistmails.toolbar1.caption
+msgid "ToolBar1"
+msgstr ""
+
+#: tflistmails.toolbutton5.caption
+msgid "ToolButton5"
+msgstr ""
+
+#: tflistmails.toolbutton7.caption
+msgid "ToolButton7"
+msgstr ""
+
 #: tfmain.actexit.caption
 msgid "Exit"
 msgstr ""
@@ -90,6 +125,10 @@ msgstr ""
 
 #: tfmain.actshowhide.caption
 msgid "Show/Hide"
+msgstr ""
+
+#: tfmain.actshowmessages.caption
+msgid "Messages"
 msgstr ""
 
 #: tfmain.btnbuymeacoffee.caption
