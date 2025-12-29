@@ -1,11 +1,13 @@
 object TFEditor: TTFEditor
   Left = 391
-  Height = 551
+  Height = 247
   Top = 33
-  Width = 764
+  Width = 466
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsDialog
   Caption = 'APRSMap - Message Editor'
-  ClientHeight = 551
-  ClientWidth = 764
+  ClientHeight = 247
+  ClientWidth = 466
   DockSite = True
   DoubleBuffered = True
   ParentDoubleBuffered = False
@@ -13,11 +15,12 @@ object TFEditor: TTFEditor
   ShowHint = True
   SnapOptions.SnapToMonitor = True
   LCLVersion = '4.5.0.0'
+  OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6
     Height = 40
-    Top = 505
-    Width = 752
+    Top = 201
+    Width = 454
     OKButton.Name = 'OKButton'
     OKButton.Caption = 'SEND'
     OKButton.Font.Color = clRed
@@ -39,7 +42,7 @@ object TFEditor: TTFEditor
     Left = 0
     Height = 30
     Top = 0
-    Width = 764
+    Width = 466
     AutoSize = True
     BorderWidth = 3
     ButtonHeight = 26
@@ -96,9 +99,9 @@ object TFEditor: TTFEditor
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = BPDefaultButtons
     Left = 0
-    Height = 387
+    Height = 83
     Top = 112
-    Width = 764
+    Width = 466
     Anchors = [akTop, akLeft, akRight, akBottom]
     Font.Height = 13
     Font.Name = 'DejaVu Sans Mono'
@@ -561,6 +564,7 @@ object TFEditor: TTFEditor
     MouseLinkColor.Foreground = clBlue
     LineHighlightColor.Background = clNone
     LineHighlightColor.Foreground = clNone
+    OnStatusChange = SEMessageStatusChange
     inline SynLeftGutterPartList1: TSynGutterPartList
       object SynGutterMarks1: TSynGutterMarks
         Width = 24
@@ -613,10 +617,10 @@ object TFEditor: TTFEditor
     Left = 0
     Height = 82
     Top = 30
-    Width = 764
+    Width = 466
     Anchors = [akTop, akLeft, akRight]
     ClientHeight = 82
-    ClientWidth = 764
+    ClientWidth = 466
     TabOrder = 3
     object leToCall: TLabeledEdit
       Left = 8
@@ -653,6 +657,20 @@ object TFEditor: TTFEditor
       Top = 8
       Width = 100
       Caption = 'Message Type'
+    end
+    object lMaxMsgSize: TLabel
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 439
+      Height = 21
+      Top = 53
+      Width = 18
+      Anchors = [akRight, akBottom]
+      BorderSpacing.Right = 8
+      BorderSpacing.Bottom = 7
+      Caption = '67'
     end
   end
   object ActionList1: TActionList

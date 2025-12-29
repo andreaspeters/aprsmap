@@ -566,6 +566,10 @@ msgstr ""
 msgid "To Callsing   "
 msgstr ""
 
+#: ttfeditor.lmaxmsgsize.caption
+msgid "67"
+msgstr ""
+
 #: ttfeditor.rbmtypebulletin.caption
 msgctxt "ttfeditor.rbmtypebulletin.caption"
 msgid "Bulletin"

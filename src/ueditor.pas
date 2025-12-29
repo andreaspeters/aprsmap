@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, Buttons,
   ComCtrls, ActnList, ExtCtrls, StdCtrls, SynEdit, utypes, SynEditKeyCmds,
-  SynEditTypes, SynBeautifier;
+  SynEditTypes, SynBeautifier, LCLType;
 
 type
 
@@ -24,6 +24,7 @@ type
     BPDefaultButtons: TButtonPanel;
     imgListSmall: TImageList;
     Label1: TLabel;
+    lMaxMsgSize: TLabel;
     leToCall: TLabeledEdit;
     odOpenFile: TOpenDialog;
     Panel1: TPanel;
@@ -43,8 +44,11 @@ type
     procedure actOpenFileExecute(Sender: TObject);
     procedure actSaveAsExecute(Sender: TObject);
     procedure CloseButtonClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
     procedure rbMTypeBulletinChange(Sender: TObject);
+    procedure SEMessageStatusChange(Sender: TObject; Changes: TSynStatusChanges
+      );
   private
 
   public
@@ -62,31 +66,37 @@ uses umain;
 {$R *.lfm}
 
 procedure TTFEditor.OKButtonClick(Sender: TObject);
-var i, nr: Integer;
+var i: Integer;
     Line, msg: String;
 begin
-  if SEMessage.Lines.Count > 0 then
-    for i := 0 to SEMessage.Lines.Count - 1 do
-    begin
-      Line := SEMessage.Lines[i];
-      Line := StringReplace(Line, #13#10, #10, [rfReplaceAll]);  // Windows → Unix
-      Line := StringReplace(Line, #13, #10, [rfReplaceAll]);     // Mac Classic → Unix
-      Line := StringReplace(Line, #10, #13#10, [rfReplaceAll]);  // Unix → systemabhängig
+  if Length(SEMessage.Text) > 67 then
+  begin
+    ShowMessage('Text can not be longer then 67 chars.');
+    Exit;
+  end;
+  if Length(SEMessage.Text) <= 0 then
+    Exit;
 
-      // Empy line need CRLF
-      if (Line = '') then
-        Line := ' ';
+  for i := 0 to SEMessage.Lines.Count - 1 do
+  begin
+    Line := SEMessage.Lines[i];
+    Line := StringReplace(Line, #13#10, #10, [rfReplaceAll]);  // Windows → Unix
+    Line := StringReplace(Line, #13, #10, [rfReplaceAll]);     // Mac Classic → Unix
+    Line := StringReplace(Line, #10, #13#10, [rfReplaceAll]);  // Unix → systemabhängig
 
-      if rbMTypeMessage.Checked then
-        msg := Format(':%-9.9s:%s{%.2d', [leToCall.Caption, Line, Random(100)]);
+    // Empy line need CRLF
+    if (Line = '') then
+      Line := ' ';
 
-      if rbMTypeBulletin.Checked then
-        msg := Format(':BLN%d     :%s', [leToCall.Caption, Random(10), Line]);
+    if rbMTypeMessage.Checked then
+      msg := Format(':%-9.9s:%s{%d', [leToCall.Caption, Line, Random(10000)]);
 
-      if Length(msg) > 0 then
-        FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
-    end;
+    if rbMTypeBulletin.Checked then
+      msg := Format(':BLN%d     :%s', [leToCall.Caption, Random(10), Line]);
 
+    if Length(msg) > 0 then
+      FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
+  end;
   Close;
 end;
 
@@ -95,9 +105,29 @@ begin
   leToCall.Enabled := not(rbMTypeBulletin.Checked);
 end;
 
+procedure TTFEditor.SEMessageStatusChange(Sender: TObject;
+  Changes: TSynStatusChanges);
+var i,a:Integer;
+begin
+  a := Length(SEMessage.Text);
+  i := 67 - a;
+
+  if i < 0 then
+    lMaxMsgSize.Font.Color := clRed
+  else
+    lMaxMsgSize.Font.Color := clBlack;
+
+  lMaxMsgSize.Caption := IntToStr(i);
+end;
+
 procedure TTFEditor.CloseButtonClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TTFEditor.FormShow(Sender: TObject);
+begin
+  SEMessage.Text := '';
 end;
 
 procedure TTFEditor.actNewExecute(Sender: TObject);

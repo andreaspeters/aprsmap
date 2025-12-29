@@ -120,12 +120,12 @@ end;
 
 procedure TFLastSeen.FormShow(Sender: TObject);
 begin
-  // Attach Convers window at the main window
-  if FMain.WindowState <> wsMinimized then
+  if Assigned(FConfig) then
   begin
-    Left := FMain.Left+FMain.Width+1;
-    Top := FMain.Top;
-    Height := FMain.Height+5;
+    Width := FConfig^.LastSeenWidth;
+    Height := FConfig^.LastSeenHeight;
+    Left := FConfig^.LastSeenPosX;
+    Top := FConfig^.LastSeenPosY;
   end;
 end;
 
