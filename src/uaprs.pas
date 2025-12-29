@@ -802,6 +802,9 @@ var FName, ack, UserMessage, msg: String;
 const
     Messages = ':';
 begin
+  if Length(Data) <= 0 then
+    Exit;
+
   if (Pos(DataType, Messages) > 0) then
   begin
     // if it's an ack package then do nothing
@@ -814,36 +817,36 @@ begin
     if (Pos(UserMessage, Data) > 0) then
     begin
       Regex := TRegExpr.Create;
-      Regex.Expression := ':\S{1,8}\s+:(.*){(\d+)';
+      Regex.Expression := ':(?:\S{1,8})(?:\s+):(.*)\{(\d+)';
       Regex.ModifierI := False;
-        if Regex.Exec(Data) then
-          if Regex.SubExprMatchCount = 2 then
-          begin
-            FName := Format('msg_%s.txt',[md5print(md5string(Regex.Match[1]+''+TimeToStr(Time)))]);
-            FName := APRSConfig.MailDirectory + DirectorySeparator + FName;
-            AssignFile(f, FName);
-            try
-              Rewrite(f);
-              WriteLn(f, Format('ToCall: %s', [APRSConfig.Callsign]));
-              WriteLn(f, Format('FromCall: %s', [APRSMessageObject^.FromCall]));
-              WriteLn(f, Format('DateStr: %s', [DateToStr(Date)]));
-              WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
-              WriteLn(f, 'MType: MSG');
-              WriteLn(f, 'Message:');
-              WriteLn(f, Format('%s', [Regex.Match[1]]));
-              FMain.ilMessageStatus.ImageIndex := 242;
-            finally
-              CloseFile(f);
-            end;
-            // acknowlege message
-            if Length(Regex.Match[1]) >= 3 then
-            begin
-              ack := Regex.Match[2];
-              msg := Format(':%-9.9s:ack%s', [APRSMessageObject^.FromCall, ack]);
-              FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
-            end;
+      if Regex.Exec(Data) then
+        if Regex.SubExprMatchCount = 2 then
+        begin
+          FName := Format('msg_%s.txt',[md5print(md5string(Regex.Match[1]+''+TimeToStr(Time)))]);
+          FName := APRSConfig.MailDirectory + DirectorySeparator + FName;
+          AssignFile(f, FName);
+          try
+            Rewrite(f);
+            WriteLn(f, Format('ToCall: %s', [APRSConfig.Callsign]));
+            WriteLn(f, Format('FromCall: %s', [APRSMessageObject^.FromCall]));
+            WriteLn(f, Format('DateStr: %s', [DateToStr(Date)]));
+            WriteLn(f, Format('TimeStr: %s', [TimeToStr(Time)]));
+            WriteLn(f, 'MType: MSG');
+            WriteLn(f, 'Message:');
+            WriteLn(f, Format('%s', [Regex.Match[1]]));
+            FMain.ilMessageStatus.ImageIndex := 242;
+          finally
+            CloseFile(f);
           end;
-        Regex.Free;
+          // acknowlege message
+          if Length(Regex.Match[1]) >= 3 then
+          begin
+            ack := Regex.Match[2];
+            msg := Format(':%-9.9s:ack%s', [APRSMessageObject^.FromCall, ack]);
+            FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
+          end;
+        end;
+      Regex.Free;
     end;
   end;
 end;

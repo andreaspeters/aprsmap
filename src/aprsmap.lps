@@ -54,9 +54,10 @@
       <Unit>
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="820"/>
-        <CursorPos Y="846"/>
+        <TopLine Value="797"/>
+        <CursorPos X="53" Y="820"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -119,7 +120,6 @@
         <ComponentName Value="FLastSeen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="9"/>
         <TopLine Value="102"/>
         <CursorPos X="34" Y="128"/>
@@ -195,7 +195,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="131"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -205,7 +205,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="131"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit>
       <Unit>
@@ -217,7 +217,7 @@
         <EditorIndex Value="10"/>
         <TopLine Value="173"/>
         <CursorPos X="22" Y="175"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="131"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -230,7 +230,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="79"/>
         <CursorPos X="7" Y="99"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="62"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -241,7 +241,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="62"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -251,7 +251,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="47"/>
+        <UsageCount Value="62"/>
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit>
       <Unit>
@@ -259,23 +259,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1552"/>
         <CursorPos Y="1558"/>
-        <UsageCount Value="100"/>
+        <UsageCount Value="98"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="ulistmails.pas"/>
-        <Caret Line="175" Column="22" TopLine="173"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="604" Column="42" TopLine="596"/>
-      </Position>
-      <Position>
-        <Filename Value="ueditor.pas"/>
-        <Caret Line="95" Column="3" TopLine="93"/>
-      </Position>
       <Position>
         <Filename Value="ueditor.pas"/>
         <Caret Line="96" Column="3" TopLine="94"/>
@@ -383,6 +371,18 @@
       <Position>
         <Filename Value="ulastseen.pas"/>
         <Caret Line="87" Column="28" TopLine="42"/>
+      </Position>
+      <Position>
+        <Filename Value="ulastseen.pas"/>
+        <Caret Line="128" Column="34" TopLine="102"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="807" Column="3" TopLine="797"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="820" Column="58" TopLine="797"/>
       </Position>
     </JumpHistory>
     <RunParams>
