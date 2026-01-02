@@ -433,6 +433,14 @@ msgstr ""
 msgid "The password will be stored in plaintext."
 msgstr ""
 
+#: tfsettings.leaprsmessage.editlabel.caption
+msgid "Message                     "
+msgstr ""
+
+#: tfsettings.leaprsmessage.text
+msgid "This is APRSMap"
+msgstr ""
+
 #: tfsettings.lecallsign.editlabel.caption
 msgid "Callsign                      "
 msgstr ""

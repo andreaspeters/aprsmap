@@ -15,6 +15,8 @@
 {"hash":159003536,"name":"tfsettings.lecallsign.editlabel.caption","sourcebytes":[67,97,108,108,115,105,103,110,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Callsign                      "},
 {"hash":164289280,"name":"tfsettings.lelatitude.editlabel.caption","sourcebytes":[76,97,116,105,116,117,100,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Latitude                     "},
 {"hash":63097568,"name":"tfsettings.lelongitude.editlabel.caption","sourcebytes":[76,111,110,103,105,116,117,100,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Longitude                  "},
+{"hash":190475424,"name":"tfsettings.leaprsmessage.editlabel.caption","sourcebytes":[77,101,115,115,97,103,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Message                     "},
+{"hash":100678704,"name":"tfsettings.leaprsmessage.text","sourcebytes":[84,104,105,115,32,105,115,32,65,80,82,83,77,97,112],"value":"This is APRSMap"},
 {"hash":205735792,"name":"tfsettings.groupbox4.caption","sourcebytes":[68,117,109,112,49,48,57,48],"value":"Dump1090"},
 {"hash":60595392,"name":"tfsettings.lemodesserver.editlabel.caption","sourcebytes":[83,101,114,118,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Server                        "},
 {"hash":110503760,"name":"tfsettings.lemodesport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Port                            "},

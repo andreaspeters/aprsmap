@@ -1,12 +1,12 @@
 object FSettings: TFSettings
   Left = 1654
-  Height = 538
+  Height = 583
   Top = 406
   Width = 1095
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 538
+  ClientHeight = 583
   ClientWidth = 1095
   DefaultMonitor = dmDesktop
   Position = poMainFormCenter
@@ -14,8 +14,8 @@ object FSettings: TFSettings
   OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6
-    Height = 39
-    Top = 493
+    Height = 40
+    Top = 537
     Width = 1083
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -33,20 +33,20 @@ object FSettings: TFSettings
   object GroupBox1: TGroupBox
     Left = 6
     Height = 288
-    Top = 200
+    Top = 240
     Width = 539
     Caption = 'IGate'
-    ClientHeight = 276
-    ClientWidth = 527
+    ClientHeight = 257
+    ClientWidth = 535
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 176
-      Height = 29
+      Height = 34
       Top = 152
       Width = 330
       EchoMode = emPassword
-      EditLabel.Height = 29
-      EditLabel.Width = 139
+      EditLabel.Height = 34
+      EditLabel.Width = 138
       EditLabel.Caption = 'Password                  '
       Enabled = False
       LabelPosition = lpLeft
@@ -55,10 +55,10 @@ object FSettings: TFSettings
     end
     object LEIGateServer: TLabeledEdit
       Left = 176
-      Height = 29
+      Height = 34
       Top = 56
       Width = 330
-      EditLabel.Height = 29
+      EditLabel.Height = 34
       EditLabel.Width = 139
       EditLabel.Caption = 'Server                        '
       Enabled = False
@@ -67,11 +67,11 @@ object FSettings: TFSettings
     end
     object LEIGatePort: TLabeledEdit
       Left = 176
-      Height = 29
+      Height = 34
       Top = 104
       Width = 152
-      EditLabel.Height = 29
-      EditLabel.Width = 141
+      EditLabel.Height = 34
+      EditLabel.Width = 139
       EditLabel.Caption = 'Port                            '
       Enabled = False
       LabelPosition = lpLeft
@@ -79,9 +79,9 @@ object FSettings: TFSettings
     end
     object Label3: TLabel
       Left = 176
-      Height = 16
+      Height = 15
       Top = 192
-      Width = 210
+      Width = 207
       Caption = 'The password will be stored in plaintext.'
       Font.Color = clRed
       Font.Height = -11
@@ -90,11 +90,11 @@ object FSettings: TFSettings
     end
     object LEIgateFilter: TLabeledEdit
       Left = 176
-      Height = 29
+      Height = 34
       Top = 208
       Width = 330
-      EditLabel.Height = 29
-      EditLabel.Width = 139
+      EditLabel.Height = 34
+      EditLabel.Width = 137
       EditLabel.Caption = 'Filter                          '
       Enabled = False
       LabelPosition = lpLeft
@@ -104,7 +104,7 @@ object FSettings: TFSettings
       Left = 176
       Height = 25
       Top = 12
-      Width = 69
+      Width = 72
       Caption = 'Enable'
       TabOrder = 4
       OnChange = cbIGateEnableChange
@@ -112,31 +112,31 @@ object FSettings: TFSettings
   end
   object GroupBox2: TGroupBox
     Left = 552
-    Height = 184
+    Height = 224
     Top = 8
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 172
-    ClientWidth = 525
+    ClientHeight = 193
+    ClientWidth = 533
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 0
       Width = 296
-      EditLabel.Height = 29
-      EditLabel.Width = 143
+      EditLabel.Height = 34
+      EditLabel.Width = 148
       EditLabel.Caption = 'MAP Cache Directory'
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LECleanupTime: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 48
       Width = 152
-      EditLabel.Height = 29
-      EditLabel.Width = 147
+      EditLabel.Height = 34
+      EditLabel.Width = 151
       EditLabel.Caption = 'PoI Cleanup Time (m)'
       LabelPosition = lpLeft
       TabOrder = 1
@@ -153,11 +153,11 @@ object FSettings: TFSettings
     end
     object LEMapLocalDirectory: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 96
       Width = 296
-      EditLabel.Height = 29
-      EditLabel.Width = 151
+      EditLabel.Height = 34
+      EditLabel.Width = 150
       EditLabel.Caption = 'Local Tiles                    '
       LabelPosition = lpLeft
       TabOrder = 2
@@ -175,30 +175,30 @@ object FSettings: TFSettings
   end
   object GroupBox3: TGroupBox
     Left = 8
-    Height = 184
+    Height = 224
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 172
-    ClientWidth = 525
+    ClientHeight = 193
+    ClientWidth = 533
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 182
-      Height = 29
+      Height = 34
       Top = 0
       Width = 154
-      EditLabel.Height = 29
-      EditLabel.Width = 142
+      EditLabel.Height = 34
+      EditLabel.Width = 141
       EditLabel.Caption = 'Callsign                      '
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LELatitude: TLabeledEdit
       Left = 182
-      Height = 29
+      Height = 34
       Top = 48
       Width = 322
-      EditLabel.Height = 29
+      EditLabel.Height = 34
       EditLabel.Width = 140
       EditLabel.Caption = 'Latitude                     '
       LabelPosition = lpLeft
@@ -206,10 +206,10 @@ object FSettings: TFSettings
     end
     object LELongitude: TLabeledEdit
       Left = 182
-      Height = 29
+      Height = 34
       Top = 96
       Width = 322
-      EditLabel.Height = 29
+      EditLabel.Height = 34
       EditLabel.Width = 142
       EditLabel.Caption = 'Longitude                  '
       LabelPosition = lpLeft
@@ -220,9 +220,9 @@ object FSettings: TFSettings
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
       Left = 344
-      Height = 33
+      Height = 35
       Top = 0
-      Width = 170
+      Width = 178
       Anchors = [akTop, akLeft, akRight]
       AutoComplete = True
       AutoCompleteOptions = [acoAutoSuggest, acoAutoAppend, acoSearch, acoUseTab]
@@ -246,22 +246,35 @@ object FSettings: TFSettings
       ImageIndex = 237
       OnClick = sbGetGPSPositionClick
     end
+    object leAPRSMessage: TLabeledEdit
+      Left = 184
+      Height = 34
+      Top = 144
+      Width = 320
+      EditLabel.Height = 34
+      EditLabel.Width = 145
+      EditLabel.Caption = 'Message                     '
+      LabelPosition = lpLeft
+      MaxLength = 40
+      TabOrder = 4
+      Text = 'This is APRSMap'
+    end
   end
   object GroupBox4: TGroupBox
     Left = 552
     Height = 288
-    Top = 200
+    Top = 240
     Width = 537
     Caption = 'Dump1090'
-    ClientHeight = 276
-    ClientWidth = 525
+    ClientHeight = 257
+    ClientWidth = 533
     TabOrder = 4
     object LEModeSServer: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 56
       Width = 296
-      EditLabel.Height = 29
+      EditLabel.Height = 34
       EditLabel.Width = 139
       EditLabel.Caption = 'Server                        '
       Enabled = False
@@ -270,11 +283,11 @@ object FSettings: TFSettings
     end
     object LEModeSPort: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 104
       Width = 152
-      EditLabel.Height = 29
-      EditLabel.Width = 141
+      EditLabel.Height = 34
+      EditLabel.Width = 139
       EditLabel.Caption = 'Port                            '
       Enabled = False
       LabelPosition = lpLeft
@@ -282,11 +295,11 @@ object FSettings: TFSettings
     end
     object LEModeSExecutable: TLabeledEdit
       Left = 184
-      Height = 29
+      Height = 34
       Top = 152
       Width = 296
-      EditLabel.Height = 29
-      EditLabel.Width = 137
+      EditLabel.Height = 34
+      EditLabel.Width = 139
       EditLabel.Caption = 'Executable                '
       Enabled = False
       LabelPosition = lpLeft
@@ -306,7 +319,7 @@ object FSettings: TFSettings
       Left = 184
       Height = 25
       Top = 12
-      Width = 69
+      Width = 72
       Caption = 'Enable'
       TabOrder = 3
       OnChange = cbModeSEnableChange

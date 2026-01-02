@@ -103,6 +103,7 @@ type
     IGateFilter: String;
     Callsign: String;
     AprsSymbol: Integer;
+    AprsMessage: String;
     Latitude: Double;
     Longitude: Double;
     CleanupTime: Integer;

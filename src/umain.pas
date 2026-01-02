@@ -984,7 +984,7 @@ begin
   begin
     lat := FormatLatitude(APRSConfig.Latitude);
     lon := FormatLongitude(APRSConfig.Longitude);
-    msg := Format('!%s%s%s%s', [lat, GetImageTable(APRSConfig.AprsSymbol), lon,  GetImageSymbol(APRSConfig.AprsSymbol)]);
+    msg := Format('!%s%s%s%s%s', [lat, GetImageTable(APRSConfig.AprsSymbol), lon, GetImageSymbol(APRSConfig.AprsSymbol), APRSConfig.AprsMessage]);
 
     SendStringCommand(APRSConfig.Channel, 0, msg);
   end;

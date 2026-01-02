@@ -22,6 +22,7 @@ type
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
     Label3: TLabel;
+    leAPRSMessage: TLabeledEdit;
     LECleanupTime: TLabeledEdit;
     LECallsign: TLabeledEdit;
     LEIgatePassword: TLabeledEdit;
@@ -155,6 +156,7 @@ begin
   FConfig^.ModeSExecutable := LEModeSExecutable.Caption;
   FConfig^.AprsSymbol := CBESymbol.ItemIndex;
   FConfig^.ModeSEnabled := LEModeSServer.Enabled;
+  FConfig^.AprsMessage := leAprsMessage.Caption;
 
 
   if Assigned(FMain.ModeS) then
@@ -196,6 +198,7 @@ begin
   LEModeSServer.Caption := FConfig^.ModeSServer;
   LEModeSPort.Caption := IntToStr(FConfig^.ModeSPort);
   LEModeSExecutable.Caption := FConfig^.ModeSExecutable;
+  leAprsMessage.Caption := FConfig^.AprsMessage;
 end;
 
 end.
