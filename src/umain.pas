@@ -156,6 +156,7 @@ type
     STWXSpeed: TStaticText;
     STWXTemperature: TStaticText;
     tBake: TTimer;
+    tRepeatSendMail: TTimer;
     tsMain: TTabSheet;
     tsCharts: TTabSheet;
     tsWX: TTabSheet;
@@ -204,6 +205,7 @@ type
     procedure AddPoI(msg: TAPRSMessage);
     procedure SetupFilterCombo;
     procedure tRefreshTimer(Sender: TObject);
+    procedure tRepeatSendMailTimer(Sender: TObject);
     procedure WriteChart(X: TDoubleList; Title, TitleX, TitleY: String; ParentCtrl: TWinControl);
     procedure UpdateWXCaption(msg: TAPRSMessage);
     procedure UpdateDevices(newMsg, oldMsg: PAPRSMessage);
@@ -219,6 +221,7 @@ type
     Debug: Boolean;
     IGate: TIGateThread;
     ModeS: TModeSThread;
+    SendOutMessage: array of TMessage;
     procedure SendStringCommand(const Channel, Code: byte; const Command: String);
   end;
 
@@ -1302,6 +1305,32 @@ end;
 procedure TFMain.tRefreshTimer(Sender: TObject);
 begin
   SelectPoI(Sender);
+end;
+
+// Repeat Send unacklowleged Mail
+procedure TFMain.tRepeatSendMailTimer(Sender: TObject);
+var i: Integer;
+    msg: String;
+begin
+  try
+    for i:= 0 to Length(SendOutMessage) - 1 do
+    begin
+      if (Length(SendOutMessage[i].Text) > 0) and not (SendOutMessage[i].Ack) and (SendOutMessage[i].RepeatNr <= 10) then
+      begin
+        inc(SendOutMessage[i].RepeatNr);
+        msg := Format(':%-9.9s:%s{%d', [SendOutMessage[i].ToCallsign, SendOutMessage[i].Text, IntToStr(SendOutMessage[i].Nr)]);
+        if Length(msg) > 0 then
+          SendStringCommand(APRSConfig.Channel, 0, msg);
+      end;
+    end;
+  except
+    on E: Exception do
+    begin
+      {$IFDEF UNIX}
+      writeln('Error DeleteCombobox: ', E.Message);
+      {$ENDIF}
+    end;
+  end;
 end;
 
 // Delete callsign from Combobox

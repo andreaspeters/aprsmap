@@ -36,6 +36,14 @@ type
     sats: TDoubleList;  // Number of GPS Sats
   end;
 
+  TMessage = record
+    Text: String;       // Text of the message
+    ToCallsign: String; // Receivers callsing
+    Nr: Integer;        // Ack number
+    Ack: Boolean;       // Message was acknowleged
+    RepeatNr: Integer;  // Message send repeat count
+  end;
+
   TDevices = Record
     RS41: TRS41SGPData
   end;

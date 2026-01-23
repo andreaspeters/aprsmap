@@ -799,6 +799,7 @@ procedure CheckUserMessage(APRSMessageObject: PAPRSMessage; const Data: String; 
 var FName, ack, UserMessage, msg: String;
     f: TextFile;
     Regex: TRegExpr;
+    i: Integer;
 const
     Messages = ':';
 begin
@@ -807,10 +808,30 @@ begin
 
   if (Pos(DataType, Messages) > 0) then
   begin
-    // if it's an ack package then do nothing
+    // if it's an ack package then search it in SendOutMessage and set it to true
     UserMessage := Format(':%-9.9s:ack',[APRSConfig.Callsign]);
     if (Pos(UserMessage, Data) > 0) then
+    begin
+      try
+        Regex := TRegExpr.Create;
+        Regex.Expression := ':(?:\S{1,8})(?:\s+):(.*)\{(\d+)';
+        Regex.ModifierI := False;
+        if Regex.Exec(Data) then
+          if Regex.SubExprMatchCount >= 3 then
+            for i:= 0 to Length(FMain.SendOutMessage) - 1 do
+              if (FMain.SendOutMessage[i].ToCallsign = APRSMessageObject^.FromCall) and (FMain.SendOutMessage[i].Nr = StrToInt(Regex.Match[2])) then
+                FMain.SendOutMessage[i].Ack := True;
+      except
+        on E: Exception do
+        begin
+          {$IFDEF UNIX}
+          writeln('Error CheckUserMessage: ', E.Message);
+          {$ENDIF}
+        end;
+      end;
+      Regex.Free;
       Exit;
+    end;
 
     // check user message (the user who is using aprsmap)
     UserMessage := Format(':%-9.9s:',[APRSConfig.Callsign]);

@@ -47,8 +47,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
     procedure rbMTypeBulletinChange(Sender: TObject);
-    procedure SEMessageStatusChange(Sender: TObject; Changes: TSynStatusChanges
-      );
+    procedure SEMessageStatusChange(Sender: TObject; Changes: TSynStatusChanges);
   private
 
   public
@@ -66,9 +65,10 @@ uses umain;
 {$R *.lfm}
 
 procedure TTFEditor.OKButtonClick(Sender: TObject);
-var i: Integer;
+var i, ack: Integer;
     Line, msg: String;
 begin
+  ack := 0;
   if Length(SEMessage.Text) > 67 then
   begin
     ShowMessage('Text can not be longer then 67 chars.');
@@ -89,13 +89,26 @@ begin
       Line := ' ';
 
     if rbMTypeMessage.Checked then
-      msg := Format(':%-9.9s:%s{%d', [leToCall.Caption, Line, Random(10000)]);
+    begin
+      ack := Random(10000);
+      msg := Format(':%-9.9s:%s{%d', [leToCall.Caption, Line, ack]);
+      if Length(msg) > 0 then
+      begin
+        SetLength(FMain.SendOutMessage, SizeOf(FMain.SendOutMessage) + 1);
+        FMain.SendOutMessage[SizeOf(FMain.SendOutMessage)].Text := Line ;
+        FMain.SendOutMessage[SizeOf(FMain.SendOutMessage)].Ack := False;
+        FMain.SendOutMessage[SizeOf(FMain.SendOutMessage)].ToCallsign := leToCall.Caption;
+        FMain.SendOutMessage[SizeOf(FMain.SendOutMessage)].Nr := ack;
+        FMain.SendOutMessage[SizeOf(FMain.SendOutMessage)].RepeatNr := 0;
+      end;
+    end;
 
     if rbMTypeBulletin.Checked then
       msg := Format(':BLN%d     :%s', [leToCall.Caption, Random(10), Line]);
 
     if Length(msg) > 0 then
       FMain.SendStringCommand(APRSConfig.Channel, 0, msg);
+
   end;
   Close;
 end;
