@@ -1318,7 +1318,7 @@ begin
       if (Length(SendOutMessage[i].Text) > 0) and not (SendOutMessage[i].Ack) and (SendOutMessage[i].RepeatNr <= 10) then
       begin
         inc(SendOutMessage[i].RepeatNr);
-        msg := Format(':%-9.9s:%s{%d', [SendOutMessage[i].ToCallsign, SendOutMessage[i].Text, IntToStr(SendOutMessage[i].Nr)]);
+        msg := Format(':%-9.9s:%s{%d', [SendOutMessage[i].ToCallsign, SendOutMessage[i].Text, SendOutMessage[i].Nr]);
         if Length(msg) > 0 then
           SendStringCommand(APRSConfig.Channel, 0, msg);
       end;
@@ -1327,7 +1327,7 @@ begin
     on E: Exception do
     begin
       {$IFDEF UNIX}
-      writeln('Error DeleteCombobox: ', E.Message);
+      writeln('Error tRepeatSendMailTimer: ', E.Message);
       {$ENDIF}
     end;
   end;

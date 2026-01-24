@@ -814,12 +814,12 @@ begin
     begin
       try
         Regex := TRegExpr.Create;
-        Regex.Expression := ':(?:\S{1,8})(?:\s+):(.*)\{(\d+)';
+        Regex.Expression := ':(?:\S{1,8})(?:\s+):ack(\d+)';
         Regex.ModifierI := False;
         if Regex.Exec(Data) then
-          if Regex.SubExprMatchCount >= 3 then
+          if Regex.SubExprMatchCount >= 1 then
             for i:= 0 to Length(FMain.SendOutMessage) - 1 do
-              if (FMain.SendOutMessage[i].ToCallsign = APRSMessageObject^.FromCall) and (FMain.SendOutMessage[i].Nr = StrToInt(Regex.Match[2])) then
+              if (FMain.SendOutMessage[i].ToCallsign = APRSMessageObject^.FromCall) and (FMain.SendOutMessage[i].Nr = StrToInt(Regex.Match[1])) then
                 FMain.SendOutMessage[i].Ack := True;
       except
         on E: Exception do
