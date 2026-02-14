@@ -741,10 +741,9 @@ begin
         if RS41.Enabled then
           RS41SGPChart(msg, fpCharts);
       end;
-
-      scCharts.VertScrollBar.Position := chartScroll;
-      scWX.VertScrollBar.Position := wxScroll;
     end;
+    scCharts.VertScrollBar.Position := chartScroll;
+    scWX.VertScrollBar.Position := wxScroll;
   except
     on E: Exception do
     begin
