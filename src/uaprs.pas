@@ -640,35 +640,6 @@ begin
     if GetSpeed(APRSMessageObject.Message) <> -999999 then
       APRSMessageObject.Speed.Add(GetSpeed(APRSMessageObject.Message));
 
-    if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
-    begin
-      if GetWX(APRSMessageObject.Message,'c') <> -999999 then
-        APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
-      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
-        APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s')*1.85);
-      if GetWX(APRSMessageObject.Message,'g') <> -999999 then
-        APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g')*1.85);
-      if GetWX(APRSMessageObject.Message,'r') <> -999999 then
-        APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r')*25.4);
-      if GetWX(APRSMessageObject.Message,'p') <> -999999 then
-        APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p')*25.4);
-      if GetWX(APRSMessageObject.Message,'P') <> -999999 then
-        APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P')*25.4);
-      if GetWX(APRSMessageObject.Message, 't') <> -999999 then
-        APRSMessageObject.WXTemperature.Add(FahrenheitToCelsius(GetWX(APRSMessageObject.Message, 't')));
-      if GetWX(APRSMessageObject.Message,'h') <> -999999 then
-        APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
-      if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
-        APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b')/ 10);
-      if GetWX(APRSMessageObject.Message,'L') <> -999999 then
-        APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
-      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
-        APRSMessageObject.WXSnowFall.Add(GetWX(APRSMessageObject.Message,'s'));
-      if GetWX(APRSMessageObject.Message,'#') <> -999999 then
-        APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
-    end;
-
-
     // Mic-E Position Data
     Regex.Expression := '([''`]{1})(.{8})';
     Regex.ModifierI := False;
@@ -714,6 +685,35 @@ begin
         APRSMessageObject.ImageIndex := GetImageIndex(Regex.Match[5], Regex.Match[3]);
         APRSMessageObject.ImageDescription := GetImageDescription(Regex.Match[5], Regex.Match[3]);
       end;
+    end;
+
+    writeln(APRSMessageObject.FromCall + ' ' + APRSMessageObject.Icon);
+    if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+    begin
+      if GetWX(APRSMessageObject.Message,'c') <> -999999 then
+        APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));
+      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+        APRSMessageObject.WXSpeed.Add(GetWX(APRSMessageObject.Message,'s')*1.85);
+      if GetWX(APRSMessageObject.Message,'g') <> -999999 then
+        APRSMessageObject.WXGust.Add(GetWX(APRSMessageObject.Message,'g')*1.85);
+      if GetWX(APRSMessageObject.Message,'r') <> -999999 then
+        APRSMessageObject.WXRainFall1h.Add(GetWX(APRSMessageObject.Message,'r')*25.4);
+      if GetWX(APRSMessageObject.Message,'p') <> -999999 then
+        APRSMessageObject.WXRainFall24h.Add(GetWX(APRSMessageObject.Message,'p')*25.4);
+      if GetWX(APRSMessageObject.Message,'P') <> -999999 then
+        APRSMessageObject.WXRainFallToday.Add(GetWX(APRSMessageObject.Message,'P')*25.4);
+      if GetWX(APRSMessageObject.Message, 't') <> -999999 then
+        APRSMessageObject.WXTemperature.Add(FahrenheitToCelsius(GetWX(APRSMessageObject.Message, 't')));
+      if GetWX(APRSMessageObject.Message,'h') <> -999999 then
+        APRSMessageObject.WXHumidity.Add(GetWX(APRSMessageObject.Message,'h'));
+      if GetWX(APRSMessageObject.Message, 'b') <> -999999 then
+        APRSMessageObject.WXPressure.Add(GetWX(APRSMessageObject.Message, 'b')/ 10);
+      if GetWX(APRSMessageObject.Message,'L') <> -999999 then
+        APRSMessageObject.WXLum.Add(GetWX(APRSMessageObject.Message,'L'));
+      if GetWX(APRSMessageObject.Message,'s') <> -999999 then
+        APRSMessageObject.WXSnowFall.Add(GetWX(APRSMessageObject.Message,'s'));
+      if GetWX(APRSMessageObject.Message,'#') <> -999999 then
+        APRSMessageObject.WXRainCount.Add(GetWX(APRSMessageObject.Message,'#'));
     end;
 
     // In a ObjectReport, the Callsign could be inside the PayLoad

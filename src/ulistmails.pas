@@ -264,7 +264,6 @@ function TFListMails.ParseDateTimeString(const S: String): TDateTime;
 var FS: TFormatSettings;
     CleanStr: string;
     Regex: TRegExpr;
-    FBDate: TDateTime;
 begin
   // FormatSettings konfigurieren
   FS := DefaultFormatSettings;
@@ -275,17 +274,16 @@ begin
 
   // das 'z' entfernen
   Regex := TRegExpr.Create;
-  Regex.Expression := '\b\d{2}\.\d{2}\.\d{2} \d{2}:\d{2}z\b';
+  Regex.Expression := '\b\d{1,2}-\d{1,2}-\d{1,2} \d{2}:\d{2}\b';
   Regex.ModifierI := True;
   if Regex.Exec(S) then
   begin
-    CleanStr := StringReplace(S, 'z', '', [rfIgnoreCase]);
+    CleanStr := StringReplace(S, '-', '.', [rfReplaceAll]);
     Result := StrToDateTime(CleanStr, FS);
   end
   else
     Result := EncodeDate(1970, 1, 1);
 end;
-
 
 function TFListMails.ParseMessageHeader(const FileName: String): TMessageHeader;
 var sl: TStringList;

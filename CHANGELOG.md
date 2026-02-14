@@ -12,6 +12,7 @@
 - ADD: Support for receive and send user messages.
 - ADD: Support for receive and send bulletin messages.
 - ADD: Send own position.
+- FIX: missing weather data.
 
 ## v0.6.1
 
