@@ -311,6 +311,9 @@ begin
   FGPS.Start(@APRSConfig);
 
   ilMessageStatus.ImageIndex := 241;
+
+  // Minutes to milliseconds
+  tBake.Interval := APRSConfig.AprsUpdateInterval * 60 * 1000
 end;
 
 procedure TFMain.FormChangeBounds(Sender: TObject);

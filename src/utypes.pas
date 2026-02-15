@@ -111,6 +111,7 @@ type
     IGateFilter: String;
     Callsign: String;
     AprsSymbol: Integer;
+    AprsUpdateInterval: Integer;
     AprsMessage: String;
     Latitude: Double;
     Longitude: Double;
