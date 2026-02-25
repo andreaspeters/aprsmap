@@ -39,7 +39,18 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 ## How to compile
 
 - Install Lazarus 3.6
-- Install TRichMemo, LazMapViewer (it has to be [this version](https://github.com/wp-xyz/LazMapViewer.git))
+- Install TRichMemo, LazRGBGraphics, BGRABitmap, BGRAControls, LazSerial, Indy10
+- Get git submodules:
+
+```bash
+git submodule update --init --recursive
+```
+
+If you already have submodules, then change to the newest commit:
+
+```bash
+git submodule update --remote --merge
+```
 
 ## How to use:
 
