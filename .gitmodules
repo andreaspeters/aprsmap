@@ -1,3 +1,7 @@
 [submodule "use/LazMapViewer"]
 	path = use/LazMapViewer
 	url = https://github.com/andreaspeters/LazMapViewer.git
+	
+[submodule "use/uniqueinstance"]
+	path = use/uniqueinstance
+	url = https://github.com/andreaspeters/uniqueinstance.git

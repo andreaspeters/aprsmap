@@ -204,6 +204,11 @@ begin
   leAprsMessage.Caption := FConfig^.AprsMessage;
   spUpdateInterval.Value := FConfig^.AprsUpdateInterval;
   FMain.tBake.Interval := FConfig^.AprsUpdateInterval * 60 * 1000;
+  if FMain.tBake.Enabled then
+  begin
+    FMain.tBake.Enabled := False;
+    FMain.tBake.Enabled := True;
+  end;
 end;
 
 end.

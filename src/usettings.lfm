@@ -36,8 +36,8 @@ object FSettings: TFSettings
     Top = 240
     Width = 539
     Caption = 'IGate'
-    ClientHeight = 257
-    ClientWidth = 535
+    ClientHeight = 276
+    ClientWidth = 527
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 124
@@ -116,8 +116,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'APRS Map'
-    ClientHeight = 193
-    ClientWidth = 533
+    ClientHeight = 212
+    ClientWidth = 525
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 172
@@ -179,8 +179,8 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 193
-    ClientWidth = 533
+    ClientHeight = 212
+    ClientWidth = 525
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 122
@@ -286,8 +286,8 @@ object FSettings: TFSettings
     Top = 240
     Width = 537
     Caption = 'Dump1090'
-    ClientHeight = 257
-    ClientWidth = 533
+    ClientHeight = 276
+    ClientWidth = 525
     TabOrder = 4
     object LEModeSServer: TLabeledEdit
       Left = 172

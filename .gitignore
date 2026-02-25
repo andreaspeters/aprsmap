@@ -12,5 +12,6 @@ cache/**/*
 appimage/*/usr
 *.AppImage
 *.deb
+use
 
 
