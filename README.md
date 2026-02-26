@@ -38,7 +38,7 @@ Currently, the Windows autobuild is not working because fossies.org blocks reque
 
 ## How to compile
 
-- Install Lazarus 3.6
+- Install Lazarus 4.5
 - Install TRichMemo, LazRGBGraphics, BGRABitmap, BGRAControls, LazSerial, Indy10
 - Get git submodules:
 
