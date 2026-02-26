@@ -429,12 +429,16 @@ msgstr ""
 msgid "Dump1090"
 msgstr ""
 
+#: tfsettings.label1.caption
+msgid "Update Interval"
+msgstr ""
+
 #: tfsettings.label3.caption
 msgid "The password will be stored in plaintext."
 msgstr ""
 
 #: tfsettings.leaprsmessage.editlabel.caption
-msgid "Message                     "
+msgid "Message         "
 msgstr ""
 
 #: tfsettings.leaprsmessage.text
@@ -442,7 +446,7 @@ msgid "This is APRSMap"
 msgstr ""
 
 #: tfsettings.lecallsign.editlabel.caption
-msgid "Callsign                      "
+msgid "Callsign           "
 msgstr ""
 
 #: tfsettings.lecleanuptime.editlabel.caption
@@ -450,29 +454,29 @@ msgid "PoI Cleanup Time (m)"
 msgstr ""
 
 #: tfsettings.leigatefilter.editlabel.caption
-msgid "Filter                          "
+msgid "Filter                "
 msgstr ""
 
 #: tfsettings.leigatepassword.editlabel.caption
-msgid "Password                  "
+msgid "Password        "
 msgstr ""
 
 #: tfsettings.leigateport.editlabel.caption
 msgctxt "tfsettings.leigateport.editlabel.caption"
-msgid "Port                            "
+msgid "Port                  "
 msgstr ""
 
 #: tfsettings.leigateserver.editlabel.caption
 msgctxt "tfsettings.leigateserver.editlabel.caption"
-msgid "Server                        "
+msgid "Server              "
 msgstr ""
 
 #: tfsettings.lelatitude.editlabel.caption
-msgid "Latitude                     "
+msgid "Latitude          "
 msgstr ""
 
 #: tfsettings.lelongitude.editlabel.caption
-msgid "Longitude                  "
+msgid "Longitud         "
 msgstr ""
 
 #: tfsettings.lemapcache.editlabel.caption
@@ -495,6 +499,10 @@ msgstr ""
 #: tfsettings.lemodesserver.editlabel.caption
 msgctxt "tfsettings.lemodesserver.editlabel.caption"
 msgid "Server                        "
+msgstr ""
+
+#: tfsettings.spupdateinterval.hint
+msgid "Send APSMessage and Position every 'n minutes"
 msgstr ""
 
 #: ttfeditor.actclose.caption

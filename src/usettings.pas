@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, ComboEx, utypes, uini, ugps, uaprs, uigate, umodes;
+  Buttons, StdCtrls, ComboEx, Spin, utypes, uini, ugps, uaprs, uigate, umodes;
 
 type
 
@@ -21,6 +21,7 @@ type
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
+    Label1: TLabel;
     Label3: TLabel;
     leAPRSMessage: TLabeledEdit;
     LECleanupTime: TLabeledEdit;
@@ -42,6 +43,7 @@ type
     SpeedButton2: TSpeedButton;
     SpeedButton3: TSpeedButton;
     sbGetGPSPosition: TSpeedButton;
+    spUpdateInterval: TSpinEdit;
     procedure BBOSMMapCacheClick(Sender: TObject);
     procedure BBOSMLocalTilesClick(Sender: TObject);
     procedure BBSetDump1090(Sender: TObject);
@@ -157,6 +159,7 @@ begin
   FConfig^.AprsSymbol := CBESymbol.ItemIndex;
   FConfig^.ModeSEnabled := LEModeSServer.Enabled;
   FConfig^.AprsMessage := leAprsMessage.Caption;
+  FConfig^.AprsUpdateInterval := spUpdateInterval.Value;
 
 
   if Assigned(FMain.ModeS) then
@@ -199,6 +202,13 @@ begin
   LEModeSPort.Caption := IntToStr(FConfig^.ModeSPort);
   LEModeSExecutable.Caption := FConfig^.ModeSExecutable;
   leAprsMessage.Caption := FConfig^.AprsMessage;
+  spUpdateInterval.Value := FConfig^.AprsUpdateInterval;
+  FMain.tBake.Interval := FConfig^.AprsUpdateInterval * 60 * 1000;
+  if FMain.tBake.Enabled then
+  begin
+    FMain.tBake.Enabled := False;
+    FMain.tBake.Enabled := True;
+  end;
 end;
 
 end.

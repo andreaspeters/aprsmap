@@ -40,6 +40,7 @@ begin
   ini.WriteFloat('APRS', 'longitude', Config^.Longitude);
   ini.WriteInteger('APRS', 'cleanuptime', Config^.CleanupTime);
   ini.WriteInteger('APRS', 'symbol', Config^.AprsSymbol);
+  ini.WriteInteger('APRS', 'update', Config^.AprsUpdateInterval);
   ini.WriteString('APRS', 'message', Config^.AprsMessage);
   ini.WriteBool('IGATE', 'enable', Config^.IGateEnabled);
   ini.WriteString('IGATE', 'server', Config^.IGateServer);
@@ -100,6 +101,7 @@ begin
   Config^.Longitude := ini.ReadFloat('APRS', 'longitude', -32.892659);
   Config^.CleanupTime := ini.ReadInteger('APRS', 'cleanuptime', 5);
   Config^.AprsSymbol := ini.ReadInteger('APRS', 'symbol', 9);
+  Config^.AprsUpdateInterval := ini.ReadInteger('APRS', 'update', 5);
   Config^.AprsMessage := ini.ReadString('APRS', 'message', 'This is APRSMap');
   Config^.IGateEnabled := ini.ReadBool('IGATE', 'enable', False);
   Config^.IGateServer := ini.ReadString('IGATE', 'server', 'rotate.aprs.net');

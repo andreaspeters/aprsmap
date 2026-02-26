@@ -311,6 +311,9 @@ begin
   FGPS.Start(@APRSConfig);
 
   ilMessageStatus.ImageIndex := 241;
+
+  // Minutes to milliseconds
+  tBake.Interval := APRSConfig.AprsUpdateInterval * 60 * 1000
 end;
 
 procedure TFMain.FormChangeBounds(Sender: TObject);
@@ -741,10 +744,9 @@ begin
         if RS41.Enabled then
           RS41SGPChart(msg, fpCharts);
       end;
-
-      scCharts.VertScrollBar.Position := chartScroll;
-      scWX.VertScrollBar.Position := wxScroll;
     end;
+    scCharts.VertScrollBar.Position := chartScroll;
+    scWX.VertScrollBar.Position := wxScroll;
   except
     on E: Exception do
     begin

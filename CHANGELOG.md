@@ -12,6 +12,9 @@
 - ADD: Support for receive and send user messages.
 - ADD: Support for receive and send bulletin messages.
 - ADD: Send own position.
+- FIX: missing weather data.
+- FIX: lost wx data after scrool and refresh.
+- ADD: setup update interval (in minutes) for send postion and message.
 
 ## v0.6.1
 

@@ -4,8 +4,8 @@ object FMain: TFMain
   Top = 675
   Width = 1592
   Caption = 'APRS Map'
-  ClientHeight = 207
-  ClientWidth = 320
+  ClientHeight = 1176
+  ClientWidth = 1592
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
   Menu = MainMenu1
@@ -185,8 +185,8 @@ object FMain: TFMain
         Align = alTop
         BorderSpacing.Right = 4
         Caption = 'Map'
-        ClientHeight = 172
-        ClientWidth = 621
+        ClientHeight = 153
+        ClientWidth = 629
         Color = clForm
         ParentBackground = False
         ParentColor = False
@@ -223,7 +223,7 @@ object FMain: TFMain
           Left = 302
           Height = 35
           Top = 33
-          Width = 314
+          Width = 322
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Top = 33
           BorderSpacing.Right = 5
@@ -245,7 +245,7 @@ object FMain: TFMain
           Left = 304
           Height = 35
           Top = 104
-          Width = 312
+          Width = 320
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
@@ -942,8 +942,8 @@ object FMain: TFMain
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         Caption = 'PoI'
-        ClientHeight = 212
-        ClientWidth = 621
+        ClientHeight = 193
+        ClientWidth = 629
         TabOrder = 2
         object Label3: TLabel
           Left = 8
@@ -983,7 +983,7 @@ object FMain: TFMain
           Left = 304
           Height = 35
           Top = 40
-          Width = 312
+          Width = 320
           Anchors = [akTop, akLeft, akRight]
           BorderSpacing.Left = 8
           BorderSpacing.Right = 5
