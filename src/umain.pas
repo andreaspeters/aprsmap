@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor;
+  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath;
 
 type
 
@@ -676,7 +676,6 @@ begin
       if (Length(msg^.MicEMessage) > 0) and (Length(msg^.ImageDescription) <= 0) then
         STIconDescription.Caption := msg^.MicEMessage;
 
-
       STLatitude.Caption := LatToStr(msg^.Latitude, False);
       STLongitude.Caption := LonToStr(msg^.Longitude, False);
       STLatitudeDMS.Caption := LatToStr(msg^.Latitude, True);
@@ -1158,7 +1157,7 @@ begin
       else
         Alt := 0;
 
-      if (newMsg^.Longitude > 0) and (newMsg^.Latitude > 0) and Assigned(newMsg^.Track) then
+      if (newMsg^.Longitude <> 0.0) and (newMsg^.Latitude <> 0.0) and Assigned(newMsg^.Track) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
           newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, Alt));
 

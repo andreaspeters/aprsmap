@@ -124,7 +124,7 @@ end;
 procedure SetPoi(Layer: TMapLayer; Message: PAPRSMessage; const visibility: Boolean);
 var poi: TMapPointOfInterest;
 begin
-  if (Message^.Longitude <= 0) or (Message^.Latitude <= 0) then
+  if (Message^.Longitude = 0.0) or (Message^.Latitude = 0.0) then
     Exit;
 
   poi := FindPoI(Layer, Message^.FromCall);
@@ -546,28 +546,40 @@ procedure ConvertNMEAToLatLong(const NMEALat, NMEALon: string; out Latitude, Lon
 var
   Degrees, Minutes: Double;
   Direction: Char;
+  Value: string;
 begin
-  // Latitude
+  Latitude := 0;
+  Longitude := 0;
+
+  // ---------- Latitude (ddmm.mmmmN/S) ----------
   if Length(NMEALat) < 5 then
     Exit;
 
-  Degrees := StrToFloat(Copy(NMEALat, 1, 2));
-  Minutes := StrToFloat(Copy(NMEALat, 3, Length(NMEALat) - 4));
   Direction := NMEALat[Length(NMEALat)];
+  Value := Copy(NMEALat, 1, Length(NMEALat) - 1); // ohne N/S
+
+  Degrees := StrToFloat(Copy(Value, 1, 2));
+  Minutes := StrToFloat(Copy(Value, 3, MaxInt));
 
   Latitude := Degrees + (Minutes / 60.0);
   if Direction = 'S' then
     Latitude := -Latitude;
 
-  // Longitude
+  // ---------- Longitude (dddmm.mmmmE/W) ----------
   if Length(NMEALon) < 6 then
     Exit;
 
-  Degrees := StrToFloat(Copy(NMEALon, 1, 3));
-  Minutes := StrToFloat(Copy(NMEALon, 4, Length(NMEALon) - 5));
   Direction := NMEALon[Length(NMEALon)];
+  Value := Copy(NMEALon, 1, Length(NMEALon) - 1); // ohne E/W
 
-  Longitude := (Degrees + (Minutes / 60.0)) / divider;
+  Degrees := StrToFloat(Copy(Value, 1, 3));
+  Minutes := StrToFloat(Copy(Value, 4, MaxInt));
+
+  Longitude := Degrees + (Minutes / 60.0);
+
+  if divider <> 0 then
+    Longitude := Longitude / divider;
+
   if Direction = 'W' then
     Longitude := -Longitude;
 end;
@@ -687,7 +699,6 @@ begin
       end;
     end;
 
-    writeln(APRSMessageObject.FromCall + ' ' + APRSMessageObject.Icon);
     if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
     begin
       if GetWX(APRSMessageObject.Message,'c') <> -999999 then

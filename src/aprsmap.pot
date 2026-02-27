@@ -430,7 +430,7 @@ msgid "Dump1090"
 msgstr ""
 
 #: tfsettings.label1.caption
-msgid "Update Interval"
+msgid "Update Interval (m)"
 msgstr ""
 
 #: tfsettings.label3.caption
@@ -476,7 +476,7 @@ msgid "Latitude          "
 msgstr ""
 
 #: tfsettings.lelongitude.editlabel.caption
-msgid "Longitud         "
+msgid "Longitude       "
 msgstr ""
 
 #: tfsettings.lemapcache.editlabel.caption
@@ -499,6 +499,10 @@ msgstr ""
 #: tfsettings.lemodesserver.editlabel.caption
 msgctxt "tfsettings.lemodesserver.editlabel.caption"
 msgid "Server                        "
+msgstr ""
+
+#: tfsettings.sbgetgpsposition.hint
+msgid "Get Position by GPSd"
 msgstr ""
 
 #: tfsettings.spupdateinterval.hint
