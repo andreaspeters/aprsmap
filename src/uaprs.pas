@@ -64,7 +64,7 @@ begin
   SubLon := Chr(Ord('a') + Trunc(((Longitude + 180) mod 2) * 12));
   SubLat := Chr(Ord('a') + Trunc(((Latitude + 90) mod 1) * 24));
 
-  Result := FieldLon + FieldLat + FloatToStr(SquareLat) + FloatToStr(SquareLon) + SubLon + SubLat;
+  Result := FieldLon + FieldLat + FloatToStr(SquareLon) + FloatToStr(SquareLat) + SubLon + SubLat;
 end;
 
 

@@ -54,9 +54,10 @@
       <Unit>
         <Filename Value="uaprs.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="646"/>
-        <CursorPos X="26" Y="694"/>
+        <TopLine Value="52"/>
+        <CursorPos X="79" Y="67"/>
         <UsageCount Value="206"/>
         <Loaded Value="True"/>
       </Unit>
@@ -84,10 +85,9 @@
         <ComponentName Value="FSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="17"/>
-        <TopLine Value="186"/>
-        <CursorPos X="19" Y="196"/>
+        <TopLine Value="162"/>
+        <CursorPos X="16" Y="183"/>
         <UsageCount Value="243"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -281,10 +281,6 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="uaprs.pas"/>
-        <Caret Line="19" Column="42" TopLine="4"/>
-      </Position>
-      <Position>
-        <Filename Value="uaprs.pas"/>
         <Caret Line="20" Column="48" TopLine="4"/>
       </Position>
       <Position>
@@ -398,6 +394,10 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="316" Column="62" TopLine="300"/>
+      </Position>
+      <Position>
+        <Filename Value="uaprs.pas"/>
+        <Caret Line="21" Column="10"/>
       </Position>
     </JumpHistory>
     <RunParams>
