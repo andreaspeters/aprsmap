@@ -79,8 +79,8 @@ begin
     Addr.sin_family := AF_INET;
     Addr.sin_port := htons(FConfig^.IGatePort);
 
-    if IsValidIPAddress(FConfig^.IGateServer) then
-      Addr.sin_addr := StrToHostAddr(FConfig^.IGateServer)
+    if IsValidIPAddress(Trim(FConfig^.IGateServer)) then
+      Addr.sin_addr := StrToNetAddr(Trim(FConfig^.IGateServer))
     else
     begin
       i := ResolveName(FConfig^.IGateServer, Host);
