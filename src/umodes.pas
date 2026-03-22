@@ -136,41 +136,50 @@ begin
 
         for i := 0 to Items.Count - 1 do
         begin
-          Obj := Items.Objects[i];
-          if Obj.JSONType <> jtObject then
+          if Items[i].JSONType <> jtObject then
             Continue;
+          Obj := TJSONObject(Items[i]);
 
           new(APRSMessageObject);
+          try
+            APRSMessageObject^.Altitude := TDoubleList.Create;
+            APRSMessageObject^.Speed := TDoubleList.Create;
 
-          APRSMessageObject^.Altitude := TDoubleList.Create;
-          APRSMessageObject^.Speed := TDoubleList.Create;
+            if Obj.Find('flight') <> nil then
+              APRSMessageObject^.FromCall := StringReplace(Obj.Strings['flight'], ' ', '', [rfReplaceAll]);
 
-          if Obj.Find('flight') <> nil then
-            APRSMessageObject^.FromCall := StringReplace(Obj.Strings['flight'], ' ', '', [rfReplaceAll]);
+            if Obj.Find('lat') <> nil then
+              APRSMessageObject^.Latitude := Obj.Floats['lat'];
 
-          if Obj.Find('lat') <> nil then
-            APRSMessageObject^.Latitude := Obj.Floats['lat'];
+            if Obj.Find('lon') <> nil then
+              APRSMessageObject^.Longitude := Obj.Floats['lon'];
 
-          if Obj.Find('lon') <> nil then
-            APRSMessageObject^.Longitude := Obj.Floats['lon'];
+            if Obj.Find('altitude') <> nil then
+              APRSMessageObject^.Altitude.Add(Round(Obj.Integers['altitude']*0.3048));
 
-          if Obj.Find('altitude') <> nil then
-            APRSMessageObject^.Altitude.Add(Round(Obj.Integers['altitude']*0.3048));
+            if Obj.Find('speed') <> nil then
+              APRSMessageObject^.Speed.Add(Round(Obj.Integers['speed']*1.85));
 
-          if Obj.Find('speed') <> nil then
-            APRSMessageObject^.Speed.Add(Round(Obj.Integers['speed']*1.85));
+            APRSMessageObject^.Track := TGPSTrack.Create;
+            APRSMessageObject^.Track.Visible := True;
+            APRSMessageObject^.Track.LineWidth := 1;
+            APRSMessageObject^.Time := now();
+            APRSMessageObject^.ImageIndex := 7;
+            if (Obj.Find('lat') <> nil) and (Obj.Find('lon') <> nil) then
+              APRSMessageObject^.Checksum := MD5Print(MD5String(FloatToStr(APRSMessageObject^.Longitude)+FloatToStr(APRSMessageObject^.Latitude)));
 
-          APRSMessageObject^.Track := TGPSTrack.Create;
-          APRSMessageObject^.Track.Visible := True;
-          APRSMessageObject^.Track.LineWidth := 1;
-          APRSMessageObject^.Time := now();
-          APRSMessageObject^.ImageIndex := 7;
-          if (Obj.Find('lat') <> nil) and (Obj.Find('lon') <> nil) then
-            APRSMessageObject^.Checksum := MD5Print(MD5String(FloatToStr(APRSMessageObject^.Longitude)+FloatToStr(APRSMessageObject^.Latitude)));
-
-          if Length(APRSMessageObject^.FromCall) > 0 then
-          begin
-            ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject);
+            if Length(APRSMessageObject^.FromCall) > 0 then
+              ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject)
+            else
+            begin
+              APRSMessageObject^.Altitude.Free;
+              APRSMessageObject^.Speed.Free;
+              APRSMessageObject^.Track.Free;
+              Dispose(APRSMessageObject);
+            end;
+          except
+            Dispose(APRSMessageObject);
+            raise;
           end;
         end;
       except
@@ -183,9 +192,15 @@ begin
       end;
     end
     else
-      ModeSMessageList := TFPHashList.Create;
+    begin
+      if ModeSMessageList = nil then
+        ModeSMessageList := TFPHashList.Create
+      else
+        ModeSMessageList.Clear;
+    end;
   finally
     Client.Free;
+    Root.Free;
   end;
 end;
 

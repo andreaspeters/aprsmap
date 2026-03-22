@@ -112,6 +112,7 @@ type
     Panel4: TPanel;
     pmTray: TPopupMenu;
     sbShowRawMessages: TSpeedButton;
+    scData: TScrollBox;
     scWX: TScrollBox;
     scCharts: TScrollBox;
     Separator1: TMenuItem;
@@ -634,7 +635,7 @@ procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
     poiGPS: TGPSObj;
-    i, chartScroll, wxScroll: Integer;
+    i, chartScroll, wxScroll, dataScroll: Integer;
 begin
   try
     MAPRSMessage.Lines.Clear;
@@ -642,6 +643,7 @@ begin
     // Cleanup all Charts.
     chartScroll := scCharts.VertScrollBar.Position;
     wxScroll := scWX.VertScrollBar.Position;
+    dataScroll := scData.VertScrollBar.Position;
     for i := 0 to fpCharts.ControlCount - 1 do
     begin
       if (fpCharts.Controls[i] is TChart) then
@@ -746,6 +748,7 @@ begin
     end;
     scCharts.VertScrollBar.Position := chartScroll;
     scWX.VertScrollBar.Position := wxScroll;
+    scData.VertScrollBar.Position := dataScroll;
   except
     on E: Exception do
     begin

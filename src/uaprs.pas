@@ -551,12 +551,12 @@ begin
   Latitude := 0;
   Longitude := 0;
 
-  // ---------- Latitude (ddmm.mmmmN/S) ----------
+  // Latitude (ddmm.mmmmN/S)
   if Length(NMEALat) < 5 then
     Exit;
 
   Direction := NMEALat[Length(NMEALat)];
-  Value := Copy(NMEALat, 1, Length(NMEALat) - 1); // ohne N/S
+  Value := Copy(NMEALat, 1, Length(NMEALat) - 1);
 
   Degrees := StrToFloat(Copy(Value, 1, 2));
   Minutes := StrToFloat(Copy(Value, 3, MaxInt));
@@ -565,12 +565,12 @@ begin
   if Direction = 'S' then
     Latitude := -Latitude;
 
-  // ---------- Longitude (dddmm.mmmmE/W) ----------
+  // Longitude (dddmm.mmmmE/W)
   if Length(NMEALon) < 6 then
     Exit;
 
   Direction := NMEALon[Length(NMEALon)];
-  Value := Copy(NMEALon, 1, Length(NMEALon) - 1); // ohne E/W
+  Value := Copy(NMEALon, 1, Length(NMEALon) - 1);
 
   Degrees := StrToFloat(Copy(Value, 1, 3));
   Minutes := StrToFloat(Copy(Value, 4, MaxInt));
