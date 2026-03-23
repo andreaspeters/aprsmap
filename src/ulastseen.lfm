@@ -14,6 +14,7 @@ object FLastSeen: TFLastSeen
   ParentDoubleBuffered = False
   Position = poDefault
   LCLVersion = '4.5.0.0'
+  Scaled = False
   Visible = True
   OnHide = FormHide
   OnShow = FormShow

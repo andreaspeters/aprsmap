@@ -15,6 +15,7 @@ type
     FConfig: PAPRSConfig;
     Dump1090: TProcess;
     procedure RunDump190Server;
+    function ChecksumExists(List: TFPHashList; const AChecksum: String): Boolean;
   protected
     procedure Execute; override;
   public
@@ -26,6 +27,9 @@ type
   end;
 
 implementation
+
+uses
+  uaprs;
 
 { TModeSThread }
 
@@ -41,11 +45,11 @@ end;
 constructor TModeSThread.Create(Config: PAPRSConfig);
 begin
   inherited Create(True);
+  Error := False;
   FConfig := Config;
   FreeOnTerminate := True;
   ModeSMessageList := TFPHashList.Create;
   RunDump190Server;
-  Error := False;
   Start;
 end;
 
@@ -110,7 +114,7 @@ begin
       begin
         Error := True;
         {$IFDEF UNIX}
-//        writeln('HTTP connection failed: ', E.Message);
+        writeln('HTTP connection failed: ', E.Message);
         {$ENDIF}
         Exit;
       end;
@@ -168,7 +172,8 @@ begin
             if (Obj.Find('lat') <> nil) and (Obj.Find('lon') <> nil) then
               APRSMessageObject^.Checksum := MD5Print(MD5String(FloatToStr(APRSMessageObject^.Longitude)+FloatToStr(APRSMessageObject^.Latitude)));
 
-            if Length(APRSMessageObject^.FromCall) > 0 then
+            if (Length(APRSMessageObject^.FromCall) > 0) and
+              (not ChecksumExists(APRSMessageList, APRSMessageObject^.Checksum)) then
               ModeSMessageList.Add(APRSMessageObject^.FromCall, APRSMessageObject)
             else
             begin
@@ -201,6 +206,25 @@ begin
   finally
     Client.Free;
     Root.Free;
+  end;
+end;
+
+function TModeSThread.ChecksumExists(List: TFPHashList; const AChecksum: String): Boolean;
+var
+  i: Integer;
+  Msg: PAPRSMessage;
+begin
+  Result := False;
+  if List = nil then Exit;
+
+  for i := 0 to List.Count - 1 do
+  begin
+    Msg := PAPRSMessage(List.Items[i]);
+    if Assigned(Msg) and (Msg^.Checksum = AChecksum) then
+    begin
+      Result := True;
+      Exit;
+    end;
   end;
 end;
 

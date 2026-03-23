@@ -1130,10 +1130,6 @@ begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.Count := oldMsg^.Count;
 
-        // modes gaves us a lot of points with the same data. We can ignore them.
-        if newMsg^.ModeS and (Length(newMsg^.Checksum) > 0) and (newMsg^.Checksum = oldMsg^.Checksum) then
-          Exit;
-
         PrependDoubleList(newMsg^.Speed, oldMsg^.Speed);
         PrependDoubleList(newMsg^.Altitude, oldMsg^.Altitude);
         PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
@@ -1260,21 +1256,21 @@ begin
       {$ENDIF}
   end;
 
-  if APRSConfig.ModeSEnabled and ModeS.Error and Assigned(ModeS.ModeSMessageList) then
+  if APRSConfig.ModeSEnabled and not ModeS.Error and Assigned(ModeS.ModeSMessageList) then
   begin
     if ModeS.ModeSMessageList.Count > 0 then
     begin
-      if ModeSCount >= ModeS.ModeSMessageList.Count then
-        ModeSCount := 0;
-
       try
-        if Assigned(ModeS.ModeSMessageList.Items[ModeSCount]) then
-          msg := PAPRSMessage(ModeS.ModeSMessageList.Items[ModeSCount]);
+        if Assigned(ModeS.ModeSMessageList.Items[0]) then
+        begin
+          msg := PAPRSMessage(ModeS.ModeSMessageList.Items[0]);
           if Assigned(msg) then
           begin
             msg^.ModeS := True;
             AddPoI(msg^);
+            ModeS.ModeSMessageList.Delete(0);
           end;
+        end;
       except
         on E: Exception do
         begin
@@ -1283,7 +1279,6 @@ begin
           {$ENDIF}
         end;
       end;
-      inc(ModeSCount);
     end;
   end;
 end;

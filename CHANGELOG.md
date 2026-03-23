@@ -16,7 +16,8 @@
 - FIX: lost wx data after scrool and refresh.
 - ADD: setup update interval (in minutes) for send postion and message.
 - FIX: Wrong Locator
-- FIX: Wrong NMEA Converter with negative values."
+- FIX: Wrong NMEA Converter with negative values.
+- FIX: Add only ModeS package if it's not already inside.
 
 ## v0.6.1
 

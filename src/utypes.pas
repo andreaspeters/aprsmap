@@ -87,6 +87,7 @@ type
     Time: TTime;
     Track: TGPSTrack;
     TrackID: Integer;
+    ModeSTrackNumber: Integer;
     EnableTrack: Boolean;
     ImageIndex: Integer;
     ImageDescription: String;
