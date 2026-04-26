@@ -11,7 +11,7 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath;
+  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types;
 
 type
 
@@ -236,6 +236,7 @@ var
   ModeSCount: Integer;
   TrackID: Integer;
   IsClosing: Boolean;
+  chartScroll, wxScroll, dataScroll: Integer;
 
 implementation
 
@@ -635,15 +636,12 @@ procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
     call: String;
     poiGPS: TGPSObj;
-    i, chartScroll, wxScroll, dataScroll: Integer;
+    i: Integer;
 begin
   try
     MAPRSMessage.Lines.Clear;
 
     // Cleanup all Charts.
-    chartScroll := scCharts.VertScrollBar.Position;
-    wxScroll := scWX.VertScrollBar.Position;
-    dataScroll := scData.VertScrollBar.Position;
     for i := 0 to fpCharts.ControlCount - 1 do
     begin
       if (fpCharts.Controls[i] is TChart) then
@@ -746,9 +744,6 @@ begin
           RS41SGPChart(msg, fpCharts);
       end;
     end;
-    scCharts.VertScrollBar.Position := chartScroll;
-    scWX.VertScrollBar.Position := wxScroll;
-    scData.VertScrollBar.Position := dataScroll;
   except
     on E: Exception do
     begin
@@ -1303,7 +1298,23 @@ end;
 
 procedure TFMain.tRefreshTimer(Sender: TObject);
 begin
+  chartScroll := scCharts.VertScrollBar.Position;
+  wxScroll := scWx.VertScrollBar.Position;
+  dataScroll := scData.VertScrollBar.Position;
+
   SelectPoI(Sender);
+
+  scWX.DoubleBuffered := True;
+  scWX.Invalidate;
+  scWX.VertScrollBar.Position := wxScroll;
+
+  scCharts.DoubleBuffered := True;
+  scCharts.Invalidate;
+  scCharts.VertScrollBar.Position := chartScroll;
+
+  scData.DoubleBuffered := True;
+  scData.Invalidate;
+  scData.VertScrollBar.Position := dataScroll;
 end;
 
 // Repeat Send unacklowleged Mail

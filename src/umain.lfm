@@ -3186,12 +3186,12 @@ object FMain: TFMain
         Height = 697
         Top = 412
         Width = 633
-        ActivePage = tsMain
+        ActivePage = tsWX
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 2
         BorderSpacing.Right = 4
         BorderSpacing.Bottom = 9
-        TabIndex = 0
+        TabIndex = 1
         TabOrder = 1
         OnChange = pcPoITabChange
         object tsMain: TTabSheet
