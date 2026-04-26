@@ -1298,23 +1298,26 @@ end;
 
 procedure TFMain.tRefreshTimer(Sender: TObject);
 begin
-  chartScroll := scCharts.VertScrollBar.Position;
-  wxScroll := scWx.VertScrollBar.Position;
-  dataScroll := scData.VertScrollBar.Position;
+  scWX.DisableAlign;
+  scCharts.DisableAlign;
+  scData.DisableAlign;
 
-  SelectPoI(Sender);
+  try
+    chartScroll := scCharts.VertScrollBar.Position;
+    wxScroll := scWx.VertScrollBar.Position;
+    dataScroll := scData.VertScrollBar.Position;
 
-  scWX.DoubleBuffered := True;
-  scWX.Invalidate;
-  scWX.VertScrollBar.Position := wxScroll;
+    SelectPoI(Sender);
 
-  scCharts.DoubleBuffered := True;
-  scCharts.Invalidate;
-  scCharts.VertScrollBar.Position := chartScroll;
+    scWX.VertScrollBar.Position := wxScroll;
+    scCharts.VertScrollBar.Position := chartScroll;
+    scData.VertScrollBar.Position := dataScroll;
 
-  scData.DoubleBuffered := True;
-  scData.Invalidate;
-  scData.VertScrollBar.Position := dataScroll;
+  finally
+    scWX.EnableAlign;
+    scCharts.EnableAlign;
+    scData.EnableAlign;
+  end;
 end;
 
 // Repeat Send unacklowleged Mail

@@ -21,7 +21,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="11"/>
         <TopLine Value="1299"/>
-        <CursorPos X="55" Y="1302"/>
+        <CursorPos X="7" Y="1320"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -299,7 +299,7 @@
         <UsageCount Value="1"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="umodes.pas"/>
         <Caret Line="112" Column="14" TopLine="89"/>
@@ -415,10 +415,6 @@
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="196" Column="15" TopLine="184"/>
-      </Position>
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="641" Column="3" TopLine="684"/>
       </Position>
     </JumpHistory>
     <RunParams>
