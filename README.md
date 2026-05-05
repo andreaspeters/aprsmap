@@ -2,9 +2,12 @@
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=ZDB5ZSNJNK9XQ)
 
-## Info
+[![Video Title](https://img.youtube.com/vi/KNRoZGdwLXc/0.jpg)](https://www.youtube.com/watch?v=KNRoZGdwLXc)
 
-Currently, the Windows autobuild is not working because fossies.org blocks requests originating from GitHub.
+## Important Infos
+
+I'm a Linux User! So, the main platform for APRSMap are Linux based Systems
+and not Windows. But I really do my best to support Windows.
 
 ## Features
 
