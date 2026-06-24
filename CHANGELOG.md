@@ -1,5 +1,7 @@
 # Changelog
 
+## v0.7.0
+
 - ADD: Wayland support
 - ADD: Dock lastseen window at the main window if they are close
        to eachother.
