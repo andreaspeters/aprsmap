@@ -140,6 +140,10 @@ type
     GPSdPort: Integer;
     MailDirectory: String;
     Channel: Integer;
+    MeshCoreEnabled: Boolean;
+    MeshCoreAddress: String;
+    MeshCoreChannel: Integer;
+    MeshCoreSendPosition: Boolean;
   end;
 
   PTAPRSConfig = ^TAPRSConfig;

@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, Grids,
   PairSplitter, Menus, ComCtrls, ActnList, RichMemo, utypes, RegExpr, FileUtil,
-  LConvEncoding, Types, ueditor;
+  LConvEncoding, Types, ueditor, umeshcore, umeshcoremail;
 
 type
 
@@ -68,6 +68,9 @@ type
     procedure SetConfig(Config: PAPRSConfig);
   end;
 
+function StoreMeshCoreMessage(Config: PAPRSConfig;
+  const Msg: TMeshCoreMessage): Boolean;
+
 var
   FListMails: TFListMails;
   APRSConfig: PAPRSConfig;
@@ -77,6 +80,21 @@ implementation
 {$R *.lfm}
 
 { TFListMails }
+
+function StoreMeshCoreMessage(Config: PAPRSConfig;
+  const Msg: TMeshCoreMessage): Boolean;
+var
+  FileName: String;
+begin
+  Result := Assigned(Config) and StoreMeshCoreMessageFile(
+    Config^.MailDirectory, Config^.Callsign, Msg, FileName);
+  if not Result then Exit;
+  if Assigned(FListMails) and FListMails.Visible then
+  begin
+    FListMails.ListFilesToGrid;
+    FListMails.SortGridByDate;
+  end;
+end;
 
 procedure TFListMails.SetConfig(Config: PAPRSConfig);
 begin

@@ -69,6 +69,11 @@ begin
   ini.WriteString('GPSD', 'host', Config^.GPSdHost);
   ini.WriteInteger('GPSD', 'port', Config^.GPSdPort);
   ini.WriteString('MAIL', 'maildirectory', Config^.MailDirectory);
+  ini.WriteBool('MESHCORE', 'enable', Config^.MeshCoreEnabled);
+  ini.WriteString('MESHCORE', 'address', Config^.MeshCoreAddress);
+  ini.WriteInteger('MESHCORE', 'channel', Config^.MeshCoreChannel);
+  ini.WriteBool('MESHCORE', 'sendposition', Config^.MeshCoreSendPosition);
+  ini.Free;
 end;
 
 procedure LoadConfigFromFile(Config: PTAPRSConfig);
@@ -130,6 +135,14 @@ begin
   Config^.GPSdHost := ini.ReadString('GPSD', 'host', '127.0.0.1');
   Config^.GPSdPort := ini.ReadInteger('GPSD', 'port', 2947);
   Config^.MailDirectory := ini.ReadString('MAIL', 'maildirectory', HomeDir+'mail/' );
+  ForceDirectories(Config^.MailDirectory);
+  Config^.MeshCoreEnabled := ini.ReadBool('MESHCORE', 'enable', False);
+  Config^.MeshCoreAddress := ini.ReadString('MESHCORE', 'address', '');
+  Config^.MeshCoreChannel := ini.ReadInteger('MESHCORE', 'channel', 0);
+  if Config^.MeshCoreChannel < 0 then Config^.MeshCoreChannel := 0;
+  if Config^.MeshCoreChannel > 255 then Config^.MeshCoreChannel := 255;
+  Config^.MeshCoreSendPosition := ini.ReadBool('MESHCORE', 'sendposition', False);
+  ini.Free;
 end;
 
 

@@ -29,6 +29,8 @@ type
 var
   APRSMessageObject: TAPRSMessage;
 
+function DecodeAPRSLine(const Data: String): TAPRSMessage;
+
 implementation
 
 uses
@@ -255,9 +257,15 @@ begin
 end;
 
 function TIGateThread.DecodeAPRSMessage(const Data: String): TAPRSMessage;
+begin
+  Result := DecodeAPRSLine(Data);
+end;
+
+function DecodeAPRSLine(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
     NormData, DataType, DataMessage: String;
 begin
+  Result := Default(TAPRSMessage);
   Regex := TRegExpr.Create;
   try
     // check type

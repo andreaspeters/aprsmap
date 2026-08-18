@@ -7,8 +7,7 @@
       <Unit>
         <Filename Value="aprsmap.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="6"/>
-        <CursorPos X="66" Y="17"/>
+        <CursorPos X="32" Y="6"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
       </Unit>
@@ -18,9 +17,9 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="11"/>
-        <TopLine Value="1299"/>
-        <CursorPos X="10" Y="1330"/>
+        <EditorIndex Value="12"/>
+        <TopLine Value="1429"/>
+        <CursorPos Y="1503"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -28,7 +27,7 @@
       <Unit>
         <Filename Value="uresize.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="16"/>
+        <EditorIndex Value="18"/>
         <CursorPos X="38" Y="72"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
@@ -36,7 +35,7 @@
       <Unit>
         <Filename Value="ureadpipe.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="15"/>
+        <EditorIndex Value="17"/>
         <TopLine Value="207"/>
         <CursorPos X="11" Y="228"/>
         <UsageCount Value="207"/>
@@ -45,7 +44,7 @@
       <Unit>
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="18"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="78"/>
         <CursorPos X="21" Y="90"/>
         <UsageCount Value="207"/>
@@ -63,7 +62,7 @@
       <Unit>
         <Filename Value="uini.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="9"/>
         <TopLine Value="103"/>
         <CursorPos X="28" Y="104"/>
         <UsageCount Value="208"/>
@@ -72,7 +71,7 @@
       <Unit>
         <Filename Value="uigate.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="7"/>
         <TopLine Value="73"/>
         <CursorPos X="29" Y="281"/>
         <UsageCount Value="278"/>
@@ -84,7 +83,7 @@
         <ComponentName Value="FSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="17"/>
+        <EditorIndex Value="19"/>
         <TopLine Value="136"/>
         <CursorPos X="17" Y="157"/>
         <UsageCount Value="243"/>
@@ -97,8 +96,7 @@
         <ComponentName Value="FInfo"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="8"/>
         <TopLine Value="3"/>
         <CursorPos X="49" Y="27"/>
         <UsageCount Value="219"/>
@@ -108,8 +106,8 @@
       <Unit>
         <Filename Value="umodes.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="13"/>
-        <TopLine Value="161"/>
+        <EditorIndex Value="15"/>
+        <TopLine Value="156"/>
         <CursorPos X="67" Y="172"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
@@ -120,7 +118,7 @@
         <ComponentName Value="FLastSeen"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="10"/>
         <TopLine Value="21"/>
         <CursorPos X="5" Y="58"/>
         <UsageCount Value="200"/>
@@ -133,7 +131,7 @@
         <ComponentName Value="FRawMessage"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="14"/>
+        <EditorIndex Value="16"/>
         <TopLine Value="59"/>
         <CursorPos Y="82"/>
         <UsageCount Value="220"/>
@@ -143,7 +141,7 @@
       <Unit>
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="21"/>
         <CursorPos X="58" Y="51"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -154,7 +152,7 @@
         <ComponentName Value="FGPS"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="79"/>
         <CursorPos X="3" Y="35"/>
         <UsageCount Value="214"/>
@@ -164,7 +162,7 @@
       <Unit>
         <Filename Value="gps/ugpsd.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="77"/>
         <CursorPos Y="97"/>
         <UsageCount Value="214"/>
@@ -173,7 +171,7 @@
       <Unit>
         <Filename Value="umice.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="12"/>
+        <EditorIndex Value="14"/>
         <TopLine Value="84"/>
         <CursorPos X="24" Y="107"/>
         <UsageCount Value="207"/>
@@ -182,7 +180,7 @@
       <Unit>
         <Filename Value="ucompressed.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="23"/>
         <CursorPos Y="36"/>
         <UsageCount Value="228"/>
@@ -214,8 +212,8 @@
         <ComponentName Value="FListMails"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="10"/>
-        <TopLine Value="36"/>
+        <EditorIndex Value="11"/>
+        <TopLine Value="199"/>
         <CursorPos X="62" Y="60"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
@@ -227,7 +225,7 @@
         <ComponentName Value="TFEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="81"/>
         <CursorPos Y="91"/>
         <UsageCount Value="211"/>
@@ -255,11 +253,29 @@
         <DefaultSyntaxHighlighter Value="None"/>
       </Unit>
       <Unit>
+        <Filename Value="umeshcore.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="13"/>
+        <TopLine Value="610"/>
+        <CursorPos X="24" Y="628"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ubluetoothlegatt.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="27" Y="27"/>
+        <UsageCount Value="30"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/Core/IdIOHandler.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="1551"/>
         <CursorPos X="24" Y="1560"/>
-        <UsageCount Value="92"/>
+        <UsageCount Value="91"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -267,14 +283,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1193"/>
         <CursorPos Y="1208"/>
-        <UsageCount Value="5"/>
+        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/System/IdGlobal.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="8777"/>
         <CursorPos Y="8800"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="29"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -282,37 +298,26 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="148"/>
         <CursorPos X="10" Y="153"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="26"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/fpcsrc/packages/rtl-extra/src/inc/socketsh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="165"/>
         <CursorPos X="10" Y="193"/>
-        <UsageCount Value="27"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../LazMapViewer/source/mvgeomath.pas"/>
-        <UnitName Value="mvGeoMath"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="43"/>
-        <UsageCount Value="1"/>
+        <UsageCount Value="26"/>
       </Unit>
       <Unit>
         <Filename Value="../../LazMapViewer/source/mvmapviewerreg.pas"/>
         <UnitName Value="mvMapViewerReg"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="22"/>
         <TopLine Value="21"/>
         <CursorPos X="34" Y="55"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="15"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="206" Column="18" TopLine="194"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="1111" Column="3" TopLine="238"/>
@@ -423,11 +428,15 @@
       </Position>
       <Position>
         <Filename Value="uinfo.pas"/>
-        <Caret Line="7" Column="5" TopLine="24"/>
+        <Caret Line="50" TopLine="21"/>
       </Position>
       <Position>
-        <Filename Value="uinfo.pas"/>
-        <Caret Line="50" TopLine="21"/>
+        <Filename Value="umain.pas"/>
+        <Caret Line="5" Column="48"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="281" TopLine="212"/>
       </Position>
     </JumpHistory>
     <RunParams>

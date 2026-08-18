@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
-  Buttons, StdCtrls, ComboEx, Spin, utypes, uini, ugps, uaprs, uigate, umodes;
+  Buttons, StdCtrls, ComboEx, Spin, utypes, uini, ugps, uaprs, uigate, umodes,
+  umeshcore;
 
 type
 
@@ -54,7 +55,12 @@ type
     procedure OKButtonClick(Sender: TObject);
     procedure sbGetGPSPositionClick(Sender: TObject);
   private
-
+    FMeshCoreGroup: TGroupBox;
+    CBMeshCoreEnable: TCheckBox;
+    CBMeshCoreSendPosition: TCheckBox;
+    LEMeshCoreAddress: TLabeledEdit;
+    SEMeshCoreChannel: TSpinEdit;
+    procedure EnsureMeshCoreControls;
   public
     procedure SetConfig(Config: PAPRSConfig);
   end;
@@ -71,6 +77,40 @@ Uses
 {$R *.lfm}
 
 { TFSettings }
+
+procedure TFSettings.EnsureMeshCoreControls;
+begin
+  if Assigned(FMeshCoreGroup) then Exit;
+
+  Height := 755;
+  BPDefaultButtons.Top := 704;
+  FMeshCoreGroup := TGroupBox.Create(Self);
+  FMeshCoreGroup.Parent := Self;
+  FMeshCoreGroup.SetBounds(6, 536, 1035, 160);
+  FMeshCoreGroup.Caption := 'MeshCore (Bluetooth LE)';
+
+  CBMeshCoreEnable := TCheckBox.Create(Self);
+  CBMeshCoreEnable.Parent := FMeshCoreGroup;
+  CBMeshCoreEnable.SetBounds(16, 28, 100, 28);
+  CBMeshCoreEnable.Caption := 'Enable';
+
+  LEMeshCoreAddress := TLabeledEdit.Create(Self);
+  LEMeshCoreAddress.Parent := FMeshCoreGroup;
+  LEMeshCoreAddress.SetBounds(260, 24, 250, 36);
+  LEMeshCoreAddress.EditLabel.Caption := 'Bluetooth address';
+  LEMeshCoreAddress.LabelPosition := lpLeft;
+
+  SEMeshCoreChannel := TSpinEdit.Create(Self);
+  SEMeshCoreChannel.Parent := FMeshCoreGroup;
+  SEMeshCoreChannel.SetBounds(650, 24, 72, 36);
+  SEMeshCoreChannel.MinValue := 0;
+  SEMeshCoreChannel.MaxValue := 255;
+
+  CBMeshCoreSendPosition := TCheckBox.Create(Self);
+  CBMeshCoreSendPosition.Parent := FMeshCoreGroup;
+  CBMeshCoreSendPosition.SetBounds(16, 88, 300, 28);
+  CBMeshCoreSendPosition.Caption := 'Send APRS position on MeshCore channel';
+end;
 
 procedure TFSettings.BBOSMMapCacheClick(Sender: TObject);
 begin
@@ -113,6 +153,7 @@ end;
 procedure TFSettings.FormShow(Sender: TObject);
 var i, count: Byte;
 begin
+  EnsureMeshCoreControls;
   CBESymbol.Clear;
 
   // Primary Icons
@@ -134,6 +175,10 @@ begin
 
   cbModeSEnable.Checked := FConfig^.ModeSEnabled;
   cbIgateEnable.Checked := FConfig^.IGateEnabled;
+  CBMeshCoreEnable.Checked := FConfig^.MeshCoreEnabled;
+  LEMeshCoreAddress.Text := FConfig^.MeshCoreAddress;
+  SEMeshCoreChannel.Value := FConfig^.MeshCoreChannel;
+  CBMeshCoreSendPosition.Checked := FConfig^.MeshCoreSendPosition;
 
   cbModeSEnableChange(Self);
   cbIGateEnableChange(Self);
@@ -160,6 +205,10 @@ begin
   FConfig^.ModeSEnabled := LEModeSServer.Enabled;
   FConfig^.AprsMessage := leAprsMessage.Caption;
   FConfig^.AprsUpdateInterval := spUpdateInterval.Value;
+  FConfig^.MeshCoreEnabled := CBMeshCoreEnable.Checked;
+  FConfig^.MeshCoreAddress := Trim(LEMeshCoreAddress.Text);
+  FConfig^.MeshCoreChannel := SEMeshCoreChannel.Value;
+  FConfig^.MeshCoreSendPosition := CBMeshCoreSendPosition.Checked;
 
 
   if Assigned(FMain.ModeS) then
@@ -171,6 +220,11 @@ begin
     FMain.IGate.Free;
   if FConfig^.IGateEnabled then
     FMain.IGate := TIGateThread.Create(@APRSConfig);
+
+  FreeAndNil(FMain.MeshCore);
+  if FConfig^.MeshCoreEnabled and (FConfig^.MeshCoreAddress <> '') then
+    FMain.MeshCore := TMeshCoreClient.Create(FConfig^.MeshCoreAddress,
+      Byte(FConfig^.MeshCoreChannel));
 
   SaveConfigToFile(FConfig);
 

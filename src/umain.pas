@@ -11,7 +11,8 @@ uses
   mvDE_RGBGraphics, Contnrs, uini, uigate, StrUtils, usettings, LCLIntf,
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
-  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types;
+  TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types,
+  umeshcore, LResources;
 
 type
 
@@ -222,6 +223,7 @@ type
     Debug: Boolean;
     IGate: TIGateThread;
     ModeS: TModeSThread;
+    MeshCore: TMeshCoreClient;
     SendOutMessage: array of TMessage;
     procedure SendStringCommand(const Channel, Code: byte; const Command: String);
   end;
@@ -235,6 +237,7 @@ var
   LastZoom: Byte;
   ModeSCount: Integer;
   TrackID: Integer;
+  MeshCoreImageIndex: Integer;
   IsClosing: Boolean;
   chartScroll, wxScroll, dataScroll: Integer;
 
@@ -247,6 +250,7 @@ implementation
 procedure TFMain.FMainInit(Sender: TObject);
 var Providers: TStringList;
     i, CountProvider: Byte;
+    MeshCoreBitmap: TBitmap;
 begin
   Debug := False;
   isClosing := False;
@@ -270,6 +274,13 @@ begin
   StoreOriginalSizes(Self);
 
   APRSMessageList := TFPHashList.Create;
+
+  MeshCoreImageIndex := 0;
+  MeshCoreBitmap := TBitmap.Create;
+  try
+  finally
+    MeshCoreBitmap.Free;
+  end;
 
   PoILayer := (MVMap.Layers.Add as TMapLayer);
   SetPoi(PoILayer, APRSConfig.Latitude, APRSConfig.Longitude, APRSConfig.Callsign, True, APRSConfig.AprsSymbol+1, MVMap.GPSItems);
@@ -299,6 +310,11 @@ begin
   IGate := nil;
   if APRSConfig.IGateEnabled then
     IGate := TIGateThread.Create(@APRSConfig);
+
+  MeshCore := nil;
+  if APRSConfig.MeshCoreEnabled and (Trim(APRSConfig.MeshCoreAddress) <> '') then
+    MeshCore := TMeshCoreClient.Create(APRSConfig.MeshCoreAddress,
+      Byte(APRSConfig.MeshCoreChannel));
 
   // Init Pipe
   ReadPipe := nil;
@@ -346,6 +362,7 @@ begin
   count := Length(APRSAlternateSymbolTable);
   for i := 1 to count do
     CBEFilter.ItemsEx.AddItem(APRSAlternateSymbolTable[i].Description, i+96, 0, 0, 0, nil);
+  CBEFilter.ItemsEx.AddItem('MeshCore', MeshCoreImageIndex, 0, 0, 0, nil);
 end;
 
 procedure TFMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -372,6 +389,7 @@ begin
     end;
   except
   end;
+  FreeAndNil(MeshCore);
 end;
 
 procedure TFMain.FormHide(Sender: TObject);
@@ -980,7 +998,7 @@ end;
 
 // Send own Position
 procedure TFMain.tBakeTimer(Sender: TObject);
-var msg, lat, lon: String;
+var msg, lat, lon, MeshLine: String;
 begin
   if (APRSConfig.Latitude > 0) and (APRSConfig.Longitude > 0) then
   begin
@@ -989,6 +1007,11 @@ begin
     msg := Format('!%s%s%s%s%s', [lat, GetImageTable(APRSConfig.AprsSymbol), lon, GetImageSymbol(APRSConfig.AprsSymbol), APRSConfig.AprsMessage]);
 
     SendStringCommand(APRSConfig.Channel, 0, msg);
+    if APRSConfig.MeshCoreSendPosition and Assigned(MeshCore) then
+    begin
+      MeshLine := Format('%s>APRSMP,MESH*:%s', [APRSConfig.Callsign, msg]);
+      MeshCore.SendChannelText(MeshLine);
+    end;
   end;
 end;
 
@@ -1130,6 +1153,7 @@ begin
         PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
         PrependDoubleList(newMsg^.WXHumidity, oldMsg^.WXHumidity);
         PrependDoubleList(newMsg^.WXPressure, oldMsg^.WXPressure);
+        PrependDoubleList(newMsg^.WXLum, oldMsg^.WXLum);
 
         // PrependDoubleList for all Devices
         UpdateDevices(newMsg, oldMsg);
@@ -1214,10 +1238,14 @@ end;
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var buffer: String;
     msg: PAPRSMessage;
+    MeshMessage: TMeshCoreMessage;
+    MeshNode: TMeshCoreNode;
+    MeshWeather: TMeshCoreWeather;
+    MeshAPRSMessage: TAPRSMessage;
 begin
   DelPoIByAge;
 
-  if APRSConfig.IGateEnabled then
+  if APRSConfig.IGateEnabled and Assigned(IGate) then
   begin
     try
       if not IGate.Error then
@@ -1231,6 +1259,79 @@ begin
       begin
         {$IFDEF UNIX}
         writeln('Error Main Loop IGate: ', E.Message);
+        {$ENDIF}
+      end;
+    end;
+  end;
+
+  if Assigned(MeshCore) then
+  begin
+    try
+      while MeshCore.TryDequeueAPRS(buffer) do
+        AddPoI(DecodeAPRSLine(buffer));
+      while MeshCore.TryDequeueMessage(MeshMessage) do
+      begin
+        if StoreMeshCoreMessage(@APRSConfig, MeshMessage) then
+          ilMessageStatus.ImageIndex := 242
+        else
+          {$IFDEF UNIX}
+          writeln('Error storing MeshCore message')
+          {$ENDIF};
+      end;
+      while MeshCore.TryDequeueNode(MeshNode) do
+      begin
+        MeshAPRSMessage := InitAPRSMessage;
+        MeshAPRSMessage.FromCall := MeshNode.Name;
+        MeshAPRSMessage.Latitude := MeshNode.Latitude;
+        MeshAPRSMessage.Longitude := MeshNode.Longitude;
+        MeshAPRSMessage.Time := Now;
+        MeshAPRSMessage.ImageIndex := MeshCoreImageIndex;
+        MeshAPRSMessage.ImageDescription := 'MeshCore';
+        MeshAPRSMessage.Message := 'MeshCore ' +
+          MeshCoreNodeTypeName(MeshNode.Kind);
+        AddPoI(MeshAPRSMessage);
+      end;
+      while MeshCore.TryDequeueWeather(MeshWeather) do
+      begin
+        msg := APRSMessageList.Find(MeshWeather.Sender);
+        if not Assigned(msg) then
+        begin
+          MeshAPRSMessage := InitAPRSMessage;
+          MeshAPRSMessage.FromCall := MeshWeather.Sender;
+          MeshAPRSMessage.Time := Now;
+          MeshAPRSMessage.ImageIndex := MeshCoreImageIndex;
+          MeshAPRSMessage.ImageDescription := 'MeshCore';
+          MeshAPRSMessage.Message := 'MeshCore Wetterdaten';
+          if MeshWeather.HasTemperature then
+            MeshAPRSMessage.WXTemperature.Add(MeshWeather.Temperature);
+          if MeshWeather.HasHumidity then
+            MeshAPRSMessage.WXHumidity.Add(MeshWeather.Humidity);
+          if MeshWeather.HasPressure then
+            MeshAPRSMessage.WXPressure.Add(MeshWeather.Pressure);
+          if MeshWeather.HasIlluminance then
+            MeshAPRSMessage.WXLum.Add(MeshWeather.Illuminance);
+          AddPoI(MeshAPRSMessage);
+        end
+        else
+        begin
+          msg^.Time := Now;
+          if MeshWeather.HasTemperature then
+            msg^.WXTemperature.Add(MeshWeather.Temperature);
+          if MeshWeather.HasHumidity then
+            msg^.WXHumidity.Add(MeshWeather.Humidity);
+          if MeshWeather.HasPressure then
+            msg^.WXPressure.Add(MeshWeather.Pressure);
+          if MeshWeather.HasIlluminance then
+            msg^.WXLum.Add(MeshWeather.Illuminance);
+          if SameText(Trim(STCallsign.Caption), Trim(msg^.FromCall)) then
+            UpdateWXCaption(msg^);
+        end;
+      end;
+    except
+      on E: Exception do
+      begin
+        {$IFDEF UNIX}
+        writeln('Error Main Loop MeshCore: ', E.Message);
         {$ENDIF}
       end;
     end;

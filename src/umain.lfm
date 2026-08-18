@@ -4,7 +4,7 @@ object FMain: TFMain
   Top = 675
   Width = 1592
   Caption = 'APRS Map'
-  ClientHeight = 207
+  ClientHeight = 206
   ClientWidth = 320
   DefaultMonitor = dmDesktop
   DoubleBuffered = True
@@ -2922,7 +2922,7 @@ object FMain: TFMain
   Menu = MainMenu1
   ParentDoubleBuffered = False
   Position = poDesktopCenter
-  LCLVersion = '4.5.0.0'
+  LCLVersion = '4.4.0.0'
   Scaled = False
   OnChangeBounds = FormChangeBounds
   OnClose = FormClose

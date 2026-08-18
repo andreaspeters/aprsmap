@@ -14,7 +14,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms, indylaz, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe,
   utypes, uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage,
-  u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails, ueditor;
+  u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails, ueditor, umeshcore;
 
 {$R *.res}
 
