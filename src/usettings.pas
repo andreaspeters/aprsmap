@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ButtonPanel, ExtCtrls,
   Buttons, StdCtrls, ComboEx, Spin, utypes, uini, ugps, uaprs, uigate, umodes,
-  umeshcore;
+  umeshcore, Bluetooth, ctypes;
 
 type
 
@@ -15,6 +15,9 @@ type
 
   TFSettings = class(TForm)
     BPDefaultButtons: TButtonPanel;
+    CBMeshCoreDevices: TComboBox;
+    CBMeshCoreEnable: TCheckBox;
+    CBMeshCoreSendPosition: TCheckBox;
     CBESymbol: TComboBoxEx;
     cbModeSEnable: TCheckBox;
     cbIGateEnable: TCheckBox;
@@ -22,8 +25,10 @@ type
     GroupBox2: TGroupBox;
     GroupBox3: TGroupBox;
     GroupBox4: TGroupBox;
+    GroupBoxMeshCore: TGroupBox;
     Label1: TLabel;
     Label3: TLabel;
+    LabelMeshCoreDevice: TLabel;
     leAPRSMessage: TLabeledEdit;
     LECleanupTime: TLabeledEdit;
     LECallsign: TLabeledEdit;
@@ -44,23 +49,19 @@ type
     SpeedButton2: TSpeedButton;
     SpeedButton3: TSpeedButton;
     sbGetGPSPosition: TSpeedButton;
+    SBScanMeshCoreDevices: TSpeedButton;
     spUpdateInterval: TSpinEdit;
     procedure BBOSMMapCacheClick(Sender: TObject);
     procedure BBOSMLocalTilesClick(Sender: TObject);
     procedure BBSetDump1090(Sender: TObject);
     procedure CancelButtonClick(Sender: TObject);
+    procedure CBMeshCoreEnableChange(Sender: TObject);
     procedure cbModeSEnableChange(Sender: TObject);
     procedure cbIGateEnableChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
+    procedure ScanMeshCoreDevicesClick(Sender: TObject);
     procedure sbGetGPSPositionClick(Sender: TObject);
-  private
-    FMeshCoreGroup: TGroupBox;
-    CBMeshCoreEnable: TCheckBox;
-    CBMeshCoreSendPosition: TCheckBox;
-    LEMeshCoreAddress: TLabeledEdit;
-    SEMeshCoreChannel: TSpinEdit;
-    procedure EnsureMeshCoreControls;
   public
     procedure SetConfig(Config: PAPRSConfig);
   end;
@@ -78,38 +79,15 @@ Uses
 
 { TFSettings }
 
-procedure TFSettings.EnsureMeshCoreControls;
+function MeshCoreAddressFromSelection(const Selection: String): String;
+var
+  DelimiterPosition: Integer;
 begin
-  if Assigned(FMeshCoreGroup) then Exit;
-
-  Height := 755;
-  BPDefaultButtons.Top := 704;
-  FMeshCoreGroup := TGroupBox.Create(Self);
-  FMeshCoreGroup.Parent := Self;
-  FMeshCoreGroup.SetBounds(6, 536, 1035, 160);
-  FMeshCoreGroup.Caption := 'MeshCore (Bluetooth LE)';
-
-  CBMeshCoreEnable := TCheckBox.Create(Self);
-  CBMeshCoreEnable.Parent := FMeshCoreGroup;
-  CBMeshCoreEnable.SetBounds(16, 28, 100, 28);
-  CBMeshCoreEnable.Caption := 'Enable';
-
-  LEMeshCoreAddress := TLabeledEdit.Create(Self);
-  LEMeshCoreAddress.Parent := FMeshCoreGroup;
-  LEMeshCoreAddress.SetBounds(260, 24, 250, 36);
-  LEMeshCoreAddress.EditLabel.Caption := 'Bluetooth address';
-  LEMeshCoreAddress.LabelPosition := lpLeft;
-
-  SEMeshCoreChannel := TSpinEdit.Create(Self);
-  SEMeshCoreChannel.Parent := FMeshCoreGroup;
-  SEMeshCoreChannel.SetBounds(650, 24, 72, 36);
-  SEMeshCoreChannel.MinValue := 0;
-  SEMeshCoreChannel.MaxValue := 255;
-
-  CBMeshCoreSendPosition := TCheckBox.Create(Self);
-  CBMeshCoreSendPosition.Parent := FMeshCoreGroup;
-  CBMeshCoreSendPosition.SetBounds(16, 88, 300, 28);
-  CBMeshCoreSendPosition.Caption := 'Send APRS position on MeshCore channel';
+  DelimiterPosition := LastDelimiter(',', Selection);
+  if DelimiterPosition > 0 then
+    Result := Trim(Copy(Selection, DelimiterPosition + 1, MaxInt))
+  else
+    Result := Trim(Selection);
 end;
 
 procedure TFSettings.BBOSMMapCacheClick(Sender: TObject);
@@ -135,6 +113,14 @@ begin
   Close;
 end;
 
+procedure TFSettings.CBMeshCoreEnableChange(Sender: TObject);
+begin
+  CBMeshCoreSendPosition.Enabled := CBMeshCoreEnable.Checked;
+  LabelMeshCoreDevice.Enabled := CBMeshCoreEnable.Checked;
+  CBMeshCoreDevices.Enabled := CBMeshCoreEnable.Checked;
+  SBScanMeshCoreDevices.Enabled := CBMeshCoreEnable.Checked;
+end;
+
 procedure TFSettings.cbModeSEnableChange(Sender: TObject);
 begin
   LEModeSServer.Enabled := cbModeSEnable.Checked;
@@ -153,7 +139,6 @@ end;
 procedure TFSettings.FormShow(Sender: TObject);
 var i, count: Byte;
 begin
-  EnsureMeshCoreControls;
   CBESymbol.Clear;
 
   // Primary Icons
@@ -176,8 +161,12 @@ begin
   cbModeSEnable.Checked := FConfig^.ModeSEnabled;
   cbIgateEnable.Checked := FConfig^.IGateEnabled;
   CBMeshCoreEnable.Checked := FConfig^.MeshCoreEnabled;
-  LEMeshCoreAddress.Text := FConfig^.MeshCoreAddress;
-  SEMeshCoreChannel.Value := FConfig^.MeshCoreChannel;
+  CBMeshCoreDevices.Clear;
+  if Trim(FConfig^.MeshCoreAddress) <> '' then
+  begin
+    CBMeshCoreDevices.Items.Add(FConfig^.MeshCoreAddress);
+    CBMeshCoreDevices.ItemIndex := 0;
+  end;
   CBMeshCoreSendPosition.Checked := FConfig^.MeshCoreSendPosition;
 
   cbModeSEnableChange(Self);
@@ -206,8 +195,7 @@ begin
   FConfig^.AprsMessage := leAprsMessage.Caption;
   FConfig^.AprsUpdateInterval := spUpdateInterval.Value;
   FConfig^.MeshCoreEnabled := CBMeshCoreEnable.Checked;
-  FConfig^.MeshCoreAddress := Trim(LEMeshCoreAddress.Text);
-  FConfig^.MeshCoreChannel := SEMeshCoreChannel.Value;
+  FConfig^.MeshCoreAddress := MeshCoreAddressFromSelection(CBMeshCoreDevices.Text);
   FConfig^.MeshCoreSendPosition := CBMeshCoreSendPosition.Checked;
 
 
@@ -223,14 +211,74 @@ begin
 
   FreeAndNil(FMain.MeshCore);
   if FConfig^.MeshCoreEnabled and (FConfig^.MeshCoreAddress <> '') then
-    FMain.MeshCore := TMeshCoreClient.Create(FConfig^.MeshCoreAddress,
-      Byte(FConfig^.MeshCoreChannel));
+    FMain.MeshCore := TMeshCoreClient.Create(FConfig^.MeshCoreAddress);
 
   SaveConfigToFile(FConfig);
 
   SetPoi(FMain.PoILayer, FConfig^.Latitude, FConfig^.Longitude, FConfig^.Callsign, True, FConfig^.AprsSymbol+1, FMain.MVMap.GPSItems);
 
   Close;
+end;
+
+procedure TFSettings.ScanMeshCoreDevicesClick(Sender: TObject);
+const
+  InquiryDuration = 5;
+  RemoteNameTimeout = 5000;
+var
+  DeviceID, DeviceSocket: cint;
+  ScanInfo: array[0..127] of inquiry_info;
+  ScanInfoPtr: Pinquiry_info;
+  FoundDevices: cint;
+  DeviceAddress: array[0..255] of Char;
+  RemoteName: array[0..255] of Char;
+  I: Integer;
+  Entry, CurrentAddress: String;
+begin
+  CurrentAddress := MeshCoreAddressFromSelection(CBMeshCoreDevices.Text);
+  DeviceID := hci_get_route(nil);
+  if DeviceID < 0 then
+    raise Exception.Create('Bluetooth scan: no adapter found');
+
+  DeviceSocket := hci_open_dev(DeviceID);
+  if DeviceSocket < 0 then
+    raise Exception.Create('Bluetooth scan: unable to open adapter');
+
+  try
+    ScanInfoPtr := @ScanInfo[0];
+    FillChar(ScanInfo, SizeOf(ScanInfo), 0);
+    FoundDevices := hci_inquiry_1(DeviceID, InquiryDuration, Length(ScanInfo),
+      nil, @ScanInfoPtr, IREQ_CACHE_FLUSH);
+
+    CBMeshCoreDevices.Items.BeginUpdate;
+    try
+      CBMeshCoreDevices.Clear;
+      if CurrentAddress <> '' then
+        CBMeshCoreDevices.Items.Add(CurrentAddress);
+
+      if FoundDevices > 0 then
+        for I := 0 to FoundDevices - 1 do
+        begin
+          FillChar(DeviceAddress, SizeOf(DeviceAddress), 0);
+          FillChar(RemoteName, SizeOf(RemoteName), 0);
+          ba2str(@ScanInfo[I].bdaddr, @DeviceAddress[0]);
+          if hci_read_remote_name(DeviceSocket, @ScanInfo[I].bdaddr,
+            High(RemoteName), @RemoteName[0], RemoteNameTimeout) = 0 then
+            Entry := Format('%s ,%s', [PChar(@RemoteName[0]),
+              PChar(@DeviceAddress[0])])
+          else
+            Entry := String(PChar(@DeviceAddress[0]));
+          if CBMeshCoreDevices.Items.IndexOf(Entry) < 0 then
+            CBMeshCoreDevices.Items.Add(Entry);
+        end;
+
+      if CBMeshCoreDevices.Items.Count > 0 then
+        CBMeshCoreDevices.ItemIndex := 0;
+    finally
+      CBMeshCoreDevices.Items.EndUpdate;
+    end;
+  finally
+    hci_close_dev(DeviceSocket);
+  end;
 end;
 
 procedure TFSettings.sbGetGPSPositionClick(Sender: TObject);

@@ -24,5 +24,10 @@
 {"hash":60595392,"name":"tfsettings.lemodesserver.editlabel.caption","sourcebytes":[83,101,114,118,101,114,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Server                        "},
 {"hash":110503760,"name":"tfsettings.lemodesport.editlabel.caption","sourcebytes":[80,111,114,116,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Port                            "},
 {"hash":127790224,"name":"tfsettings.lemodesexecutable.editlabel.caption","sourcebytes":[69,120,101,99,117,116,97,98,108,101,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32],"value":"Executable                "},
-{"hash":79984933,"name":"tfsettings.cbmodesenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"}
+{"hash":79984933,"name":"tfsettings.cbmodesenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"},
+{"hash":95044121,"name":"tfsettings.groupboxmeshcore.caption","sourcebytes":[77,101,115,104,67,111,114,101,32,40,66,108,117,101,116,111,111,116,104,32,76,69,41],"value":"MeshCore (Bluetooth LE)"},
+{"hash":79984933,"name":"tfsettings.cbmeshcoreenable.caption","sourcebytes":[69,110,97,98,108,101],"value":"Enable"},
+{"hash":224850981,"name":"tfsettings.labelmeshcoredevice.caption","sourcebytes":[77,101,115,104,67,111,114,101,32,68,101,118,105,99,101],"value":"MeshCore Device"},
+{"hash":38479880,"name":"tfsettings.sbscanmeshcoredevices.caption","sourcebytes":[83,99,97,110,32,66,108,117,101,116,111,111,116,104],"value":"Scan Bluetooth"},
+{"hash":233333477,"name":"tfsettings.cbmeshcoresendposition.caption","sourcebytes":[83,101,110,100,32,65,80,82,83,32,112,111,115,105,116,105,111,110,32,118,105,97,32,77,101,115,104,67,111,114,101],"value":"Send APRS position via MeshCore"}
 ]}

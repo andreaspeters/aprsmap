@@ -7,7 +7,7 @@ object FListMails: TFListMails
   ClientHeight = 646
   ClientWidth = 924
   Position = poMainFormCenter
-  LCLVersion = '4.5.0.0'
+  LCLVersion = '4.4.0.0'
   OnClose = FormClose
   OnResize = FormResize
   OnShow = FormShow

@@ -275,7 +275,7 @@ begin
 
   APRSMessageList := TFPHashList.Create;
 
-  MeshCoreImageIndex := 0;
+  MeshCoreImageIndex := 243;
   MeshCoreBitmap := TBitmap.Create;
   try
   finally
@@ -313,8 +313,7 @@ begin
 
   MeshCore := nil;
   if APRSConfig.MeshCoreEnabled and (Trim(APRSConfig.MeshCoreAddress) <> '') then
-    MeshCore := TMeshCoreClient.Create(APRSConfig.MeshCoreAddress,
-      Byte(APRSConfig.MeshCoreChannel));
+    MeshCore := TMeshCoreClient.Create(APRSConfig.MeshCoreAddress);
 
   // Init Pipe
   ReadPipe := nil;

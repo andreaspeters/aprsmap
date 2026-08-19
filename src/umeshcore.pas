@@ -57,7 +57,6 @@ type
   TMeshCoreClient = class(TThread)
   private
     FAddress: String;
-    FChannel: Byte;
     FTransport: TBlueZGattClient;
     FLock: TCriticalSection;
     FAPRSQueue: TStringList;
@@ -78,7 +77,7 @@ type
   protected
     procedure Execute; override;
   public
-    constructor Create(const Address: String; Channel: Byte);
+    constructor Create(const Address: String);
     destructor Destroy; override;
     procedure Stop;
     procedure SendChannelText(const Text: String);
@@ -467,12 +466,11 @@ begin
     Result := OwnCall;
 end;
 
-constructor TMeshCoreClient.Create(const Address: String; Channel: Byte);
+constructor TMeshCoreClient.Create(const Address: String);
 begin
   inherited Create(True);
   FreeOnTerminate := False;
   FAddress := Trim(Address);
-  FChannel := Channel;
   FLock := TCriticalSection.Create;
   FAPRSQueue := TStringList.Create;
   FMessageQueue := TList.Create;
@@ -561,7 +559,7 @@ begin
     FLock.Release;
   end;
   if Text <> '' then
-    SendRaw(BuildMeshCoreChannelMessage(FChannel, Text));
+    SendRaw(BuildMeshCoreChannelMessage(0, Text));
 end;
 
 procedure TMeshCoreClient.WaitForRetry(DelayMs: Integer);

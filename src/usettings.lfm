@@ -1,12 +1,12 @@
 object FSettings: TFSettings
   Left = 1654
-  Height = 583
+  Height = 759
   Top = 406
   Width = 1047
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 583
+  ClientHeight = 759
   ClientWidth = 1047
   DefaultMonitor = dmDesktop
   Position = poMainFormCenter
@@ -15,7 +15,7 @@ object FSettings: TFSettings
   object BPDefaultButtons: TButtonPanel
     Left = 6
     Height = 41
-    Top = 536
+    Top = 712
     Width = 1035
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -101,9 +101,9 @@ object FSettings: TFSettings
       TabOrder = 3
     end
     object cbIGateEnable: TCheckBox
-      Left = 176
+      Left = 16
       Height = 26
-      Top = 12
+      Top = 8
       Width = 75
       Caption = 'Enable'
       TabOrder = 4
@@ -339,13 +339,68 @@ object FSettings: TFSettings
       OnClick = BBSetDump1090
     end
     object cbModeSEnable: TCheckBox
-      Left = 184
+      Left = 16
       Height = 26
-      Top = 12
+      Top = 8
       Width = 75
       Caption = 'Enable'
       TabOrder = 3
       OnChange = cbModeSEnableChange
+    end
+  end
+  object GroupBoxMeshCore: TGroupBox
+    Left = 6
+    Height = 168
+    Top = 536
+    Width = 1035
+    Caption = 'MeshCore (Bluetooth LE)'
+    ClientHeight = 135
+    ClientWidth = 1031
+    TabOrder = 5
+    object CBMeshCoreEnable: TCheckBox
+      Left = 24
+      Height = 26
+      Top = 8
+      Width = 75
+      Caption = 'Enable'
+      TabOrder = 0
+      OnChange = CBMeshCoreEnableChange
+    end
+    object LabelMeshCoreDevice: TLabel
+      Left = 24
+      Height = 22
+      Top = 88
+      Width = 130
+      Caption = 'MeshCore Device'
+      Enabled = False
+    end
+    object CBMeshCoreDevices: TComboBox
+      Left = 168
+      Height = 36
+      Top = 80
+      Width = 304
+      DropDownCount = 20
+      Enabled = False
+      ItemHeight = 34
+      TabOrder = 1
+    end
+    object SBScanMeshCoreDevices: TSpeedButton
+      Left = 488
+      Height = 36
+      Top = 80
+      Width = 143
+      Caption = 'Scan Bluetooth'
+      Enabled = False
+      OnClick = ScanMeshCoreDevicesClick
+    end
+    object CBMeshCoreSendPosition: TCheckBox
+      Left = 24
+      Height = 26
+      Top = 40
+      Width = 275
+      Caption = 'Send APRS position via MeshCore'
+      Enabled = False
+      TabOrder = 2
     end
   end
   object SDDCacheDirectory: TSelectDirectoryDialog

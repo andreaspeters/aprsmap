@@ -407,6 +407,15 @@ msgctxt "tfsettings.cbigateenable.caption"
 msgid "Enable"
 msgstr ""
 
+#: tfsettings.cbmeshcoreenable.caption
+msgctxt "tfsettings.cbmeshcoreenable.caption"
+msgid "Enable"
+msgstr ""
+
+#: tfsettings.cbmeshcoresendposition.caption
+msgid "Send APRS position via MeshCore"
+msgstr ""
+
 #: tfsettings.cbmodesenable.caption
 msgctxt "tfsettings.cbmodesenable.caption"
 msgid "Enable"
@@ -429,12 +438,20 @@ msgstr ""
 msgid "Dump1090"
 msgstr ""
 
+#: tfsettings.groupboxmeshcore.caption
+msgid "MeshCore (Bluetooth LE)"
+msgstr ""
+
 #: tfsettings.label1.caption
 msgid "Update Interval (m)"
 msgstr ""
 
 #: tfsettings.label3.caption
 msgid "The password will be stored in plaintext."
+msgstr ""
+
+#: tfsettings.labelmeshcoredevice.caption
+msgid "MeshCore Device"
 msgstr ""
 
 #: tfsettings.leaprsmessage.editlabel.caption
@@ -503,6 +520,10 @@ msgstr ""
 
 #: tfsettings.sbgetgpsposition.hint
 msgid "Get Position by GPSd"
+msgstr ""
+
+#: tfsettings.sbscanmeshcoredevices.caption
+msgid "Scan Bluetooth"
 msgstr ""
 
 #: tfsettings.spupdateinterval.hint

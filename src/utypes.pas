@@ -142,7 +142,6 @@ type
     Channel: Integer;
     MeshCoreEnabled: Boolean;
     MeshCoreAddress: String;
-    MeshCoreChannel: Integer;
     MeshCoreSendPosition: Boolean;
   end;
 
