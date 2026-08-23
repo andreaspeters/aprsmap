@@ -288,64 +288,17 @@ object FSettings: TFSettings
     Height = 288
     Top = 240
     Width = 489
-    Caption = 'Dump1090'
+    Caption = 'ModeS'
     ClientHeight = 255
     ClientWidth = 485
     TabOrder = 4
-    object LEModeSServer: TLabeledEdit
-      Left = 172
-      Height = 36
-      Top = 56
-      Width = 258
-      EditLabel.Height = 36
-      EditLabel.Width = 148
-      EditLabel.Caption = 'Server                        '
-      Enabled = False
-      LabelPosition = lpLeft
-      TabOrder = 0
-    end
-    object LEModeSPort: TLabeledEdit
-      Left = 172
-      Height = 36
-      Top = 104
-      Width = 158
-      EditLabel.Height = 36
-      EditLabel.Width = 149
-      EditLabel.Caption = 'Port                            '
-      Enabled = False
-      LabelPosition = lpLeft
-      TabOrder = 1
-    end
-    object LEModeSExecutable: TLabeledEdit
-      Left = 172
-      Height = 36
-      Top = 152
-      Width = 258
-      EditLabel.Height = 36
-      EditLabel.Width = 148
-      EditLabel.Caption = 'Executable                '
-      Enabled = False
-      LabelPosition = lpLeft
-      TabOrder = 2
-    end
-    object SpeedButton3: TSpeedButton
-      Left = 440
-      Height = 29
-      Top = 152
-      Width = 31
-      Flat = True
-      Images = FMain.ImageList1
-      ImageIndex = 238
-      OnClick = BBSetDump1090
-    end
     object cbModeSEnable: TCheckBox
       Left = 16
       Height = 26
       Top = 8
       Width = 75
       Caption = 'Enable'
-      TabOrder = 3
-      OnChange = cbModeSEnableChange
+      TabOrder = 0
     end
   end
   object GroupBoxMeshCore: TGroupBox
@@ -407,8 +360,5 @@ object FSettings: TFSettings
     Left = 448
     Top = 448
   end
-  object ODSelectFile: TOpenDialog
-    Left = 528
-    Top = 448
-  end
+
 end

@@ -9,6 +9,8 @@ cache/**/*
 **/*.exe
 **/*.bat
 **/*.dbg
+**/*.ppu
+**/*.o
 appimage/*/usr
 *.AppImage
 *.deb

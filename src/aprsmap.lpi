@@ -119,6 +119,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="bluetoothlaz"/>
+      </Item>
+      <Item>
         <PackageName Value="indylaz"/>
       </Item>
       <Item>

@@ -99,6 +99,12 @@ type
     ActiveTabSheet: TTabSheet;
     Devices: TDevices;
     Checksum: String;
+    ModeSEvenLatitude: Integer;
+    ModeSEvenLongitude: Integer;
+    ModeSOddLatitude: Integer;
+    ModeSOddLongitude: Integer;
+    ModeSEvenValid: Boolean;
+    ModeSOddValid: Boolean;
   end;
 
   TAPRSConfig = record

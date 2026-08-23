@@ -34,29 +34,28 @@ type
     LECallsign: TLabeledEdit;
     LEIgatePassword: TLabeledEdit;
     LEIgateFilter: TLabeledEdit;
-    LEModeSExecutable: TLabeledEdit;
-    LEModeSPort: TLabeledEdit;
+
     LEIGateServer: TLabeledEdit;
     LEIGatePort: TLabeledEdit;
-    LEModeSServer: TLabeledEdit;
+
     LELatitude: TLabeledEdit;
     LELongitude: TLabeledEdit;
     LEMapCache: TLabeledEdit;
     LEMapLocalDirectory: TLabeledEdit;
-    ODSelectFile: TOpenDialog;
+
     SDDCacheDirectory: TSelectDirectoryDialog;
     SpeedButton1: TSpeedButton;
     SpeedButton2: TSpeedButton;
-    SpeedButton3: TSpeedButton;
+
     sbGetGPSPosition: TSpeedButton;
     SBScanMeshCoreDevices: TSpeedButton;
     spUpdateInterval: TSpinEdit;
     procedure BBOSMMapCacheClick(Sender: TObject);
     procedure BBOSMLocalTilesClick(Sender: TObject);
-    procedure BBSetDump1090(Sender: TObject);
+
     procedure CancelButtonClick(Sender: TObject);
     procedure CBMeshCoreEnableChange(Sender: TObject);
-    procedure cbModeSEnableChange(Sender: TObject);
+
     procedure cbIGateEnableChange(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
@@ -102,11 +101,6 @@ begin
     LEMapLocalDirectory.Caption := SDDCacheDirectory.FileName;
 end;
 
-procedure TFSettings.BBSetDump1090(Sender: TObject);
-begin
-  if ODSelectFile.Execute then
-    LEModeSExecutable.Caption := ODSelectFile.FileName;
-end;
 
 procedure TFSettings.CancelButtonClick(Sender: TObject);
 begin
@@ -121,12 +115,6 @@ begin
   SBScanMeshCoreDevices.Enabled := CBMeshCoreEnable.Checked;
 end;
 
-procedure TFSettings.cbModeSEnableChange(Sender: TObject);
-begin
-  LEModeSServer.Enabled := cbModeSEnable.Checked;
-  LEModeSPort.Enabled := cbModeSEnable.Checked;
-  LEModeSExecutable.Enabled := cbModeSEnable.Checked;
-end;
 
 procedure TFSettings.cbIGateEnableChange(Sender: TObject);
 begin
@@ -169,7 +157,6 @@ begin
   end;
   CBMeshCoreSendPosition.Checked := FConfig^.MeshCoreSendPosition;
 
-  cbModeSEnableChange(Self);
   cbIGateEnableChange(Self);
 end;
 
@@ -187,11 +174,9 @@ begin
   FConfig^.CleanupTime := StrToInt(LECleanupTime.Caption);
   FConfig^.LocalTilesDirectory := LEMapLocalDirectory.Caption;
 
-  FConfig^.ModeSServer := LEModeSServer.Caption;
-  FConfig^.ModeSPort := StrToInt(LEModeSPort.Caption);
-  FConfig^.ModeSExecutable := LEModeSExecutable.Caption;
+
   FConfig^.AprsSymbol := CBESymbol.ItemIndex;
-  FConfig^.ModeSEnabled := LEModeSServer.Enabled;
+  FConfig^.ModeSEnabled := cbModeSEnable.Checked;
   FConfig^.AprsMessage := leAprsMessage.Caption;
   FConfig^.AprsUpdateInterval := spUpdateInterval.Value;
   FConfig^.MeshCoreEnabled := CBMeshCoreEnable.Checked;
@@ -300,9 +285,6 @@ begin
   LEIGateFilter.Caption := FConfig^.IGateFilter;
   LECleanupTime.Caption := IntToStr(FConfig^.CleanupTime);
   LEMapLocalDirectory.Caption := FConfig^.LocalTilesDirectory;
-  LEModeSServer.Caption := FConfig^.ModeSServer;
-  LEModeSPort.Caption := IntToStr(FConfig^.ModeSPort);
-  LEModeSExecutable.Caption := FConfig^.ModeSExecutable;
   leAprsMessage.Caption := FConfig^.AprsMessage;
   spUpdateInterval.Value := FConfig^.AprsUpdateInterval;
   FMain.tBake.Interval := FConfig^.AprsUpdateInterval * 60 * 1000;

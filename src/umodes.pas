@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, fpjson, jsonparser, utypes, RegExpr, Contnrs, fphttpclient,
-  mvGpsObj, Process, md5;
+  mvGpsObj, Process, md5, Math, umodesdecoder, urtlsdr;
 
 type
   { TModeSThread }
@@ -14,7 +14,16 @@ type
   private
     FConfig: PAPRSConfig;
     Dump1090: TProcess;
+    NativeDevice: TRtlSdrDev;
+    NativeMode: Boolean;
+    NativeBuffer: array[0..262143] of Byte;
+    NativeMagnitude: TModeSMagnitude;
+    NativeMessages: array[0..255] of TModeSMessage;
     procedure RunDump190Server;
+    procedure OpenNative;
+    procedure CloseNative;
+    procedure LoadAircraftsFromNative;
+    procedure AddNativeMessage(const Decoded: TModeSMessage);
     function ChecksumExists(List: TFPHashList; const AChecksum: String): Boolean;
   protected
     procedure Execute; override;
@@ -35,6 +44,7 @@ uses
 
 procedure TModeSThread.Stop;
 begin
+  CloseNative;
   if Assigned(Dump1090) then
   begin
     if Dump1090.Running then
@@ -47,9 +57,14 @@ begin
   inherited Create(True);
   Error := False;
   FConfig := Config;
+  NativeDevice := nil;
+  NativeMode := Length(Trim(FConfig^.ModeSExecutable)) = 0;
   FreeOnTerminate := True;
   ModeSMessageList := TFPHashList.Create;
-  RunDump190Server;
+  if NativeMode then
+    OpenNative
+  else
+    RunDump190Server;
   Start;
 end;
 
@@ -60,9 +75,132 @@ begin
 
   while not Terminated do
   begin
-    LoadAircraftsFromDump1090;
+    if NativeMode then
+      LoadAircraftsFromNative
+    else
+      LoadAircraftsFromDump1090;
     sleep(1000);
   end;
+end;
+
+procedure TModeSThread.OpenNative;
+begin
+  try
+    if RtlSdrGetDeviceCount = 0 then
+    begin
+      Error := True;
+      Exit;
+    end;
+    if RtlSdrOpen(NativeDevice, 0) <> 0 then
+    begin
+      Error := True;
+      Exit;
+    end;
+    RtlSdrSetCenterFreq(NativeDevice, 1090000000);
+    RtlSdrSetSampleRate(NativeDevice, 2048000);
+    RtlSdrSetTunerGainMode(NativeDevice, 0);
+    RtlSdrSetAgcMode(NativeDevice, 1);
+    RtlSdrResetBuffer(NativeDevice);
+    SetLength(NativeMagnitude, Length(NativeBuffer) div 2);
+  except
+    on E: Exception do
+    begin
+      Error := True;
+      {$IFDEF UNIX}
+      Writeln('Native RTL-SDR error: ', E.Message);
+      {$ENDIF}
+    end;
+  end;
+end;
+
+procedure TModeSThread.CloseNative;
+begin
+  if Assigned(NativeDevice) then
+  begin
+    RtlSdrClose(NativeDevice);
+    NativeDevice := nil;
+  end;
+end;
+
+procedure TModeSThread.LoadAircraftsFromNative;
+var
+  ReadCount, I, Count: Integer;
+begin
+  if not Assigned(NativeDevice) then Exit;
+  if RtlSdrReadSync(NativeDevice, NativeBuffer, Length(NativeBuffer), ReadCount) <> 0 then
+  begin
+    Error := True;
+    Exit;
+  end;
+  if ReadCount < 32 then Exit;
+  SetLength(NativeMagnitude, ReadCount div 2);
+  for I := 0 to (ReadCount div 2) - 1 do
+    NativeMagnitude[I] := Min(255, Abs(Integer(NativeBuffer[I * 2]) - 127) +
+                                   Abs(Integer(NativeBuffer[I * 2 + 1]) - 127));
+  Count := DemodulateModeS(NativeMagnitude, NativeMessages);
+  if Count > Length(NativeMessages) then Count := Length(NativeMessages);
+  for I := 0 to Count - 1 do
+    AddNativeMessage(NativeMessages[I]);
+end;
+
+procedure TModeSThread.AddNativeMessage(const Decoded: TModeSMessage);
+var
+  APRSMessageObject: PAPRSMessage;
+  Key: String;
+  Latitude, Longitude: Double;
+begin
+  Key := IntToHex(Decoded.ICAO, 6);
+  APRSMessageObject := PAPRSMessage(ModeSMessageList.Find(Key));
+  if not Assigned(APRSMessageObject) then
+  begin
+    New(APRSMessageObject);
+    FillChar(APRSMessageObject^, SizeOf(TAPRSMessage), 0);
+    APRSMessageObject^.Altitude := TDoubleList.Create;
+    APRSMessageObject^.Speed := TDoubleList.Create;
+    APRSMessageObject^.FromCall := Key;
+    ModeSMessageList.Add(Key, APRSMessageObject);
+  end;
+  if Length(Decoded.Flight) > 0 then
+    APRSMessageObject^.FromCall := Decoded.Flight;
+  if Decoded.HasAltitude then
+  begin
+    APRSMessageObject^.Altitude.Clear;
+    APRSMessageObject^.Altitude.Add(Decoded.AltitudeFeet);
+  end;
+  if Decoded.HasVelocity then
+  begin
+    APRSMessageObject^.Speed.Clear;
+    APRSMessageObject^.Speed.Add(Decoded.Velocity);
+  end;
+  if Decoded.HasPosition then
+  begin
+    if Decoded.OddCPR then
+    begin
+      APRSMessageObject^.ModeSOddLatitude := Decoded.RawLatitude;
+      APRSMessageObject^.ModeSOddLongitude := Decoded.RawLongitude;
+      APRSMessageObject^.ModeSOddValid := True;
+    end
+    else
+    begin
+      APRSMessageObject^.ModeSEvenLatitude := Decoded.RawLatitude;
+      APRSMessageObject^.ModeSEvenLongitude := Decoded.RawLongitude;
+      APRSMessageObject^.ModeSEvenValid := True;
+    end;
+    if APRSMessageObject^.ModeSEvenValid and APRSMessageObject^.ModeSOddValid and
+       DecodeGlobalCPR(APRSMessageObject^.ModeSEvenLatitude,
+                       APRSMessageObject^.ModeSEvenLongitude,
+                       APRSMessageObject^.ModeSOddLatitude,
+                       APRSMessageObject^.ModeSOddLongitude,
+                       Decoded.OddCPR, Latitude, Longitude) then
+    begin
+      APRSMessageObject^.Latitude := Latitude;
+      APRSMessageObject^.Longitude := Longitude;
+    end;
+  end;
+  APRSMessageObject^.Time := Now;
+  APRSMessageObject^.ImageIndex := 7;
+  APRSMessageObject^.ModeS := True;
+  APRSMessageObject^.Checksum := Key;
 end;
 
 procedure TModeSThread.RunDump190Server;
