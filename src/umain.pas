@@ -12,7 +12,7 @@ uses
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
   TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types,
-  umeshcore, LResources;
+  umeshcore, LResources, umodeslist, uaislist;
 
 type
 
@@ -82,6 +82,8 @@ type
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
     miSendPosition: TMenuItem;
     MenuItem2: TMenuItem;
     btnBuymeacoffee: TMenuItem;
@@ -185,6 +187,8 @@ type
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure MIKofiClick(Sender: TObject);
+    procedure ShowModeSTracking(Sender: TObject);
+    procedure ShowAISTracking(Sender: TObject);
     procedure MIInfoClick(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure mntDonateClick(Sender: TObject);
@@ -457,6 +461,16 @@ begin
   FListMails.SetConfig(@APRSConfig);
   FListMails.Show;
   ilMessageStatus.ImageIndex := 241;
+end;
+
+procedure TFMain.ShowModeSTracking(Sender: TObject);
+begin
+  FModeSList.Show;
+end;
+
+procedure TFMain.ShowAISTracking(Sender: TObject);
+begin
+  FAISList.Show;
 end;
 
 procedure TFMain.actOpenLastseenExecute(Sender: TObject);

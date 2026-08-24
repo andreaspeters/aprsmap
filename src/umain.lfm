@@ -4055,6 +4055,14 @@ object FMain: TFMain
       object MenuItem11: TMenuItem
         Action = actShowMessages
       end
+      object MenuItem12: TMenuItem
+        Caption = 'ModeS Aircraft Tracking'
+        OnClick = ShowModeSTracking
+      end
+      object MenuItem13: TMenuItem
+        Caption = 'AIS Ship Tracking'
+        OnClick = ShowAISTracking
+      end
     end
     object MenuItem2: TMenuItem
       Caption = '&Help'

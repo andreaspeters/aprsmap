@@ -48,6 +48,8 @@ begin
   ini.WriteString('IGATE', 'password', Config^.IGatePassword);
   ini.WriteString('IGATE', 'filter', Config^.IGateFilter);
   ini.WriteBool('MODES', 'enable', Config^.ModeSEnabled);
+
+  ini.WriteBool('AIS', 'enable', Config^.AISEnabled);
   ini.WriteInteger('MAIN', 'posx', Config^.MainPosX);
   ini.WriteInteger('MAIN', 'posy', Config^.MainPosY);
   ini.WriteInteger('MAIN', 'width', Config^.MainWidth);
@@ -110,6 +112,8 @@ begin
   Config^.IGatePassword := ini.ReadString('IGATE', 'password', '');
   Config^.IGateFilter := ini.ReadString('IGATE', 'filter', 'r/<LAT>/<LON>/200');
   Config^.ModeSEnabled := ini.ReadBool('MODES', 'enable', False);
+
+  Config^.AISEnabled := ini.ReadBool('AIS', 'enable', False);
   Config^.MainPosX := ini.ReadInteger('MAIN', 'posx', 0);
   Config^.MainPosY := ini.ReadInteger('MAIN', 'posy', 0);
   Config^.MainWidth := ini.ReadInteger('MAIN', 'width', 1574);

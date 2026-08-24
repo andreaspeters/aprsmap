@@ -23,7 +23,9 @@ type
     HasVelocity: Boolean;
   end;
 
-  TModeSMagnitude = array of Byte;
+  { Squared IQ magnitude is in the 0..32258 range. Keeping it as Word avoids
+    destroying the amplitude ordering needed by the Manchester decoder. }
+  TModeSMagnitude = array of Word;
   TModeSBytes = array of Byte;
 
 function ModeSCRC(const Data: TModeSBytes; BitCount: Integer): Cardinal;
@@ -213,44 +215,98 @@ begin
             (Longitude >= -180) and (Longitude <= 180);
 end;
 
-function Stronger(const A, B: Byte): Byte; inline;
+function HasModeSPreamble(const Magnitude: TModeSMagnitude; const Start: Integer): Boolean;
+const
+  HighSamples: array[0..3] of Integer = (0, 2, 7, 9);
+var
+  I, HighIndex, HighValue, LowValue: Integer;
 begin
-  if A > B then Result := A else Result := B;
+  HighIndex := 0;
+  HighValue := High(Magnitude[0]) + 1;
+  LowValue := 0;
+  for I := 0 to MODES_PREAMBLE_SAMPLES - 1 do
+  begin
+    if (HighIndex <= High(HighSamples)) and (I = HighSamples[HighIndex]) then
+    begin
+      HighValue := Magnitude[Start + I];
+      Inc(HighIndex);
+    end
+    else
+      LowValue := Magnitude[Start + I];
+    if HighValue <= LowValue then Exit(False);
+  end;
+  Result := True;
+end;
+
+function DecodeManchesterBit(const A, B, C, D: Word; out Bit: Integer): Boolean;
+var
+  PreviousBit, CurrentBit: Boolean;
+begin
+  PreviousBit := A > B;
+  CurrentBit := C > D;
+  Bit := Ord(CurrentBit);
+  if CurrentBit and PreviousBit then
+    Result := C > B
+  else if CurrentBit then
+    Result := D < B
+  else if PreviousBit then
+    Result := D > B
+  else
+    Result := C < B;
 end;
 
 function DemodulateModeS(const Magnitude: TModeSMagnitude; out Messages: array of TModeSMessage): Integer;
+const
+  AllowedManchesterErrors = 5;
 var
-  I, Bit, Threshold: Integer;
+  I, BitIndex, BitValue, ErrorCount, FrameBits: Integer;
+  A, B, C, D: Word;
   Data: TModeSBytes;
   Candidate: TModeSMessage;
-  FirstSample, SecondSample: Byte;
-  Valid: Boolean;
 begin
   Result := 0;
   I := 0;
   while I + MODES_PREAMBLE_SAMPLES + MODES_LONG_BITS * MODES_BIT_SAMPLES <= Length(Magnitude) do
   begin
-    Threshold := (Integer(Magnitude[I]) + Integer(Magnitude[I + 2]) + Integer(Magnitude[I + 7]) + Integer(Magnitude[I + 9])) div 4;
-    Valid := (Magnitude[I] >= Threshold) and (Magnitude[I + 2] >= Threshold) and
-             (Magnitude[I + 7] >= Threshold) and (Magnitude[I + 9] >= Threshold) and
-             (Magnitude[I + 1] < Threshold) and (Magnitude[I + 3] < Threshold) and
-             (Magnitude[I + 4] < Threshold) and (Magnitude[I + 5] < Threshold) and
-             (Magnitude[I + 6] < Threshold) and (Magnitude[I + 8] < Threshold) and
-             (Magnitude[I + 10] < Threshold) and (Magnitude[I + 11] < Threshold) and
-             (Magnitude[I + 12] < Threshold) and (Magnitude[I + 13] < Threshold) and
-             (Magnitude[I + 14] < Threshold) and (Magnitude[I + 15] < Threshold);
-    if not Valid then begin Inc(I); Continue; end;
+    if not HasModeSPreamble(Magnitude, I) then
+    begin
+      Inc(I);
+      Continue;
+    end;
 
     SetLength(Data, 14);
     FillChar(Data[0], Length(Data), 0);
-    for Bit := 0 to MODES_LONG_BITS - 1 do
+    A := Magnitude[I];
+    B := Magnitude[I + 1];
+    ErrorCount := 0;
+    FrameBits := MODES_LONG_BITS;
+    for BitIndex := 0 to MODES_LONG_BITS - 1 do
     begin
-      FirstSample := Magnitude[I + MODES_PREAMBLE_SAMPLES + Bit * 2];
-      SecondSample := Magnitude[I + MODES_PREAMBLE_SAMPLES + Bit * 2 + 1];
-      if FirstSample > SecondSample then
-        Data[Bit div 8] := Data[Bit div 8] or (1 shl (7 - (Bit mod 8)));
+      C := Magnitude[I + MODES_PREAMBLE_SAMPLES + BitIndex * 2];
+      D := Magnitude[I + MODES_PREAMBLE_SAMPLES + BitIndex * 2 + 1];
+      if not DecodeManchesterBit(A, B, C, D, BitValue) then
+      begin
+        Inc(ErrorCount);
+        if ErrorCount > AllowedManchesterErrors then Break;
+        BitValue := Ord(C > D);
+        A := 0;
+        B := High(Word);
+      end
+      else
+      begin
+        A := C;
+        B := D;
+      end;
+      if BitValue <> 0 then
+        Data[BitIndex div 8] := Data[BitIndex div 8] or (1 shl (7 - (BitIndex mod 8)));
+      if BitIndex = 7 then
+        if (Data[0] and $80) = 0 then
+          FrameBits := 56;
+      if BitIndex + 1 = FrameBits then Break;
     end;
-    if DecodeModeSMessage(Data, Candidate) then
+
+    if (ErrorCount <= AllowedManchesterErrors) and (FrameBits = MODES_LONG_BITS) and
+       DecodeModeSMessage(Data, Candidate) then
     begin
       if Result < Length(Messages) then Messages[Result] := Candidate;
       Inc(Result);

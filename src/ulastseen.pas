@@ -72,6 +72,8 @@ begin
   if (Length(msg^.FromCall) <= 0) then
     Exit;
 
+  { Aircraft and ship tracking produce frequent position updates and are
+    intentionally excluded from the APRS Lastseen history. }
   if msg^.ModeS then
     Exit;
 

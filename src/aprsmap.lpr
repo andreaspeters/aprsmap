@@ -15,7 +15,7 @@ uses
   Forms, indylaz, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe,
   utypes, uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage,
   u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails, ueditor, umeshcore,
-  bluetoothlaz, umodesdecoder, urtlsdr;
+  bluetoothlaz, umodesdecoder, urtlsdr, umodeslist, uaislist;
 
 {$R *.res}
 
@@ -25,6 +25,8 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TFMain, FMain);
+  Application.CreateForm(TModeSListForm, FModeSList);
+  Application.CreateForm(TAISListForm, FAISList);
   Application.CreateForm(TFSettings, FSettings);
   Application.CreateForm(TFInfo, FInfo);
   Application.CreateForm(TFLastSeen, FLastSeen);

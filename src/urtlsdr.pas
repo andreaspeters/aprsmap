@@ -21,6 +21,9 @@ function RtlSdrSetTunerGainMode(Dev: TRtlSdrDev; Manual: Integer): Integer;
 function RtlSdrSetAgcMode(Dev: TRtlSdrDev; On1: Integer): Integer;
 function RtlSdrResetBuffer(Dev: TRtlSdrDev): Integer;
 function RtlSdrReadSync(Dev: TRtlSdrDev; var Buf; Len: Integer; var NRead: Integer): Integer;
+function RtlSdrReadAsync(Dev: TRtlSdrDev; Callback: TRtlSdrReadAsyncCB;
+  Context: Pointer; BufferCount, BufferLength: Cardinal): Integer;
+function RtlSdrCancelAsync(Dev: TRtlSdrDev): Integer;
 
 implementation
 
@@ -37,6 +40,9 @@ type
   TSetAgcMode = function(Dev: TRtlSdrDev; On1: Integer): Integer; cdecl;
   TResetBuffer = function(Dev: TRtlSdrDev): Integer; cdecl;
   TReadSync = function(Dev: TRtlSdrDev; Buf: Pointer; Len: Integer; var NRead: Integer): Integer; cdecl;
+  TReadAsync = function(Dev: TRtlSdrDev; Callback: TRtlSdrReadAsyncCB;
+    Context: Pointer; BufferCount, BufferLength: Cardinal): Integer; cdecl;
+  TCancelAsync = function(Dev: TRtlSdrDev): Integer; cdecl;
 
 var
   RTLHandle: TLibHandle = NilHandle;
@@ -50,6 +56,8 @@ var
   FnSetAgcMode: TSetAgcMode;
   FnResetBuffer: TResetBuffer;
   FnReadSync: TReadSync;
+  FnReadAsync: TReadAsync;
+  FnCancelAsync: TCancelAsync;
 
 function LoadRTL: Boolean;
 const
@@ -60,6 +68,7 @@ const
   {$ENDIF}
 var
   I: Integer;
+  LibraryName: String;
   function Symbol(const Name: PChar): Pointer;
   begin
     Result := GetProcedureAddress(RTLHandle, Name);
@@ -68,11 +77,19 @@ begin
   if RTLLoadAttempted then
     Exit(RTLHandle <> NilHandle);
   RTLLoadAttempted := True;
+  LibraryName := GetEnvironmentVariable('RTLSDR_LIBRARY');
+  if LibraryName <> '' then
+    RTLHandle := LoadLibrary(PChar(LibraryName));
   for I := Low(LIBRARIES) to High(LIBRARIES) do
   begin
+    if RTLHandle <> NilHandle then Break;
     RTLHandle := LoadLibrary(LIBRARIES[I]);
     if RTLHandle <> NilHandle then Break;
   end;
+  {$IFDEF UNIX}
+  if RTLHandle = NilHandle then
+    RTLHandle := LoadLibrary('/nix/store/jplgjk689x6c93h7qvhs5g2983sa06fm-rtl-sdr-blog-1.3.5/lib/librtlsdr.so');
+  {$ENDIF}
   if RTLHandle = NilHandle then Exit(False);
   Pointer(FnGetDeviceCount) := Symbol('rtlsdr_get_device_count');
   Pointer(FnOpen) := Symbol('rtlsdr_open');
@@ -83,10 +100,13 @@ begin
   Pointer(FnSetAgcMode) := Symbol('rtlsdr_set_agc_mode');
   Pointer(FnResetBuffer) := Symbol('rtlsdr_reset_buffer');
   Pointer(FnReadSync) := Symbol('rtlsdr_read_sync');
+  Pointer(FnReadAsync) := Symbol('rtlsdr_read_async');
+  Pointer(FnCancelAsync) := Symbol('rtlsdr_cancel_async');
   Result := Assigned(FnGetDeviceCount) and Assigned(FnOpen) and Assigned(FnClose) and
             Assigned(FnSetCenterFreq) and Assigned(FnSetSampleRate) and
             Assigned(FnSetTunerGainMode) and Assigned(FnSetAgcMode) and
-            Assigned(FnResetBuffer) and Assigned(FnReadSync);
+            Assigned(FnResetBuffer) and Assigned(FnReadSync) and Assigned(FnReadAsync) and
+            Assigned(FnCancelAsync);
   if not Result then
   begin
     UnloadLibrary(RTLHandle);
@@ -146,6 +166,19 @@ function RtlSdrReadSync(Dev: TRtlSdrDev; var Buf; Len: Integer; var NRead: Integ
 begin
   if not LoadRTL then Exit(-1);
   Result := FnReadSync(Dev, @Buf, Len, NRead);
+end;
+
+function RtlSdrReadAsync(Dev: TRtlSdrDev; Callback: TRtlSdrReadAsyncCB;
+  Context: Pointer; BufferCount, BufferLength: Cardinal): Integer;
+begin
+  if not LoadRTL then Exit(-1);
+  Result := FnReadAsync(Dev, Callback, Context, BufferCount, BufferLength);
+end;
+
+function RtlSdrCancelAsync(Dev: TRtlSdrDev): Integer;
+begin
+  if not LoadRTL then Exit(-1);
+  Result := FnCancelAsync(Dev);
 end;
 
 finalization

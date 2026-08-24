@@ -105,6 +105,7 @@ type
     ModeSOddLongitude: Integer;
     ModeSEvenValid: Boolean;
     ModeSOddValid: Boolean;
+    ModeSPositionValid: Boolean;
   end;
 
   TAPRSConfig = record
@@ -124,9 +125,8 @@ type
     Longitude: Double;
     CleanupTime: Integer;
     ModeSEnabled: Boolean;
-    ModeSServer: String;
-    ModeSPort: Integer;
-    ModeSExecutable: String;
+    AISEnabled: Boolean;
+
     MainPosX: Integer;
     MainPosY: Integer;
     MainWidth: Integer;

@@ -1,0 +1,25 @@
+object FAISList: TAISListForm
+  Left = 280
+  Height = 420
+  Top = 200
+  Width = 1100
+  Caption = 'AIS Ship Tracking'
+  OnShow = FormShow
+  object Grid: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 1100
+    Height = 390
+    Align = alClient
+    ColCount = 8
+    FixedCols = 0
+    RowCount = 1
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goThumbTracking]
+    TabOrder = 0
+    TitleFont.Style = [fsBold]
+  end
+  object RefreshTimer: TTimer
+    Interval = 1000
+    OnTimer = RefreshTimerTimer
+  end
+end

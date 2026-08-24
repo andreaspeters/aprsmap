@@ -7,8 +7,8 @@
       <Unit>
         <Filename Value="aprsmap.lpr"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="10"/>
-        <CursorPos Y="36"/>
+        <TopLine Value="12"/>
+        <CursorPos Y="38"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
       </Unit>
@@ -19,7 +19,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="12"/>
-        <TopLine Value="225"/>
+        <TopLine Value="227"/>
         <CursorPos X="31" Y="229"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
@@ -29,7 +29,7 @@
         <Filename Value="uresize.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="18"/>
-        <CursorPos X="38" Y="72"/>
+        <CursorPos X="49" Y="5"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
       </Unit>
@@ -64,7 +64,7 @@
         <Filename Value="uini.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="9"/>
-        <TopLine Value="103"/>
+        <TopLine Value="104"/>
         <CursorPos X="28" Y="104"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
@@ -85,8 +85,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="19"/>
-        <TopLine Value="107"/>
-        <CursorPos X="24" Y="121"/>
+        <TopLine Value="113"/>
+        <CursorPos X="36" Y="124"/>
         <UsageCount Value="243"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -107,9 +107,10 @@
       <Unit>
         <Filename Value="umodes.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="15"/>
-        <TopLine Value="124"/>
-        <CursorPos X="27" Y="138"/>
+        <TopLine Value="129"/>
+        <CursorPos X="52" Y="143"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -142,7 +143,6 @@
       <Unit>
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="21"/>
         <CursorPos X="58" Y="51"/>
         <UsageCount Value="201"/>
@@ -184,7 +184,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="23"/>
-        <CursorPos Y="36"/>
+        <CursorPos X="12" Y="35"/>
         <UsageCount Value="228"/>
         <Loaded Value="True"/>
       </Unit>
@@ -260,7 +260,7 @@
         <EditorIndex Value="13"/>
         <TopLine Value="520"/>
         <CursorPos X="63"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="82"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -268,7 +268,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="36" Y="9"/>
-        <UsageCount Value="33"/>
+        <UsageCount Value="82"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -276,22 +276,15 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1551"/>
         <CursorPos X="24" Y="1560"/>
-        <UsageCount Value="91"/>
+        <UsageCount Value="86"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit>
-      <Unit>
-        <Filename Value="../../../../fpcupdeluxe/lazarus/lcl/include/speedbutton.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="1193"/>
-        <CursorPos Y="1208"/>
-        <UsageCount Value="4"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/config_lazarus/onlinepackagemanager/packages/Indy10/System/IdGlobal.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="8777"/>
         <CursorPos Y="8800"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
       <Unit>
@@ -299,14 +292,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="148"/>
         <CursorPos X="10" Y="153"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="21"/>
       </Unit>
       <Unit>
         <Filename Value="../../../../fpcupdeluxe/fpcsrc/packages/rtl-extra/src/inc/socketsh.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="165"/>
         <CursorPos X="10" Y="193"/>
-        <UsageCount Value="26"/>
+        <UsageCount Value="21"/>
       </Unit>
       <Unit>
         <Filename Value="../../LazMapViewer/source/mvmapviewerreg.pas"/>
@@ -314,21 +307,17 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="21"/>
         <CursorPos X="34" Y="55"/>
-        <UsageCount Value="16"/>
+        <UsageCount Value="11"/>
       </Unit>
       <Unit>
         <Filename Value="../use/LazMapViewer/source/mvstrconsts.pas"/>
         <UnitName Value="mvStrConsts"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="24" Y="15"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="5"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umain.pas"/>
-        <Caret Line="196" Column="21" TopLine="184"/>
-      </Position>
       <Position>
         <Filename Value="umain.pas"/>
         <Caret Line="638" Column="6" TopLine="632"/>
@@ -444,6 +433,10 @@
       <Position>
         <Filename Value="usettings.pas"/>
         <Caret Line="121" Column="24" TopLine="107"/>
+      </Position>
+      <Position>
+        <Filename Value="umodes.pas"/>
+        <Caret Line="138" Column="27" TopLine="130"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -18,6 +18,7 @@ type
     CBMeshCoreDevices: TComboBox;
     CBMeshCoreEnable: TCheckBox;
     CBMeshCoreSendPosition: TCheckBox;
+    cbAISEnable: TCheckBox;
     CBESymbol: TComboBoxEx;
     cbModeSEnable: TCheckBox;
     cbIGateEnable: TCheckBox;
@@ -147,6 +148,7 @@ begin
     sbGetGPSPosition.Enabled := False;
 
   cbModeSEnable.Checked := FConfig^.ModeSEnabled;
+  cbAISEnable.Checked := FConfig^.AISEnabled;
   cbIgateEnable.Checked := FConfig^.IGateEnabled;
   CBMeshCoreEnable.Checked := FConfig^.MeshCoreEnabled;
   CBMeshCoreDevices.Clear;
@@ -177,6 +179,7 @@ begin
 
   FConfig^.AprsSymbol := CBESymbol.ItemIndex;
   FConfig^.ModeSEnabled := cbModeSEnable.Checked;
+  FConfig^.AISEnabled := cbAISEnable.Checked;
   FConfig^.AprsMessage := leAprsMessage.Caption;
   FConfig^.AprsUpdateInterval := spUpdateInterval.Value;
   FConfig^.MeshCoreEnabled := CBMeshCoreEnable.Checked;

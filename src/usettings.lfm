@@ -1,21 +1,21 @@
 object FSettings: TFSettings
   Left = 1654
-  Height = 759
+  Height = 581
   Top = 406
   Width = 1047
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'APRS Map - Settings'
-  ClientHeight = 759
+  ClientHeight = 581
   ClientWidth = 1047
   DefaultMonitor = dmDesktop
   Position = poMainFormCenter
-  LCLVersion = '4.4.0.0'
+  LCLVersion = '4.5.0.0'
   OnShow = FormShow
   object BPDefaultButtons: TButtonPanel
     Left = 6
-    Height = 41
-    Top = 712
+    Height = 40
+    Top = 535
     Width = 1035
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -36,17 +36,17 @@ object FSettings: TFSettings
     Top = 240
     Width = 539
     Caption = 'IGate'
-    ClientHeight = 255
+    ClientHeight = 257
     ClientWidth = 535
     TabOrder = 1
     object LEIgatePassword: TLabeledEdit
       Left = 124
-      Height = 36
+      Height = 34
       Top = 152
       Width = 382
       EchoMode = emPassword
-      EditLabel.Height = 36
-      EditLabel.Width = 106
+      EditLabel.Height = 34
+      EditLabel.Width = 99
       EditLabel.Caption = 'Password        '
       Enabled = False
       LabelPosition = lpLeft
@@ -55,11 +55,11 @@ object FSettings: TFSettings
     end
     object LEIGateServer: TLabeledEdit
       Left = 124
-      Height = 36
+      Height = 34
       Top = 56
       Width = 382
-      EditLabel.Height = 36
-      EditLabel.Width = 107
+      EditLabel.Height = 34
+      EditLabel.Width = 100
       EditLabel.Caption = 'Server              '
       Enabled = False
       LabelPosition = lpLeft
@@ -67,11 +67,11 @@ object FSettings: TFSettings
     end
     object LEIGatePort: TLabeledEdit
       Left = 124
-      Height = 36
+      Height = 34
       Top = 104
       Width = 176
-      EditLabel.Height = 36
-      EditLabel.Width = 107
+      EditLabel.Height = 34
+      EditLabel.Width = 100
       EditLabel.Caption = 'Port                  '
       Enabled = False
       LabelPosition = lpLeft
@@ -90,11 +90,11 @@ object FSettings: TFSettings
     end
     object LEIgateFilter: TLabeledEdit
       Left = 124
-      Height = 36
+      Height = 34
       Top = 208
       Width = 382
-      EditLabel.Height = 36
-      EditLabel.Width = 105
+      EditLabel.Height = 34
+      EditLabel.Width = 98
       EditLabel.Caption = 'Filter                '
       Enabled = False
       LabelPosition = lpLeft
@@ -102,9 +102,9 @@ object FSettings: TFSettings
     end
     object cbIGateEnable: TCheckBox
       Left = 16
-      Height = 26
+      Height = 25
       Top = 8
-      Width = 75
+      Width = 72
       Caption = 'Enable'
       TabOrder = 4
       OnChange = cbIGateEnableChange
@@ -116,27 +116,27 @@ object FSettings: TFSettings
     Top = 8
     Width = 489
     Caption = 'APRS Map'
-    ClientHeight = 191
+    ClientHeight = 193
     ClientWidth = 485
     TabOrder = 2
     object LEMapCache: TLabeledEdit
       Left = 172
-      Height = 36
+      Height = 34
       Top = 0
       Width = 258
-      EditLabel.Height = 36
-      EditLabel.Width = 159
+      EditLabel.Height = 34
+      EditLabel.Width = 148
       EditLabel.Caption = 'MAP Cache Directory'
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LECleanupTime: TLabeledEdit
       Left = 172
-      Height = 36
+      Height = 34
       Top = 48
       Width = 158
-      EditLabel.Height = 36
-      EditLabel.Width = 161
+      EditLabel.Height = 34
+      EditLabel.Width = 151
       EditLabel.Caption = 'PoI Cleanup Time (m)'
       LabelPosition = lpLeft
       TabOrder = 1
@@ -153,11 +153,11 @@ object FSettings: TFSettings
     end
     object LEMapLocalDirectory: TLabeledEdit
       Left = 172
-      Height = 36
+      Height = 34
       Top = 96
       Width = 258
-      EditLabel.Height = 36
-      EditLabel.Width = 160
+      EditLabel.Height = 34
+      EditLabel.Width = 150
       EditLabel.Caption = 'Local Tiles                    '
       LabelPosition = lpLeft
       TabOrder = 2
@@ -179,38 +179,38 @@ object FSettings: TFSettings
     Top = 8
     Width = 537
     Caption = 'Station Info'
-    ClientHeight = 191
+    ClientHeight = 193
     ClientWidth = 533
     TabOrder = 3
     object LECallsign: TLabeledEdit
       Left = 122
-      Height = 36
+      Height = 34
       Top = 0
       Width = 198
-      EditLabel.Height = 36
-      EditLabel.Width = 105
+      EditLabel.Height = 34
+      EditLabel.Width = 98
       EditLabel.Caption = 'Callsign           '
       LabelPosition = lpLeft
       TabOrder = 0
     end
     object LELatitude: TLabeledEdit
       Left = 122
-      Height = 36
+      Height = 34
       Top = 48
       Width = 382
-      EditLabel.Height = 36
-      EditLabel.Width = 104
+      EditLabel.Height = 34
+      EditLabel.Width = 97
       EditLabel.Caption = 'Latitude          '
       LabelPosition = lpLeft
       TabOrder = 1
     end
     object LELongitude: TLabeledEdit
       Left = 122
-      Height = 36
+      Height = 34
       Top = 96
       Width = 382
-      EditLabel.Height = 36
-      EditLabel.Width = 106
+      EditLabel.Height = 34
+      EditLabel.Width = 99
       EditLabel.Caption = 'Longitude       '
       LabelPosition = lpLeft
       TabOrder = 2
@@ -220,7 +220,7 @@ object FSettings: TFSettings
       AnchorSideRight.Control = GroupBox2
       AnchorSideRight.Side = asrBottom
       Left = 344
-      Height = 36
+      Height = 35
       Top = 0
       Width = 178
       Anchors = [akTop, akLeft, akRight]
@@ -251,11 +251,11 @@ object FSettings: TFSettings
     end
     object leAPRSMessage: TLabeledEdit
       Left = 122
-      Height = 36
+      Height = 34
       Top = 144
       Width = 191
-      EditLabel.Height = 36
-      EditLabel.Width = 105
+      EditLabel.Height = 34
+      EditLabel.Width = 98
       EditLabel.Caption = 'Message         '
       LabelPosition = lpLeft
       MaxLength = 40
@@ -264,7 +264,7 @@ object FSettings: TFSettings
     end
     object spUpdateInterval: TSpinEdit
       Left = 469
-      Height = 36
+      Height = 34
       Hint = 'Send APSMessage and Position every ''n minutes'
       Top = 144
       Width = 53
@@ -277,60 +277,67 @@ object FSettings: TFSettings
     end
     object Label1: TLabel
       Left = 320
-      Height = 22
+      Height = 21
       Top = 150
-      Width = 146
+      Width = 137
       Caption = 'Update Interval (m)'
     end
   end
   object GroupBox4: TGroupBox
     Left = 552
-    Height = 288
+    Height = 76
     Top = 240
     Width = 489
-    Caption = 'ModeS'
-    ClientHeight = 255
+    ClientHeight = 73
     ClientWidth = 485
     TabOrder = 4
     object cbModeSEnable: TCheckBox
       Left = 16
-      Height = 26
+      Height = 25
       Top = 8
-      Width = 75
-      Caption = 'Enable'
+      Width = 124
+      Caption = 'ModeS Enable'
       TabOrder = 0
+    end
+    object cbAISEnable: TCheckBox
+      Left = 16
+      Height = 25
+      Top = 40
+      Width = 99
+      Caption = 'AIS Enable'
+      TabOrder = 1
     end
   end
   object GroupBoxMeshCore: TGroupBox
-    Left = 6
-    Height = 168
-    Top = 536
-    Width = 1035
+    Left = 552
+    Height = 202
+    Top = 326
+    Width = 487
     Caption = 'MeshCore (Bluetooth LE)'
-    ClientHeight = 135
-    ClientWidth = 1031
+    ClientHeight = 171
+    ClientWidth = 483
     TabOrder = 5
     object CBMeshCoreEnable: TCheckBox
-      Left = 24
-      Height = 26
-      Top = 8
-      Width = 75
+      Left = 16
+      Height = 25
+      Top = 18
+      Width = 72
       Caption = 'Enable'
       TabOrder = 0
       OnChange = CBMeshCoreEnableChange
     end
     object LabelMeshCoreDevice: TLabel
-      Left = 24
-      Height = 22
-      Top = 88
-      Width = 130
+      Left = 16
+      Height = 21
+      Top = 95
+      Width = 122
       Caption = 'MeshCore Device'
       Enabled = False
     end
     object CBMeshCoreDevices: TComboBox
-      Left = 168
-      Height = 36
-      Top = 80
+      Left = 16
+      Height = 35
+      Top = 121
       Width = 304
       DropDownCount = 20
       Enabled = False
@@ -338,19 +345,19 @@ object FSettings: TFSettings
       TabOrder = 1
     end
     object SBScanMeshCoreDevices: TSpeedButton
-      Left = 488
+      Left = 328
       Height = 36
-      Top = 80
+      Top = 120
       Width = 143
       Caption = 'Scan Bluetooth'
       Enabled = False
       OnClick = ScanMeshCoreDevicesClick
     end
     object CBMeshCoreSendPosition: TCheckBox
-      Left = 24
-      Height = 26
-      Top = 40
-      Width = 275
+      Left = 16
+      Height = 25
+      Top = 47
+      Width = 260
       Caption = 'Send APRS position via MeshCore'
       Enabled = False
       TabOrder = 2
@@ -360,5 +367,4 @@ object FSettings: TFSettings
     Left = 448
     Top = 448
   end
-
 end
