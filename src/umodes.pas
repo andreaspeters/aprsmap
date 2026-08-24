@@ -16,6 +16,7 @@ type
     NativeMagnitude: TModeSMagnitude;
     NativeMessages: array[0..255] of TModeSMessage;
 
+
     procedure OpenNative;
     procedure CloseNative;
     procedure ProcessNativeSamples(const Buffer: PByte; const ByteCount: Integer);
@@ -26,6 +27,7 @@ type
     procedure Execute; override;
   public
     ModeSMessageList: TFPHashList;
+    ModeSUpdateQueue: TStringList;
     Error: Boolean;
     procedure Stop;
     constructor Create(Config: PAPRSConfig);
@@ -54,6 +56,7 @@ begin
 
   FreeOnTerminate := True;
   ModeSMessageList := TFPHashList.Create;
+  ModeSUpdateQueue := TStringList.Create;
   OpenNative;
   Start;
 end;
@@ -137,7 +140,9 @@ var
   APRSMessageObject: PAPRSMessage;
   Key: String;
   Latitude, Longitude: Double;
+  FrameTime: TDateTime;
 begin
+  FrameTime := Now;
   Key := IntToHex(Decoded.ICAO, 6);
   {$IFDEF UNIX}
   Writeln('[MODE-S] ICAO=', Key,
@@ -167,12 +172,13 @@ begin
   if Decoded.HasAltitude then
   begin
     APRSMessageObject^.Altitude.Clear;
-    APRSMessageObject^.Altitude.Add(Decoded.AltitudeFeet);
+    APRSMessageObject^.Altitude.Add(Round(Decoded.AltitudeFeet * 0.3048));
   end;
   if Decoded.HasVelocity then
   begin
     APRSMessageObject^.Speed.Clear;
-    APRSMessageObject^.Speed.Add(Decoded.Velocity);
+    APRSMessageObject^.Speed.Add(Round(Decoded.Velocity * 1.852));
+    APRSMessageObject^.Course := Decoded.Track;
   end;
   if Decoded.HasPosition then
   begin
@@ -181,14 +187,18 @@ begin
       APRSMessageObject^.ModeSOddLatitude := Decoded.RawLatitude;
       APRSMessageObject^.ModeSOddLongitude := Decoded.RawLongitude;
       APRSMessageObject^.ModeSOddValid := True;
+      APRSMessageObject^.ModeSOddTime := FrameTime;
     end
     else
     begin
       APRSMessageObject^.ModeSEvenLatitude := Decoded.RawLatitude;
       APRSMessageObject^.ModeSEvenLongitude := Decoded.RawLongitude;
       APRSMessageObject^.ModeSEvenValid := True;
+      APRSMessageObject^.ModeSEvenTime := FrameTime;
     end;
     if APRSMessageObject^.ModeSEvenValid and APRSMessageObject^.ModeSOddValid and
+       (Abs(APRSMessageObject^.ModeSEvenTime - APRSMessageObject^.ModeSOddTime) <=
+        (10.0 / 86400.0)) and
        DecodeGlobalCPR(APRSMessageObject^.ModeSEvenLatitude,
                        APRSMessageObject^.ModeSEvenLongitude,
                        APRSMessageObject^.ModeSOddLatitude,
@@ -200,10 +210,12 @@ begin
       APRSMessageObject^.ModeSPositionValid := True;
     end;
   end;
-  APRSMessageObject^.Time := Now;
+  APRSMessageObject^.Time := FrameTime;
   APRSMessageObject^.ImageIndex := 7;
   APRSMessageObject^.ModeS := True;
   APRSMessageObject^.Checksum := Key;
+  if ModeSUpdateQueue.IndexOf(Key) < 0 then
+    ModeSUpdateQueue.Add(Key);
 end;
 
 end.

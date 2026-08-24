@@ -1250,6 +1250,7 @@ end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var buffer: String;
+    ModeSKey: String;
     msg: PAPRSMessage;
     MeshMessage: TMeshCoreMessage;
     MeshNode: TMeshCoreNode;
@@ -1365,21 +1366,20 @@ begin
       {$ENDIF}
   end;
 
-  if APRSConfig.ModeSEnabled and not ModeS.Error and Assigned(ModeS.ModeSMessageList) then
+  if APRSConfig.ModeSEnabled and not ModeS.Error and Assigned(ModeS.ModeSMessageList) and
+     Assigned(ModeS.ModeSUpdateQueue) then
   begin
-    if ModeS.ModeSMessageList.Count > 0 then
+    if ModeS.ModeSUpdateQueue.Count > 0 then
     begin
       try
-        if Assigned(ModeS.ModeSMessageList.Items[0]) then
+        ModeSKey := ModeS.ModeSUpdateQueue[0];
+        msg := PAPRSMessage(ModeS.ModeSMessageList.Find(ModeSKey));
+        if Assigned(msg) then
         begin
-          msg := PAPRSMessage(ModeS.ModeSMessageList.Items[0]);
-          if Assigned(msg) then
-          begin
-            msg^.ModeS := True;
-            AddPoI(msg^);
-            ModeS.ModeSMessageList.Delete(0);
-          end;
+          msg^.ModeS := True;
+          AddPoI(msg^);
         end;
+        ModeS.ModeSUpdateQueue.Delete(0);
       except
         on E: Exception do
         begin

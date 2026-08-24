@@ -45,7 +45,7 @@
       <Unit>
         <Filename Value="utypes.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="20"/>
+        <EditorIndex Value="21"/>
         <TopLine Value="78"/>
         <CursorPos X="21" Y="90"/>
         <UsageCount Value="207"/>
@@ -84,7 +84,7 @@
         <ComponentName Value="FSettings"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="19"/>
+        <EditorIndex Value="20"/>
         <TopLine Value="113"/>
         <CursorPos X="36" Y="124"/>
         <UsageCount Value="243"/>
@@ -109,8 +109,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="15"/>
-        <TopLine Value="129"/>
-        <CursorPos X="52" Y="143"/>
+        <TopLine Value="116"/>
+        <CursorPos X="67" Y="130"/>
         <UsageCount Value="203"/>
         <Loaded Value="True"/>
       </Unit>
@@ -143,7 +143,7 @@
       <Unit>
         <Filename Value="devices/u_rs41sg.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="21"/>
+        <EditorIndex Value="22"/>
         <CursorPos X="58" Y="51"/>
         <UsageCount Value="201"/>
         <Loaded Value="True"/>
@@ -260,7 +260,7 @@
         <EditorIndex Value="13"/>
         <TopLine Value="520"/>
         <CursorPos X="63"/>
-        <UsageCount Value="82"/>
+        <UsageCount Value="83"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -268,7 +268,24 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
         <CursorPos X="36" Y="9"/>
-        <UsageCount Value="82"/>
+        <UsageCount Value="83"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umodesdecoder.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="22"/>
+      </Unit>
+      <Unit>
+        <Filename Value="urtlsdr.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="19"/>
+        <TopLine Value="86"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>

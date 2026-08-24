@@ -69,7 +69,7 @@ begin
     end;
     if Assigned(Msg^.Altitude) and (Msg^.Altitude.Count > 0) then
       Altitude := FloatToStr(Msg^.Altitude[Msg^.Altitude.Count - 1]) else Altitude := 'n/a';
-    if Msg^.ModeSPositionValid then Course := FloatToStr(Msg^.Course)
+    if Assigned(Msg^.Speed) and (Msg^.Speed.Count > 0) then Course := FloatToStr(Msg^.Course)
     else Course := 'n/a';
     Grid.Cells[0, Row] := Msg^.FromCall;
     Grid.Cells[1, Row] := Latitude;

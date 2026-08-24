@@ -99,7 +99,8 @@ end;
 function DecodeModeSMessage(const Data: TModeSBytes; out Message: TModeSMessage): Boolean;
 var
   DF, TypeCode, SubType, Parity: Integer;
-  AltitudeCode: Integer;
+  AltitudeCode, AltitudeN, EastWest, NorthSouth, SpeedMultiplier: Integer;
+  EastWestWest, NorthSouthSouth: Boolean;
 begin
   FillChar(Message, SizeOf(Message), 0);
   Result := False;
@@ -117,9 +118,14 @@ begin
     Message.Flight := DecodeFlight(Data)
   else if (TypeCode >= 9) and (TypeCode <= 18) then
   begin
-    AltitudeCode := ((Data[5] and 3) shl 8) or Data[6];
-    Message.AltitudeFeet := AltitudeCode * 25 - 1000;
-    Message.HasAltitude := True;
+    AltitudeCode := (Data[5] shl 4) or (Data[6] shr 4);
+    { AC12 bit 4 is the Q bit. Only Q=1 carries a 25 ft barometric altitude. }
+    if (AltitudeCode and $10) <> 0 then
+    begin
+      AltitudeN := ((AltitudeCode and $FE0) shr 1) or (AltitudeCode and $0F);
+      Message.AltitudeFeet := AltitudeN * 25 - 1000;
+      Message.HasAltitude := True;
+    end;
     Message.RawLatitude := ((Data[6] and 3) shl 15) or (Data[7] shl 7) or (Data[8] shr 1);
     Message.RawLongitude := ((Data[8] and 1) shl 16) or (Data[9] shl 8) or Data[10];
     Message.OddCPR := (Data[6] and 4) <> 0;
@@ -130,8 +136,25 @@ begin
     SubType := Data[4] and 7;
     if (SubType = 1) or (SubType = 2) then
     begin
-      Message.Velocity := (((Data[5] and 3) shl 8) or Data[6]);
-      Message.HasVelocity := True;
+      EastWestWest := (Data[5] and $04) <> 0;
+      EastWest := ((Data[5] and $03) shl 8) or Data[6];
+      NorthSouthSouth := (Data[7] and $80) <> 0;
+      NorthSouth := ((Data[7] and $7F) shl 3) or (Data[8] shr 5);
+      if (EastWest <> 0) and (NorthSouth <> 0) then
+      begin
+        Dec(EastWest);
+        Dec(NorthSouth);
+        SpeedMultiplier := 1;
+        if SubType = 2 then SpeedMultiplier := 4;
+        EastWest := EastWest * SpeedMultiplier;
+        NorthSouth := NorthSouth * SpeedMultiplier;
+        if EastWestWest then EastWest := -EastWest;
+        if NorthSouthSouth then NorthSouth := -NorthSouth;
+        Message.Velocity := Round(Sqrt(Sqr(EastWest) + Sqr(NorthSouth)));
+        Message.Track := Round(ArcTan2(EastWest, NorthSouth) * 180.0 / Pi);
+        if Message.Track < 0 then Inc(Message.Track, 360);
+        Message.HasVelocity := True;
+      end;
     end;
   end;
   Result := True;

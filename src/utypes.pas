@@ -105,6 +105,8 @@ type
     ModeSOddLongitude: Integer;
     ModeSEvenValid: Boolean;
     ModeSOddValid: Boolean;
+    ModeSEvenTime: TDateTime;
+    ModeSOddTime: TDateTime;
     ModeSPositionValid: Boolean;
   end;
 
