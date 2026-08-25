@@ -15,7 +15,8 @@ uses
   Forms, indylaz, lazcontrols, tachartlazaruspkg, umain, uresize, ureadpipe,
   utypes, uaprs, uini, uigate, usettings, uinfo, umodes, ulastseen, urawmessage,
   u_rs41sg, ugps, ugpsd, umice, ucompressed, ulistmails, ueditor, umeshcore,
-  bluetoothlaz, umodesdecoder, urtlsdr, umodeslist, uaislist, uaisreceiver;
+  bluetoothlaz, umodesdecoder, urtlsdr, umodeslist, uaislist, uaisreceiver,
+  uaisdecoder;
 
 {$R *.res}
 

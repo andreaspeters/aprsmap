@@ -20,6 +20,7 @@ type
     Altitude: Double;
     Speed: Double;
     Climb: Double;
+    Connected: Boolean;
     constructor Create(Config: PAPRSConfig);
   end;
 
@@ -31,6 +32,7 @@ constructor TGpsThread.Create(Config: PAPRSConfig);
 begin
   inherited Create(True);
   FConfig := Config;
+  Connected := False;
 end;
 
 procedure TGpsThread.Execute;
@@ -47,9 +49,11 @@ begin
     Client.Port := FConfig^.GPSdPort;
     Client.Connect;
     Client.IOHandler.WriteLn('?WATCH={"json":true,"enable":true}');
+    Connected := True;
   except
     on E: Exception do
     begin
+      Connected := False;
       FConfig^.GPSdEnabled := False;
       Client.Free;
       Client := Nil;
@@ -93,6 +97,7 @@ begin
     except
       on E: Exception do
       begin
+        Connected := False;
         writeln('Error GPSd Response Loop:', E.Message);
       end;
     end;

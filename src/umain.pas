@@ -38,6 +38,7 @@ type
     GroupBox3: TGroupBox;
     ICallsignIcon: TImage;
     ilMessageStatus: TImage;
+    shGPSDStatus: TShape;
     shRTLSDRStatus: TShape;
     ImageList1: TImageList;
     Label1: TLabel;
@@ -217,6 +218,7 @@ type
     procedure UpdateWXCaption(msg: TAPRSMessage);
     procedure UpdateDevices(newMsg, oldMsg: PAPRSMessage);
     procedure ShowChartPopup(Sender: TObject);
+    procedure UpdateGPSDStatus;
     procedure UpdateRTLSDRStatus;
     function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
@@ -333,6 +335,7 @@ begin
   pcPoITab.ActivePage := tsMain;
 
   FGPS.Start(@APRSConfig);
+  UpdateGPSDStatus;
 
   ilMessageStatus.ImageIndex := 241;
 
@@ -360,6 +363,25 @@ begin
     shRTLSDRStatus.Brush.Color := clRed;
     shRTLSDRStatus.Pen.Color := clMaroon;
     shRTLSDRStatus.Hint := 'RTL-SDR hardware status: unavailable';
+  end;
+end;
+
+procedure TFMain.UpdateGPSDStatus;
+var
+  Available: Boolean;
+begin
+  Available := Assigned(GPSd) and GPSd.Connected;
+  if Available then
+  begin
+    shGPSDStatus.Brush.Color := clLime;
+    shGPSDStatus.Pen.Color := clGreen;
+    shGPSDStatus.Hint := 'GPSD status: reachable';
+  end
+  else
+  begin
+    shGPSDStatus.Brush.Color := clGray;
+    shGPSDStatus.Pen.Color := clMedGray;
+    shGPSDStatus.Hint := 'GPSD status: unreachable';
   end;
 end;
 
@@ -1285,6 +1307,7 @@ var buffer: String;
     MeshAPRSMessage: TAPRSMessage;
 begin
   DelPoIByAge;
+  UpdateGPSDStatus;
   UpdateRTLSDRStatus;
 
   if APRSConfig.IGateEnabled and Assigned(IGate) then

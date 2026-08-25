@@ -5,16 +5,24 @@ unit uaislist;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls;
+  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls, StdCtrls, ComCtrls;
 
 type
   TAISListForm = class(TForm)
+    BottomPanel: TPanel;
+    CloseButton: TButton;
+    EntryCountLabel: TLabel;
     Grid: TStringGrid;
+    HeaderPanel: TPanel;
     RefreshTimer: TTimer;
+    StatusBar: TStatusBar;
+    TitleLabel: TLabel;
+    procedure CloseButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure RefreshTimerTimer(Sender: TObject);
   private
     procedure RefreshGrid;
+    procedure UpdateViewerStatus;
   end;
 
 var
@@ -41,6 +49,7 @@ begin
   Grid.Cells[6, 0] := 'Heading';
   Grid.Cells[7, 0] := 'Last update';
   Grid.RowCount := 1;
+  UpdateViewerStatus;
   if not Assigned(FMain) or not Assigned(FMain.ModeS) or
      not Assigned(FMain.ModeS.AISMessageList) then Exit;
   for I := 0 to FMain.ModeS.AISMessageList.Count - 1 do
@@ -80,6 +89,21 @@ begin
     end;
     Grid.Cells[7, Row] := DateTimeToStr(Msg^.Time);
   end;
+  UpdateViewerStatus;
+end;
+
+procedure TAISListForm.UpdateViewerStatus;
+var
+  EntryCount: Integer;
+begin
+  EntryCount := Grid.RowCount - 1;
+  EntryCountLabel.Caption := IntToStr(EntryCount) + ' vessels';
+  StatusBar.SimpleText := IntToStr(EntryCount) + ' AIS vessels tracked';
+end;
+
+procedure TAISListForm.CloseButtonClick(Sender: TObject);
+begin
+  Hide;
 end;
 
 procedure TAISListForm.FormShow(Sender: TObject);

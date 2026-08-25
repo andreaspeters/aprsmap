@@ -5,16 +5,24 @@ unit umodeslist;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls;
+  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls, StdCtrls, ComCtrls;
 
 type
   TModeSListForm = class(TForm)
+    BottomPanel: TPanel;
+    CloseButton: TButton;
+    EntryCountLabel: TLabel;
     Grid: TStringGrid;
+    HeaderPanel: TPanel;
     RefreshTimer: TTimer;
+    StatusBar: TStatusBar;
+    TitleLabel: TLabel;
+    procedure CloseButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure RefreshTimerTimer(Sender: TObject);
   private
     procedure RefreshGrid;
+    procedure UpdateViewerStatus;
   end;
 
 var
@@ -43,6 +51,7 @@ begin
   Grid.Cells[7, 0] := 'ICAO';
   Grid.Cells[8, 0] := 'Status';
   Grid.RowCount := 1;
+  UpdateViewerStatus;
   if not Assigned(FMain) or not Assigned(FMain.ModeS) or
      not Assigned(FMain.ModeS.ModeSMessageList) then Exit;
   for I := 0 to FMain.ModeS.ModeSMessageList.Count - 1 do
@@ -81,6 +90,21 @@ begin
     Grid.Cells[7, Row] := Msg^.Checksum;
     Grid.Cells[8, Row] := Status;
   end;
+  UpdateViewerStatus;
+end;
+
+procedure TModeSListForm.UpdateViewerStatus;
+var
+  EntryCount: Integer;
+begin
+  EntryCount := Grid.RowCount - 1;
+  EntryCountLabel.Caption := IntToStr(EntryCount) + ' aircraft';
+  StatusBar.SimpleText := IntToStr(EntryCount) + ' Mode-S aircraft tracked';
+end;
+
+procedure TModeSListForm.CloseButtonClick(Sender: TObject);
+begin
+  Hide;
 end;
 
 procedure TModeSListForm.FormShow(Sender: TObject);

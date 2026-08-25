@@ -1,25 +1,89 @@
 object FModeSList: TModeSListForm
   Left = 260
-  Height = 420
+  Height = 520
   Top = 180
-  Width = 1000
-  Caption = 'ModeS Aircraft Tracking'
+  Width = 1120
+  BorderIcons = [biSystemMenu, biMinimize, biMaximize]
+  Caption = 'Mode-S Aircraft Tracking'
+  Position = poScreenCenter
   OnShow = FormShow
+  object HeaderPanel: TPanel
+    Left = 0
+    Height = 46
+    Top = 0
+    Width = 1120
+    Align = alTop
+    BevelOuter = bvNone
+    TabOrder = 0
+    object TitleLabel: TLabel
+      Left = 12
+      Height = 22
+      Top = 12
+      Width = 280
+      Caption = 'Mode-S aircraft tracking'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object EntryCountLabel: TLabel
+      AnchorSideTop.Control = TitleLabel
+      AnchorSideRight.Control = HeaderPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 1000
+      Height = 17
+      Top = 14
+      Width = 108
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Caption = '0 aircraft'
+    end
+  end
+  object BottomPanel: TPanel
+    Left = 0
+    Height = 42
+    Top = 452
+    Width = 1120
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 1
+    object CloseButton: TButton
+      AnchorSideTop.Control = BottomPanel
+      AnchorSideRight.Control = BottomPanel
+      AnchorSideRight.Side = asrBottom
+      Left = 1028
+      Height = 30
+      Top = 6
+      Width = 80
+      Anchors = [akTop, akRight]
+      Caption = 'Close'
+      OnClick = CloseButtonClick
+      TabOrder = 0
+    end
+  end
+  object StatusBar: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 494
+    Width = 1120
+    Align = alBottom
+    SimplePanel = True
+  end
   object Grid: TStringGrid
     Left = 0
-    Top = 0
-    Width = 1000
-    Height = 390
+    Top = 46
+    Width = 1120
+    Height = 406
     Align = alClient
     ColCount = 9
     FixedCols = 0
     RowCount = 1
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goThumbTracking]
-    TabOrder = 0
+    TabOrder = 2
     TitleFont.Style = [fsBold]
   end
   object RefreshTimer: TTimer
     Interval = 1000
     OnTimer = RefreshTimerTimer
+    Left = 960
+    Top = 10
   end
 end

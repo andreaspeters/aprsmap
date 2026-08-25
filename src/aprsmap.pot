@@ -328,6 +328,14 @@ msgstr ""
 msgid "&File"
 msgstr ""
 
+#: tfmain.menuitem12.caption
+msgid "ModeS Aircraft Tracking"
+msgstr ""
+
+#: tfmain.menuitem13.caption
+msgid "AIS Ship Tracking"
+msgstr ""
+
 #: tfmain.menuitem2.caption
 msgid "&Help"
 msgstr ""

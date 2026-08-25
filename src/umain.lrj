@@ -49,6 +49,8 @@
 {"hash":2805797,"name":"tfmain.menuitem1.caption","sourcebytes":[38,70,105,108,101],"value":"&File"},
 {"hash":213582195,"name":"tfmain.settings.caption","sourcebytes":[83,101,116,116,105,110,103,115],"value":"Settings"},
 {"hash":380871,"name":"tfmain.menuitem5.caption","sourcebytes":[86,105,101,119],"value":"View"},
+{"hash":85010935,"name":"tfmain.menuitem12.caption","sourcebytes":[77,111,100,101,83,32,65,105,114,99,114,97,102,116,32,84,114,97,99,107,105,110,103],"value":"ModeS Aircraft Tracking"},
+{"hash":30269607,"name":"tfmain.menuitem13.caption","sourcebytes":[65,73,83,32,83,104,105,112,32,84,114,97,99,107,105,110,103],"value":"AIS Ship Tracking"},
 {"hash":2812976,"name":"tfmain.menuitem2.caption","sourcebytes":[38,72,101,108,112],"value":"&Help"},
 {"hash":50550740,"name":"tfmain.menuitem4.caption","sourcebytes":[71,101,116,32,70,108,101,120,112,97,99,107,101,116],"value":"Get Flexpacket"},
 {"hash":234287941,"name":"tfmain.btnbuymeacoffee.caption","sourcebytes":[66,117,121,32,109,101,32,97,32,99,111,102,102,101,101],"value":"Buy me a coffee"},

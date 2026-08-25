@@ -73,6 +73,21 @@ begin
     Result := Result or ((Bits[Start + I] and 1) shl I);
 end;
 
+function EndsWithHDLCFlag(const NRZIBits: array of Byte): Boolean;
+var
+  I, Start: Integer;
+  DecodedByte: Byte;
+begin
+  Result := False;
+  if Length(NRZIBits) < 9 then Exit;
+  Start := Length(NRZIBits) - 9;
+  DecodedByte := 0;
+  for I := 0 to 7 do
+    if (NRZIBits[Start + I] and 1) = (NRZIBits[Start + I + 1] and 1) then
+      DecodedByte := DecodedByte or (Byte(1) shl I);
+  Result := DecodedByte = AIS_FLAG;
+end;
+
 function AISHDLCPayload(const NRZIBits: array of Byte; out PayloadBits: TBytes): Boolean;
 var
   Decoded, Unstuffed: TBytes;
@@ -98,6 +113,10 @@ begin
     if BitsToByteLSB(Decoded, I) = AIS_FLAG then
     begin
       if StartFlag < 0 then
+        StartFlag := I + 8
+      else if I = StartFlag then
+        { Consecutive HDLC flags are an idle/preamble sequence.  The last
+          preamble flag, not the first pair, is the actual frame start. }
         StartFlag := I + 8
       else
       begin
@@ -201,7 +220,7 @@ begin
   LengthBefore := Length(Bits);
   SetLength(Bits, LengthBefore + 1);
   Bits[LengthBefore] := Ord(NewLevel);
-  if (Length(Bits) >= 200) and ((Length(Bits) mod 8) = 0) then
+  if (Length(Bits) >= 200) and EndsWithHDLCFlag(Bits) then
   begin
     if AISHDLCPayload(Bits, Payload) then
     begin
