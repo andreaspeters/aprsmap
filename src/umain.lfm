@@ -4011,6 +4011,23 @@ object FMain: TFMain
     Images = ImageList1
     OnClick = actShowMessagesExecute
   end
+  object shRTLSDRStatus: TShape
+    AnchorSideTop.Control = SBMain
+    AnchorSideRight.Control = SBMain
+    AnchorSideRight.Side = asrBottom
+    Left = 1544
+    Height = 16
+    Top = 1151
+    Width = 16
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 3
+    BorderSpacing.Right = 32
+    Brush.Color = clRed
+    Pen.Color = clMaroon
+    Shape = stCircle
+    ShowHint = True
+    Visible = False
+  end
   object MvBGRADrawingEngine1: TMvBGRADrawingEngine
     Left = 1224
     Top = 1176

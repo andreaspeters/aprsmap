@@ -188,8 +188,12 @@ begin
 
 
   if Assigned(FMain.ModeS) then
-    FMain.ModeS.Free;
-  if FConfig^.ModeSEnabled then
+  begin
+    FMain.ModeS.Stop;
+    FMain.ModeS.WaitFor;
+    FreeAndNil(FMain.ModeS);
+  end;
+  if FConfig^.ModeSEnabled or FConfig^.AISEnabled then
     FMain.ModeS := TModeSThread.Create(@APRSConfig);
 
   if Assigned(FMain.IGate) then

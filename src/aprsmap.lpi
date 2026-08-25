@@ -295,6 +295,10 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="uaisreceiver.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="urtlsdr.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>

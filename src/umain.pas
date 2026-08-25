@@ -38,6 +38,7 @@ type
     GroupBox3: TGroupBox;
     ICallsignIcon: TImage;
     ilMessageStatus: TImage;
+    shRTLSDRStatus: TShape;
     ImageList1: TImageList;
     Label1: TLabel;
     Label10: TLabel;
@@ -216,6 +217,7 @@ type
     procedure UpdateWXCaption(msg: TAPRSMessage);
     procedure UpdateDevices(newMsg, oldMsg: PAPRSMessage);
     procedure ShowChartPopup(Sender: TObject);
+    procedure UpdateRTLSDRStatus;
     function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
@@ -308,8 +310,9 @@ begin
   end;
 
   ModeS := nil;
-  if APRSConfig.ModeSEnabled then
+  if APRSConfig.ModeSEnabled or APRSConfig.AISEnabled then
     ModeS := TModeSThread.Create(@APRSConfig);
+  UpdateRTLSDRStatus;
 
   IGate := nil;
   if APRSConfig.IGateEnabled then
@@ -335,6 +338,29 @@ begin
 
   // Minutes to milliseconds
   tBake.Interval := APRSConfig.AprsUpdateInterval * 60 * 1000
+end;
+
+procedure TFMain.UpdateRTLSDRStatus;
+var
+  StatusEnabled, Available: Boolean;
+begin
+  StatusEnabled := APRSConfig.ModeSEnabled or APRSConfig.AISEnabled;
+  shRTLSDRStatus.Visible := StatusEnabled;
+  if not StatusEnabled then Exit;
+
+  Available := Assigned(ModeS) and not ModeS.Error;
+  if Available then
+  begin
+    shRTLSDRStatus.Brush.Color := clLime;
+    shRTLSDRStatus.Pen.Color := clGreen;
+    shRTLSDRStatus.Hint := 'RTL-SDR hardware status: available';
+  end
+  else
+  begin
+    shRTLSDRStatus.Brush.Color := clRed;
+    shRTLSDRStatus.Pen.Color := clMaroon;
+    shRTLSDRStatus.Hint := 'RTL-SDR hardware status: unavailable';
+  end;
 end;
 
 procedure TFMain.FormChangeBounds(Sender: TObject);
@@ -385,10 +411,11 @@ begin
 
   SaveConfigToFile(@APRSConfig);
   try
-    if APRSConfig.ModeSEnabled and Assigned(ModeS) then
+    if Assigned(ModeS) then
     begin
       ModeS.Stop;
-      ModeS.Terminate;
+      ModeS.WaitFor;
+      FreeAndNil(ModeS);
     end;
   except
   end;
@@ -1250,7 +1277,7 @@ end;
 
 procedure TFMain.TMainLoopTimer(Sender: TObject);
 var buffer: String;
-    ModeSKey: String;
+    ModeSKey, AISKey: String;
     msg: PAPRSMessage;
     MeshMessage: TMeshCoreMessage;
     MeshNode: TMeshCoreNode;
@@ -1258,6 +1285,7 @@ var buffer: String;
     MeshAPRSMessage: TAPRSMessage;
 begin
   DelPoIByAge;
+  UpdateRTLSDRStatus;
 
   if APRSConfig.IGateEnabled and Assigned(IGate) then
   begin
@@ -1385,6 +1413,30 @@ begin
         begin
           {$IFDEF UNIX}
           writeln('Error Main Loop ModeS: ', E.Message);
+          {$ENDIF}
+        end;
+      end;
+    end;
+  end;
+  if APRSConfig.AISEnabled and not ModeS.Error and Assigned(ModeS.AISMessageList) and
+     Assigned(ModeS.AISUpdateQueue) then
+  begin
+    if ModeS.AISUpdateQueue.Count > 0 then
+    begin
+      try
+        AISKey := ModeS.AISUpdateQueue[0];
+        msg := PAPRSMessage(ModeS.AISMessageList.Find(AISKey));
+        if Assigned(msg) then
+        begin
+          msg^.ModeS := False;
+          AddPoI(msg^);
+        end;
+        ModeS.AISUpdateQueue.Delete(0);
+      except
+        on E: Exception do
+        begin
+          {$IFDEF UNIX}
+          writeln('Error Main Loop AIS: ', E.Message);
           {$ENDIF}
         end;
       end;

@@ -28,7 +28,7 @@ function RtlSdrCancelAsync(Dev: TRtlSdrDev): Integer;
 implementation
 
 uses
-  DynLibs;
+  Classes, DynLibs;
 
 type
   TGetDeviceCount = function: Cardinal; cdecl;
@@ -69,6 +69,29 @@ const
 var
   I: Integer;
   LibraryName: String;
+  LibraryPaths: TStringList;
+  procedure TryLoadFile(const FileName: String);
+  begin
+    if (RTLHandle = NilHandle) and FileExists(FileName) then
+      RTLHandle := LoadLibrary(PChar(FileName));
+  end;
+
+  procedure TryLoadFromDirectories(const Directories: TStringList);
+  var
+    DirectoryIndex, NameIndex: Integer;
+  begin
+    for DirectoryIndex := 0 to Directories.Count - 1 do
+    begin
+      if RTLHandle <> NilHandle then Exit;
+      for NameIndex := Low(LIBRARIES) to High(LIBRARIES) do
+      begin
+        TryLoadFile(IncludeTrailingPathDelimiter(Directories[DirectoryIndex]) +
+          String(LIBRARIES[NameIndex]));
+        if RTLHandle <> NilHandle then Exit;
+      end;
+    end;
+  end;
+
   function Symbol(const Name: PChar): Pointer;
   begin
     Result := GetProcedureAddress(RTLHandle, Name);
@@ -80,6 +103,34 @@ begin
   LibraryName := GetEnvironmentVariable('RTLSDR_LIBRARY');
   if LibraryName <> '' then
     RTLHandle := LoadLibrary(PChar(LibraryName));
+  {$IFDEF UNIX}
+  if RTLHandle = NilHandle then
+  begin
+    LibraryPaths := TStringList.Create;
+    try
+      LibraryPaths.StrictDelimiter := True;
+      LibraryPaths.Delimiter := ':';
+      LibraryPaths.DelimitedText := GetEnvironmentVariable('LD_LIBRARY_PATH');
+      LibraryPaths.Add('/usr/local/lib');
+      LibraryPaths.Add('/usr/local/lib64');
+      LibraryPaths.Add('/usr/lib');
+      LibraryPaths.Add('/usr/lib64');
+      LibraryPaths.Add('/lib');
+      LibraryPaths.Add('/lib64');
+      LibraryPaths.Add('/usr/lib/x86_64-linux-gnu');
+      LibraryPaths.Add('/lib/x86_64-linux-gnu');
+      LibraryPaths.Add('/usr/lib/aarch64-linux-gnu');
+      LibraryPaths.Add('/lib/aarch64-linux-gnu');
+      LibraryPaths.Add('/usr/lib/arm-linux-gnueabihf');
+      LibraryPaths.Add('/lib/arm-linux-gnueabihf');
+      LibraryPaths.Add('/usr/lib/i386-linux-gnu');
+      LibraryPaths.Add('/lib/i386-linux-gnu');
+      TryLoadFromDirectories(LibraryPaths);
+    finally
+      LibraryPaths.Free;
+    end;
+  end;
+  {$ENDIF}
   for I := Low(LIBRARIES) to High(LIBRARIES) do
   begin
     if RTLHandle <> NilHandle then Break;

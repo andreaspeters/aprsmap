@@ -108,6 +108,8 @@ type
     ModeSEvenTime: TDateTime;
     ModeSOddTime: TDateTime;
     ModeSPositionValid: Boolean;
+    AISPositionValid: Boolean;
+    AISHeading: Integer;
   end;
 
   TAPRSConfig = record

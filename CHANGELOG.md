@@ -1,5 +1,9 @@
 # Changelog
 
+## master
+
+- CHANGE: repleace dump1090 with native RTLSDR support for ModeS and AIS.
+
 ## v0.7.0
 
 - ADD: Wayland support
