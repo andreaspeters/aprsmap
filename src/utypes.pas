@@ -50,6 +50,7 @@ type
 
   TAPRSMessage = record
     FromCall: String;
+    ReporterCall: String;
     ToCall: String;
     Path: String;
     DataType: String;
@@ -517,6 +518,7 @@ begin
 
   // 2) String-Felder explizit (optional, aber klar)
   Result.FromCall         := '';
+  Result.ReporterCall     := '';
   Result.ToCall           := '';
   Result.Path             := '';
   Result.DataType         := '';

@@ -712,6 +712,11 @@ begin
         APRSMessageObject.Path := Trim(Regex.Match[3]);
     end;
 
+    // Object and item packets are named entities. Preserve the originating
+    // station before their payload replaces FromCall with the entity name.
+    if (DataType = ';') or (DataType = ')') then
+      APRSMessageObject.ReporterCall := APRSMessageObject.FromCall;
+
     APRSMessageObject.Time := now();
     APRSMessageObject.ModeS := False;
     APRSMessageObject.RAWMessages := TStringList.Create;

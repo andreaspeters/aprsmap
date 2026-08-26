@@ -263,13 +263,13 @@ end;
 
 function DecodeAPRSLine(const Data: String): TAPRSMessage;
 var Regex: TRegExpr;
-    NormData, DataType, DataMessage: String;
+    NormData, DataType, DataMessage, Path: String;
 begin
   Result := Default(TAPRSMessage);
   Regex := TRegExpr.Create;
   try
     // check type
-    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP*)?(.*):([!=\/@;#*)_:>$T?<}''`]{1})(.*)';
+    Regex.Expression := '^([^>]+)>([^,:]+)((?:,[^:]+)*):([!=\/@;#*)_:>$T?<}''`]{1})(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
@@ -279,7 +279,13 @@ begin
       // check if type is a position type
       DataType := Regex.Match[4];
       DataMessage := Regex.Match[5];
-      NormData := Format('Fm %s To %s via %s ctl UIv pid F0 %s%s', [Regex.Match[1], Regex.Match[3], Regex.Match[2], Regex.Match[4], Regex.Match[5]]);
+      Path := Trim(Regex.Match[3]);
+      if (Path <> '') and (Path[1] = ',') then
+        Delete(Path, 1, 1);
+      NormData := Format('Fm %s To %s', [Regex.Match[1], Regex.Match[2]]);
+      if Path <> '' then
+        NormData := NormData + ' via ' + Path;
+      NormData := NormData + Format(' ctl UIv pid F0 %s%s', [DataType, DataMessage]);
 
       {$IFDEF UNIX}
       if FMain.Debug then

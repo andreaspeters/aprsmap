@@ -16,6 +16,11 @@ uses
 
 type
 
+  TObjectReporterLinkTrack = class(TGPSTrack)
+  public
+    procedure Draw(AView: TObject; {%H-}Area: TRealArea); override;
+  end;
+
   { TFMain }
 
   TFMain = class(TForm)
@@ -220,6 +225,9 @@ type
     procedure ShowChartPopup(Sender: TObject);
     procedure UpdateGPSDStatus;
     procedure UpdateRTLSDRStatus;
+    procedure ClearObjectReporterLink;
+    procedure ShowObjectReporterLink(const Message: PAPRSMessage);
+    function FindObjectReporter(const Message: PAPRSMessage): PAPRSMessage;
     function GetWXCaption(wx: TDoubleList; calc: String): String;
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
@@ -232,6 +240,7 @@ type
     IGate: TIGateThread;
     ModeS: TModeSThread;
     MeshCore: TMeshCoreClient;
+    ObjectReporterLink: TGPSTrack;
     SendOutMessage: array of TMessage;
     procedure SendStringCommand(const Channel, Code: byte; const Command: String);
   end;
@@ -252,6 +261,29 @@ var
 implementation
 
 {$R *.lfm}
+
+const
+  ObjectReporterLinkId = -1001;
+
+procedure TObjectReporterLinkTrack.Draw(AView: TObject; {%H-}Area: TRealArea);
+var
+  MapView: TMapView;
+  StartPoint, EndPoint: TPoint;
+begin
+  if not Visible or (Points.Count < 2) then
+    Exit;
+
+  MapView := TMapView(AView);
+  StartPoint := MapView.LatLonToScreen(Points[0].RealPoint);
+  EndPoint := MapView.LatLonToScreen(Points[1].RealPoint);
+  MapView.DrawingEngine.StoreState;
+  try
+    MapView.DrawingEngine.SetPen(psDash, 2, clAqua);
+    MapView.DrawingEngine.Line(StartPoint.X, StartPoint.Y, EndPoint.X, EndPoint.Y);
+  finally
+    MapView.DrawingEngine.RestoreState;
+  end;
+end;
 
 { TFMain }
 
@@ -711,6 +743,70 @@ begin
     FRawMessage.Close;
 end;
 
+procedure TFMain.ClearObjectReporterLink;
+begin
+  if Assigned(ObjectReporterLink) then
+  begin
+    MVMap.GPSItems.Delete(ObjectReporterLink);
+    ObjectReporterLink := nil;
+  end;
+end;
+
+function TFMain.FindObjectReporter(const Message: PAPRSMessage): PAPRSMessage;
+var
+  PathParts: TStringArray;
+  Candidate: String;
+  I: Integer;
+begin
+  Result := nil;
+  if not Assigned(Message) then
+    Exit;
+
+  // APRS-IS packets identify the RF-side forwarding station after the qA
+  // construct. Prefer a station from that WIDE/IGate path when it is known.
+  if (Pos('QA', UpperCase(Message^.Path)) > 0) or
+     (Pos('TCPIP', UpperCase(Message^.Path)) > 0) then
+  begin
+    PathParts := Message^.Path.Split(',');
+    for I := High(PathParts) downto 0 do
+    begin
+      Candidate := Trim(StringReplace(PathParts[I], '*', '', [rfReplaceAll]));
+      if (Candidate = '') or StartsText('QA', Candidate) then
+        Continue;
+      Result := APRSMessageList.Find(Candidate);
+      if Assigned(Result) and (Result^.Latitude <> 0.0) and
+         (Result^.Longitude <> 0.0) then
+        Exit;
+      Result := nil;
+    end;
+  end;
+
+  if Message^.ReporterCall <> '' then
+    Result := APRSMessageList.Find(Message^.ReporterCall);
+end;
+
+procedure TFMain.ShowObjectReporterLink(const Message: PAPRSMessage);
+var
+  Reporter: PAPRSMessage;
+begin
+  if not Assigned(Message) or (Message^.DataType <> ';') or
+     (Message^.ReporterCall = '') or (Message^.Latitude = 0.0) or
+     (Message^.Longitude = 0.0) then
+    Exit;
+
+  Reporter := FindObjectReporter(Message);
+  if not Assigned(Reporter) or (Reporter = Message) or
+     (Reporter^.Latitude = 0.0) or (Reporter^.Longitude = 0.0) then
+    Exit;
+
+  ObjectReporterLink := TObjectReporterLinkTrack.Create;
+  ObjectReporterLink.Points.Add(TGPSPoint.Create(Message^.Longitude,
+    Message^.Latitude, 0));
+  ObjectReporterLink.Points.Add(TGPSPoint.Create(Reporter^.Longitude,
+    Reporter^.Latitude, 0));
+  MVMap.GPSItems.Add(ObjectReporterLink, ObjectReporterLinkId, MaxInt);
+end;
+
 // User select one PoI
 procedure TFMain.SelectPOI(Sender: TObject);
 var msg: PAPRSMessage;
@@ -719,6 +815,7 @@ var msg: PAPRSMessage;
     i: Integer;
 begin
   try
+    ClearObjectReporterLink;
     MAPRSMessage.Lines.Clear;
 
     // Cleanup all Charts.
@@ -745,6 +842,7 @@ begin
     msg := APRSMessageList.Find(call);
     if Assigned(msg) then
     begin
+      ShowObjectReporterLink(msg);
 
       ICallSignIcon.ImageIndex := msg^.ImageIndex;
       MAPRSMessage.Lines.Add(msg^.Message);
