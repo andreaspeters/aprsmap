@@ -205,7 +205,7 @@ begin
 
     Regex := TRegExpr.Create;
     try
-      Regex.Expression := '(?:\s)?([!=\/@;#*)_:>]{1})(.*)';
+      Regex.Expression := '(?:\s)?([!=\/@;#*)_:>$T?<}''`]{1})(.*)';
       Regex.ModifierI := False;
       if Regex.Exec(PRData) then
       begin

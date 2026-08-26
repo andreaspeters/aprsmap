@@ -584,9 +584,99 @@ begin
     Longitude := -Longitude;
 end;
 
+function TryDecodeUncompressedPosition(const Position: String; out Latitude,
+  Longitude: Double; out SymbolTable, Symbol: String): Boolean;
+var
+  Regex: TRegExpr;
+begin
+  Result := False;
+  Latitude := 0;
+  Longitude := 0;
+  SymbolTable := '';
+  Symbol := '';
+  Regex := TRegExpr.Create;
+  try
+    Regex.Expression := '^(\d{4}\.\d{2}[NS])([/\\])' +
+      '(\d{5}\.\d{2}[EW])(.)';
+    Regex.ModifierI := False;
+    if not Regex.Exec(Position) then Exit;
+    ConvertNMEAToLatLong(Regex.Match[1], Regex.Match[3], Latitude, Longitude, 1);
+    SymbolTable := Regex.Match[2];
+    Symbol := Regex.Match[4];
+    Result := True;
+  finally
+    Regex.Free;
+  end;
+end;
+
+function TryDecodeObjectPosition(const Payload: String; out Name: String;
+  out Latitude, Longitude: Double; out SymbolTable, Symbol: String): Boolean;
+begin
+  Result := False;
+  Name := '';
+  if (Length(Payload) < 29) or not (Payload[10] in ['*', '_']) then Exit;
+  Name := Trim(Copy(Payload, 1, 9));
+  if Name = '' then Exit;
+  Result := TryDecodeUncompressedPosition(Copy(Payload, 18, MaxInt), Latitude,
+    Longitude, SymbolTable, Symbol);
+end;
+
+function TryDecodeItemPosition(const Payload: String; out Name: String;
+  out Latitude, Longitude: Double; out SymbolTable, Symbol: String): Boolean;
+var
+  I: Integer;
+begin
+  Result := False;
+  Name := '';
+  for I := 1 to Min(Length(Payload), 10) do
+    if Payload[I] in ['!', '_'] then
+    begin
+      Name := Trim(Copy(Payload, 1, I - 1));
+      if Name <> '' then
+        Result := TryDecodeUncompressedPosition(Copy(Payload, I + 1, MaxInt),
+          Latitude, Longitude, SymbolTable, Symbol);
+      Exit;
+    end;
+end;
+
+function TryDecodeNMEAPosition(const Payload: String; out Latitude, Longitude,
+  Course, Speed: Double): Boolean;
+var
+  Parts: TStringArray;
+  Sentence: String;
+begin
+  Result := False;
+  Latitude := 0;
+  Longitude := 0;
+  Course := -999999;
+  Speed := -999999;
+  Parts := Payload.Split(',');
+  if Length(Parts) = 0 then Exit;
+  Sentence := UpperCase(Parts[0]);
+  if (Pos('RMC', Sentence) > 0) and (Length(Parts) >= 9) and
+     SameText(Parts[2], 'A') then
+  begin
+    ConvertNMEAToLatLong(Parts[3] + Parts[4], Parts[5] + Parts[6], Latitude,
+      Longitude, 1);
+    if TryStrToFloat(Parts[7], Speed) then
+      Speed := Speed * 1.852;
+    if not TryStrToFloat(Parts[8], Course) then
+      Course := -999999;
+    Result := True;
+  end
+  else if (Pos('GGA', Sentence) > 0) and (Length(Parts) >= 10) and
+          (Parts[6] <> '0') then
+  begin
+    ConvertNMEAToLatLong(Parts[2] + Parts[3], Parts[4] + Parts[5], Latitude,
+      Longitude, 1);
+    Result := True;
+  end;
+end;
+
 function GetAPRSMessageObject(const Data: String; DataType: String; const DataMessage: String): TAPRSMessage;
 var Regex, OrRegex: TRegExpr;
-    Lat, Lon: Double;
+    Lat, Lon, NMEACourse, NMEASpeed: Double;
+    ObjectName, SymbolTable, Symbol: String;
     APRSMessageObject: TAPRSMessage;
 const
     // with position
@@ -627,6 +717,7 @@ begin
     APRSMessageObject.RAWMessages := TStringList.Create;
     APRSMessageObject.RAWMessages.Add(Format('%-10s > %s', [APRSMessageObject.FromCall, Data]));
     APRSMessageObject.Count := 0;
+    APRSMessageObject.DataType := DataType;
     APRSMessageObject.Message := DataMessage;
 
     APRSMessageObject.EnableTrack := False;
@@ -699,7 +790,44 @@ begin
       end;
     end;
 
-    if (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or (APRSMessageObject.Icon = 'w') then
+    // Object and item reports carry the reported entity name before the
+    // position, so the generic position matcher above cannot decode them.
+    if (DataType = ';') and TryDecodeObjectPosition(DataMessage, ObjectName,
+      Lat, Lon, SymbolTable, Symbol) then
+    begin
+      APRSMessageObject.FromCall := ObjectName;
+      APRSMessageObject.Latitude := Lat;
+      APRSMessageObject.Longitude := Lon;
+      APRSMessageObject.IconPrimary := SymbolTable;
+      APRSMessageObject.Icon := Symbol;
+      APRSMessageObject.ImageIndex := GetImageIndex(Symbol, SymbolTable);
+      APRSMessageObject.ImageDescription := GetImageDescription(Symbol, SymbolTable);
+    end
+    else if (DataType = ')') and TryDecodeItemPosition(DataMessage, ObjectName,
+      Lat, Lon, SymbolTable, Symbol) then
+    begin
+      APRSMessageObject.FromCall := ObjectName;
+      APRSMessageObject.Latitude := Lat;
+      APRSMessageObject.Longitude := Lon;
+      APRSMessageObject.IconPrimary := SymbolTable;
+      APRSMessageObject.Icon := Symbol;
+      APRSMessageObject.ImageIndex := GetImageIndex(Symbol, SymbolTable);
+      APRSMessageObject.ImageDescription := GetImageDescription(Symbol, SymbolTable);
+    end
+    else if (DataType = '$') and TryDecodeNMEAPosition(DataMessage, Lat, Lon,
+      NMEACourse, NMEASpeed) then
+    begin
+      APRSMessageObject.Latitude := Lat;
+      APRSMessageObject.Longitude := Lon;
+      if NMEACourse <> -999999 then
+        APRSMessageObject.Course := NMEACourse;
+      if NMEASpeed <> -999999 then
+        APRSMessageObject.Speed.Add(NMEASpeed);
+    end;
+
+    if (DataType = '_') or (DataType = '#') or (DataType = '*') or
+       (APRSMessageObject.Icon = '_') or (APRSMessageObject.Icon = '@') or
+       (APRSMessageObject.Icon = 'w') then
     begin
       if GetWX(APRSMessageObject.Message,'c') <> -999999 then
         APRSMessageObject.WXDirection.Add(GetWX(APRSMessageObject.Message,'c'));

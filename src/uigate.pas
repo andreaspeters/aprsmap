@@ -269,7 +269,7 @@ begin
   Regex := TRegExpr.Create;
   try
     // check type
-    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP*)?(.*):([!=\/@;#*)_:>]{1})(.*)';
+    Regex.Expression := '^(\S+)>(\S+),(?:TCPIP*)?(.*):([!=\/@;#*)_:>$T?<}''`]{1})(.*)';
     Regex.ModifierI := False;
     if Regex.Exec(Data) then
     begin
