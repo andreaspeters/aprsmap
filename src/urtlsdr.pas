@@ -67,31 +67,13 @@ const
   LIBRARIES: array[0..1] of PChar = ('librtlsdr.so.0', 'librtlsdr.so');
   {$ENDIF}
 var
-  I: Integer;
-  LibraryName: String;
+  {$IFDEF UNIX}
+  I, J: Integer;
   LibraryPaths: TStringList;
-  procedure TryLoadFile(const FileName: String);
-  begin
-    if (RTLHandle = NilHandle) and FileExists(FileName) then
-      RTLHandle := LoadLibrary(PChar(FileName));
-  end;
-
-  procedure TryLoadFromDirectories(const Directories: TStringList);
-  var
-    DirectoryIndex, NameIndex: Integer;
-  begin
-    for DirectoryIndex := 0 to Directories.Count - 1 do
-    begin
-      if RTLHandle <> NilHandle then Exit;
-      for NameIndex := Low(LIBRARIES) to High(LIBRARIES) do
-      begin
-        TryLoadFile(IncludeTrailingPathDelimiter(Directories[DirectoryIndex]) +
-          String(LIBRARIES[NameIndex]));
-        if RTLHandle <> NilHandle then Exit;
-      end;
-    end;
-  end;
-
+  {$ENDIF}
+  {$IFDEF WINDOWS}
+  I: Integer;
+  {$ENDIF}
   function Symbol(const Name: PChar): Pointer;
   begin
     Result := GetProcedureAddress(RTLHandle, Name);
@@ -100,46 +82,47 @@ begin
   if RTLLoadAttempted then
     Exit(RTLHandle <> NilHandle);
   RTLLoadAttempted := True;
-  LibraryName := GetEnvironmentVariable('RTLSDR_LIBRARY');
-  if LibraryName <> '' then
-    RTLHandle := LoadLibrary(PChar(LibraryName));
+
   {$IFDEF UNIX}
-  if RTLHandle = NilHandle then
-  begin
-    LibraryPaths := TStringList.Create;
-    try
-      LibraryPaths.StrictDelimiter := True;
-      LibraryPaths.Delimiter := ':';
-      LibraryPaths.DelimitedText := GetEnvironmentVariable('LD_LIBRARY_PATH');
-      LibraryPaths.Add('/usr/local/lib');
-      LibraryPaths.Add('/usr/local/lib64');
-      LibraryPaths.Add('/usr/lib');
-      LibraryPaths.Add('/usr/lib64');
-      LibraryPaths.Add('/lib');
-      LibraryPaths.Add('/lib64');
-      LibraryPaths.Add('/usr/lib/x86_64-linux-gnu');
-      LibraryPaths.Add('/lib/x86_64-linux-gnu');
-      LibraryPaths.Add('/usr/lib/aarch64-linux-gnu');
-      LibraryPaths.Add('/lib/aarch64-linux-gnu');
-      LibraryPaths.Add('/usr/lib/arm-linux-gnueabihf');
-      LibraryPaths.Add('/lib/arm-linux-gnueabihf');
-      LibraryPaths.Add('/usr/lib/i386-linux-gnu');
-      LibraryPaths.Add('/lib/i386-linux-gnu');
-      TryLoadFromDirectories(LibraryPaths);
-    finally
-      LibraryPaths.Free;
+  // Linux builds load only from the standard library locations, never Nix.
+  LibraryPaths := TStringList.Create;
+  try
+    LibraryPaths.Add('/usr/local/lib');
+    LibraryPaths.Add('/usr/local/lib64');
+    LibraryPaths.Add('/usr/lib');
+    LibraryPaths.Add('/usr/lib64');
+    LibraryPaths.Add('/lib');
+    LibraryPaths.Add('/lib64');
+    LibraryPaths.Add('/usr/lib/x86_64-linux-gnu');
+    LibraryPaths.Add('/lib/x86_64-linux-gnu');
+    LibraryPaths.Add('/usr/lib/aarch64-linux-gnu');
+    LibraryPaths.Add('/lib/aarch64-linux-gnu');
+    LibraryPaths.Add('/usr/lib/arm-linux-gnueabihf');
+    LibraryPaths.Add('/lib/arm-linux-gnueabihf');
+    LibraryPaths.Add('/usr/lib/i386-linux-gnu');
+    LibraryPaths.Add('/lib/i386-linux-gnu');
+    for I := 0 to LibraryPaths.Count - 1 do
+    begin
+      for J := Low(LIBRARIES) to High(LIBRARIES) do
+      begin
+        RTLHandle := LoadLibrary(PChar(IncludeTrailingPathDelimiter(
+          LibraryPaths[I]) + String(LIBRARIES[J])));
+        if RTLHandle <> NilHandle then
+          Break;
+      end;
+      if RTLHandle <> NilHandle then
+        Break;
     end;
+  finally
+    LibraryPaths.Free;
   end;
-  {$ENDIF}
+  {$ELSE}
   for I := Low(LIBRARIES) to High(LIBRARIES) do
   begin
-    if RTLHandle <> NilHandle then Break;
     RTLHandle := LoadLibrary(LIBRARIES[I]);
-    if RTLHandle <> NilHandle then Break;
+    if RTLHandle <> NilHandle then
+      Break;
   end;
-  {$IFDEF UNIX}
-  if RTLHandle = NilHandle then
-    RTLHandle := LoadLibrary('/nix/store/jplgjk689x6c93h7qvhs5g2983sa06fm-rtl-sdr-blog-1.3.5/lib/librtlsdr.so');
   {$ENDIF}
   if RTLHandle = NilHandle then Exit(False);
   Pointer(FnGetDeviceCount) := Symbol('rtlsdr_get_device_count');
