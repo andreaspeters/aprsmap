@@ -143,6 +143,10 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
+#: tfmain.actupdatemodesdatabase.caption
+msgid "Update ModeS Database"
+msgstr ""
+
 #: tfmain.btnbuymeacoffee.caption
 msgid "Buy me a coffee"
 msgstr ""
@@ -522,6 +526,27 @@ msgstr ""
 
 #: tfsettings.spupdateinterval.hint
 msgid "Send APSMessage and Position every 'n minutes"
+msgstr ""
+
+#: tmodeslistform.caption
+msgid "Mode-S Aircraft Tracking"
+msgstr ""
+
+#: tmodeslistform.closebutton.caption
+msgctxt "tmodeslistform.closebutton.caption"
+msgid "Close"
+msgstr ""
+
+#: tmodeslistform.detailpanel.caption
+msgid "Aeromux DB details"
+msgstr ""
+
+#: tmodeslistform.entrycountlabel.caption
+msgid "0 aircraft"
+msgstr ""
+
+#: tmodeslistform.titlelabel.caption
+msgid "Mode-S aircraft tracking"
 msgstr ""
 
 #: ttfeditor.actclose.caption

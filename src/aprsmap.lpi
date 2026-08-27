@@ -216,6 +216,10 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
+        <Filename Value="uaeromuxdb.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
+      <Unit>
         <Filename Value="ulastseen.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FLastSeen"/>
@@ -338,6 +342,13 @@
         <Filename Value="uaislist.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="AISListForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit>
+      <Unit>
+        <Filename Value="umodeslist.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ModeSListForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>

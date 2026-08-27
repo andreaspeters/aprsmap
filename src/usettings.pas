@@ -73,7 +73,7 @@ var
 implementation
 
 Uses
-  UMain;
+  UMain, uaeromuxdb;
 
 {$R *.lfm}
 

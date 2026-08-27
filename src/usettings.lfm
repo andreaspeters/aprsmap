@@ -285,10 +285,10 @@ object FSettings: TFSettings
   end
   object GroupBox4: TGroupBox
     Left = 552
-    Height = 76
+    Height = 112
     Top = 240
     Width = 489
-    ClientHeight = 73
+    ClientHeight = 109
     ClientWidth = 485
     TabOrder = 4
     object cbModeSEnable: TCheckBox

@@ -4081,6 +4081,12 @@ object FMain: TFMain
       object miSendPosition: TMenuItem
         Action = actSendPosition
       end
+      object Separator3: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem14: TMenuItem
+        Action = actUpdateModeSDatabase
+      end
     end
     object MenuItem5: TMenuItem
       Caption = 'View'
@@ -7646,6 +7652,10 @@ object FMain: TFMain
     object actSendPosition: TAction
       Caption = 'Send Position'
       OnExecute = actSendPositionExecute
+    end
+    object actUpdateModeSDatabase: TAction
+      Caption = 'Update ModeS Database'
+      OnExecute = actUpdateModeSDatabaseExecute
     end
   end
   object pmTray: TPopupMenu

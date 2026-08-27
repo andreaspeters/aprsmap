@@ -50,6 +50,9 @@ implementation
 uses
   uaprs;
 
+const
+  MaxModeSHistoryPoints = 500;
+
 function AppendHistoryValue(const Values: TDoubleList; const Value: Double): Boolean;
 begin
   Result := Assigned(Values) and ((Values.Count = 0) or (Values.Last <> Value));
@@ -241,16 +244,6 @@ begin
   CourseChanged := False;
   PositionChanged := False;
   IdentityChanged := False;
-  {$IFDEF UNIX}
-  Writeln('[MODE-S] ICAO=', Key,
-    ' flight=', Decoded.Flight,
-    ' altitude=', Decoded.AltitudeFeet,
-    ' altitude_valid=', Decoded.HasAltitude,
-    ' speed=', FloatToStr(Decoded.Velocity),
-    ' velocity_valid=', Decoded.HasVelocity,
-    ' position_message=', Decoded.HasPosition,
-    ' odd_cpr=', Decoded.OddCPR);
-  {$ENDIF}
   APRSMessageObject := PAPRSMessage(ModeSMessageList.Find(Key));
   if not Assigned(APRSMessageObject) then
   begin
@@ -258,6 +251,7 @@ begin
     FillChar(APRSMessageObject^, SizeOf(TAPRSMessage), 0);
     APRSMessageObject^.Altitude := TDoubleList.Create;
     APRSMessageObject^.Speed := TDoubleList.Create;
+    APRSMessageObject^.RAWMessages := TStringList.Create;
     APRSMessageObject^.Track := TGPSTrack.Create;
     APRSMessageObject^.Track.Visible := True;
     APRSMessageObject^.Track.LineWidth := 1;
@@ -273,11 +267,15 @@ begin
   begin
     Altitude := Round(Decoded.AltitudeFeet * 0.3048);
     AltitudeChanged := AppendHistoryValue(APRSMessageObject^.Altitude, Altitude);
+    while APRSMessageObject^.Altitude.Count > MaxModeSHistoryPoints do
+      APRSMessageObject^.Altitude.Delete(0);
   end;
   if Decoded.HasVelocity then
   begin
     Velocity := Round(Decoded.Velocity * 1.852);
     VelocityChanged := AppendHistoryValue(APRSMessageObject^.Speed, Velocity);
+    while APRSMessageObject^.Speed.Count > MaxModeSHistoryPoints do
+      APRSMessageObject^.Speed.Delete(0);
     CourseChanged := APRSMessageObject^.Course <> Decoded.Track;
     APRSMessageObject^.Course := Decoded.Track;
   end;

@@ -12,7 +12,7 @@ uses
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
   TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types,
-  umeshcore, LResources, umodeslist, uaislist;
+  umeshcore, LResources, umodeslist, uaislist, uaeromuxdb;
 
 type
 
@@ -26,6 +26,7 @@ type
   TFMain = class(TForm)
     actExit: TAction;
     actGPS: TAction;
+    actUpdateModeSDatabase: TAction;
     actSendPosition: TAction;
     actShowMessages: TAction;
     actSettings: TAction;
@@ -43,6 +44,8 @@ type
     GroupBox3: TGroupBox;
     ICallsignIcon: TImage;
     ilMessageStatus: TImage;
+    MenuItem14: TMenuItem;
+    Separator3: TMenuItem;
     shGPSDStatus: TShape;
     shRTLSDRStatus: TShape;
     ImageList1: TImageList;
@@ -184,6 +187,7 @@ type
     procedure actSettingsExecute(Sender: TObject);
     procedure actShowHideExecute(Sender: TObject);
     procedure actShowMessagesExecute(Sender: TObject);
+    procedure actUpdateModeSDatabaseExecute(Sender: TObject);
     procedure btnBuymeacoffeeClick(Sender: TObject);
     procedure CBEFilterSelect(Sender: TObject);
     procedure ChangeMapProvider(Sender: TObject);
@@ -232,6 +236,7 @@ type
     function GetWXCaption(wx: TDoubleList): String;
     function TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
   private
+    MapRefreshPending: Boolean;
   public
     PoILayer, myPoILayer: TMapLayer;
     MyPosition: TGPSObj;
@@ -264,6 +269,7 @@ implementation
 
 const
   ObjectReporterLinkId = -1001;
+  MaxTrackPoints = 500;
 
 procedure TObjectReporterLinkTrack.Draw(AView: TObject; {%H-}Area: TRealArea);
 var
@@ -542,6 +548,17 @@ begin
   FListMails.SetConfig(@APRSConfig);
   FListMails.Show;
   ilMessageStatus.ImageIndex := 241;
+end;
+
+procedure TFMain.actUpdateModeSDatabaseExecute(Sender: TObject);
+begin
+  try
+    if EnsureAeromuxDatabase then
+      ShowMessage('ModeS database updated.')
+    else
+      ShowMessage('Could not update the ModeS database.');
+  finally
+  end;
 end;
 
 procedure TFMain.ShowModeSTracking(Sender: TObject);
@@ -1031,8 +1048,13 @@ begin
       if (ParentCtrl.Controls[i] is TChart) and (TChart(ParentCtrl.Controls[i]).Name = ChartName) then
       begin
         Chart := TChart(ParentCtrl.Controls[i]);
+        if Chart.Hint = STCallsign.Caption + ':' + IntToStr(X.Count) then
+        begin
+          Chart.Visible := True;
+          Exit;
+        end;
         Chart.ClearSeries;
-        Chart.Visible := True;;
+        Chart.Visible := True;
         Break;
       end;
     end;
@@ -1049,6 +1071,7 @@ begin
       Chart.Title.Visible := True;
       Chart.Width := 290;
     end;
+    Chart.Hint := STCallsign.Caption + ':' + IntToStr(X.Count);
 
     // X
     min := 0;
@@ -1276,7 +1299,7 @@ begin
       inc(i);
     end;
 
-  MVMap.Refresh;
+  MapRefreshPending := True;
 end;
 
 // Add APRS message as PoI
@@ -1308,12 +1331,18 @@ begin
         newMsg^.Track := oldMsg^.Track;
         newMsg^.Count := oldMsg^.Count;
 
-        PrependDoubleList(newMsg^.Speed, oldMsg^.Speed);
-        PrependDoubleList(newMsg^.Altitude, oldMsg^.Altitude);
-        PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
-        PrependDoubleList(newMsg^.WXHumidity, oldMsg^.WXHumidity);
-        PrependDoubleList(newMsg^.WXPressure, oldMsg^.WXPressure);
-        PrependDoubleList(newMsg^.WXLum, oldMsg^.WXLum);
+        if newMsg^.Speed <> oldMsg^.Speed then
+          PrependDoubleList(newMsg^.Speed, oldMsg^.Speed);
+        if newMsg^.Altitude <> oldMsg^.Altitude then
+          PrependDoubleList(newMsg^.Altitude, oldMsg^.Altitude);
+        if newMsg^.WXTemperature <> oldMsg^.WXTemperature then
+          PrependDoubleList(newMsg^.WXTemperature, oldMsg^.WXTemperature);
+        if newMsg^.WXHumidity <> oldMsg^.WXHumidity then
+          PrependDoubleList(newMsg^.WXHumidity, oldMsg^.WXHumidity);
+        if newMsg^.WXPressure <> oldMsg^.WXPressure then
+          PrependDoubleList(newMsg^.WXPressure, oldMsg^.WXPressure);
+        if newMsg^.WXLum <> oldMsg^.WXLum then
+          PrependDoubleList(newMsg^.WXLum, oldMsg^.WXLum);
 
         // PrependDoubleList for all Devices
         UpdateDevices(newMsg, oldMsg);
@@ -1327,7 +1356,8 @@ begin
       inc(newMsg^.Count);
 
       // update Raw Message window
-      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) and Assigned(FRawMessage.mRawMessage) then
+      if FRawMessage.Visible and (Trim(STCallsign.Caption) = Trim(newMsg^.FromCall)) and
+         Assigned(FRawMessage.mRawMessage) and Assigned(newMsg^.RAWMessages) then
         FRawMessage.mRawMessage.Lines.AddStrings(newMsg^.RAWMessages);
 
       if Assigned(newMsg^.Altitude) and (newMsg^.Altitude.Count > 0) then
@@ -1337,7 +1367,11 @@ begin
 
       if (newMsg^.Longitude <> 0.0) and (newMsg^.Latitude <> 0.0) and Assigned(newMsg^.Track) then
         if not TrackHasPoint(newMsg^.Track.Points, newMsg^.Latitude, newMsg^.Longitude) then
+        begin
           newMsg^.Track.Points.Add(TGPSPoint.Create(newMsg^.Longitude, newMsg^.Latitude, Alt));
+          while newMsg^.Track.Points.Count > MaxTrackPoints do
+            newMsg^.Track.Points.Delete(0);
+        end;
 
       // Filter is set
       visibility := True;
@@ -1362,7 +1396,7 @@ begin
       if not Assigned(oldMSG) then
         AddCombobox(newMsg^);
 
-      MVMap.Refresh;
+      MapRefreshPending := True;
     end;
   except
     on E: Exception do
@@ -1563,24 +1597,24 @@ begin
       end;
     end;
   end;
+  if MapRefreshPending then
+  begin
+    MapRefreshPending := False;
+    MVMap.Refresh;
+  end;
 end;
 
 // Check if track with given Points already exist
 function TFMain.TrackHasPoint(Track: TGPSPointList; const Lat, Lon: Double): Boolean;
-var i: Integer;
-    P: TGPSPoint;
+var P: TGPSPoint;
 begin
   Result := False;
 
   if not Assigned(Track) or (Track.Count <= 0) then
     Exit;
 
-  for i := 0 to Track.Count - 1 do
-  begin
-    P := Track[i];
-    if (P.Lat = Lat) and (P.Lon = Lon) then
-      Result := True;
-  end;
+  P := Track[Track.Count - 1];
+  Result := (P.Lat = Lat) and (P.Lon = Lon);
 end;
 
 procedure TFMain.tRefreshTimer(Sender: TObject);
