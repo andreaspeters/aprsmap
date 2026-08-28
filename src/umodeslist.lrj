@@ -2,6 +2,5 @@
 {"hash":580471,"name":"tmodeslistform.caption","sourcebytes":[77,111,100,101,45,83,32,65,105,114,99,114,97,102,116,32,84,114,97,99,107,105,110,103],"value":"Mode-S Aircraft Tracking"},
 {"hash":2677111,"name":"tmodeslistform.titlelabel.caption","sourcebytes":[77,111,100,101,45,83,32,97,105,114,99,114,97,102,116,32,116,114,97,99,107,105,110,103],"value":"Mode-S aircraft tracking"},
 {"hash":9019732,"name":"tmodeslistform.entrycountlabel.caption","sourcebytes":[48,32,97,105,114,99,114,97,102,116],"value":"0 aircraft"},
-{"hash":4863637,"name":"tmodeslistform.closebutton.caption","sourcebytes":[67,108,111,115,101],"value":"Close"},
 {"hash":34762259,"name":"tmodeslistform.detailpanel.caption","sourcebytes":[65,101,114,111,109,117,120,32,68,66,32,100,101,116,97,105,108,115],"value":"Aeromux DB details"}
 ]}

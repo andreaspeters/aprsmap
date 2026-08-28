@@ -532,11 +532,6 @@ msgstr ""
 msgid "Mode-S Aircraft Tracking"
 msgstr ""
 
-#: tmodeslistform.closebutton.caption
-msgctxt "tmodeslistform.closebutton.caption"
-msgid "Close"
-msgstr ""
-
 #: tmodeslistform.detailpanel.caption
 msgid "Aeromux DB details"
 msgstr ""

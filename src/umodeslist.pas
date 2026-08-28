@@ -5,18 +5,20 @@ unit umodeslist;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls, StdCtrls, ComCtrls;
+  Classes, SysUtils, Forms, Controls, Grids, ExtCtrls, StdCtrls, ComCtrls,
+  RichMemo;
 
 type
+
+  { TModeSListForm }
+
   TModeSListForm = class(TForm)
-    BottomPanel: TPanel;
-    CloseButton: TButton;
-    DetailMemo: TMemo;
     DetailPanel: TPanel;
     EntryCountLabel: TLabel;
     GridModeS: TStringGrid;
     HeaderPanel: TPanel;
     RefreshTimer: TTimer;
+    DetailMemo: TRichMemo;
     StatusBar: TStatusBar;
     TitleLabel: TLabel;
     procedure CloseButtonClick(Sender: TObject);

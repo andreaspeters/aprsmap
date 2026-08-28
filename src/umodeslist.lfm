@@ -32,37 +32,14 @@ object ModeSListForm: TModeSListForm
       AnchorSideTop.Control = TitleLabel
       AnchorSideRight.Control = HeaderPanel
       AnchorSideRight.Side = asrBottom
-      Left = 1056
+      Left = 1052
       Height = 21
       Top = 12
       Width = 64
       Alignment = taRightJustify
       Anchors = [akTop, akRight]
+      BorderSpacing.Right = 4
       Caption = '0 aircraft'
-    end
-  end
-  object BottomPanel: TPanel
-    Left = 0
-    Height = 42
-    Top = 453
-    Width = 1120
-    Align = alBottom
-    BevelOuter = bvNone
-    ClientHeight = 42
-    ClientWidth = 1120
-    TabOrder = 1
-    object CloseButton: TButton
-      AnchorSideTop.Control = BottomPanel
-      AnchorSideRight.Control = BottomPanel
-      AnchorSideRight.Side = asrBottom
-      Left = 1040
-      Height = 30
-      Top = 0
-      Width = 80
-      Anchors = [akTop, akRight]
-      Caption = 'Close'
-      TabOrder = 0
-      OnClick = CloseButtonClick
     end
   end
   object StatusBar: TStatusBar
@@ -73,16 +50,20 @@ object ModeSListForm: TModeSListForm
     Panels = <>
   end
   object GridModeS: TStringGrid
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = HeaderPanel
+    AnchorSideTop.Side = asrBottom
+    AnchorSideBottom.Control = StatusBar
     Left = 0
-    Height = 407
+    Height = 449
     Top = 46
-    Width = 780
-    Align = alClient
+    Width = 883
+    Anchors = [akTop, akLeft, akBottom]
     ColCount = 9
     FixedCols = 0
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goColSizing, goRowSelect, goThumbTracking]
     RowCount = 1
-    TabOrder = 2
+    TabOrder = 1
     TitleFont.Style = [fsBold]
     OnClick = GridModeSClick
     ColWidths = (
@@ -98,24 +79,29 @@ object ModeSListForm: TModeSListForm
     )
   end
   object DetailPanel: TPanel
-    Left = 780
-    Height = 407
+    Left = 870
+    Height = 449
     Top = 46
-    Width = 340
-    Align = alRight
+    Width = 250
+    Anchors = [akTop]
+    BevelOuter = bvNone
     Caption = 'Aeromux DB details'
-    ClientHeight = 407
-    ClientWidth = 340
-    TabOrder = 3
-    object DetailMemo: TMemo
-      Left = 1
-      Height = 405
-      Top = 1
-      Width = 338
+    ClientHeight = 449
+    ClientWidth = 250
+    TabOrder = 2
+    object DetailMemo: TRichMemo
+      Left = 0
+      Height = 449
+      Top = 0
+      Width = 250
       Align = alClient
-      ReadOnly = True
-      ScrollBars = ssAutoVertical
+      Color = clBackground
+      HideSelection = False
+      Lines.Strings = (
+        'DetailMemo'
+      )
       TabOrder = 0
+      ZoomFactor = 1
     end
   end
   object RefreshTimer: TTimer
