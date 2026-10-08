@@ -1,0 +1,76 @@
+name: Anylinux-AppImage
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+on:
+  schedule:
+    - cron: "0 7 1/21 * *" # We default to rebuilding every 21 days, change this to your liking
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: "${{ matrix.name }} (${{ matrix.arch }})"
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - { runs-on: ubuntu-latest, name: Build AppImage, arch: x86_64 }
+          # - { runs-on: ubuntu-24.04-arm, name: Build AppImage, arch: aarch64 }
+    container: ghcr.io/pkgforge-dev/archlinux:latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Preparing Container
+        uses: pkgforge-dev/anylinux-setup-action@b2d1ce4216f71162e00ae58fa11ee9aeb723d0d5 # v5
+      - name: Install Dependencies
+        run: /bin/sh ./appimage/get-dependencies.sh
+      - name: Make AppImage
+        run: /bin/sh ./appimage/make-appimage.sh
+      - name: Upload artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: AppImage-${{ matrix.arch }}
+          path: dist
+
+  # this part runs via QEMU so expect higher CI times
+  build-additional-cpu-arches:
+    if: false # set to true to build the below arches
+    name: "${{ matrix.name }} (${{ matrix.arch }})"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # comment out the arches that are not wanted
+          # note 'if: false' is set by default and these are all turned off
+          - { name: Build AppImage, arch: riscv64, platform: linux/riscv64 }
+          - { name: Build AppImage, arch: loongarch64, platform: linux/loong64 }
+          - { name: Build AppImage, arch: ppc64le, platform: linux/ppc64le }
+          - { name: Build AppImage, arch: ppc64, platform: linux/ppc64 } # BE
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Build AppImage (emulated)
+        uses: pkgforge-dev/anylinux-setup-action/emulated@b2d1ce4216f71162e00ae58fa11ee9aeb723d0d5 # v5
+        with:
+          platform: ${{ matrix.platform }}
+      - name: Upload artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: AppImage-${{ matrix.arch }}
+          path: dist
+
+  release:
+    # !cancelled() lets a release happen if build-additional-cpu-arches if turned off
+    if: >-
+      ${{ !cancelled() && github.ref_name == 'master'
+      && needs.build.result == 'success'
+      && needs.build-additional-cpu-arches.result != 'failure' }}
+    needs: [build, build-additional-cpu-arches]
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          pattern: AppImage-*
+          merge-multiple: true
+      - name: Release AppImage
+        uses: pkgforge-dev/make-stable-appimage-release@4ed3d48ccb065352b6e6c0db6d39885b201c54a0 #v1.1
