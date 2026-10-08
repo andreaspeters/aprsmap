@@ -73,5 +73,37 @@ jobs:
         with:
           pattern: AppImage-*
           merge-multiple: true
+      # appinfo is written by quick-sharun next to the AppImage, so it is
+      # available here after downloading the artifacts
+      - name: Read version from appinfo
+        shell: sh
+        run: |
+          if [ ! -f ./appinfo ]; then
+            >&2 echo "ERROR: No ./appinfo file found!"
+            exit 1
+          fi
+          APPNAME=$(awk -F'=' '/X-AppImage-Name/{print $2; exit}' ./appinfo)
+          VERSION=$(awk -F'=' '/X-AppImage-Version/{print $2; exit}' ./appinfo)
+          if [ -z "$APPNAME" ]; then
+            >&2 echo "ERROR: ./appinfo is missing X-AppImage-Name"
+            exit 1
+          elif [ -z "$VERSION" ]; then
+            >&2 echo "ERROR: ./appinfo is missing X-AppImage-Version"
+            exit 1
+          fi
+          echo "APPNAME=$APPNAME" >> "${GITHUB_ENV}"
+          echo "VERSION=$VERSION" >> "${GITHUB_ENV}"
       - name: Release AppImage
-        uses: pkgforge-dev/make-stable-appimage-release@4ed3d48ccb065352b6e6c0db6d39885b201c54a0 #v1.1
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
+        with:
+          name: "${{ env.APPNAME }}: ${{ env.VERSION }}"
+          # plain version tag, no date or commit suffix
+          tag_name: "${{ env.VERSION }}"
+          prerelease: false
+          draft: false
+          generate_release_notes: false
+          make_latest: true
+          overwrite_files: true
+          files: |
+            *.AppImage
+            *.AppImage.zsync

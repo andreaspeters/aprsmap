@@ -81,7 +81,22 @@ jobs:
           pattern: AppImage-*
           merge-multiple: true
         continue-on-error: true
+      - name: Delete previous nightly release
+        shell: sh
+        continue-on-error: true
+        run: gh release delete nightly --repo "${GITHUB_REPOSITORY}" --cleanup-tag -y && sleep 5
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Release Nightly AppImage
-        uses: pkgforge-dev/make-nightly-appimage-release@17cbe90fc0796286e424619a54a82a3a880efe4c # v1.1
+        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          name: Nightly Build
+          tag_name: nightly
+          prerelease: true
+          draft: false
+          generate_release_notes: false
+          make_latest: false
+          overwrite_files: true
+          files: |
+            *.AppImage
+            *.AppImage.zsync
