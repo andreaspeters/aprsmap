@@ -94,7 +94,7 @@ jobs:
           echo "APPNAME=$APPNAME" >> "${GITHUB_ENV}"
           echo "VERSION=$VERSION" >> "${GITHUB_ENV}"
       - name: Release AppImage
-        uses: softprops/action-gh-release@5be0e66d93ac7ed76da52eca8bb058f665c3a5fe # v2.4.2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
           name: "${{ env.APPNAME }}: ${{ env.VERSION }}"
           # plain version tag, no date or commit suffix
