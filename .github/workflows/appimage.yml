@@ -3,8 +3,9 @@ concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 on:
-  schedule:
-    - cron: "0 7 1/21 * *" # We default to rebuilding every 21 days, change this to your liking
+  push:
+    tags:        
+      - '*'
   workflow_dispatch: {}
 
 jobs:
