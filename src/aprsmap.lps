@@ -18,9 +18,10 @@
         <ComponentName Value="FMain"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="16"/>
-        <TopLine Value="542"/>
-        <CursorPos Y="550"/>
+        <TopLine Value="1317"/>
+        <CursorPos X="34" Y="1329"/>
         <UsageCount Value="208"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,7 +38,7 @@
         <Filename Value="ureadpipe.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="23"/>
-        <TopLine Value="207"/>
+        <TopLine Value="211"/>
         <CursorPos X="11" Y="228"/>
         <UsageCount Value="207"/>
         <Loaded Value="True"/>
@@ -118,7 +119,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="10" Y="144"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -266,7 +267,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="17"/>
         <CursorPos X="63"/>
-        <UsageCount Value="178"/>
+        <UsageCount Value="183"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -274,21 +275,21 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="6"/>
         <CursorPos X="36" Y="9"/>
-        <UsageCount Value="178"/>
+        <UsageCount Value="183"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="umodesdecoder.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="20"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uaisreceiver.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <UsageCount Value="115"/>
+        <UsageCount Value="120"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -296,14 +297,14 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="25"/>
         <TopLine Value="86"/>
-        <UsageCount Value="117"/>
+        <UsageCount Value="122"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="uaislist.lfm"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
@@ -311,7 +312,7 @@
         <Filename Value="umodeslist.lfm"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -321,7 +322,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -331,7 +332,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -341,7 +342,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -351,7 +352,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -361,7 +362,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
       <Unit>
@@ -371,7 +372,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
       </Unit>
       <Unit>
         <Filename Value="uaislist.pas"/>
@@ -380,7 +381,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="117"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -390,11 +391,10 @@
         <ComponentName Value="ModeSListForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="21"/>
         <TopLine Value="99"/>
         <CursorPos X="3" Y="111"/>
-        <UsageCount Value="62"/>
+        <UsageCount Value="67"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -411,7 +411,7 @@
         <EditorIndex Value="30"/>
         <TopLine Value="8780"/>
         <CursorPos Y="8800"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="41"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit>
@@ -449,15 +449,11 @@
         <EditorIndex Value="29"/>
         <TopLine Value="3996"/>
         <CursorPos Y="4010"/>
-        <UsageCount Value="30"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="umodeslist.pas"/>
-        <Caret Line="141" Column="10" TopLine="132"/>
-      </Position>
       <Position>
         <Filename Value="umodeslist.pas"/>
         <Caret Line="30" Column="15" TopLine="19"/>
@@ -573,6 +569,10 @@
       <Position>
         <Filename Value="umodeslist.pas"/>
         <Caret Line="136" Column="3" TopLine="134"/>
+      </Position>
+      <Position>
+        <Filename Value="umain.pas"/>
+        <Caret Line="550" TopLine="542"/>
       </Position>
     </JumpHistory>
     <RunParams>

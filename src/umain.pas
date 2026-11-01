@@ -12,7 +12,7 @@ uses
   Buttons, PairSplitter, ActnList, TAGraph, fpexprpars, base64,
   uinfo, mvMapProvider, umodes, UniqueInstance, ulastseen, urawmessage,
   TASeries, TATools, u_rs41sg, ugps, ulistmails, ueditor, mvGeoMath, Types,
-  umeshcore, LResources, umodeslist, uaislist, uaeromuxdb;
+  umeshcore, LResources, umodeslist, uaislist, uaeromuxdb, uflexpacketchannel;
 
 type
 
@@ -366,7 +366,7 @@ begin
   ReadPipe := nil;
   ReadPipe := TReadPipeThread.Create('flexpacketwritepipe');
   if ReadPipe.IsPipeExisting('flexpacketreadpipe') then
-    SendStringCommand(0,1,'C APN000 V WIDE1');
+    SendStringCommand(0, 1, 'C APN000 V WIDE 1');
 
   SetupFilterCombo;
 
@@ -1299,6 +1299,64 @@ begin
       inc(i);
     end;
 
+  // cleanup AIS
+  if APRSConfig.AISEnabled and Assigned(ModeS) and
+     Assigned(ModeS.AISMessageList) and (ModeS.AISMessageList.Count > 0) then
+  begin
+    i := 0;
+    while i < ModeS.AISMessageList.Count do
+    begin
+      try
+        msg := PAPRSMessage(ModeS.AISMessageList.Items[i]);
+        if (curTime - msg^.Time) >= (5 / 1440) then
+        begin
+          call := msg^.FromCall;
+          // Remove from map representation (if any)
+          if Assigned(msg^.Track) and Assigned(MVMap.GPSItems) then
+          begin
+            try
+              MVMap.GPSItems.Delete(msg^.Track);
+            except
+              {$IFDEF UNIX}
+              writeln('Error deleting AIS track from map')
+              {$ENDIF}
+            end;
+          end;
+
+          // Remove from queue (if present)
+          if Assigned(ModeS.AISUpdateQueue) then
+          begin
+            x := ModeS.AISUpdateQueue.IndexOf(msg^.Checksum);
+            if x >= 0 then
+              ModeS.AISUpdateQueue.Delete(x); // MMSI as Checksum for AIS
+          end;
+
+          // The table reads AISMessageList, while AddPoI maintains the map marker
+          // and APRSMessageList entry separately.
+          DelPoI(PoILayer, call);
+          DeleteCombobox(call);
+          x := APRSMessageList.Count - 1;
+          while x >= 0 do
+          begin
+            if Assigned(PAPRSMessage(APRSMessageList.Items[x])) and
+               SameText(PAPRSMessage(APRSMessageList.Items[x])^.Checksum, msg^.Checksum) then
+              APRSMessageList.Delete(x);
+            Dec(x);
+          end;
+
+          // Delete from main list
+          ModeS.AISMessageList.Delete(i);
+          Continue;
+        end;
+      except
+        {$IFDEF UNIX}
+        writeln('Error Cleanup Old AIS PoI')
+        {$ENDIF}
+      end;
+      inc(i);
+    end;
+  end;
+
   MapRefreshPending := True;
 end;
 
@@ -1720,8 +1778,8 @@ begin
   if (Length(Command) <= 0) or not Assigned(ReadPipe) then
     Exit;
 
-  // Channel Nr in FP | Message as Base64
-  msg := Format('%d|%d|%s', [Channel,Code,EncodeStringBase64(Command)]);
+  // FlexPacket unconnected UI-data path is stateless only on monitor channel 0.
+  msg := Format('%d|%d|%s', [0, Code, EncodeStringBase64(Command)]);
   ReadPipe.WriteToPipe('flexpacketreadpipe', msg);
 end;
 
