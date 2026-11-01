@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=APRSMap
+Comment=Cross-platform APRS client
+Exec=aprsmap
+Icon=aprsmap
+Terminal=false
+StartupWMClass=aprsmap
+Categories=HamRadio;Network;
+Keywords=APRS;amateur radio;ham radio;
