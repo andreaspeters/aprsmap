@@ -52,6 +52,8 @@ begin
   UpdateViewerStatus;
   if not Assigned(FMain) or not Assigned(FMain.ModeS) or
      not Assigned(FMain.ModeS.AISMessageList) then Exit;
+  FMain.ModeS.LockData;
+  try
   for I := 0 to FMain.ModeS.AISMessageList.Count - 1 do
   begin
     Msg := PAPRSMessage(FMain.ModeS.AISMessageList.Items[I]);
@@ -88,6 +90,9 @@ begin
       Grid.Cells[6, Row] := 'n/a';
     end;
     Grid.Cells[7, Row] := DateTimeToStr(Msg^.Time);
+  end;
+  finally
+    FMain.ModeS.UnlockData;
   end;
   UpdateViewerStatus;
 end;

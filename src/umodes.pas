@@ -22,6 +22,7 @@ type
     ActiveSlot: TReceiverSlot;
     SlotBytes, SlotByteLimit: Int64;
     SlotCancelled: Boolean;
+    FDataLock: TRTLCriticalSection;
 
 
     procedure OpenNative;
@@ -40,6 +41,8 @@ type
     AISMessageList: TFPHashList;
     AISUpdateQueue: TStringList;
     Error: Boolean;
+    procedure LockData;
+    procedure UnlockData;
     procedure Stop;
     constructor Create(Config: PAPRSConfig);
     destructor Destroy; override;
@@ -72,6 +75,7 @@ end;
 constructor TModeSThread.Create(Config: PAPRSConfig);
 begin
   inherited Create(True);
+  InitCriticalSection(FDataLock);
   Error := False;
   FConfig := Config;
   NativeDevice := nil;
@@ -95,7 +99,18 @@ begin
   FreeAndNil(AISMessageList);
   FreeAndNil(ModeSUpdateQueue);
   FreeAndNil(ModeSMessageList);
+  DoneCriticalSection(FDataLock);
   inherited Destroy;
+end;
+
+procedure TModeSThread.LockData;
+begin
+  EnterCriticalSection(FDataLock);
+end;
+
+procedure TModeSThread.UnlockData;
+begin
+  LeaveCriticalSection(FDataLock);
 end;
 
 procedure TModeSThread.Execute;
@@ -237,6 +252,8 @@ var
   AltitudeChanged, VelocityChanged, CourseChanged, PositionChanged, IdentityChanged: Boolean;
   Altitude, Velocity: Double;
 begin
+  LockData;
+  try
   FrameTime := Now;
   Key := IntToHex(Decoded.ICAO, 6);
   AltitudeChanged := False;
@@ -322,6 +339,9 @@ begin
   if (AltitudeChanged or VelocityChanged or CourseChanged or PositionChanged or IdentityChanged) and
      (ModeSUpdateQueue.IndexOf(Key) < 0) then
     ModeSUpdateQueue.Add(Key);
+  finally
+    UnlockData;
+  end;
 end;
 
 procedure TModeSThread.AddNativeAISMessage(const Decoded: TAISMessage);
@@ -331,6 +351,8 @@ var
   PositionChanged, SpeedChanged, CourseChanged, NameChanged: Boolean;
   Speed: Double;
 begin
+  LockData;
+  try
   Key := IntToStr(Decoded.MMSI);
   PositionChanged := False;
   SpeedChanged := False;
@@ -363,9 +385,6 @@ begin
     begin
       APRSMessageObject^.Latitude := Decoded.Latitude;
       APRSMessageObject^.Longitude := Decoded.Longitude;
-      if Assigned(APRSMessageObject^.Track) then
-        APRSMessageObject^.Track.Points.Add(TGPSPoint.Create(Decoded.Longitude,
-          Decoded.Latitude, 0));
     end;
     APRSMessageObject^.AISPositionValid := True;
   end;
@@ -381,6 +400,9 @@ begin
   if (PositionChanged or SpeedChanged or CourseChanged or NameChanged) and
      (AISUpdateQueue.IndexOf(Key) < 0) then
     AISUpdateQueue.Add(Key);
+  finally
+    UnlockData;
+  end;
 end;
 
 end.

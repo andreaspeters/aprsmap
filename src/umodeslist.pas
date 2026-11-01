@@ -63,6 +63,8 @@ begin
   UpdateViewerStatus;
   if not Assigned(FMain) or not Assigned(FMain.ModeS) or
      not Assigned(FMain.ModeS.ModeSMessageList) then Exit;
+  FMain.ModeS.LockData;
+  try
   for I := 0 to FMain.ModeS.ModeSMessageList.Count - 1 do
   begin
     Msg := PAPRSMessage(FMain.ModeS.ModeSMessageList.Items[I]);
@@ -100,6 +102,9 @@ begin
     GridModeS.Cells[8, Row] := Status;
     if SameText(SelectedICAO, Msg^.Checksum) then
       GridModeS.Row := Row;
+  end;
+  finally
+    FMain.ModeS.UnlockData;
   end;
   UpdateViewerStatus;
 end;

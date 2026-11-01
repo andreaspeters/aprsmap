@@ -1211,6 +1211,9 @@ var i, x: Integer;
     msg: PAPRSMessage;
     call: String;
 begin
+  if Assigned(ModeS) then
+    ModeS.LockData;
+  try
   curTime := now();
   // Do not check position 0 because it's ourself.
   i := 1;
@@ -1239,13 +1242,17 @@ begin
         Continue;
       end;
 
-      if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
+      // ModeS and AIS have their own ten-minute lifecycle below.
+      if not msg^.ModeS and
+         not (Assigned(ModeS) and Assigned(ModeS.AISMessageList) and
+              Assigned(ModeS.AISMessageList.Find(msg^.Checksum))) and
+         (Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime) then
       begin
         if Assigned(msg^.Track) then
         begin
           try
             if Assigned(MVMap.GPSItems) then
-              MVMap.GPSItems.Delete(msg^.Track);
+              while MVMap.GPSItems.Delete(msg^.Track) do ;
             msg^.Track := TGPSTrack.Create;
           except
             {$IFDEF UNIX}
@@ -1286,8 +1293,30 @@ begin
     begin
       try
         msg := ModeS.ModeSMessageList.Items[i];
-        if Frac(curTime - msg^.Time)*1440 > APRSConfig.CleanupTime then
+        if (curTime - msg^.Time) * 1440 > APRSConfig.CleanupTime then
         begin
+          call := msg^.FromCall;
+          if Assigned(msg^.Track) and Assigned(MVMap.GPSItems) then
+          begin
+            try
+              while MVMap.GPSItems.Delete(msg^.Track) do ;
+            except
+              {$IFDEF UNIX}
+              writeln('Error deleting ModeS track from map')
+              {$ENDIF}
+            end;
+          end;
+          DelPoI(PoILayer, call);
+          DeleteCombobox(call);
+          x := APRSMessageList.Count - 1;
+          while x >= 0 do
+          begin
+            if Assigned(PAPRSMessage(APRSMessageList.Items[x])) and
+               SameText(PAPRSMessage(APRSMessageList.Items[x])^.Checksum,
+                        msg^.Checksum) then
+              APRSMessageList.Delete(x);
+            Dec(x);
+          end;
           ModeS.ModeSMessageList.Delete(i);
           Continue;
         end;
@@ -1308,14 +1337,14 @@ begin
     begin
       try
         msg := PAPRSMessage(ModeS.AISMessageList.Items[i]);
-        if (curTime - msg^.Time) >= (5 / 1440) then
+        if (curTime - msg^.Time) * 1440 > APRSConfig.CleanupTime then
         begin
           call := msg^.FromCall;
           // Remove from map representation (if any)
           if Assigned(msg^.Track) and Assigned(MVMap.GPSItems) then
           begin
             try
-              MVMap.GPSItems.Delete(msg^.Track);
+              while MVMap.GPSItems.Delete(msg^.Track) do ;
             except
               {$IFDEF UNIX}
               writeln('Error deleting AIS track from map')
@@ -1358,6 +1387,10 @@ begin
   end;
 
   MapRefreshPending := True;
+  finally
+    if Assigned(ModeS) then
+      ModeS.UnlockData;
+  end;
 end;
 
 // Add APRS message as PoI
@@ -1380,7 +1413,9 @@ begin
       begin
         inc(TrackID);
         newMsg^.TrackID := TrackID;
-        if Assigned(newMsg^.Track) and (newMsg^.TrackID > 0) then
+        if Assigned(newMsg^.Track) and (newMsg^.TrackID > 0) and
+           Assigned(MVMap.GPSItems) and
+           (MVMap.GPSItems.IndexOf(newMsg^.Track) < 0) then
           MVMap.GPSItems.Add(newMsg^.Track, newMsg^.TrackID);
       end
       else
@@ -1607,52 +1642,62 @@ begin
       {$ENDIF}
   end;
 
-  if APRSConfig.ModeSEnabled and not ModeS.Error and Assigned(ModeS.ModeSMessageList) and
-     Assigned(ModeS.ModeSUpdateQueue) then
+  if APRSConfig.ModeSEnabled and Assigned(ModeS) and not ModeS.Error then
   begin
-    if ModeS.ModeSUpdateQueue.Count > 0 then
-    begin
-      try
-        ModeSKey := ModeS.ModeSUpdateQueue[0];
-        msg := PAPRSMessage(ModeS.ModeSMessageList.Find(ModeSKey));
-        if Assigned(msg) then
-        begin
-          msg^.ModeS := True;
-          AddPoI(msg^);
-        end;
-        ModeS.ModeSUpdateQueue.Delete(0);
-      except
-        on E: Exception do
-        begin
-          {$IFDEF UNIX}
-          writeln('Error Main Loop ModeS: ', E.Message);
-          {$ENDIF}
+    ModeS.LockData;
+    try
+      if Assigned(ModeS.ModeSMessageList) and Assigned(ModeS.ModeSUpdateQueue) and
+         (ModeS.ModeSUpdateQueue.Count > 0) then
+      begin
+        try
+          ModeSKey := ModeS.ModeSUpdateQueue[0];
+          msg := PAPRSMessage(ModeS.ModeSMessageList.Find(ModeSKey));
+          if Assigned(msg) then
+          begin
+            msg^.ModeS := True;
+            AddPoI(msg^);
+          end;
+          ModeS.ModeSUpdateQueue.Delete(0);
+        except
+          on E: Exception do
+          begin
+            {$IFDEF UNIX}
+            writeln('Error Main Loop ModeS: ', E.Message);
+            {$ENDIF}
+          end;
         end;
       end;
+    finally
+      ModeS.UnlockData;
     end;
   end;
-  if APRSConfig.AISEnabled and not ModeS.Error and Assigned(ModeS.AISMessageList) and
-     Assigned(ModeS.AISUpdateQueue) then
+  if APRSConfig.AISEnabled and Assigned(ModeS) and not ModeS.Error then
   begin
-    if ModeS.AISUpdateQueue.Count > 0 then
-    begin
-      try
-        AISKey := ModeS.AISUpdateQueue[0];
-        msg := PAPRSMessage(ModeS.AISMessageList.Find(AISKey));
-        if Assigned(msg) then
-        begin
-          msg^.ModeS := False;
-          AddPoI(msg^);
-        end;
-        ModeS.AISUpdateQueue.Delete(0);
-      except
-        on E: Exception do
-        begin
-          {$IFDEF UNIX}
-          writeln('Error Main Loop AIS: ', E.Message);
-          {$ENDIF}
+    ModeS.LockData;
+    try
+      if Assigned(ModeS.AISMessageList) and Assigned(ModeS.AISUpdateQueue) and
+         (ModeS.AISUpdateQueue.Count > 0) then
+      begin
+        try
+          AISKey := ModeS.AISUpdateQueue[0];
+          msg := PAPRSMessage(ModeS.AISMessageList.Find(AISKey));
+          if Assigned(msg) then
+          begin
+            msg^.ModeS := False;
+            AddPoI(msg^);
+          end;
+          ModeS.AISUpdateQueue.Delete(0);
+        except
+          on E: Exception do
+          begin
+            {$IFDEF UNIX}
+            writeln('Error Main Loop AIS: ', E.Message);
+            {$ENDIF}
+          end;
         end;
       end;
+    finally
+      ModeS.UnlockData;
     end;
   end;
   if MapRefreshPending then
